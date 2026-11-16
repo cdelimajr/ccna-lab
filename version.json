@@ -1,19 +1,19 @@
 {
- "version": "2.5.0",
+ "version": "2.6.0",
  "date": "2026-11-16",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
-   "100 Lab Simulation at 100 Lab Challenge, may search at filter",
-   "Network Designer: box select, right-drag para igalaw ang view, zoom gamit ang wheel, tuloy-tuloy na paglalagay ng device, at puwede na ang maraming ISP",
-   "Back button sa itaas ng app",
-   "Bagong limit para sa Free plan sa Practice & References at Account"
+   "Network Designer: malaking workspace na Pilipinas (Luzon, Visayas, Mindanao), alignment lines, mga shape at print preview",
+   "41 bagong device ng D-Link, TP-Link, MikroTik, Ubiquiti, Huawei, Aruba, Fortinet at iba pa",
+   "Back button sa kaliwa ng title, at bumabalik sa dating estado ng page",
+   "Mga dropdown sa Profile, Premium, Trainor, Admin at Download"
   ],
   "en": [
-   "100 Lab Simulations and 100 Lab Challenges, with search and filters",
-   "Network Designer: box select, right-drag to move the view, wheel zoom, keep placing the same device, and more than one ISP",
-   "Back button at the top of the app",
-   "New Free plan limits in Practice & References and Account"
+   "Network Designer: a huge Philippines workspace (Luzon, Visayas, Mindanao), alignment lines, shapes and print preview",
+   "41 new devices from D-Link, TP-Link, MikroTik, Ubiquiti, Huawei, Aruba, Fortinet and more",
+   "Back button at the left of the title, and it returns to the page as you left it",
+   "Drop-downs in Profile, Premium, Trainor, Admin and Download"
   ]
  }
 }
