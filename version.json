@@ -1,21 +1,19 @@
 {
- "version": "2.4.0",
+ "version": "2.5.0",
  "date": "2026-11-16",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
-   "100 labs na (dati 39), kasama ang 4 na bagong Lab Challenge",
-   "Network Designer: \"Gamitin lang ang meron ako\" at auto-design ng Wi-Fi",
-   "Free at Premium: GCash/Maya + access code, free trial at promo",
-   "Settings, version at larawan ng trainee sa My Profile",
-   "Mas maayos na sidebar: isang section at chapter lang ang bukas"
+   "100 Lab Simulation at 100 Lab Challenge, may search at filter",
+   "Network Designer: box select, right-drag para igalaw ang view, zoom gamit ang wheel, tuloy-tuloy na paglalagay ng device, at puwede na ang maraming ISP",
+   "Back button sa itaas ng app",
+   "Bagong limit para sa Free plan sa Practice & References at Account"
   ],
   "en": [
-   "100 labs now (was 39), including 4 new Lab Challenges",
-   "Network Designer: \"Use only what I have\" and Wi-Fi auto-design",
-   "Free and Premium: GCash/Maya + access codes, free trials and promos",
-   "Settings, version and trainee photo in My Profile",
-   "Tidier sidebar: only one section and chapter open at a time"
+   "100 Lab Simulations and 100 Lab Challenges, with search and filters",
+   "Network Designer: box select, right-drag to move the view, wheel zoom, keep placing the same device, and more than one ISP",
+   "Back button at the top of the app",
+   "New Free plan limits in Practice & References and Account"
   ]
  }
 }

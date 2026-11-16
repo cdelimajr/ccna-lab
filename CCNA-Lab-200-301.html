@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.4.0";/*CCNA_APP_VERSION="2.4.0"*/
+<script>window.APP_VERSION="2.5.0";/*CCNA_APP_VERSION="2.5.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -958,6 +958,50 @@ button, a[href], [role=button], .opt, .chip, summary { -webkit-tap-highlight-col
 .lock-i svg { width: 14px; height: 14px; }
 .lab-card .row .lock-i { margin-left: auto; }
 .nav-lessons a.is-locked > span:nth-child(2) { opacity: .75; }
+
+/* ---------- 2.5: Back button ---------- */
+.back-btn { display: inline-flex; align-items: center; gap: 4px; width: auto; padding: 0 10px 0 6px; font: inherit; font-size: .86rem; font-weight: 600; color: var(--fg-2); }
+.back-btn[hidden] { display: none; }
+.back-btn svg { width: 18px; height: 18px; }
+@media (max-width: 640px) { .back-btn { padding: 0; width: 38px; justify-content: center; } .back-btn .back-t { display: none; } }
+
+/* ---------- 2.5: lab lists (search, filter, categories) ---------- */
+.lab-find { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 4px 0 6px; position: sticky; top: calc(var(--top-h, 56px) + 4px); z-index: 5; background: var(--bg); padding: 6px 0; }
+.lab-q { flex: 1 1 260px; display: flex; align-items: center; gap: 8px; border: 1px solid var(--line-2); border-radius: 10px; background: var(--panel); padding: 0 10px; min-height: 40px; }
+.lab-q svg { width: 18px; height: 18px; color: var(--fg-3); flex: none; }
+.lab-q input { border: 0; outline: 0; background: none; font: inherit; color: var(--fg); flex: 1; min-width: 0; padding: 8px 0; box-shadow: none; }
+.lab-q:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.lab-f button span { opacity: .7; font-variant-numeric: tabular-nums; }
+.lab-none { flex-basis: 100%; margin: 0; }
+.lab-n { display: inline-block; font-size: .72rem; font-weight: 600; color: var(--fg-3); background: var(--panel-2); border: 1px solid var(--line); border-radius: 99px; padding: 1px 8px; vertical-align: middle; margin-left: 6px; }
+a.lab-card[hidden], .lab-sec[hidden] { display: none; }
+
+/* ---------- 2.5: Free plan notes ---------- */
+.prem-note { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; border: 1px solid color-mix(in srgb, #e59a2f 45%, var(--line)); background: color-mix(in srgb, #f6c453 12%, var(--panel)); border-radius: 12px; }
+.prem-note-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: color-mix(in srgb, #f6c453 30%, var(--panel)); color: #b06d0c; flex: none; }
+.prem-note-ic svg { width: 18px; height: 18px; }
+.prem-note-t { display: flex; flex-direction: column; gap: 2px; flex: 1 1 240px; min-width: 0; }
+.prem-note .btn svg { width: 14px; height: 14px; }
+.prem-note.compact { padding: 8px 12px; }
+.prem-note.compact .prem-note-ic { width: 28px; height: 28px; }
+.prem-dim { opacity: .5; filter: grayscale(.4); pointer-events: none; }
+.prem-badge.sm { font-size: .62rem; padding: 1px 6px; vertical-align: middle; margin-left: 4px; }
+.pal-opt.is-locked { opacity: .78; }
+.sn-quota { margin: -4px 0 0; }
+.dz-side .prem-note { margin: 4px; }
+
+/* ---------- 2.5: designer canvas ---------- */
+.dz-band { fill: color-mix(in srgb, var(--accent) 12%, transparent); stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; pointer-events: none; }
+.dz-canvas.panning, .dz-canvas.panning * { cursor: grabbing !important; }
+.dz-zfab { position: absolute; left: 12px; bottom: 12px; z-index: 6; display: flex; flex-direction: column; border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden; background: var(--panel); box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+.dz-zfab button { width: 36px; height: 34px; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--fg); font: 600 1.1rem/1 var(--f-body, inherit); cursor: pointer; display: grid; place-items: center; }
+.dz-zfab button:last-child { border-bottom: 0; }
+.dz-zfab button:hover { background: var(--panel-2); }
+.dz-zfab svg, .dz-bar svg.fsi { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.dz-bar [data-act=fs] { width: 38px; padding: 0; justify-content: center; }
+.dz-wrap.dock .dz-zfab { left: 12px; }
+@media (hover: none) { .dz-zfab { bottom: 10px; left: 10px; } }
+.dz-cwrap { position: relative; min-width: 0; }
 
 </style>
 </head>
@@ -9796,6 +9840,604 @@ SW1# show vtp status`)}`),
 })();
 
 ;
+/* =====================================================================
+   Labs (part 3): 11 more lab simulations (for 100) and 89 more
+   lab challenges (for 100). Bilingual (Filipino / English).
+   Challenges are built from scenario families with different
+   numbers, names and subnets, so no two are the same exercise.
+   ===================================================================== */
+(() => {
+  const K = window.LABKIT, LABS = window.LABS;
+  if (!K || !LABS) return;
+  const { N, D, IF, ran, ping, rt, ipIs, up, mode, acc, hasVlan, rng, allowedHas, ospfFull, routerSpec } = K;
+  const EN = typeof __EN !== 'undefined' && __EN;
+  const L = (fil, en) => EN ? en : fil;
+  const sw = (name, config, type) => ({ name, type: type || 'switch', config: config || 'hostname ' + name });
+  const T = (d, fil, en, hint, check) => ({ d, t: L(fil, en), hint, check });
+  const C = (fil, en, check) => ({ t: L(fil, en), check });
+  const add = (id, o) => { LABS[id] = o; };
+  const ipL = (ip, m) => `ip address ${ip} ${m}\nno shutdown`;
+  const M24 = '255.255.255.0', M30 = '255.255.255.252';
+  const rtVia = (n, x, net, nh) => (IOS.compute(n).rt[x] || []).some(r => r.net === net && r.nh === nh);
+  const inSub = (ip, net, mask) => !!ip && IOS.sameNet(ip, net, mask);
+  const hostIp = (n, h) => (n.hosts[h] || {}).ip;
+
+  // =====================================================================
+  // 11 more lab simulations
+  // =====================================================================
+  add('ios-banner', {
+    title: L('Hostname, Banner at Password Encryption', 'Hostname, Banner and Password Encryption'), lesson: 'c2l1', level: 'Basic',
+    desc: L('Ihanda ang bagong router: pangalan, babala sa login, at mga password na hindi mababasa sa running-config.', 'Prepare a new router: a name, a login warning, and passwords that cannot be read in the running-config.'),
+    topo: { devices: [routerSpec('R1', 'hostname R1\nline con 0\npassword cisco\nlogin')] },
+    tasks: [
+      T('R1', 'Hostname <code>BR1-RTR</code>', 'Hostname <code>BR1-RTR</code>', 'hostname BR1-RTR', n => D(n, 'R1').hostname === 'BR1-RTR'),
+      T('R1', 'Banner MOTD: <code>Authorized access only</code>', 'Banner MOTD: <code>Authorized access only</code>', 'banner motd #Authorized access only#', n => /authorized access only/i.test(D(n, 'R1').banner || '')),
+      T('R1', 'Enable secret <code>Br@nch1</code>', 'Enable secret <code>Br@nch1</code>', 'enable secret Br@nch1', n => D(n, 'R1').enableSecret === 'Br@nch1'),
+      T('R1', 'I-encrypt ang mga plain-text password (hal. ang console password)', 'Encrypt the plain-text passwords (such as the console password)', 'service password-encryption', n => D(n, 'R1').svcPE),
+      T('R1', 'Huwag hanapin sa DNS ang maling na-type na command', 'Stop looking up mistyped commands in DNS', 'no ip domain-lookup', n => !D(n, 'R1').domainLookup),
+      T('R1', 'Tingnan sa running-config na naka-encrypt na ang password.', 'Check in the running-config that the password is now encrypted.', 'do show running-config', n => ran(n, 'R1', 'show running-config') && D(n, 'R1').svcPE)
+    ],
+    verify: ['show running-config', 'show running-config | include banner|password|secret']
+  });
+  add('vlan-range', {
+    title: L('Maraming Port sa VLAN gamit ang interface range', 'Many Ports into VLANs with interface range'), lesson: 'c2l4', level: 'Basic',
+    desc: L('24 na port, tatlong departamento. Gamitin ang <code>interface range</code> para hindi isa-isahin ang bawat port.', '24 ports, three departments. Use <code>interface range</code> instead of configuring each port one by one.'),
+    topo: { devices: [sw('SW1', 'hostname SW1')] },
+    tasks: [
+      T('SW1', 'VLAN 10 ACCOUNTING, VLAN 20 MARKETING, VLAN 30 IT', 'VLAN 10 ACCOUNTING, VLAN 20 MARKETING, VLAN 30 IT', 'vlan 10\nname ACCOUNTING\nvlan 20\nname MARKETING\nvlan 30\nname IT', n => hasVlan(n, 'SW1', 10, 'ACCOUNTING') && hasVlan(n, 'SW1', 20, 'MARKETING') && hasVlan(n, 'SW1', 30, 'IT')),
+      T('SW1', 'Fa0/1-8: access VLAN 10', 'Fa0/1-8: access VLAN 10', 'interface range fa0/1 - 8\nswitchport mode access\nswitchport access vlan 10', n => rng(1, 8).every(p => acc(n, 'SW1', p, 10))),
+      T('SW1', 'Fa0/9-16: access VLAN 20', 'Fa0/9-16: access VLAN 20', 'interface range fa0/9 - 16\nswitchport mode access\nswitchport access vlan 20', n => rng(9, 16).every(p => acc(n, 'SW1', p, 20))),
+      T('SW1', 'Fa0/17-24: access VLAN 30', 'Fa0/17-24: access VLAN 30', 'interface range fa0/17 - 24\nswitchport mode access\nswitchport access vlan 30', n => rng(17, 24).every(p => acc(n, 'SW1', p, 30))),
+      T('SW1', 'I-verify gamit ang <code>show vlan brief</code>.', 'Verify with <code>show vlan brief</code>.', 'do show vlan brief', n => ran(n, 'SW1', 'show vlan brief'))
+    ],
+    verify: ['show vlan brief', 'show interfaces status']
+  });
+  add('loopback-rid', {
+    title: L('Loopback Interfaces at Description', 'Loopback Interfaces and Descriptions'), lesson: 'c3l1', level: 'Basic',
+    desc: L('Ang loopback ay virtual interface na laging up. Ginagamit ito bilang router ID at management address.', 'A loopback is a virtual interface that is always up. It is used as the router ID and the management address.'),
+    topo: { devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.1.1', M24))] },
+    tasks: [
+      T('R1', 'Loopback0: <code>1.1.1.1/32</code>', 'Loopback0: <code>1.1.1.1/32</code>', 'interface loopback0\nip address 1.1.1.1 255.255.255.255', n => ipIs(n, 'R1', 'lo0', '1.1.1.1', '255.255.255.255')),
+      T('R1', 'Loopback1: <code>10.255.1.1/24</code> (test network)', 'Loopback1: <code>10.255.1.1/24</code> (test network)', 'interface loopback1\nip address 10.255.1.1 255.255.255.0', n => ipIs(n, 'R1', 'lo1', '10.255.1.1', M24)),
+      T('R1', 'G0/0 description: <code>LAN-USERS</code>', 'G0/0 description: <code>LAN-USERS</code>', 'interface g0/0\ndescription LAN-USERS', n => IF(n, 'R1', 'g0/0').desc === 'LAN-USERS'),
+      T('R1', 'Loopback0 description: <code>ROUTER-ID</code>', 'Loopback0 description: <code>ROUTER-ID</code>', 'interface loopback0\ndescription ROUTER-ID', n => (IF(n, 'R1', 'lo0') || {}).desc === 'ROUTER-ID'),
+      T('R1', 'I-verify: up/up ang lahat ng loopback.', 'Verify: every loopback is up/up.', 'do show ip interface brief', n => ran(n, 'R1', 'show ip interface brief') && up(n, 'R1', 'lo0') && up(n, 'R1', 'lo1'))
+    ],
+    verify: ['show ip interface brief', 'show interfaces description']
+  });
+  const r12 = (x1 = '', x2 = '') => ({
+    devices: [
+      routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.1.1', M24) + '\ninterface g0/1\n' + ipL('10.0.12.1', M30) + '\n' + x1),
+      routerSpec('R2', 'hostname R2\ninterface g0/0\n' + ipL('192.168.2.1', M24) + '\ninterface g0/1\n' + ipL('10.0.12.2', M30) + '\n' + x2)
+    ],
+    hosts: [{ name: 'PC1', ip: '192.168.1.10', mask: M24, gw: '192.168.1.1' }, { name: 'PC2', ip: '192.168.2.10', mask: M24, gw: '192.168.2.1' }],
+    links: [['R1', 'g0/1', 'R2', 'g0/1'], ['R1', 'g0/0', 'PC1', 'eth0'], ['R2', 'g0/0', 'PC2', 'eth0']]
+  });
+  const r12Diag = { w: 520, h: 170, nodes: { PC1: [50, 120], R1: [170, 60], R2: [350, 60], PC2: [470, 120] } };
+  const ospf12 = ['router ospf 1\nrouter-id 1.1.1.1\nnetwork 192.168.1.0 0.0.0.255 area 0\nnetwork 10.0.12.0 0.0.0.3 area 0', 'router ospf 1\nrouter-id 2.2.2.2\nnetwork 192.168.2.0 0.0.0.255 area 0\nnetwork 10.0.12.0 0.0.0.3 area 0'];
+  add('ad-compare', {
+    title: L('Administrative Distance: Static laban sa OSPF', 'Administrative Distance: Static versus OSPF'), lesson: 'c3l3', level: 'Intermediate',
+    desc: L('Gumagana na ang OSPF. Magdagdag ng backup na static route at tingnan kung alin ang pinipili ng router batay sa AD.', 'OSPF already works. Add a backup static route and see which one the router picks based on AD.'),
+    topo: r12(ospf12[0], ospf12[1]), diagram: r12Diag,
+    tasks: [
+      T('R1', 'Tingnan ang route papunta sa 192.168.2.0 (dapat <b>O</b>, AD 110).', 'Look at the route to 192.168.2.0 (it should be <b>O</b>, AD 110).', 'do show ip route', n => ran(n, 'R1', 'show ip route') && rt(n, 'R1', '192.168.2.0', 'O')),
+      T('R1', 'Static route papunta sa 192.168.2.0/24 via 10.0.12.2 na may AD <b>120</b>', 'Static route to 192.168.2.0/24 via 10.0.12.2 with AD <b>120</b>', 'ip route 192.168.2.0 255.255.255.0 10.0.12.2 120', n => D(n, 'R1').routes.some(r => r.net === '192.168.2.0' && r.ad === 120)),
+      T('R1', 'OSPF pa rin ang nasa routing table (110 < 120)', 'OSPF is still the route in the table (110 < 120)', 'do show ip route 192.168.2.0', n => D(n, 'R1').routes.some(r => r.net === '192.168.2.0' && r.ad === 120) && rt(n, 'R1', '192.168.2.0', 'O')),
+      T('R2', 'Sa R2, static route papunta sa 192.168.1.0/24 na may AD <b>1</b> (default)', 'On R2, a static route to 192.168.1.0/24 with AD <b>1</b> (default)', 'ip route 192.168.1.0 255.255.255.0 10.0.12.1', n => D(n, 'R2').routes.some(r => r.net === '192.168.1.0' && r.ad === 1)),
+      T('R2', 'Sa R2, ang static (S) na ang ginagamit dahil 1 < 110', 'On R2 the static (S) route is now used because 1 < 110', 'do show ip route', n => rt(n, 'R2', '192.168.1.0', 'S')),
+      T(null, 'PC1 ay naka-ping pa rin sa PC2.', 'PC1 can still ping PC2.', 'PC1: ping 192.168.2.10', n => D(n, 'R2').routes.some(r => r.net === '192.168.1.0') && ping(n, 'PC1', '192.168.2.10'))
+    ],
+    verify: ['show ip route', 'show ip protocols']
+  });
+  add('wan-p2p', {
+    title: L('Point-to-Point WAN Link (/30)', 'Point-to-Point WAN Link (/30)'), lesson: 'c3l6', level: 'Basic',
+    desc: L('Ikonekta ang branch sa HQ gamit ang leased line. Dalawang IP lang ang kailangan, kaya /30 ang gamitin.', 'Connect the branch to HQ over a leased line. Only two IPs are needed, so use a /30.'),
+    topo: { devices: [routerSpec('BR', 'hostname BR'), routerSpec('HQ', 'hostname HQ')], links: [['BR', 'g0/1', 'HQ', 'g0/1']] },
+    diagram: { w: 520, h: 130, nodes: { BR: [150, 60], HQ: [370, 60] } },
+    tasks: [
+      T('BR', 'BR G0/1: <code>172.31.0.1/30</code>, naka-enable', 'BR G0/1: <code>172.31.0.1/30</code>, enabled', 'interface g0/1\nip address 172.31.0.1 255.255.255.252\nno shutdown', n => ipIs(n, 'BR', 'g0/1', '172.31.0.1', M30) && !IF(n, 'BR', 'g0/1').shutdown),
+      T('HQ', 'HQ G0/1: <code>172.31.0.2/30</code>, naka-enable', 'HQ G0/1: <code>172.31.0.2/30</code>, enabled', 'interface g0/1\nip address 172.31.0.2 255.255.255.252\nno shutdown', n => ipIs(n, 'HQ', 'g0/1', '172.31.0.2', M30) && !IF(n, 'HQ', 'g0/1').shutdown),
+      T(null, 'Description sa parehong dulo: <code>WAN-TO-HQ</code> at <code>WAN-TO-BR</code>', 'Description on both ends: <code>WAN-TO-HQ</code> and <code>WAN-TO-BR</code>', 'BR: interface g0/1\nBR: description WAN-TO-HQ\nHQ: interface g0/1\nHQ: description WAN-TO-BR', n => IF(n, 'BR', 'g0/1').desc === 'WAN-TO-HQ' && IF(n, 'HQ', 'g0/1').desc === 'WAN-TO-BR'),
+      T(null, 'Bandwidth 50000 kbps (50 Mbps) sa parehong dulo', 'Bandwidth 50000 kbps (50 Mbps) on both ends', 'BR: interface g0/1\nBR: bandwidth 50000\nHQ: interface g0/1\nHQ: bandwidth 50000', n => IF(n, 'BR', 'g0/1').bw === 50000 && IF(n, 'HQ', 'g0/1').bw === 50000),
+      T('BR', 'Mula sa BR, naka-ping sa HQ (172.31.0.2).', 'From BR, ping HQ (172.31.0.2).', 'do ping 172.31.0.2', n => ping(n, 'BR', '172.31.0.2'))
+    ],
+    verify: ['show ip interface brief', 'show interfaces g0/1']
+  });
+  add('ntp-master', {
+    title: L('Gawing NTP Server ang Router', 'Make a Router the NTP Server'), lesson: 'c4l2', level: 'Intermediate',
+    desc: L('Walang internet ang site, kaya ang R1 ang magiging orasan ng network. I-sync ang R2 dito.', 'The site has no internet, so R1 becomes the network clock. Sync R2 to it.'),
+    topo: r12(), diagram: r12Diag,
+    tasks: [
+      T('R1', 'R1: <code>ntp master 3</code>', 'R1: <code>ntp master 3</code>', 'ntp master 3', n => D(n, 'R1').ntp.master === 3),
+      T(null, 'Time zone na PHT +8 sa R1 at R2', 'Time zone PHT +8 on R1 and R2', 'clock timezone PHT 8', n => ['R1', 'R2'].every(x => D(n, x).tz && D(n, x).tz.name === 'PHT' && D(n, x).tz.off === '8')),
+      T('R2', 'R2: gamitin ang 10.0.12.1 bilang NTP server', 'R2: use 10.0.12.1 as the NTP server', 'ntp server 10.0.12.1', n => D(n, 'R2').ntp.servers.some(s => s.ip === '10.0.12.1')),
+      T('R2', 'R2 ay synchronized na (stratum 4).', 'R2 is synchronized (stratum 4).', 'do show ntp status', n => IOS.ntpSynced(n, D(n, 'R2')).ok && ran(n, 'R2', 'show ntp status'))
+    ],
+    verify: ['show ntp status', 'show ntp associations']
+  });
+  add('static-nat-srv', {
+    title: L('Static NAT para sa Web Server', 'Static NAT for a Web Server'), lesson: 'c4l1', level: 'Basic',
+    desc: L('Gawing abot mula sa Internet ang web server (192.168.1.100) gamit ang public IP na 203.0.113.5.', 'Make the web server (192.168.1.100) reachable from the Internet using the public IP 203.0.113.5.'),
+    topo: {
+      devices: [
+        routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.1.1', M24) + '\ninterface g0/1\n' + ipL('203.0.113.1', '255.255.255.240') + '\nip route 0.0.0.0 0.0.0.0 203.0.113.14'),
+        routerSpec('ISP', 'hostname ISP\ninterface g0/1\n' + ipL('203.0.113.14', '255.255.255.240') + '\ninterface loopback0\nip address 8.8.8.8 255.255.255.255'),
+        sw('SW1')
+      ],
+      hosts: [{ name: 'WEB', ip: '192.168.1.100', mask: M24, gw: '192.168.1.1' }],
+      links: [['R1', 'g0/1', 'ISP', 'g0/1'], ['R1', 'g0/0', 'SW1', 'g0/1'], ['SW1', 'fa0/1', 'WEB', 'eth0']]
+    },
+    diagram: { w: 520, h: 200, nodes: { WEB: [70, 160], SW1: [70, 70], R1: [250, 70], ISP: [440, 70] } },
+    tasks: [
+      T('R1', 'G0/0 = NAT inside, G0/1 = NAT outside', 'G0/0 = NAT inside, G0/1 = NAT outside', 'interface g0/0\nip nat inside\ninterface g0/1\nip nat outside', n => IF(n, 'R1', 'g0/0').natIn && IF(n, 'R1', 'g0/1').natOut),
+      T('R1', 'Static NAT: 192.168.1.100 ↔ 203.0.113.5', 'Static NAT: 192.168.1.100 ↔ 203.0.113.5', 'ip nat inside source static 192.168.1.100 203.0.113.5', n => D(n, 'R1').nat.rules.some(r => r.type === 'static' && r.local === '192.168.1.100' && r.global === '203.0.113.5')),
+      T('ISP', 'Mula sa ISP, naka-ping sa 203.0.113.5.', 'From the ISP, ping 203.0.113.5.', 'ISP: ping 203.0.113.5', n => ping(n, 'ISP', '203.0.113.5')),
+      T(null, 'WEB ay naka-ping sa 8.8.8.8.', 'WEB can ping 8.8.8.8.', 'WEB: ping 8.8.8.8', n => ping(n, 'WEB', '8.8.8.8')),
+      T('R1', 'Tingnan ang NAT table.', 'Look at the NAT table.', 'do show ip nat translations', n => ran(n, 'R1', 'show ip nat translations'))
+    ],
+    verify: ['show ip nat translations', 'show ip nat statistics']
+  });
+  add('ps-sticky', {
+    title: L('Port Security: Sticky MAC at Protect', 'Port Security: Sticky MAC and Protect'), lesson: 'c5l10', level: 'Intermediate',
+    desc: L('Isang computer lang ang pwede sa bawat desk port. Tandaan ng switch ang MAC nito (sticky) at tahimik na i-drop ang iba.', 'Only one computer is allowed on each desk port. The switch remembers its MAC (sticky) and quietly drops anything else.'),
+    topo: { devices: [sw('SW1')], hosts: [{ name: 'PC1', ip: '192.168.1.11', mask: M24 }, { name: 'PC2', ip: '192.168.1.12', mask: M24 }], links: [['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW1', 'fa0/2', 'PC2', 'eth0']] },
+    diagram: { w: 520, h: 190, nodes: { SW1: [260, 55], PC1: [150, 150], PC2: [370, 150] } },
+    tasks: [
+      T('SW1', 'Fa0/1-2: access mode at port security', 'Fa0/1-2: access mode and port security', 'interface range fa0/1 - 2\nswitchport mode access\nswitchport port-security', n => ['fa0/1', 'fa0/2'].every(p => IF(n, 'SW1', p).mode === 'access' && IF(n, 'SW1', p).ps.on)),
+      T('SW1', 'Maximum 1 MAC bawat port', 'Maximum 1 MAC per port', 'switchport port-security maximum 1', n => ['fa0/1', 'fa0/2'].every(p => IF(n, 'SW1', p).ps.on && IF(n, 'SW1', p).ps.max === 1)),
+      T('SW1', 'Violation mode: <b>protect</b>', 'Violation mode: <b>protect</b>', 'switchport port-security violation protect', n => ['fa0/1', 'fa0/2'].every(p => IF(n, 'SW1', p).ps.viol === 'protect')),
+      T('SW1', 'Sticky MAC learning', 'Sticky MAC learning', 'switchport port-security mac-address sticky', n => ['fa0/1', 'fa0/2'].every(p => IF(n, 'SW1', p).ps.sticky)),
+      T(null, 'PC1 ay naka-ping pa rin sa PC2.', 'PC1 can still ping PC2.', 'PC1: ping 192.168.1.12', n => IF(n, 'SW1', 'fa0/1').ps.on && ping(n, 'PC1', '192.168.1.12')),
+      T('SW1', 'I-verify ang natutunang sticky MAC.', 'Verify the learned sticky MAC.', 'do show port-security interface fa0/1', n => ran(n, 'SW1', 'show port-security'))
+    ],
+    verify: ['show port-security', 'show port-security interface fa0/1', 'show running-config']
+  });
+  const r3x = (x1 = '', x2 = '', x3 = '') => ({
+    devices: [
+      routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.1.1', M24) + '\ninterface g0/1\n' + ipL('10.0.12.1', M30) + '\n' + x1),
+      routerSpec('R2', 'hostname R2\ninterface g0/1\n' + ipL('10.0.12.2', M30) + '\ninterface g0/2\n' + ipL('10.0.23.1', M30) + '\n' + x2),
+      routerSpec('R3', 'hostname R3\ninterface g0/0\n' + ipL('192.168.3.1', M24) + '\ninterface g0/2\n' + ipL('10.0.23.2', M30) + '\n' + x3)
+    ],
+    hosts: [{ name: 'PC1', ip: '192.168.1.10', mask: M24, gw: '192.168.1.1' }, { name: 'PC3', ip: '192.168.3.10', mask: M24, gw: '192.168.3.1' }],
+    links: [['R1', 'g0/1', 'R2', 'g0/1'], ['R2', 'g0/2', 'R3', 'g0/2'], ['R1', 'g0/0', 'PC1', 'eth0'], ['R3', 'g0/0', 'PC3', 'eth0']]
+  });
+  const r3Diag = { w: 560, h: 170, nodes: { PC1: [45, 120], R1: [150, 60], R2: [280, 60], R3: [410, 60], PC3: [515, 120] } };
+  const ospf3 = ['router ospf 1\nrouter-id 1.1.1.1\nnetwork 192.168.1.0 0.0.0.255 area 0\nnetwork 10.0.12.0 0.0.0.3 area 0', 'router ospf 1\nrouter-id 2.2.2.2\nnetwork 10.0.12.0 0.0.0.3 area 0\nnetwork 10.0.23.0 0.0.0.3 area 0', 'router ospf 1\nrouter-id 3.3.3.3\nnetwork 192.168.3.0 0.0.0.255 area 0\nnetwork 10.0.23.0 0.0.0.3 area 0'];
+  add('ospf-refbw', {
+    title: L('OSPF Reference Bandwidth', 'OSPF Reference Bandwidth'), lesson: 'c3l4', level: 'Intermediate',
+    desc: L('Sa default na 100 Mbps, pareho ang cost (1) ng FastEthernet, Gigabit at 10G. Itaas ang reference bandwidth para makita ng OSPF ang pagkakaiba.', 'With the default 100 Mbps, FastEthernet, Gigabit and 10G all cost 1. Raise the reference bandwidth so OSPF can tell them apart.'),
+    topo: r3x(ospf3[0], ospf3[1], ospf3[2]), diagram: r3Diag,
+    tasks: [
+      T('R1', 'Tingnan ang cost ngayon ng G0/1 (dapat 1).', 'Check the current cost of G0/1 (it should be 1).', 'do show ip ospf interface brief', n => ran(n, 'R1', 'show ip ospf interface')),
+      T(null, '<code>auto-cost reference-bandwidth 10000</code> sa R1, R2 at R3', '<code>auto-cost reference-bandwidth 10000</code> on R1, R2 and R3', 'router ospf 1\nauto-cost reference-bandwidth 10000', n => ['R1', 'R2', 'R3'].every(x => D(n, x).ospf['1']?.refBw === 10000)),
+      T('R1', 'G0/1 ng R1: <code>ip ospf cost 50</code>', 'R1 G0/1: <code>ip ospf cost 50</code>', 'interface g0/1\nip ospf cost 50', n => IF(n, 'R1', 'g0/1').ospf.cost === 50),
+      T(null, 'FULL pa rin ang mga neighbor at naka-ping ang PC1 sa PC3.', 'Neighbors are still FULL and PC1 can ping PC3.', 'PC1: ping 192.168.3.10', n => D(n, 'R1').ospf['1']?.refBw === 10000 && ospfFull(n, 'R2', '1.1.1.1') && ospfFull(n, 'R2', '3.3.3.3') && ping(n, 'PC1', '192.168.3.10'))
+    ],
+    verify: ['show ip ospf interface brief', 'show ip protocols', 'show ip route ospf']
+  });
+  add('rip-passive', {
+    title: L('RIPv2: No Auto-Summary at Passive Interface', 'RIPv2: No Auto-Summary and Passive Interface'), lesson: 'c7l1', level: 'Intermediate',
+    desc: L('Patakbuhin ang RIPv2 sa tatlong router. Huwag magpadala ng RIP update sa mga LAN.', 'Run RIPv2 on three routers. Do not send RIP updates out the LANs.'),
+    topo: r3x(), diagram: r3Diag,
+    tasks: [
+      T(null, 'RIP version 2 at <code>no auto-summary</code> sa R1, R2 at R3', 'RIP version 2 and <code>no auto-summary</code> on R1, R2 and R3', 'router rip\nversion 2\nno auto-summary', n => ['R1', 'R2', 'R3'].every(x => D(n, x).rip && D(n, x).rip.ver === 2 && !D(n, x).rip.autoSum)),
+      T(null, 'I-advertise ang mga network (R1: 192.168.1.0, 10.0.0.0 · R2: 10.0.0.0 · R3: 192.168.3.0, 10.0.0.0)', 'Advertise the networks (R1: 192.168.1.0, 10.0.0.0 · R2: 10.0.0.0 · R3: 192.168.3.0, 10.0.0.0)', 'R1: router rip\nR1: network 192.168.1.0\nR1: network 10.0.0.0\nR2: router rip\nR2: network 10.0.0.0\nR3: router rip\nR3: network 192.168.3.0\nR3: network 10.0.0.0', n => rt(n, 'R1', '192.168.3.0', 'R') && rt(n, 'R3', '192.168.1.0', 'R')),
+      T(null, 'Passive ang G0/0 (LAN) ng R1 at R3', 'G0/0 (LAN) on R1 and R3 is passive', 'R1: router rip\nR1: passive-interface g0/0\nR3: router rip\nR3: passive-interface g0/0', n => ['R1', 'R3'].every(x => D(n, x).rip && D(n, x).rip.passive.has('GigabitEthernet0/0'))),
+      T(null, 'PC1 ay naka-ping sa PC3.', 'PC1 can ping PC3.', 'PC1: ping 192.168.3.10', n => ping(n, 'PC1', '192.168.3.10'))
+    ],
+    verify: ['show ip route rip', 'show ip protocols']
+  });
+  add('ipv6-eui', {
+    title: L('IPv6: EUI-64 at Ping sa Kabilang Router', 'IPv6: EUI-64 and Ping Across'), lesson: 'c1l9', level: 'Basic',
+    desc: L('Gumamit ng EUI-64 para sa interface ID at static link-local address para madaling tandaan.', 'Use EUI-64 for the interface ID and static link-local addresses that are easy to remember.'),
+    topo: { devices: [routerSpec('R1', 'hostname R1'), routerSpec('R2', 'hostname R2')], links: [['R1', 'g0/1', 'R2', 'g0/1']] },
+    diagram: { w: 520, h: 130, nodes: { R1: [150, 60], R2: [370, 60] } },
+    tasks: [
+      T(null, 'I-enable ang IPv6 routing sa R1 at R2', 'Enable IPv6 routing on R1 and R2', 'ipv6 unicast-routing', n => D(n, 'R1').ipv6Routing && D(n, 'R2').ipv6Routing),
+      T(null, 'G0/1 ng dalawa: prefix <code>2001:db8:cafe:12::/64</code> gamit ang EUI-64, naka-enable', 'G0/1 on both: prefix <code>2001:db8:cafe:12::/64</code> with EUI-64, enabled', 'interface g0/1\nipv6 address 2001:db8:cafe:12::/64 eui-64\nno shutdown', n => ['R1', 'R2'].every(x => IF(n, x, 'g0/1').ipv6.includes('2001:db8:cafe:12::/64 eui-64') && !IF(n, x, 'g0/1').shutdown)),
+      T(null, 'Link-local: R1 = <code>fe80::1</code>, R2 = <code>fe80::2</code>', 'Link-local: R1 = <code>fe80::1</code>, R2 = <code>fe80::2</code>', 'R1: interface g0/1\nR1: ipv6 address fe80::1 link-local\nR2: interface g0/1\nR2: ipv6 address fe80::2 link-local', n => IF(n, 'R1', 'g0/1').ipv6.some(v => /^fe80::1(\/\d+)? link-local$/.test(v)) && IF(n, 'R2', 'g0/1').ipv6.some(v => /^fe80::2(\/\d+)? link-local$/.test(v))),
+      T('R1', 'Tingnan ang nabuong EUI-64 address.', 'Look at the EUI-64 address that was built.', 'do show ipv6 interface brief', n => ran(n, 'R1', 'show ipv6 interface brief'))
+    ],
+    verify: ['show ipv6 interface brief', 'show ipv6 interface g0/1']
+  });
+
+  // =====================================================================
+  // 89 more lab challenges, built from scenario families
+  // =====================================================================
+  const CTX = [['Klinika', 'Clinic'], ['Paaralan', 'School'], ['Kapehan', 'Café'], ['Hotel', 'Hotel'], ['Sangay ng Bangko', 'Bank Branch'], ['Pabrika', 'Factory'], ['BPO Office', 'BPO Office'], ['Ospital', 'Hospital'], ['Munisipyo', 'Town Hall'], ['Aklatan', 'Library'], ['Restawran', 'Restaurant'], ['Bodega', 'Warehouse'], ['Gym', 'Gym'], ['Computer Shop', 'Computer Shop'], ['Dormitoryo', 'Dormitory'], ['Botika', 'Pharmacy'], ['Law Office', 'Law Office'], ['Barangay Hall', 'Barangay Hall'], ['Resort', 'Resort'], ['Startup Office', 'Startup Office'], ['Mall Kiosk', 'Mall Kiosk'], ['Coop Office', 'Co-op Office']];
+  let num = 12, ci = 0;
+  const ctx = () => { const c = CTX[ci++ % CTX.length]; return { f: c[0], e: c[1] }; };
+  // cat: sw (Switching & VLANs), rt (Routing), svc (IP Services), sec (Security), ts (Troubleshooting)
+  function ch(fam, i, cat, ttlF, ttlE, o) {
+    const c = ctx(), n = num++;
+    add(`cx-${fam}-${i + 1}`, Object.assign({ challenge: true, cat, level: 'Challenge', title: L(`Challenge ${n}: ${ttlF} (${c.f})`, `Challenge ${n}: ${ttlE} (${c.e})`), free: i === 0 }, o(c)));
+  }
+  const pcs = (list) => list.map((h, k) => Object.assign({ name: 'PC' + (k + 1) }, h));
+  const VIDS = [[10, 20], [11, 21, 31], [100, 200], [15, 25, 35], [40, 50], [110, 120, 130], [60, 70], [2, 3, 4]];
+  const VNAMES = [['STAFF', 'GUEST'], ['DOCTORS', 'NURSES', 'FRONTDESK'], ['FACULTY', 'STUDENTS'], ['KITCHEN', 'CASHIER', 'WIFI'], ['TELLERS', 'ATM'], ['OFFICE', 'FLOOR', 'CCTV'], ['AGENTS', 'SUPPORT'], ['ADMIN', 'LAB', 'GUESTS']];
+  const vlist = (V, Nm) => V.map((v, k) => `VLAN ${v} ${Nm[k]}`).join(', ');
+  const spread = (k, cnt, w) => Math.round(w / (cnt + 1) * (k + 1));
+
+  // ---------- Family 1: Router-on-a-stick (8) ----------
+  for (let i = 0; i < 8; i++) {
+    const V = VIDS[i], Nm = VNAMES[i], net = v => `10.${i + 1}.${v}`, nat = i % 3 === 2;
+    const hosts = pcs(V.map(v => ({ ip: net(v) + '.10', mask: M24, gw: net(v) + '.1' })));
+    ch('roas', i, 'sw', 'Router-on-a-Stick', 'Router-on-a-Stick', c => ({
+      desc: L(`Hiwalay na VLAN ang bawat grupo sa ${c.f} (${vlist(V, Nm)}), pero kailangan pa rin nilang mag-usap sa pamamagitan ng R1${nat ? ' (may native VLAN)' : ''}.`, `Each group at the ${c.e} has its own VLAN (${vlist(V, Nm)}), but they still need to talk through R1${nat ? ' (with a native VLAN)' : ''}.`),
+      scenario: L(`Gumawa sa SW1 ng ${vlist(V, Nm)}. Ang Fa0/1${V.length > 2 ? ', Fa0/2 at Fa0/3' : ' at Fa0/2'} ay access port ng mga VLAN na ito ayon sa pagkakasunod. Gawing trunk ang G0/1 papunta sa R1${nat ? ' na may native VLAN 99' : ''}. Sa R1, gumawa ng subinterface para sa bawat VLAN; ang gateway ay .1 ng ${V.map(v => net(v) + '.0/24').join(', ')}${nat ? ', at G0/0.99 bilang native VLAN' : ''}. Dapat maka-ping ang PC1 sa lahat ng ibang PC.`, `On SW1 create ${vlist(V, Nm)}. Fa0/1${V.length > 2 ? ', Fa0/2 and Fa0/3' : ' and Fa0/2'} are access ports in those VLANs, in order. Make G0/1 to R1 a trunk${nat ? ' with native VLAN 99' : ''}. On R1 create one subinterface per VLAN; the gateway is .1 of ${V.map(v => net(v) + '.0/24').join(', ')}${nat ? ', plus G0/0.99 as the native VLAN' : ''}. PC1 must be able to ping every other PC.`),
+      topo: { devices: [routerSpec('R1', 'hostname R1'), sw('SW1')], hosts, links: [['R1', 'g0/0', 'SW1', 'g0/1'], ...hosts.map((h, k) => ['SW1', 'fa0/' + (k + 1), h.name, 'eth0'])] },
+      diagram: { w: 540, h: 210, nodes: Object.assign({ R1: [270, 40], SW1: [270, 115] }, ...hosts.map((h, k) => ({ [h.name]: [spread(k, hosts.length, 540), 180] }))) },
+      tasks: [
+        C(`Mga VLAN sa SW1: ${vlist(V, Nm)}`, `VLANs on SW1: ${vlist(V, Nm)}`, n => V.every((v, k) => hasVlan(n, 'SW1', v, Nm[k]))),
+        C('Tamang access VLAN ang bawat PC port', 'Each PC port is in the right access VLAN', n => V.every((v, k) => acc(n, 'SW1', 'fa0/' + (k + 1), v))),
+        C(`G0/1 ng SW1 ay trunk${nat ? ', native VLAN 99' : ''}`, `SW1 G0/1 is a trunk${nat ? ', native VLAN 99' : ''}`, n => mode(n, 'SW1', 'g0/1') === 'trunk' && (!nat || IF(n, 'SW1', 'g0/1').native === 99)),
+        C('R1: naka-enable ang G0/0 at may subinterface (dot1Q + gateway IP) ang bawat VLAN', 'R1: G0/0 is enabled and each VLAN has a subinterface (dot1Q + gateway IP)', n => !IF(n, 'R1', 'g0/0').shutdown && V.every(v => IF(n, 'R1', 'g0/0.' + v)?.encap === v && ipIs(n, 'R1', 'g0/0.' + v, net(v) + '.1', M24)) && (!nat || IF(n, 'R1', 'g0/0.99')?.encap === 99)),
+        C('PC1 ay naka-ping sa lahat ng ibang PC', 'PC1 can ping every other PC', n => hosts.slice(1).every(h => ping(n, 'PC1', h.ip)))
+      ],
+      solution: {
+        SW1: V.map((v, k) => `vlan ${v}\n name ${Nm[k]}`).join('\n') + (nat ? '\nvlan 99\n name NATIVE' : '') + '\n' + V.map((v, k) => `interface fa0/${k + 1}\n switchport mode access\n switchport access vlan ${v}`).join('\n') + '\ninterface g0/1\n switchport mode trunk' + (nat ? '\n switchport trunk native vlan 99' : ''),
+        R1: 'interface g0/0\n no shutdown\n' + V.map(v => `interface g0/0.${v}\n encapsulation dot1Q ${v}\n ip address ${net(v)}.1 255.255.255.0`).join('\n') + (nat ? '\ninterface g0/0.99\n encapsulation dot1Q 99 native' : ''),
+        PC1: hosts.slice(1).map(h => 'ping ' + h.ip).join('\n')
+      }
+    }));
+  }
+
+  // ---------- Family 2: Layer 3 switch (8) ----------
+  for (let i = 0; i < 8; i++) {
+    const V = VIDS[(i + 3) % 8], Nm = VNAMES[(i + 3) % 8], net = v => `172.${16 + i}.${v}`, dh = i % 2 === 1;
+    const hosts = pcs(V.map(v => dh ? { dhcp: true } : { ip: net(v) + '.10', mask: M24, gw: net(v) + '.1' }));
+    ch('svi', i, 'sw', dh ? 'Layer 3 Switch at DHCP' : 'Inter-VLAN gamit ang Layer 3 Switch', dh ? 'Layer 3 Switch and DHCP' : 'Inter-VLAN with a Layer 3 Switch', c => ({
+      desc: L(`Isang multilayer switch (DSW1) lang ang meron sa ${c.f}. Gamitin ang SVIs para mag-route sa ${vlist(V, Nm)}${dh ? ' at gawin din itong DHCP server' : ''}.`, `The ${c.e} has a single multilayer switch (DSW1). Use SVIs to route ${vlist(V, Nm)}${dh ? ' and make it the DHCP server too' : ''}.`),
+      scenario: L(`Sa DSW1: ${vlist(V, Nm)}. Ang G1/0/1${V.length > 2 ? ', G1/0/2 at G1/0/3' : ' at G1/0/2'} ay access port ng mga VLAN na ito ayon sa pagkakasunod. I-enable ang IP routing. Ang SVI ng bawat VLAN ay .1 ng ${V.map(v => net(v) + '.0/24').join(', ')}.${dh ? ' Gumawa ng DHCP pool para sa bawat VLAN (pangalan = pangalan ng VLAN), i-exclude ang .1 hanggang .9, gateway = SVI. Pagkatapos, kumuha ng IP ang mga PC (ipconfig /renew).' : ''} Dapat maka-ping ang PC1 sa lahat ng ibang PC.`, `On DSW1: ${vlist(V, Nm)}. G1/0/1${V.length > 2 ? ', G1/0/2 and G1/0/3' : ' and G1/0/2'} are access ports in those VLANs, in order. Enable IP routing. Each VLAN's SVI is .1 of ${V.map(v => net(v) + '.0/24').join(', ')}.${dh ? ' Create one DHCP pool per VLAN (name = VLAN name), exclude .1 to .9, gateway = the SVI. Then have the PCs get an address (ipconfig /renew).' : ''} PC1 must be able to ping every other PC.`),
+      topo: { devices: [sw('DSW1', 'hostname DSW1', 'l3switch')], hosts, links: hosts.map((h, k) => ['DSW1', 'g1/0/' + (k + 1), h.name, 'eth0']) },
+      diagram: { w: 520, h: 190, nodes: Object.assign({ DSW1: [260, 55] }, ...hosts.map((h, k) => ({ [h.name]: [spread(k, hosts.length, 520), 150] }))) },
+      tasks: [
+        C(`Mga VLAN: ${vlist(V, Nm)}`, `VLANs: ${vlist(V, Nm)}`, n => V.every((v, k) => hasVlan(n, 'DSW1', v, Nm[k]))),
+        C('Tamang access VLAN ang bawat port', 'Each port is in the right access VLAN', n => V.every((v, k) => acc(n, 'DSW1', 'g1/0/' + (k + 1), v))),
+        C('Naka-enable ang IP routing at may SVI ang bawat VLAN', 'IP routing is on and every VLAN has an SVI', n => D(n, 'DSW1').ipRouting && V.every(v => ipIs(n, 'DSW1', 'vlan' + v, net(v) + '.1', M24))),
+        ...(dh ? [C('May DHCP pool ang bawat VLAN at nakakuha ng tamang IP ang mga PC', 'Each VLAN has a DHCP pool and the PCs got the right address', n => V.every((v, k) => { const p = D(n, 'DSW1').dhcp.pools[Nm[k]]; return p && p.net === net(v) + '.0' && p.gw === net(v) + '.1'; }) && hosts.every((h, k) => inSub(hostIp(n, h.name), net(V[k]) + '.0', M24) && IOS.ip2n(hostIp(n, h.name)) > IOS.ip2n(net(V[k]) + '.9')))] : []),
+        C('PC1 ay naka-ping sa lahat ng ibang PC', 'PC1 can ping every other PC', n => hosts.slice(1).every(h => { const ip = hostIp(n, h.name); return !!ip && ping(n, 'PC1', ip); }))
+      ],
+      solution: Object.assign({
+        DSW1: V.map((v, k) => `vlan ${v}\n name ${Nm[k]}`).join('\n') + '\n' + V.map((v, k) => `interface g1/0/${k + 1}\n switchport mode access\n switchport access vlan ${v}`).join('\n') + '\nip routing\n' + V.map(v => `interface vlan ${v}\n ip address ${net(v)}.1 255.255.255.0\n no shutdown`).join('\n') + (dh ? '\n' + V.map((v, k) => `ip dhcp excluded-address ${net(v)}.1 ${net(v)}.9\nip dhcp pool ${Nm[k]}\n network ${net(v)}.0 255.255.255.0\n default-router ${net(v)}.1\n dns-server 8.8.8.8`).join('\n') : '')
+      }, dh ? Object.fromEntries(hosts.slice(1).map(h => [h.name, 'ipconfig /renew'])) : {}, { PC1: (dh ? 'ipconfig /renew\n' : '') + hosts.slice(1).map(h => dh ? `ping <IP ng ${h.name}>` : 'ping ' + h.ip).join('\n') })
+    }));
+  }
+
+  // ---------- Family 3: Static routing across three routers (8) ----------
+  const r3p = (i, x = ['', '', '']) => {
+    const A = `192.168.${20 + i}`, Cn = `172.16.${20 + i}`, t1 = `10.${i + 1}.12`, t2 = `10.${i + 1}.23`;
+    return {
+      A, Cn, t1, t2,
+      topo: {
+        devices: [
+          routerSpec('R1', `hostname R1\ninterface g0/0\n${ipL(A + '.1', M24)}\ninterface g0/1\n${ipL(t1 + '.1', M30)}\n${x[0]}`),
+          routerSpec('R2', `hostname R2\ninterface g0/1\n${ipL(t1 + '.2', M30)}\ninterface g0/2\n${ipL(t2 + '.1', M30)}\n${x[1]}`),
+          routerSpec('R3', `hostname R3\ninterface g0/0\n${ipL(Cn + '.1', M24)}\ninterface g0/2\n${ipL(t2 + '.2', M30)}\n${x[2]}`)
+        ],
+        hosts: [{ name: 'PC1', ip: A + '.10', mask: M24, gw: A + '.1' }, { name: 'PC3', ip: Cn + '.10', mask: M24, gw: Cn + '.1' }],
+        links: [['R1', 'g0/1', 'R2', 'g0/1'], ['R2', 'g0/2', 'R3', 'g0/2'], ['R1', 'g0/0', 'PC1', 'eth0'], ['R3', 'g0/0', 'PC3', 'eth0']]
+      }
+    };
+  };
+  for (let i = 0; i < 8; i++) {
+    const p = r3p(i), def = i % 2 === 1, sum = i % 4 === 2;
+    ch('static', i, 'rt', def ? 'Default Route sa mga Stub Router' : 'Static Routing sa Tatlong Router', def ? 'Default Routes on Stub Routers' : 'Static Routing Across Three Routers', c => ({
+      desc: L(`Walang routing protocol sa ${c.f}. Gamitin ang ${def ? 'default route' : 'static route'}${sum ? ' at summary route' : ''} para magkausap ang ${p.A}.0/24 at ${p.Cn}.0/24.`, `No routing protocol at the ${c.e}. Use ${def ? 'default routes' : 'static routes'}${sum ? ' and a summary route' : ''} so ${p.A}.0/24 and ${p.Cn}.0/24 can talk.`),
+      scenario: L(`Naka-configure na ang mga IP. LAN ng R1 = ${p.A}.0/24, LAN ng R3 = ${p.Cn}.0/24. Link R1-R2 = ${p.t1}.0/30, link R2-R3 = ${p.t2}.0/30. ${def ? 'Ang R1 at R3 ay stub router: gumamit ng default route (0.0.0.0/0) papunta sa R2.' : 'Sa R1 at R3, gumamit ng static route papunta sa LAN sa kabila (next hop = R2).'} ${sum ? 'Sa R2, isang summary route lang (172.16.0.0/16) papunta sa R3, at static route papunta sa LAN ng R1.' : 'Sa R2, static route papunta sa parehong LAN.'} Dapat maka-ping ang PC1 at PC3 sa isa't isa.`, `IPs are already set. R1's LAN = ${p.A}.0/24, R3's LAN = ${p.Cn}.0/24. R1-R2 link = ${p.t1}.0/30, R2-R3 link = ${p.t2}.0/30. ${def ? 'R1 and R3 are stub routers: use a default route (0.0.0.0/0) to R2.' : 'On R1 and R3, add a static route to the LAN on the other side (next hop = R2).'} ${sum ? 'On R2, use one summary route (172.16.0.0/16) toward R3, and a static route to R1\'s LAN.' : 'On R2, add static routes to both LANs.'} PC1 and PC3 must be able to ping each other.`),
+      topo: p.topo, diagram: r3Diag,
+      tasks: [
+        C(def ? 'R1: default route papunta sa R2' : `R1: static route papunta sa ${p.Cn}.0/24`, def ? 'R1: default route to R2' : `R1: static route to ${p.Cn}.0/24`, n => def ? rtVia(n, 'R1', '0.0.0.0', p.t1 + '.2') : rtVia(n, 'R1', p.Cn + '.0', p.t1 + '.2')),
+        C(def ? 'R3: default route papunta sa R2' : `R3: static route papunta sa ${p.A}.0/24`, def ? 'R3: default route to R2' : `R3: static route to ${p.A}.0/24`, n => def ? rtVia(n, 'R3', '0.0.0.0', p.t2 + '.1') : rtVia(n, 'R3', p.A + '.0', p.t2 + '.1')),
+        C(sum ? 'R2: route papunta sa LAN ng R1 at summary 172.16.0.0/16 papunta sa R3' : 'R2: route papunta sa parehong LAN', sum ? 'R2: a route to R1\'s LAN and the summary 172.16.0.0/16 to R3' : 'R2: routes to both LANs', n => rtVia(n, 'R2', p.A + '.0', p.t1 + '.1') && (sum ? D(n, 'R2').routes.some(r => r.net === '172.16.0.0' && r.mask === '255.255.0.0') && rtVia(n, 'R2', '172.16.0.0', p.t2 + '.2') : rtVia(n, 'R2', p.Cn + '.0', p.t2 + '.2'))),
+        C('PC1 at PC3 ay naka-ping sa isa\'t isa', 'PC1 and PC3 can ping each other', n => ping(n, 'PC1', p.Cn + '.10') && ping(n, 'PC3', p.A + '.10'))
+      ],
+      solution: {
+        R1: def ? `ip route 0.0.0.0 0.0.0.0 ${p.t1}.2` : `ip route ${p.Cn}.0 255.255.255.0 ${p.t1}.2`,
+        R2: `ip route ${p.A}.0 255.255.255.0 ${p.t1}.1\n` + (sum ? `ip route 172.16.0.0 255.255.0.0 ${p.t2}.2` : `ip route ${p.Cn}.0 255.255.255.0 ${p.t2}.2`),
+        R3: def ? `ip route 0.0.0.0 0.0.0.0 ${p.t2}.1` : `ip route ${p.A}.0 255.255.255.0 ${p.t2}.1`,
+        PC1: `ping ${p.Cn}.10`
+      }
+    }));
+  }
+
+  // ---------- Family 4: OSPF (8) ----------
+  const PIDS = [1, 10, 100, 7, 25, 50, 2, 99];
+  for (let i = 0; i < 8; i++) {
+    const pid = PIDS[i], p = r3p(i + 10), ifm = i % 2 === 1, rb = i % 4 === 2, lo = i % 4 === 3;
+    const rid = k => i % 3 === 0 ? `${k}.${k}.${k}.${k}` : `10.255.${i}.${k}`;
+    const x2 = lo ? `interface loopback0\nip address 10.200.${i}.1 255.255.255.255` : '';
+    p.topo.devices[1].config += '\n' + x2;
+    ch('ospf', i, 'rt', ifm ? 'OSPF sa Interface Level' : 'Single-Area OSPF', ifm ? 'OSPF at the Interface Level' : 'Single-Area OSPF', c => ({
+      desc: L(`Ilipat ang ${c.f} sa OSPF process ${pid}${rb ? ', may reference bandwidth' : ''}${lo ? ', may loopback' : ''} para awtomatiko ang routing.`, `Move the ${c.e} to OSPF process ${pid}${rb ? ', with a reference bandwidth' : ''}${lo ? ', with a loopback' : ''} so routing is automatic.`),
+      scenario: L(`Naka-configure na ang mga IP (LAN ng R1 = ${p.A}.0/24, LAN ng R3 = ${p.Cn}.0/24, mga link ${p.t1}.0/30 at ${p.t2}.0/30). Gamitin ang OSPF process ${pid}, area 0, sa lahat ng router. Router ID: R1 = ${rid(1)}, R2 = ${rid(2)}, R3 = ${rid(3)}. ${ifm ? `I-enable ang OSPF sa bawat interface gamit ang <code>ip ospf ${pid} area 0</code> (hindi network command).` : 'Gamitin ang network command na may tamang wildcard.'} Gawing passive ang LAN interface (G0/0) ng R1 at R3.${rb ? ' Itakda ang reference bandwidth sa 1000 sa lahat ng router.' : ''}${lo ? ` I-advertise din ang Loopback0 ng R2 (10.200.${i}.1/32).` : ''} Dapat maka-ping ang PC1 sa PC3.`, `IPs are already set (R1 LAN = ${p.A}.0/24, R3 LAN = ${p.Cn}.0/24, links ${p.t1}.0/30 and ${p.t2}.0/30). Use OSPF process ${pid}, area 0, on every router. Router IDs: R1 = ${rid(1)}, R2 = ${rid(2)}, R3 = ${rid(3)}. ${ifm ? `Enable OSPF on each interface with <code>ip ospf ${pid} area 0</code> (not the network command).` : 'Use network commands with the right wildcard.'} Make the LAN interface (G0/0) of R1 and R3 passive.${rb ? ' Set the reference bandwidth to 1000 on every router.' : ''}${lo ? ` Also advertise R2's Loopback0 (10.200.${i}.1/32).` : ''} PC1 must be able to ping PC3.`),
+      topo: p.topo, diagram: r3Diag,
+      tasks: [
+        C(`OSPF ${pid} na may tamang router ID sa tatlong router`, `OSPF ${pid} with the right router ID on all three routers`, n => [1, 2, 3].every(k => D(n, 'R' + k).ospf[pid]?.rid === rid(k))),
+        C('FULL ang adjacency ng R2 sa R1 at R3', 'R2 is FULL with R1 and R3', n => ospfFull(n, 'R2', rid(1)) && ospfFull(n, 'R2', rid(3))),
+        C('Passive ang G0/0 ng R1 at R3', 'G0/0 on R1 and R3 is passive', n => ['R1', 'R3'].every(x => D(n, x).ospf[pid]?.passive.has('GigabitEthernet0/0'))),
+        ...(ifm ? [C(`Naka-enable sa interface level (ip ospf ${pid} area 0)`, `Enabled at the interface level (ip ospf ${pid} area 0)`, n => IF(n, 'R1', 'g0/0').ospf.area === 0 && IF(n, 'R3', 'g0/0').ospf.area === 0 && IF(n, 'R2', 'g0/1').ospf.area === 0)] : []),
+        ...(rb ? [C('Reference bandwidth 1000 sa lahat', 'Reference bandwidth 1000 everywhere', n => [1, 2, 3].every(k => D(n, 'R' + k).ospf[pid]?.refBw === 1000))] : []),
+        ...(lo ? [C(`Naa-advertise ang 10.200.${i}.1/32 (nasa routing table ng R1)`, `10.200.${i}.1/32 is advertised (in R1's routing table)`, n => rt(n, 'R1', `10.200.${i}.1`, 'O'))] : []),
+        C('Naka-ping ang PC1 sa PC3 gamit ang mga OSPF route', 'PC1 can ping PC3 using OSPF routes', n => rt(n, 'R1', p.Cn + '.0', 'O') && ping(n, 'PC1', p.Cn + '.10'))
+      ],
+      solution: ifm ? {
+        R1: `router ospf ${pid}\n router-id ${rid(1)}\n passive-interface g0/0${rb ? '\n auto-cost reference-bandwidth 1000' : ''}\ninterface g0/0\n ip ospf ${pid} area 0\ninterface g0/1\n ip ospf ${pid} area 0`,
+        R2: `router ospf ${pid}\n router-id ${rid(2)}${rb ? '\n auto-cost reference-bandwidth 1000' : ''}\ninterface g0/1\n ip ospf ${pid} area 0\ninterface g0/2\n ip ospf ${pid} area 0` + (lo ? `\ninterface loopback0\n ip ospf ${pid} area 0` : ''),
+        R3: `router ospf ${pid}\n router-id ${rid(3)}\n passive-interface g0/0${rb ? '\n auto-cost reference-bandwidth 1000' : ''}\ninterface g0/0\n ip ospf ${pid} area 0\ninterface g0/2\n ip ospf ${pid} area 0`,
+        PC1: `ping ${p.Cn}.10`
+      } : {
+        R1: `router ospf ${pid}\n router-id ${rid(1)}\n network ${p.A}.0 0.0.0.255 area 0\n network ${p.t1}.0 0.0.0.3 area 0\n passive-interface g0/0${rb ? '\n auto-cost reference-bandwidth 1000' : ''}`,
+        R2: `router ospf ${pid}\n router-id ${rid(2)}\n network ${p.t1}.0 0.0.0.3 area 0\n network ${p.t2}.0 0.0.0.3 area 0${lo ? `\n network 10.200.${i}.1 0.0.0.0 area 0` : ''}${rb ? '\n auto-cost reference-bandwidth 1000' : ''}`,
+        R3: `router ospf ${pid}\n router-id ${rid(3)}\n network ${p.Cn}.0 0.0.0.255 area 0\n network ${p.t2}.0 0.0.0.3 area 0\n passive-interface g0/0${rb ? '\n auto-cost reference-bandwidth 1000' : ''}`,
+        PC1: `ping ${p.Cn}.10`
+      }
+    }));
+  }
+
+  // ---------- Family 5: Internet edge (DHCP + PAT) (8) ----------
+  const POOLS = ['LAN', 'USERS', 'OFFICE', 'CLIENTS', 'STAFF-POOL', 'DESKS', 'HOME', 'BRANCH'];
+  const EXCL = [10, 20, 50, 9, 30, 15, 25, 40];
+  for (let i = 0; i < 8; i++) {
+    const lan = `192.168.${60 + i}`, w1 = `203.0.113.${4 * i + 2}`, w0 = `203.0.113.${4 * i + 1}`, pool = POOLS[i], ex = EXCL[i], dns = i % 2 ? '1.1.1.1' : '8.8.8.8', named = i % 2 === 1, acl = named ? 'NAT-LAN' : String(i + 1);
+    ch('edge', i, 'svc', 'Internet para sa LAN (DHCP + PAT)', 'Internet for the LAN (DHCP + PAT)', c => ({
+      desc: L(`Bagong internet line sa ${c.f}. Gawing DHCP server (pool ${pool}, ${lan}.0/24) at NAT router ang R1 para makapag-internet ang lahat.`, `New internet line at the ${c.e}. Make R1 the DHCP server (pool ${pool}, ${lan}.0/24) and NAT router so everyone can get online.`),
+      scenario: L(`Naka-configure na ang IP ng R1: G0/0 (LAN) = ${lan}.1/24, G0/1 (ISP) = ${w1}/30. Gumawa ng DHCP pool <code>${pool}</code> para sa ${lan}.0/24 (gateway ${lan}.1, DNS ${dns}) at i-exclude ang ${lan}.1 hanggang ${lan}.${ex}. Default route papunta sa ISP (${w0}). Gamitin ang PAT (overload sa G0/1) gamit ang ${named ? 'named standard ACL <code>NAT-LAN</code>' : `standard ACL ${acl}`} na nagpe-permit sa LAN. Kumuha ng IP ang mga PC at dapat maka-ping sila sa 8.8.8.8.`, `R1's IPs are already set: G0/0 (LAN) = ${lan}.1/24, G0/1 (ISP) = ${w1}/30. Create DHCP pool <code>${pool}</code> for ${lan}.0/24 (gateway ${lan}.1, DNS ${dns}) and exclude ${lan}.1 to ${lan}.${ex}. Add a default route to the ISP (${w0}). Use PAT (overload on G0/1) with ${named ? 'the named standard ACL <code>NAT-LAN</code>' : `standard ACL ${acl}`} permitting the LAN. Have the PCs get an address; they must be able to ping 8.8.8.8.`),
+      topo: {
+        devices: [routerSpec('R1', `hostname R1\ninterface g0/0\n${ipL(lan + '.1', M24)}\ninterface g0/1\n${ipL(w1, M30)}`), routerSpec('ISP', `hostname ISP\ninterface g0/1\n${ipL(w0, M30)}\ninterface loopback0\nip address 8.8.8.8 255.255.255.255`), sw('SW1')],
+        hosts: [{ name: 'PC1', dhcp: true }, { name: 'PC2', dhcp: true }],
+        links: [['R1', 'g0/1', 'ISP', 'g0/1'], ['R1', 'g0/0', 'SW1', 'g0/1'], ['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW1', 'fa0/2', 'PC2', 'eth0']]
+      },
+      diagram: { w: 540, h: 210, nodes: { PC1: [70, 170], PC2: [210, 170], SW1: [140, 95], R1: [290, 60], ISP: [460, 60] } },
+      tasks: [
+        C(`DHCP pool ${pool}: tamang network, gateway at DNS; naka-exclude ang .1-.${ex}`, `DHCP pool ${pool}: right network, gateway and DNS; .1-.${ex} excluded`, n => { const d = D(n, 'R1'), q = d.dhcp.pools[pool]; return q && q.net === lan + '.0' && q.gw === lan + '.1' && q.dns.includes(dns) && d.dhcp.excl.some(([a, b]) => a === lan + '.1' && b === lan + '.' + ex); }),
+        C('Nakakuha ng IP ang PC1 at PC2 (lampas sa excluded range)', 'PC1 and PC2 got an address (above the excluded range)', n => ['PC1', 'PC2'].every(h => inSub(hostIp(n, h), lan + '.0', M24) && IOS.ip2n(hostIp(n, h)) > IOS.ip2n(lan + '.' + ex))),
+        C('Default route papunta sa ISP', 'Default route to the ISP', n => rtVia(n, 'R1', '0.0.0.0', w0)),
+        C('NAT inside/outside at PAT gamit ang ACL', 'NAT inside/outside and PAT with the ACL', n => IF(n, 'R1', 'g0/0').natIn && IF(n, 'R1', 'g0/1').natOut && D(n, 'R1').nat.rules.some(r => r.acl === acl && r.iface === 'GigabitEthernet0/1' && r.overload) && IOS.aclPermits(D(n, 'R1'), acl, { src: lan + '.50', dst: '8.8.8.8', proto: 'ip' })),
+        C('PC1 at PC2 ay naka-ping sa 8.8.8.8', 'PC1 and PC2 can ping 8.8.8.8', n => ['PC1', 'PC2'].every(h => !!hostIp(n, h) && ping(n, h, '8.8.8.8')))
+      ],
+      solution: {
+        R1: `ip dhcp excluded-address ${lan}.1 ${lan}.${ex}\nip dhcp pool ${pool}\n network ${lan}.0 255.255.255.0\n default-router ${lan}.1\n dns-server ${dns}\nip route 0.0.0.0 0.0.0.0 ${w0}\ninterface g0/0\n ip nat inside\ninterface g0/1\n ip nat outside\n` + (named ? `ip access-list standard NAT-LAN\n permit ${lan}.0 0.0.0.255\n` : `access-list ${acl} permit ${lan}.0 0.0.0.255\n`) + `ip nat inside source list ${acl} interface g0/1 overload`,
+        PC2: 'ipconfig /renew\nping 8.8.8.8',
+        PC1: 'ipconfig /renew\nping 8.8.8.8'
+      }
+    }));
+  }
+
+  // ---------- Family 6: HSRP (7) ----------
+  const GRP = [1, 10, 5, 20, 50, 2, 100], PRI = [110, 150, 120, 200, 105, 130, 140];
+  for (let i = 0; i < 7; i++) {
+    const lan = `192.168.${80 + i}`, vip = lan + (i % 2 ? '.254' : '.1'), g = GRP[i], pr = PRI[i], v2 = i % 3 === 1, act = i % 4 === 3 ? 'R2' : 'R1', stb = act === 'R1' ? 'R2' : 'R1';
+    const ip1 = lan + (i % 2 ? '.1' : '.2'), ip2 = lan + (i % 2 ? '.2' : '.3');
+    ch('hsrp', i, 'rt', 'HSRP Gateway Redundancy', 'HSRP Gateway Redundancy', c => ({
+      desc: L(`Ayaw ng ${c.f} na mawalan ng internet kapag may router na bumagsak. Gumamit ng HSRP group ${g}${v2 ? ' (v2)' : ''}, VIP ${vip}, at ${act} ang Active.`, `The ${c.e} cannot lose connectivity when one router fails. Use HSRP group ${g}${v2 ? ' (v2)' : ''}, VIP ${vip}, with ${act} Active.`),
+      scenario: L(`Naka-configure na ang IP: R1 G0/0 = ${ip1}, R2 G0/0 = ${ip2} (/24). Gumawa ng HSRP group ${g}${v2 ? ' (version 2)' : ''} na may virtual IP na ${vip}. Ang ${act} ang Active (priority ${pr}, preempt) at ang ${stb} ang Standby (default priority). Ang gateway ng PC1 ay ${vip}.`, `IPs are already set: R1 G0/0 = ${ip1}, R2 G0/0 = ${ip2} (/24). Create HSRP group ${g}${v2 ? ' (version 2)' : ''} with virtual IP ${vip}. ${act} is Active (priority ${pr}, preempt) and ${stb} is Standby (default priority). PC1's gateway is ${vip}.`),
+      topo: { devices: [routerSpec('R1', `hostname R1\ninterface g0/0\n${ipL(ip1, M24)}`), routerSpec('R2', `hostname R2\ninterface g0/0\n${ipL(ip2, M24)}`), sw('SW1')], hosts: [{ name: 'PC1', ip: lan + '.10', mask: M24, gw: vip }], links: [['R1', 'g0/0', 'SW1', 'g0/1'], ['R2', 'g0/0', 'SW1', 'g0/2'], ['SW1', 'fa0/1', 'PC1', 'eth0']] },
+      diagram: { w: 520, h: 200, nodes: { R1: [140, 45], R2: [380, 45], SW1: [260, 120], PC1: [260, 180] } },
+      tasks: [
+        C(`Group ${g}, virtual IP ${vip} sa R1 at R2${v2 ? ', version 2' : ''}`, `Group ${g}, virtual IP ${vip} on R1 and R2${v2 ? ', version 2' : ''}`, n => ['R1', 'R2'].every(x => IF(n, x, 'g0/0').standby[g]?.ip === vip && (!v2 || IF(n, x, 'g0/0').standbyVer === 2))),
+        C(`${act}: priority ${pr} at preempt`, `${act}: priority ${pr} and preempt`, n => { const s = IF(n, act, 'g0/0').standby[g]; return s && s.prio === pr && s.preempt; }),
+        C(`${act} = Active, ${stb} = Standby`, `${act} = Active, ${stb} = Standby`, n => IOS.hsrpState(n, D(n, act), 'GigabitEthernet0/0', String(g))?.state === 'Active' && IOS.hsrpState(n, D(n, stb), 'GigabitEthernet0/0', String(g))?.state === 'Standby'),
+        C(`PC1 ay naka-ping sa ${vip}`, `PC1 can ping ${vip}`, n => !!IF(n, 'R1', 'g0/0').standby[g] && ping(n, 'PC1', vip))
+      ],
+      solution: {
+        [act]: `interface g0/0\n${v2 ? ' standby version 2\n' : ''} standby ${g} ip ${vip}\n standby ${g} priority ${pr}\n standby ${g} preempt`,
+        [stb]: `interface g0/0\n${v2 ? ' standby version 2\n' : ''} standby ${g} ip ${vip}`,
+        PC1: 'ping ' + vip
+      }
+    }));
+  }
+
+  // ---------- Family 7: Secure access switch (8) ----------
+  const HN = ['ACC-SW1', 'FLOOR2-SW', 'LAB-SW', 'CLINIC-SW', 'TELLER-SW', 'PROD-SW', 'OPS-SW', 'ADMIN-SW'];
+  const USERS = [['netadmin', 'N3t@dmin'], ['itops', 'It0ps!23'], ['labtech', 'L@bT3ch'], ['support', 'Supp0rt#1'], ['secops', 'S3c0ps!'], ['engr', 'Engr#2026'], ['noc', 'N0c@ccess'], ['root', 'R00t!Pass']];
+  const VIOL = ['shutdown', 'restrict', 'protect'];
+  for (let i = 0; i < 8; i++) {
+    const hn = HN[i], [un, pw] = USERS[i], mx = 1 + (i % 3), vi = VIOL[i % 3], st = i % 2 === 0, park = i % 2 === 1, mg = `10.99.${i + 1}`, dom = ['ccna.lab', 'office.local', 'corp.ph', 'lan.local'][i % 4];
+    ch('secsw', i, 'sec', 'Secure na Access Switch', 'Secure Access Switch', c => ({
+      desc: L(`Bagong switch (${hn}) para sa ${c.f}. SSH, port security (${vi}) at ${park ? 'parking VLAN' : 'shutdown'} sa mga bakanteng port.`, `A new switch (${hn}) for the ${c.e}. SSH, port security (${vi}) and ${park ? 'a parking VLAN' : 'shutdown'} on unused ports.`),
+      scenario: L(`Hostname <code>${hn}</code>. Management: VLAN 99 SVI = ${mg}.2/24 at default gateway ${mg}.1. SSH lang: domain <code>${dom}</code>, user <code>${un}</code> (privilege 15, secret <code>${pw}</code>), RSA 2048, SSH version 2, VTY 0 15 = login local at SSH lang. Fa0/1-2 (mga PC): access mode, port security na maximum ${mx}, violation ${vi}${st ? ', sticky MAC' : ''}. ${park ? 'Ilipat ang Fa0/3-24 sa VLAN 999 (PARKING) at i-shutdown.' : 'I-shutdown ang Fa0/3-24.'} Dapat maka-ping pa rin ang PC1 sa PC2.`, `Hostname <code>${hn}</code>. Management: VLAN 99 SVI = ${mg}.2/24 and default gateway ${mg}.1. SSH only: domain <code>${dom}</code>, user <code>${un}</code> (privilege 15, secret <code>${pw}</code>), RSA 2048, SSH version 2, VTY 0 15 = local login and SSH only. Fa0/1-2 (the PCs): access mode, port security with maximum ${mx}, violation ${vi}${st ? ', sticky MAC' : ''}. ${park ? 'Move Fa0/3-24 to VLAN 999 (PARKING) and shut them down.' : 'Shut down Fa0/3-24.'} PC1 must still be able to ping PC2.`),
+      topo: { devices: [sw('SW1')], hosts: [{ name: 'PC1', ip: '192.168.1.11', mask: M24 }, { name: 'PC2', ip: '192.168.1.12', mask: M24 }], links: [['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW1', 'fa0/2', 'PC2', 'eth0']] },
+      diagram: { w: 520, h: 190, nodes: { SW1: [260, 55], PC1: [150, 150], PC2: [370, 150] } },
+      tasks: [
+        C(`Hostname ${hn}, management SVI VLAN 99 at default gateway`, `Hostname ${hn}, VLAN 99 management SVI and default gateway`, n => D(n, 'SW1').hostname === hn && ipIs(n, 'SW1', 'vlan99', mg + '.2', M24) && D(n, 'SW1').defaultGw === mg + '.1'),
+        C('SSH: domain, user, RSA 2048, version 2', 'SSH: domain, user, RSA 2048, version 2', n => { const d = D(n, 'SW1'), u = d.users[un]; return d.domain === dom && u && u.priv === 15 && u.secret === pw && d.ssh.keys >= 2048 && d.ssh.ver === 2; }),
+        C('VTY: login local at SSH lang', 'VTY: local login and SSH only', n => { const l = D(n, 'SW1').lines.vty; return l.login === 'local' && l.transport === 'ssh'; }),
+        C(`Port security sa Fa0/1-2 (max ${mx}, ${vi}${st ? ', sticky' : ''})`, `Port security on Fa0/1-2 (max ${mx}, ${vi}${st ? ', sticky' : ''})`, n => ['fa0/1', 'fa0/2'].every(p => { const f = IF(n, 'SW1', p); return f.mode === 'access' && f.ps.on && f.ps.max === mx && f.ps.viol === vi && (!st || f.ps.sticky); })),
+        C(park ? 'Fa0/3-24: VLAN 999 PARKING at shutdown' : 'Fa0/3-24: shutdown', park ? 'Fa0/3-24: VLAN 999 PARKING and shut down' : 'Fa0/3-24: shut down', n => rng(3, 24).every(p => IF(n, 'SW1', p).shutdown && (!park || acc(n, 'SW1', p, 999))) && (!park || hasVlan(n, 'SW1', 999, 'PARKING'))),
+        C('PC1 ay naka-ping pa rin sa PC2', 'PC1 can still ping PC2', n => IF(n, 'SW1', 'fa0/1').ps.on && ping(n, 'PC1', '192.168.1.12'))
+      ],
+      solution: {
+        SW1: `hostname ${hn}\nvlan 99\n name MGMT\ninterface vlan 99\n ip address ${mg}.2 255.255.255.0\n no shutdown\nip default-gateway ${mg}.1\nip domain-name ${dom}\nusername ${un} privilege 15 secret ${pw}\ncrypto key generate rsa modulus 2048\nip ssh version 2\nline vty 0 15\n login local\n transport input ssh\ninterface range fa0/1 - 2\n switchport mode access\n switchport port-security\n switchport port-security maximum ${mx}\n switchport port-security violation ${vi}` + (st ? '\n switchport port-security mac-address sticky' : '') + (park ? '\nvlan 999\n name PARKING\ninterface range fa0/3 - 24\n switchport mode access\n switchport access vlan 999\n shutdown' : '\ninterface range fa0/3 - 24\n shutdown'),
+        PC1: 'ping 192.168.1.12'
+      }
+    }));
+  }
+
+  // ---------- Family 8: ACL policies (8) ----------
+  const aclTopo = () => ({
+    devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.10.1', M24) + '\ninterface g0/1\n' + ipL('192.168.20.1', M24) + '\ninterface g0/2\n' + ipL('172.16.1.1', M24))],
+    hosts: [{ name: 'PC1', ip: '192.168.10.10', mask: M24, gw: '192.168.10.1' }, { name: 'PC2', ip: '192.168.20.10', mask: M24, gw: '192.168.20.1' }, { name: 'SERVER', ip: '172.16.1.100', mask: M24, gw: '172.16.1.1', cli: false }],
+    links: [['R1', 'g0/0', 'PC1', 'eth0'], ['R1', 'g0/1', 'PC2', 'eth0'], ['R1', 'g0/2', 'SERVER', 'eth0']]
+  });
+  const aclDiag = { w: 520, h: 200, nodes: { PC1: [90, 150], PC2: [260, 170], R1: [260, 70], SERVER: [430, 150] } };
+  const SRV = '172.16.1.100', P1 = '192.168.10.10', P2 = '192.168.20.10';
+  const perm = (n, a, o) => !!D(n, 'R1').acls[a] && IOS.aclPermits(D(n, 'R1'), a, Object.assign({ proto: 'ip' }, o));
+  const ACLV = [
+    { tf: 'Standard ACL: I-block ang Isang Host', te: 'Standard ACL: Block One Host', a: '15', sf: `Bawal na makarating ang PC2 (${P2}) sa SERVER, pero ok ang PC1 at lahat ng iba pa. Gumamit ng numbered standard ACL 15 at ilagay ito malapit sa destination (outbound sa G0/2).`, se: `PC2 (${P2}) must not reach the SERVER, but PC1 and everything else is fine. Use numbered standard ACL 15 and place it close to the destination (outbound on G0/2).`,
+      cfg: `access-list 15 deny host ${P2}\naccess-list 15 permit any\ninterface g0/2\n ip access-group 15 out`, apply: n => IF(n, 'R1', 'g0/2').aclOut === '15',
+      res: n => ping(n, 'PC1', SRV) && !ping(n, 'PC2', SRV) && ping(n, 'PC2', P1) },
+    { tf: 'Named Standard ACL para sa Buong LAN', te: 'Named Standard ACL for a Whole LAN', a: 'BLOCK-LAN2', sf: 'Bawal sa SERVER ang buong 192.168.20.0/24. Gumamit ng named standard ACL <code>BLOCK-LAN2</code>, outbound sa G0/2.', se: 'The whole 192.168.20.0/24 is not allowed to the SERVER. Use the named standard ACL <code>BLOCK-LAN2</code>, outbound on G0/2.',
+      cfg: 'ip access-list standard BLOCK-LAN2\n deny 192.168.20.0 0.0.0.255\n permit any\ninterface g0/2\n ip access-group BLOCK-LAN2 out', apply: n => IF(n, 'R1', 'g0/2').aclOut === 'BLOCK-LAN2',
+      res: n => ping(n, 'PC1', SRV) && !ping(n, 'PC2', SRV) && ping(n, 'PC2', P1) },
+    { tf: 'Extended ACL: Web Lang sa Server', te: 'Extended ACL: Web Only to the Server', a: '110', sf: 'Ang LAN ng PC1 ay pwede lang gumamit ng HTTP at HTTPS sa SERVER; bawal ang ibang traffic papunta sa server (pati ping), pero ok ang lahat ng iba. Extended ACL 110, inbound sa G0/0.', se: 'PC1\'s LAN may only use HTTP and HTTPS on the SERVER; all other traffic to the server is blocked (including ping), but everything else is fine. Extended ACL 110, inbound on G0/0.',
+      cfg: `access-list 110 permit tcp 192.168.10.0 0.0.0.255 host ${SRV} eq 80\naccess-list 110 permit tcp 192.168.10.0 0.0.0.255 host ${SRV} eq 443\naccess-list 110 deny ip 192.168.10.0 0.0.0.255 host ${SRV}\naccess-list 110 permit ip any any\ninterface g0/0\n ip access-group 110 in`, apply: n => IF(n, 'R1', 'g0/0').aclIn === '110',
+      res: n => ping(n, 'PC1', SRV, 'tcp', 443) && ping(n, 'PC1', SRV, 'tcp', 80) && !ping(n, 'PC1', SRV) && ping(n, 'PC1', P2) },
+    { tf: 'Extended ACL: Bawal ang Telnet', te: 'Extended ACL: No Telnet', a: 'NO-TELNET', sf: 'Bawal ang Telnet (TCP 23) mula sa 192.168.20.0/24 papunta kahit saan; ok ang lahat ng iba. Named extended ACL <code>NO-TELNET</code>, inbound sa G0/1.', se: 'Telnet (TCP 23) from 192.168.20.0/24 to anywhere is blocked; everything else is fine. Named extended ACL <code>NO-TELNET</code>, inbound on G0/1.',
+      cfg: 'ip access-list extended NO-TELNET\n deny tcp 192.168.20.0 0.0.0.255 any eq 23\n permit ip any any\ninterface g0/1\n ip access-group NO-TELNET in', apply: n => IF(n, 'R1', 'g0/1').aclIn === 'NO-TELNET',
+      res: n => !perm(n, 'NO-TELNET', { src: P2, dst: SRV, proto: 'tcp', dport: 23 }) && perm(n, 'NO-TELNET', { src: P2, dst: SRV, proto: 'tcp', dport: 443 }) && ping(n, 'PC2', SRV) && ping(n, 'PC2', P1) },
+    { tf: 'Extended ACL: Walang Ping sa Kabilang LAN', te: 'Extended ACL: No Ping to the Other LAN', a: '120', sf: 'Bawal mag-ping ang 192.168.20.0/24 sa 192.168.10.0/24, pero ok ang ping sa SERVER at ang lahat ng iba. Extended ACL 120, inbound sa G0/1.', se: '192.168.20.0/24 may not ping 192.168.10.0/24, but pinging the SERVER and everything else is fine. Extended ACL 120, inbound on G0/1.',
+      cfg: 'access-list 120 deny icmp 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255\naccess-list 120 permit ip any any\ninterface g0/1\n ip access-group 120 in', apply: n => IF(n, 'R1', 'g0/1').aclIn === '120',
+      res: n => !ping(n, 'PC2', P1) && ping(n, 'PC2', SRV) && ping(n, 'PC1', SRV) },
+    { tf: 'Limitahan ang Remote Login sa Router', te: 'Restrict Remote Login to the Router', a: 'ADMINS', sf: 'Ang 192.168.10.0/24 lang ang pwedeng mag-remote login sa R1. Named standard ACL <code>ADMINS</code> sa VTY 0 4 (access-class in). Login gamit ang local user <code>admin</code> (secret <code>Adm1n!</code>).', se: 'Only 192.168.10.0/24 may log in remotely to R1. Named standard ACL <code>ADMINS</code> on VTY 0 4 (access-class in). Log in with the local user <code>admin</code> (secret <code>Adm1n!</code>).',
+      cfg: 'ip access-list standard ADMINS\n permit 192.168.10.0 0.0.0.255\nusername admin secret Adm1n!\nline vty 0 4\n access-class ADMINS in\n login local', apply: n => D(n, 'R1').lines.vty.accessClass === 'ADMINS' && D(n, 'R1').lines.vty.login === 'local' && D(n, 'R1').users.admin?.secret === 'Adm1n!',
+      res: n => perm(n, 'ADMINS', { src: P1, dst: '192.168.10.1' }) && !perm(n, 'ADMINS', { src: P2, dst: '192.168.20.1' }) && ping(n, 'PC2', SRV) },
+    { tf: 'Extended ACL: DNS at HTTPS Lang', te: 'Extended ACL: DNS and HTTPS Only', a: 'SRV-POLICY', sf: 'Mula sa 192.168.20.0/24, DNS (UDP 53) at HTTPS (TCP 443) lang ang pwede papunta sa SERVER. Bawal ang iba papunta sa server, pero ok ang ping sa PC1. Named extended ACL <code>SRV-POLICY</code>, inbound sa G0/1.', se: 'From 192.168.20.0/24, only DNS (UDP 53) and HTTPS (TCP 443) are allowed to the SERVER. Everything else to the server is blocked, but pinging PC1 is fine. Named extended ACL <code>SRV-POLICY</code>, inbound on G0/1.',
+      cfg: `ip access-list extended SRV-POLICY\n permit udp 192.168.20.0 0.0.0.255 host ${SRV} eq 53\n permit tcp 192.168.20.0 0.0.0.255 host ${SRV} eq 443\n deny ip 192.168.20.0 0.0.0.255 host ${SRV}\n permit ip any any\ninterface g0/1\n ip access-group SRV-POLICY in`, apply: n => IF(n, 'R1', 'g0/1').aclIn === 'SRV-POLICY',
+      res: n => perm(n, 'SRV-POLICY', { src: P2, dst: SRV, proto: 'udp', dport: 53 }) && ping(n, 'PC2', SRV, 'tcp', 443) && !ping(n, 'PC2', SRV) && ping(n, 'PC2', P1) },
+    { tf: 'Standard ACL: Isang Host Lang ang Pwede', te: 'Standard ACL: Only One Host Allowed', a: '25', sf: `Ang PC1 (${P1}) lang ang pwedeng makarating sa SERVER. Numbered standard ACL 25 (gamitin ang implicit deny), outbound sa G0/2. Dapat makapag-ping pa rin ang PC2 sa PC1.`, se: `Only PC1 (${P1}) may reach the SERVER. Numbered standard ACL 25 (rely on the implicit deny), outbound on G0/2. PC2 must still be able to ping PC1.`,
+      cfg: `access-list 25 permit host ${P1}\ninterface g0/2\n ip access-group 25 out`, apply: n => IF(n, 'R1', 'g0/2').aclOut === '25',
+      res: n => ping(n, 'PC1', SRV) && !ping(n, 'PC2', SRV) && ping(n, 'PC2', P1) }
+  ];
+  ACLV.forEach((v, i) => ch('acl', i, 'sec', v.tf, v.te, c => ({
+    desc: L(`Ipatupad ang security policy ng ${c.f} gamit ang ACL.`, `Enforce the ${c.e}'s security policy with an ACL.`),
+    scenario: L(`Naka-configure na ang mga IP (PC1 LAN = 192.168.10.0/24 sa G0/0, PC2 LAN = 192.168.20.0/24 sa G0/1, SERVER = ${SRV} sa G0/2). ${v.sf}`, `IPs are already set (PC1 LAN = 192.168.10.0/24 on G0/0, PC2 LAN = 192.168.20.0/24 on G0/1, SERVER = ${SRV} on G0/2). ${v.se}`),
+    topo: aclTopo(), diagram: aclDiag,
+    tasks: [
+      C(`Nagawa ang ACL <code>${v.a}</code>`, `ACL <code>${v.a}</code> is created`, n => !!D(n, 'R1').acls[v.a]),
+      C('Naka-apply sa tamang lugar at direksyon', 'Applied in the right place and direction', n => !!D(n, 'R1').acls[v.a] && v.apply(n)),
+      C('Tama ang resulta ng policy', 'The policy works as required', n => !!D(n, 'R1').acls[v.a] && v.apply(n) && v.res(n))
+    ],
+    solution: { R1: v.cfg }
+  })));
+
+  // ---------- Family 9: Campus EtherChannel (8) ----------
+  const ECM = [['active', 'active'], ['active', 'passive'], ['desirable', 'desirable'], ['desirable', 'auto'], ['on', 'on'], ['passive', 'active'], ['auto', 'desirable'], ['active', 'active']];
+  const proto = m => /active|passive/.test(m) ? 'LACP' : /desirable|auto/.test(m) ? 'PAgP' : L('static (mode on)', 'static (mode on)');
+  for (let i = 0; i < 8; i++) {
+    const po = i + 1, [m1, m2] = ECM[i], V = VIDS[(i + 5) % 8].slice(0, 2), Nm = VNAMES[(i + 5) % 8], root = i % 2 ? 'SW2' : 'SW1', other = root === 'SW1' ? 'SW2' : 'SW1', prune = i % 3 === 1;
+    const net = `192.168.${V[0]}`;
+    ch('campus', i, 'sw', 'EtherChannel, VLAN at STP', 'EtherChannel, VLANs and STP', c => ({
+      desc: L(`Dalawang switch sa ${c.f} na may dalawang cable. Pagsamahin sa Po${po} gamit ang ${proto(m1)}, at ${root} ang root bridge.`, `Two switches at the ${c.e} with two cables. Bundle them into Po${po} with ${proto(m1)}, with ${root} as the root bridge.`),
+      scenario: L(`Sa SW1 at SW2: ${vlist(V, Nm)}. Pagsamahin ang G0/1 at G0/2 sa Port-channel ${po} gamit ang ${proto(m1)} (SW1 = ${m1}, SW2 = ${m2}) at gawin itong trunk${prune ? ` na ang pinapayagan lang ay VLAN ${V.join(',')}` : ''}. Ang ${root} ang root bridge ng VLAN ${V.join(' at ')}. Ang Fa0/1 ng bawat switch ay access port ng VLAN ${V[0]} na may PortFast at BPDU Guard. Dapat maka-ping ang PC1 sa PC2.`, `On SW1 and SW2: ${vlist(V, Nm)}. Bundle G0/1 and G0/2 into Port-channel ${po} with ${proto(m1)} (SW1 = ${m1}, SW2 = ${m2}) and make it a trunk${prune ? ` that allows only VLANs ${V.join(',')}` : ''}. ${root} is the root bridge for VLANs ${V.join(' and ')}. Fa0/1 on each switch is an access port in VLAN ${V[0]} with PortFast and BPDU Guard. PC1 must be able to ping PC2.`),
+      topo: { devices: [sw('SW1', ''), sw('SW2', '')], hosts: [{ name: 'PC1', ip: net + '.11', mask: M24 }, { name: 'PC2', ip: net + '.12', mask: M24 }], links: [['SW1', 'g0/1', 'SW2', 'g0/1'], ['SW1', 'g0/2', 'SW2', 'g0/2'], ['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW2', 'fa0/1', 'PC2', 'eth0']] },
+      diagram: { w: 520, h: 190, nodes: { SW1: [150, 60], SW2: [370, 60], PC1: [150, 150], PC2: [370, 150] } },
+      tasks: [
+        C('Mga VLAN sa parehong switch', 'VLANs on both switches', n => ['SW1', 'SW2'].every(x => V.every((v, k) => hasVlan(n, x, v, Nm[k])))),
+        C(`Port-channel ${po} (${proto(m1)}) ay up sa parehong switch`, `Port-channel ${po} (${proto(m1)}) is up on both switches`, n => [['SW1', m1], ['SW2', m2]].every(([x, m]) => ['g0/1', 'g0/2'].every(p => IF(n, x, p).cg?.id === po && IF(n, x, p).cg.mode === m) && IOS.ifUp(n, D(n, x), 'Port-channel' + po))),
+        C(`Po${po} ay trunk${prune ? `, allowed VLAN ${V.join(',')} lang` : ''}`, `Po${po} is a trunk${prune ? `, allowed VLANs ${V.join(',')} only` : ''}`, n => ['SW1', 'SW2'].every(x => IF(n, x, 'po' + po)?.mode === 'trunk' && (!prune || allowedHas(IF(n, x, 'po' + po), V)))),
+        C(`${root} ang root bridge ng VLAN ${V.join(' at ')}`, `${root} is the root bridge for VLANs ${V.join(' and ')}`, n => V.every(v => IOS.stpRoot(n, D(n, other), v).dev === D(n, root))),
+        C(`Fa0/1: access VLAN ${V[0]}, PortFast, BPDU Guard`, `Fa0/1: access VLAN ${V[0]}, PortFast, BPDU Guard`, n => ['SW1', 'SW2'].every(x => acc(n, x, 'fa0/1', V[0]) && !!IF(n, x, 'fa0/1').portfast && IF(n, x, 'fa0/1').bpduguard === true)),
+        C('PC1 ay naka-ping sa PC2', 'PC1 can ping PC2', n => acc(n, 'SW1', 'fa0/1', V[0]) && acc(n, 'SW2', 'fa0/1', V[0]) && ping(n, 'PC1', net + '.12'))
+      ],
+      solution: {
+        'SW1 / SW2': V.map((v, k) => `vlan ${v}\n name ${Nm[k]}`).join('\n') + `\ninterface fa0/1\n switchport mode access\n switchport access vlan ${V[0]}\n spanning-tree portfast\n spanning-tree bpduguard enable`,
+        SW1: `interface range g0/1 - 2\n channel-group ${po} mode ${m1}\ninterface port-channel ${po}\n switchport mode trunk` + (prune ? `\n switchport trunk allowed vlan ${V.join(',')}` : ''),
+        SW2: `interface range g0/1 - 2\n channel-group ${po} mode ${m2}\ninterface port-channel ${po}\n switchport mode trunk` + (prune ? `\n switchport trunk allowed vlan ${V.join(',')}` : ''),
+        [root + ' ']: `spanning-tree vlan ${V.join(',')} root primary`,
+        PC1: `ping ${net}.12`
+      }
+    }));
+  }
+
+  // ---------- Family 10: Network services (8) ----------
+  const LV = ['warnings', 'errors', 'notifications', 'informational', 'critical', 'warnings', 'errors', 'notifications'];
+  const COMM = ['MON-RO', 'NMS-READ', 'Cl1nicRO', 'SchoolRO', 'BankRO', 'PlantRO', 'BpoRO', 'HospRO'];
+  for (let i = 0; i < 8; i++) {
+    const dom = ['clinic.local', 'school.ph', 'cafe.local', 'hotel.ph', 'bank.local', 'plant.local', 'bpo.ph', 'hosp.local'][i];
+    const want = { sys: i % 4 !== 3, snmp: i % 2 === 0 || i === 7, dns: i % 3 !== 2, ts: i % 2 === 1, banner: i % 4 === 2 };
+    const srv = { ntp: '10.0.0.2', sys: `10.0.0.${100 + i}`, nms: `10.0.0.${50 + i}` };
+    ch('svc', i, 'svc', 'Mga Network Service', 'Network Services', c => {
+      const partsF = [`Time zone PHT +8 at NTP server ${srv.ntp} (dapat ma-synchronize)`], partsE = [`Time zone PHT +8 and NTP server ${srv.ntp} (it must synchronize)`];
+      const tasks = [C('Time zone at NTP; synchronized ang R1', 'Time zone and NTP; R1 is synchronized', n => D(n, 'R1').tz?.name === 'PHT' && D(n, 'R1').tz?.off === '8' && D(n, 'R1').ntp.servers.some(s => s.ip === srv.ntp) && IOS.ntpSynced(n, D(n, 'R1')).ok)];
+      let cfg = `clock timezone PHT 8\nntp server ${srv.ntp}`;
+      if (want.sys) { partsF.push(`syslog server ${srv.sys}, severity hanggang ${LV[i]}`); partsE.push(`syslog server ${srv.sys}, severity up to ${LV[i]}`); tasks.push(C('Syslog server at trap level', 'Syslog server and trap level', n => D(n, 'R1').logging.hosts.includes(srv.sys) && D(n, 'R1').logging.trap === LV[i])); cfg += `\nlogging host ${srv.sys}\nlogging trap ${LV[i]}`; }
+      if (want.ts) { partsF.push('timestamp na may milliseconds sa mga log'); partsE.push('timestamps with milliseconds on logs'); tasks.push(C('Log timestamps (datetime msec)', 'Log timestamps (datetime msec)', n => D(n, 'R1').svcTs)); cfg += '\nservice timestamps log datetime msec'; }
+      if (want.snmp) { partsF.push(`SNMPv2c read-only community <code>${COMM[i]}</code> na limitado sa NMS (${srv.nms}) gamit ang ACL ${10 + i}`); partsE.push(`SNMPv2c read-only community <code>${COMM[i]}</code> limited to the NMS (${srv.nms}) with ACL ${10 + i}`); tasks.push(C('SNMP community na limitado ng ACL', 'SNMP community limited by the ACL', n => { const cm = D(n, 'R1').snmp.comms[COMM[i]]; return cm && !cm.rw && cm.acl === String(10 + i) && IOS.aclPermits(D(n, 'R1'), String(10 + i), { src: srv.nms, dst: '1.1.1.1', proto: 'ip' }) && !IOS.aclPermits(D(n, 'R1'), String(10 + i), { src: '10.0.0.77', dst: '1.1.1.1', proto: 'ip' }); })); cfg += `\naccess-list ${10 + i} permit host ${srv.nms}\nsnmp-server community ${COMM[i]} ro ${10 + i}`; }
+      if (want.dns) { partsF.push(`domain <code>${dom}</code>, DNS server 8.8.8.8, at host entry <code>NTPSRV</code> = ${srv.ntp}`); partsE.push(`domain <code>${dom}</code>, DNS server 8.8.8.8, and a host entry <code>NTPSRV</code> = ${srv.ntp}`); tasks.push(C('Domain, DNS server at host entry', 'Domain, DNS server and host entry', n => D(n, 'R1').domain === dom && D(n, 'R1').nameServers.includes('8.8.8.8') && D(n, 'R1').hosts.NTPSRV === srv.ntp)); cfg += `\nip domain-name ${dom}\nip name-server 8.8.8.8\nip host NTPSRV ${srv.ntp}`; }
+      if (want.banner) { partsF.push('banner MOTD na may salitang <code>Authorized</code>'); partsE.push('a MOTD banner containing the word <code>Authorized</code>'); tasks.push(C('Banner MOTD', 'MOTD banner', n => /authorized/i.test(D(n, 'R1').banner || ''))); cfg += '\nbanner motd #Authorized users only#'; }
+      return {
+        desc: L(`Ihanda ang R1 ng ${c.f}: NTP${want.sys ? ', syslog' : ''}${want.snmp ? ', SNMP' : ''}${want.dns ? ', DNS' : ''}${want.ts ? ', timestamps' : ''}${want.banner ? ', banner' : ''}.`, `Prepare the ${c.e}'s R1: NTP${want.sys ? ', syslog' : ''}${want.snmp ? ', SNMP' : ''}${want.dns ? ', DNS' : ''}${want.ts ? ', timestamps' : ''}${want.banner ? ', banner' : ''}.`),
+        scenario: L(`Ang NTPSRV (${srv.ntp}) ay NTP server na. I-configure sa R1: ${partsF.join('; ')}.`, `NTPSRV (${srv.ntp}) is already an NTP server. Configure on R1: ${partsE.join('; ')}.`),
+        topo: { devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('10.0.0.1', M24)), routerSpec('NTPSRV', 'hostname NTPSRV\ninterface g0/0\n' + ipL(srv.ntp, M24) + '\nntp master 2')], links: [['R1', 'g0/0', 'NTPSRV', 'g0/0']] },
+        diagram: { w: 520, h: 130, nodes: { R1: [150, 55], NTPSRV: [370, 55] } },
+        tasks, solution: { R1: cfg }
+      };
+    });
+  }
+
+  // ---------- Family 11: Troubleshooting (10) ----------
+  const TS = [];
+  // 1) router-on-a-stick with three faults
+  TS.push({ tf: 'Troubleshoot: Inter-VLAN', te: 'Troubleshoot: Inter-VLAN',
+    sf: 'PC1 (VLAN 30) at PC2 (VLAN 40) ay dapat nakaka-ping sa isa\'t isa sa pamamagitan ng R1 (router-on-a-stick). Hindi ito gumagana. May tatlong sira.', se: 'PC1 (VLAN 30) and PC2 (VLAN 40) should ping each other through R1 (router-on-a-stick). It does not work. There are three faults.',
+    topo: { devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\nshutdown\ninterface g0/0.30\nencapsulation dot1Q 30\nip address 10.30.0.1 255.255.255.0\ninterface g0/0.40\nencapsulation dot1Q 41\nip address 10.40.0.1 255.255.255.0'), sw('SW1', 'hostname SW1\nvlan 30\nvlan 40\ninterface fa0/1\nswitchport mode access\nswitchport access vlan 30\ninterface fa0/2\nswitchport mode access\nswitchport access vlan 30\ninterface g0/1\nswitchport mode trunk')], hosts: [{ name: 'PC1', ip: '10.30.0.10', mask: M24, gw: '10.30.0.1' }, { name: 'PC2', ip: '10.40.0.10', mask: M24, gw: '10.40.0.1' }], links: [['R1', 'g0/0', 'SW1', 'g0/1'], ['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW1', 'fa0/2', 'PC2', 'eth0']] },
+    diagram: { w: 520, h: 210, nodes: { R1: [260, 40], SW1: [260, 115], PC1: [150, 180], PC2: [370, 180] } },
+    tasks: [C('PC1 ay naka-ping sa gateway nito', 'PC1 can ping its gateway', n => ping(n, 'PC1', '10.30.0.1')), C('PC2 ay naka-ping sa gateway nito', 'PC2 can ping its gateway', n => ping(n, 'PC2', '10.40.0.1')), C('PC1 ay naka-ping sa PC2', 'PC1 can ping PC2', n => ping(n, 'PC1', '10.40.0.10'))],
+    faults: L('1) R1 G0/0 ay naka-shutdown.\n2) R1 G0/0.40 ay dot1Q 41 imbes na 40.\n3) SW1 Fa0/2 ay nasa VLAN 30 imbes na 40.', '1) R1 G0/0 is shut down.\n2) R1 G0/0.40 uses dot1Q 41 instead of 40.\n3) SW1 Fa0/2 is in VLAN 30 instead of 40.'),
+    fix: { R1: 'interface g0/0\n no shutdown\ninterface g0/0.40\n encapsulation dot1Q 40\n ip address 10.40.0.1 255.255.255.0', SW1: 'interface fa0/2\n switchport access vlan 40' } });
+  // 2) static routing
+  { const p = r3p(30, ['ip route 172.16.50.0 255.255.255.0 10.31.12.5', 'ip route 192.168.50.0 255.255.255.0 10.31.12.1', 'ip route 0.0.0.0 0.0.0.0 10.31.23.1']);
+    TS.push({ tf: 'Troubleshoot: Static Routes', te: 'Troubleshoot: Static Routes', sf: `PC1 (${p.A}.10) at PC3 (${p.Cn}.10) ay dapat nagpi-ping sa isa't isa gamit ang static routes. May dalawang sira sa routing.`, se: `PC1 (${p.A}.10) and PC3 (${p.Cn}.10) should ping each other with static routes. There are two routing faults.`, topo: p.topo, diagram: r3Diag,
+      tasks: [C('Tama ang static route ng R1 papunta sa LAN ng R3', 'R1\'s static route to R3\'s LAN is correct', n => rtVia(n, 'R1', p.Cn + '.0', p.t1 + '.2')), C('May route ang R2 papunta sa LAN ng R3', 'R2 has a route to R3\'s LAN', n => rt(n, 'R2', p.Cn + '.0')), C('PC1 at PC3 ay naka-ping sa isa\'t isa', 'PC1 and PC3 can ping each other', n => ping(n, 'PC1', p.Cn + '.10') && ping(n, 'PC3', p.A + '.10'))],
+      faults: L(`1) R1: maling next hop (${p.t1}.5); dapat ${p.t1}.2.\n2) R2: walang route papunta sa ${p.Cn}.0/24.`, `1) R1: wrong next hop (${p.t1}.5); it should be ${p.t1}.2.\n2) R2: no route to ${p.Cn}.0/24.`),
+      fix: { R1: `no ip route ${p.Cn}.0 255.255.255.0 ${p.t1}.5\nip route ${p.Cn}.0 255.255.255.0 ${p.t1}.2`, R2: `ip route ${p.Cn}.0 255.255.255.0 ${p.t2}.2`, PC1: `ping ${p.Cn}.10` } }); }
+  // 3) OSPF area mismatch + passive transit
+  { const p = r3p(31, ['router ospf 1\nrouter-id 1.1.1.1\nnetwork 192.168.51.0 0.0.0.255 area 0\nnetwork 10.32.12.0 0.0.0.3 area 0\npassive-interface g0/1', 'router ospf 1\nrouter-id 2.2.2.2\nnetwork 10.32.12.0 0.0.0.3 area 0\nnetwork 10.32.23.0 0.0.0.3 area 1', 'router ospf 1\nrouter-id 3.3.3.3\nnetwork 172.16.51.0 0.0.0.255 area 0\nnetwork 10.32.23.0 0.0.0.3 area 0']);
+    TS.push({ tf: 'Troubleshoot: Walang OSPF Neighbor', te: 'Troubleshoot: No OSPF Neighbors', sf: 'Lahat ng router ay dapat nasa OSPF area 0 at FULL ang lahat ng neighbor. Wala ni isang adjacency ang R2. May dalawang sira.', se: 'Every router should be in OSPF area 0 with all neighbors FULL. R2 has no adjacencies at all. There are two faults.', topo: p.topo, diagram: r3Diag,
+      tasks: [C('R2 ay FULL sa R1', 'R2 is FULL with R1', n => ospfFull(n, 'R2', '1.1.1.1')), C('R2 ay FULL sa R3', 'R2 is FULL with R3', n => ospfFull(n, 'R2', '3.3.3.3')), C('PC1 ay naka-ping sa PC3', 'PC1 can ping PC3', n => ping(n, 'PC1', p.Cn + '.10'))],
+      faults: L('1) R1: passive ang G0/1 (transit link), kaya walang hello papunta sa R2.\n2) R2: ang 10.32.23.0/30 ay nasa area 1 pero area 0 ang R3.', '1) R1: G0/1 (the transit link) is passive, so no hellos go to R2.\n2) R2: 10.32.23.0/30 is in area 1 but R3 uses area 0.'),
+      fix: { R1: 'router ospf 1\n no passive-interface g0/1', R2: 'router ospf 1\n no network 10.32.23.0 0.0.0.3 area 1\n network 10.32.23.0 0.0.0.3 area 0', PC1: `ping ${p.Cn}.10` } }); }
+  // 4) OSPF hello mismatch + missing LAN network
+  { const p = r3p(32, ['router ospf 1\nrouter-id 1.1.1.1\nnetwork 192.168.52.0 0.0.0.255 area 0\nnetwork 10.33.12.0 0.0.0.3 area 0', 'interface g0/1\nip ospf hello-interval 5\nrouter ospf 1\nrouter-id 2.2.2.2\nnetwork 10.33.12.0 0.0.0.3 area 0\nnetwork 10.33.23.0 0.0.0.3 area 0', 'router ospf 1\nrouter-id 3.3.3.3\nnetwork 10.33.23.0 0.0.0.3 area 0']);
+    TS.push({ tf: 'Troubleshoot: OSPF Timers at Network', te: 'Troubleshoot: OSPF Timers and Networks', sf: 'Ang R1 at R2 ay hindi nagiging neighbor, at hindi naa-advertise ang LAN ng R3. May dalawang sira.', se: 'R1 and R2 never become neighbors, and R3\'s LAN is not advertised. There are two faults.', topo: p.topo, diagram: r3Diag,
+      tasks: [C('R1 at R2 ay FULL', 'R1 and R2 are FULL', n => ospfFull(n, 'R1', '2.2.2.2')), C(`Nasa routing table ng R1 ang ${p.Cn}.0/24 (O)`, `${p.Cn}.0/24 is in R1's routing table (O)`, n => rt(n, 'R1', p.Cn + '.0', 'O')), C('PC1 ay naka-ping sa PC3', 'PC1 can ping PC3', n => ping(n, 'PC1', p.Cn + '.10'))],
+      faults: L('1) R2 G0/1: hello-interval 5 (10 ang R1). Dapat pareho.\n2) R3: kulang ang network statement para sa LAN (172.16.52.0/24).', '1) R2 G0/1: hello-interval 5 (R1 uses 10). They must match.\n2) R3: the network statement for the LAN (172.16.52.0/24) is missing.'),
+      fix: { R2: 'interface g0/1\n no ip ospf hello-interval 5', R3: 'router ospf 1\n network 172.16.52.0 0.0.0.255 area 0', PC1: `ping ${p.Cn}.10` } }); }
+  // 5) NAT swapped + wrong ACL
+  TS.push({ tf: 'Troubleshoot: Walang Internet (NAT)', te: 'Troubleshoot: No Internet (NAT)', sf: 'Ang LAN 192.168.70.0/24 ay dapat nakakapag-internet (8.8.8.8) gamit ang PAT sa G0/1. Hindi ito gumagana. May dalawang sira.', se: 'LAN 192.168.70.0/24 should reach the internet (8.8.8.8) with PAT on G0/1. It does not work. There are two faults.',
+    topo: { devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.70.1', M24) + '\nip nat outside\ninterface g0/1\n' + ipL('203.0.113.50', M30) + '\nip nat inside\nip route 0.0.0.0 0.0.0.0 203.0.113.49\naccess-list 1 permit 192.168.7.0 0.0.0.255\nip nat inside source list 1 interface g0/1 overload'), routerSpec('ISP', 'hostname ISP\ninterface g0/1\n' + ipL('203.0.113.49', M30) + '\ninterface loopback0\nip address 8.8.8.8 255.255.255.255'), sw('SW1')], hosts: [{ name: 'PC1', ip: '192.168.70.10', mask: M24, gw: '192.168.70.1' }], links: [['R1', 'g0/1', 'ISP', 'g0/1'], ['R1', 'g0/0', 'SW1', 'g0/1'], ['SW1', 'fa0/1', 'PC1', 'eth0']] },
+    diagram: { w: 520, h: 200, nodes: { PC1: [70, 160], SW1: [70, 70], R1: [250, 70], ISP: [440, 70] } },
+    tasks: [C('Tama ang NAT inside/outside', 'NAT inside/outside is correct', n => IF(n, 'R1', 'g0/0').natIn && IF(n, 'R1', 'g0/1').natOut && !IF(n, 'R1', 'g0/0').natOut && !IF(n, 'R1', 'g0/1').natIn), C('Pinapayagan ng ACL 1 ang LAN', 'ACL 1 permits the LAN', n => IOS.aclPermits(D(n, 'R1'), '1', { src: '192.168.70.10', dst: '8.8.8.8', proto: 'ip' })), C('PC1 ay naka-ping sa 8.8.8.8', 'PC1 can ping 8.8.8.8', n => ping(n, 'PC1', '8.8.8.8'))],
+    faults: L('1) Baliktad ang NAT: G0/0 ay outside at G0/1 ay inside.\n2) ACL 1 ay 192.168.7.0 imbes na 192.168.70.0.', '1) NAT is reversed: G0/0 is outside and G0/1 is inside.\n2) ACL 1 uses 192.168.7.0 instead of 192.168.70.0.'),
+    fix: { R1: 'interface g0/0\n no ip nat outside\n ip nat inside\ninterface g0/1\n no ip nat inside\n ip nat outside\nno access-list 1\naccess-list 1 permit 192.168.70.0 0.0.0.255', PC1: 'ping 8.8.8.8' } });
+  // 6) DHCP pool wrong
+  TS.push({ tf: 'Troubleshoot: Walang IP ang mga PC (DHCP)', te: 'Troubleshoot: PCs Get No Address (DHCP)', sf: 'Ang R1 ang DHCP server ng 192.168.75.0/24 (gateway .1). Walang nakukuhang IP ang mga PC, at kahit may makuha, mali ang gateway. May tatlong sira.', se: 'R1 is the DHCP server for 192.168.75.0/24 (gateway .1). The PCs get no address, and even if they did, the gateway would be wrong. There are three faults.',
+    topo: { devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\nip address 192.168.75.1 255.255.255.0\nshutdown\nip dhcp excluded-address 192.168.75.1 192.168.75.10\nip dhcp pool OFFICE\nnetwork 192.168.57.0 255.255.255.0\ndefault-router 192.168.75.254\ndns-server 8.8.8.8'), sw('SW1')], hosts: [{ name: 'PC1', dhcp: true }, { name: 'PC2', dhcp: true }], links: [['R1', 'g0/0', 'SW1', 'g0/1'], ['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW1', 'fa0/2', 'PC2', 'eth0']] },
+    diagram: { w: 520, h: 210, nodes: { R1: [260, 40], SW1: [260, 115], PC1: [150, 180], PC2: [370, 180] } },
+    tasks: [C('Tama ang pool (network at gateway)', 'The pool is correct (network and gateway)', n => { const q = D(n, 'R1').dhcp.pools.OFFICE; return q && q.net === '192.168.75.0' && q.gw === '192.168.75.1'; }), C('Nakakuha ng IP ang PC1 at PC2', 'PC1 and PC2 got an address', n => ['PC1', 'PC2'].every(h => inSub(hostIp(n, h), '192.168.75.0', M24))), C('PC1 ay naka-ping sa gateway (192.168.75.1)', 'PC1 can ping the gateway (192.168.75.1)', n => !!hostIp(n, 'PC1') && ping(n, 'PC1', '192.168.75.1'))],
+    faults: L('1) Naka-shutdown ang G0/0 ng R1.\n2) Ang pool ay 192.168.57.0 imbes na 192.168.75.0.\n3) Ang default-router ay .254 imbes na .1.', '1) R1 G0/0 is shut down.\n2) The pool is 192.168.57.0 instead of 192.168.75.0.\n3) The default-router is .254 instead of .1.'),
+    fix: { R1: 'interface g0/0\n no shutdown\nip dhcp pool OFFICE\n network 192.168.75.0 255.255.255.0\n default-router 192.168.75.1', PC2: 'ipconfig /renew', PC1: 'ipconfig /renew\nping 192.168.75.1' } });
+  // 7) host settings
+  TS.push({ tf: 'Troubleshoot: Maling Settings ng PC', te: 'Troubleshoot: Wrong PC Settings', sf: 'Gumagana ang mga router (naka-static route na). Pero hindi maka-ping ang PC1 sa PC2. Ang sira ay nasa mga PC mismo. Gamitin ang <code>ipconfig</code> at <code>ip &lt;addr&gt; &lt;mask&gt; &lt;gw&gt;</code> sa PC tab.', se: 'The routers work (static routes are in place). But PC1 cannot ping PC2. The faults are on the PCs themselves. Use <code>ipconfig</code> and <code>ip &lt;addr&gt; &lt;mask&gt; &lt;gw&gt;</code> on the PC tab.',
+    topo: (() => { const t = r12('ip route 192.168.2.0 255.255.255.0 10.0.12.2', 'ip route 192.168.1.0 255.255.255.0 10.0.12.1'); t.hosts = [{ name: 'PC1', ip: '192.168.1.10', mask: M24, gw: '192.168.1.254' }, { name: 'PC2', ip: '192.168.2.10', mask: '255.255.255.252', gw: '192.168.2.1' }]; return t; })(), diagram: r12Diag,
+    tasks: [C('Tama ang gateway ng PC1', 'PC1\'s gateway is correct', n => n.hosts.PC1.gw === '192.168.1.1'), C('Tama ang subnet mask ng PC2', 'PC2\'s subnet mask is correct', n => n.hosts.PC2.mask === M24), C('PC1 ay naka-ping sa PC2', 'PC1 can ping PC2', n => ping(n, 'PC1', '192.168.2.10'))],
+    faults: L('1) PC1: gateway 192.168.1.254 imbes na 192.168.1.1.\n2) PC2: mask /30 imbes na /24, kaya wala sa iisang subnet ang gateway nito.', '1) PC1: gateway 192.168.1.254 instead of 192.168.1.1.\n2) PC2: mask /30 instead of /24, so its gateway is not in its subnet.'),
+    fix: { PC1: 'ip 192.168.1.10 255.255.255.0 192.168.1.1', PC2: 'ip 192.168.2.10 255.255.255.0 192.168.2.1', 'PC1 ': 'ping 192.168.2.10' } });
+  // 8) trunk problems
+  TS.push({ tf: 'Troubleshoot: Trunk sa Pagitan ng Switch', te: 'Troubleshoot: Trunk Between Switches', sf: 'May VLAN 10 at VLAN 20 sa parehong switch. PC1 at PC3 ay VLAN 10, PC2 at PC4 ay VLAN 20. Ang VLAN 10 lang ang gumagana sa kabilang switch. May dalawang sira sa trunk.', se: 'Both switches have VLAN 10 and VLAN 20. PC1 and PC3 are in VLAN 10, PC2 and PC4 in VLAN 20. Only VLAN 10 works across the switches. There are two trunk faults.',
+    topo: { devices: [sw('SW1', 'hostname SW1\nvlan 10\nvlan 20\ninterface fa0/1\nswitchport mode access\nswitchport access vlan 10\ninterface fa0/2\nswitchport mode access\nswitchport access vlan 20\ninterface g0/1\nswitchport mode trunk\nswitchport trunk native vlan 99'), sw('SW2', 'hostname SW2\nvlan 10\nvlan 20\ninterface fa0/1\nswitchport mode access\nswitchport access vlan 10\ninterface fa0/2\nswitchport mode access\nswitchport access vlan 20\ninterface g0/1\nswitchport mode trunk\nswitchport trunk allowed vlan 10')], hosts: [{ name: 'PC1', ip: '192.168.10.11', mask: M24 }, { name: 'PC2', ip: '192.168.20.11', mask: M24 }, { name: 'PC3', ip: '192.168.10.12', mask: M24 }, { name: 'PC4', ip: '192.168.20.12', mask: M24 }], links: [['SW1', 'g0/1', 'SW2', 'g0/1'], ['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW1', 'fa0/2', 'PC2', 'eth0'], ['SW2', 'fa0/1', 'PC3', 'eth0'], ['SW2', 'fa0/2', 'PC4', 'eth0']] },
+    diagram: { w: 540, h: 200, nodes: { SW1: [150, 60], SW2: [390, 60], PC1: [80, 160], PC2: [220, 160], PC3: [320, 160], PC4: [460, 160] } },
+    tasks: [C('Pareho ang native VLAN sa dalawang dulo', 'The native VLAN matches on both ends', n => IF(n, 'SW1', 'g0/1').native === IF(n, 'SW2', 'g0/1').native), C('Dumadaan ang VLAN 20 sa trunk ng SW2', 'VLAN 20 is allowed on SW2\'s trunk', n => { const f = IF(n, 'SW2', 'g0/1'); return f.allowed === 'all' || f.allowed.has(20); }), C('PC1 ay naka-ping sa PC3 (VLAN 10) at PC2 sa PC4 (VLAN 20)', 'PC1 can ping PC3 (VLAN 10) and PC2 can ping PC4 (VLAN 20)', n => IF(n, 'SW1', 'g0/1').native === IF(n, 'SW2', 'g0/1').native && ping(n, 'PC1', '192.168.10.12') && ping(n, 'PC2', '192.168.20.12'))],
+    faults: L('1) Native VLAN mismatch: 99 sa SW1, 1 sa SW2.\n2) SW2 G0/1: allowed VLAN 10 lang, kaya bawal ang VLAN 20.', '1) Native VLAN mismatch: 99 on SW1, 1 on SW2.\n2) SW2 G0/1: only VLAN 10 is allowed, so VLAN 20 is blocked.'),
+    fix: { SW1: 'interface g0/1\n no switchport trunk native vlan 99', SW2: 'interface g0/1\n switchport trunk allowed vlan 10,20', PC2: 'ping 192.168.20.12' } });
+  // 9) EtherChannel mismatch
+  TS.push({ tf: 'Troubleshoot: Hindi Bumubuo ang EtherChannel', te: 'Troubleshoot: EtherChannel Will Not Form', sf: 'Dapat LACP Port-channel 1 ang G0/1-2 sa pagitan ng SW1 at SW2, trunk, at nasa VLAN 10 ang dalawang PC. Hindi up ang Po1 at hindi magka-ping ang mga PC. May dalawang sira.', se: 'G0/1-2 between SW1 and SW2 should be LACP Port-channel 1, trunking, with both PCs in VLAN 10. Po1 is not up and the PCs cannot ping. There are two faults.',
+    topo: { devices: [sw('SW1', 'hostname SW1\nvlan 10\ninterface range g0/1 - 2\nchannel-group 1 mode on\ninterface port-channel 1\nswitchport mode trunk\ninterface fa0/1\nswitchport mode access\nswitchport access vlan 10'), sw('SW2', 'hostname SW2\nvlan 10\nvlan 20\ninterface range g0/1 - 2\nchannel-group 1 mode active\ninterface port-channel 1\nswitchport mode trunk\ninterface fa0/1\nswitchport mode access\nswitchport access vlan 20')], hosts: [{ name: 'PC1', ip: '192.168.10.11', mask: M24 }, { name: 'PC2', ip: '192.168.10.12', mask: M24 }], links: [['SW1', 'g0/1', 'SW2', 'g0/1'], ['SW1', 'g0/2', 'SW2', 'g0/2'], ['SW1', 'fa0/1', 'PC1', 'eth0'], ['SW2', 'fa0/1', 'PC2', 'eth0']] },
+    diagram: { w: 520, h: 190, nodes: { SW1: [150, 60], SW2: [370, 60], PC1: [150, 150], PC2: [370, 150] } },
+    tasks: [C('LACP sa parehong dulo at up ang Po1', 'LACP on both ends and Po1 is up', n => ['SW1', 'SW2'].every(x => ['g0/1', 'g0/2'].every(p => /active|passive/.test(IF(n, x, p).cg?.mode || '')) && IOS.ifUp(n, D(n, x), 'Port-channel1'))), C('Nasa VLAN 10 ang dalawang PC port', 'Both PC ports are in VLAN 10', n => acc(n, 'SW1', 'fa0/1', 10) && acc(n, 'SW2', 'fa0/1', 10)), C('PC1 ay naka-ping sa PC2', 'PC1 can ping PC2', n => ping(n, 'PC1', '192.168.10.12'))],
+    faults: L('1) SW1 ay mode on (static) pero LACP active ang SW2. Hindi sila magkatugma.\n2) SW2 Fa0/1 ay nasa VLAN 20 imbes na 10.', '1) SW1 uses mode on (static) but SW2 uses LACP active. They do not match.\n2) SW2 Fa0/1 is in VLAN 20 instead of 10.'),
+    fix: { SW1: 'interface range g0/1 - 2\n no channel-group 1\n channel-group 1 mode active\ninterface port-channel 1\n switchport mode trunk', SW2: 'interface fa0/1\n switchport access vlan 10', PC1: 'ping 192.168.10.12' } });
+  // 10) HSRP mismatch
+  TS.push({ tf: 'Troubleshoot: HSRP', te: 'Troubleshoot: HSRP', sf: 'Dapat isang HSRP group 1 ang R1 at R2 na may virtual IP 192.168.90.254. Ang R1 ang Active (priority 110, preempt), ang R2 ang Standby. Dalawang Active ang lumalabas ngayon. May tatlong sira.', se: 'R1 and R2 should share HSRP group 1 with virtual IP 192.168.90.254. R1 is Active (priority 110, preempt) and R2 is Standby. Right now both show Active. There are three faults.',
+    topo: { devices: [routerSpec('R1', 'hostname R1\ninterface g0/0\n' + ipL('192.168.90.2', M24) + '\nstandby 1 ip 192.168.90.254\nstandby 1 priority 90'), routerSpec('R2', 'hostname R2\ninterface g0/0\n' + ipL('192.168.90.3', M24) + '\nstandby 2 ip 192.168.90.253'), sw('SW1')], hosts: [{ name: 'PC1', ip: '192.168.90.10', mask: M24, gw: '192.168.90.254' }], links: [['R1', 'g0/0', 'SW1', 'g0/1'], ['R2', 'g0/0', 'SW1', 'g0/2'], ['SW1', 'fa0/1', 'PC1', 'eth0']] },
+    diagram: { w: 520, h: 200, nodes: { R1: [140, 45], R2: [380, 45], SW1: [260, 120], PC1: [260, 180] } },
+    tasks: [C('Iisang group (1) at VIP sa R1 at R2', 'One group (1) and one VIP on R1 and R2', n => ['R1', 'R2'].every(x => IF(n, x, 'g0/0').standby['1']?.ip === '192.168.90.254') && !IF(n, 'R2', 'g0/0').standby['2']), C('R1 = Active, R2 = Standby', 'R1 = Active, R2 = Standby', n => IOS.hsrpState(n, D(n, 'R1'), 'GigabitEthernet0/0', '1')?.state === 'Active' && IOS.hsrpState(n, D(n, 'R2'), 'GigabitEthernet0/0', '1')?.state === 'Standby'), C('PC1 ay naka-ping sa 192.168.90.254', 'PC1 can ping 192.168.90.254', n => !IF(n, 'R2', 'g0/0').standby['2'] && ping(n, 'PC1', '192.168.90.254'))],
+    faults: L('1) R2 ay group 2 imbes na group 1.\n2) R2 ay may VIP na .253 imbes na .254.\n3) R1 ay priority 90 at walang preempt.', '1) R2 uses group 2 instead of group 1.\n2) R2 has VIP .253 instead of .254.\n3) R1 has priority 90 and no preempt.'),
+    fix: { R2: 'interface g0/0\n no standby 2\n standby 1 ip 192.168.90.254', R1: 'interface g0/0\n standby 1 priority 110\n standby 1 preempt', PC1: 'ping 192.168.90.254' } });
+  TS.forEach((v, i) => ch('ts', i, 'ts', v.tf, v.te, c => ({
+    desc: L(`Dating gumagana ang network ng ${c.f}, pero may nagbago ng config. Hanapin at ayusin ang mga sira.`, `The ${c.e}'s network used to work, but someone changed the config. Find and fix the faults.`),
+    scenario: L(v.sf, v.se), topo: v.topo, diagram: v.diagram, tasks: v.tasks,
+    solution: Object.assign({ [L('Mga sira', 'Faults')]: v.faults }, v.fix)
+  })));
+
+  // ---------- categories for the first 11 challenges ----------
+  const OLD = { 'ch-branch': 'svc', 'ch-ospf-nat': 'rt', 'ch-secure': 'sec', 'ch-ts-vlan': 'ts', 'ch-ts-ospf': 'ts', 'ch-acl': 'sec', 'ch-hsrp-relay': 'rt', 'ch-campus': 'sw', 'ch-dual-isp': 'rt', 'ch-harden': 'sec', 'ch-services': 'svc' };
+  for (const [id, cat] of Object.entries(OLD)) if (LABS[id]) { LABS[id].cat = cat; if (id === 'ch-branch' || id === 'ch-ts-vlan') LABS[id].free = true; }
+  window.CH_CATS = [['sw', L('Switching at VLAN', 'Switching and VLANs')], ['rt', L('Routing', 'Routing')], ['svc', L('IP Services', 'IP Services')], ['sec', L('Security', 'Security')], ['ts', L('Troubleshooting', 'Troubleshooting')]];
+})();
+
+;
 /* CCNA 200-301 Practice Exam: 100 questions, weighted by the official blueprint */
 window.EXAM_DOMAINS = [
   { name: 'Network Fundamentals', weight: 20 },
@@ -10962,7 +11604,7 @@ interface g0/0.10
     const t = (f, e) => (typeof __EN !== 'undefined' && __EN) ? e : f;
     const page = h(`<div class="page"><div class="lesson-head"><div class="row prof-head"><div class="av-edit"><button type="button" class="av-btn" data-a="pick" aria-label="${t('Palitan ang larawan', 'Change photo')}" title="${t('Mag-upload ng larawan', 'Upload a photo')}">${avHtml(u, 'lg', ctx.S)}<span class="av-cam" aria-hidden="true">${ctx.icon('cam')}</span></button><input type="file" accept="image/*" hidden></div><div><h1>${esc(u.name)}</h1><p class="muted small">@${esc(u.user)} · ${ROLES[u.role]}</p><div class="row av-acts"><button type="button" class="btn sm" data-a="pick">${ctx.icon('cam')}${photoOf(u, ctx.S) ? t('Palitan ang larawan', 'Change photo') : t('Mag-upload ng larawan', 'Upload photo')}</button>${photoOf(u, ctx.S) ? `<button type="button" class="btn sm ghost" data-a="rm">${t('Alisin', 'Remove')}</button>` : ''}</div></div></div></div></div>`);
     const fi = page.querySelector('input[type=file]');
-    page.querySelectorAll('[data-a=pick]').forEach(b => b.onclick = () => fi.click());
+    page.querySelectorAll('[data-a=pick]').forEach(b => b.onclick = () => { const P = window.PREMIUM; if (P && !P.can('photo')) { ctx.toast(t('Premium ang paglalagay ng larawan sa profile.', 'A profile photo is a Premium feature.')); location.hash = '#upgrade'; return; } fi.click(); });
     fi.onchange = async () => {
       const f = fi.files && fi.files[0]; fi.value = ''; if (!f) return;
       try { ctx.S.photo = await shrinkPhoto(f); ctx.save(); if (ctx.paintMe) ctx.paintMe(); ctx.toast(t('Na-save ang larawan.', 'Photo saved.')); ctx.route(); }
@@ -11127,7 +11769,18 @@ interface g0/0.10
     const ch = (window.CURRICULUM || []).find(c => c.lessons.some(l => l.id === id)); if (!ch) return true;
     return FREE_CH.includes(ch.id) || ch.lessons[0].id === id;
   }
-  const labFree = id => { const l = (window.LABS || {})[id]; return !l || (!l.challenge && (l.level || 'Basic') === 'Basic'); };
+  const labFree = id => { const l = (window.LABS || {})[id]; return !l || (l.challenge ? !!l.free : (l.level || 'Basic') === 'Basic'); };
+  const chapterFree = id => FREE_CH.includes(id);
+  // Limits for Free users in Practice & References and Account (Premium removes all of them)
+  const LIMITS = { designs: 2, devices: 15, subnetDay: 20, planWeeks: 4 };
+  const PREM_PAL = ['warm'];
+  const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+  // questions answered today in the Subnetting Trainer (counted from the running total, so the trainer code stays as it is)
+  function subnetToday() {
+    const s = S(); if (!s.sn) return 0; const d = today();
+    if (!s.snDay || s.snDay.d !== d) { s.snDay = { d, base: s.sn.total || 0 }; SAVE(); }
+    return Math.max(0, (s.sn.total || 0) - s.snDay.base);
+  }
 
   // ---------- access status ----------
   function status(sIn) {
@@ -11143,6 +11796,8 @@ interface g0/0.10
   const allowLesson = id => isPremium() || lessonFree(id);
   const allowLab = id => isPremium() || labFree(id);
   const allowFullExam = () => isPremium();
+  // feature: 'auto' (Designer auto-design), 'photo' (profile photo), 'examKey' (answer key of the 120 exam), 'pal:<id>' (color palette)
+  const can = f => isPremium() || !(f === 'auto' || f === 'photo' || f === 'examKey' || (f.startsWith('pal:') && PREM_PAL.includes(f.slice(4))));
 
   // auto free trial for brand-new trainees (Admin sets the number of days)
   function init() {
@@ -11211,15 +11866,22 @@ interface g0/0.10
     if (st.src === 'staff') return t('Admin/Trainor: bukas ang lahat ng lessons, labs at exam.', 'Admin/Trainor: every lesson, lab and exam is open.');
     if (st.src === 'noacct') return '';
     if (st.tier === 'premium') return `${st.src === 'promo' ? t('Libre ang Premium para sa lahat', 'Premium is free for everyone') : st.src === 'trial' ? t('Free trial', 'Free trial') : 'Premium'} ${t('hanggang', 'until')} <b>${fmt(st.until)}</b> (${t('natitira', 'left')}: ${left(st.until - Date.now())})${st.note ? ` · ${esc(st.note)}` : ''}`;
-    return st.src === 'expired' ? t(`Natapos ang Premium mo noong ${fmt(st.was)}.`, `Your Premium ended on ${fmt(st.was)}.`) : t('Free plan: Chapter 1–2, unang lesson ng bawat chapter, Basic labs, at Mini exam.', 'Free plan: Chapters 1–2, the first lesson of every chapter, Basic labs, and the Mini exam.');
+    return st.src === 'expired' ? t(`Natapos ang Premium mo noong ${fmt(st.was)}.`, `Your Premium ended on ${fmt(st.was)}.`) : t('Free plan: Chapter 1–2, unang lesson ng bawat chapter, Basic labs, ilang challenge, Mini exam, at limitadong tools.', 'Free plan: Chapters 1–2, the first lesson of every chapter, Basic labs, some challenges, the Mini exam, and limited tools.');
   }
   function lockCard(kind) {
-    const what = kind === 'lab' ? t('Premium lab ito', 'This is a Premium lab') : kind === 'exam' ? t('Premium ang buong 120-question exam', 'The full 120-question exam is Premium') : t('Premium lesson ito', 'This is a Premium lesson');
+    const what = kind === 'challenge' ? t('Premium challenge ito', 'This is a Premium challenge') : kind === 'lab' ? t('Premium lab ito', 'This is a Premium lab') : kind === 'exam' ? t('Premium ang buong 120-question exam', 'The full 120-question exam is Premium') : t('Premium lesson ito', 'This is a Premium lesson');
     const c = cfg();
     return h(`<div class="page"><div class="card stack prem-lock"><div class="prem-lock-ic">${ICON}</div><h2>${what}</h2>
-      <p class="muted">${t('Sa Free plan, bukas ang Chapter 1–2, ang unang lesson ng bawat chapter, ang lahat ng Basic labs, ang Mini exam (30), ang Network Designer at Subnetting Trainer.', 'On the Free plan you get Chapters 1–2, the first lesson of every chapter, all Basic labs, the Mini exam (30), the Network Designer and the Subnetting Trainer.')}</p>
+      <p class="muted">${t('Sa Free plan, bukas ang Chapter 1–2, ang unang lesson ng bawat chapter, ang lahat ng Basic labs, ang unang challenge ng bawat uri, ang Mini exam (30), at limitadong Network Designer at Subnetting Trainer.', 'On the Free plan you get Chapters 1–2, the first lesson of every chapter, all Basic labs, the first challenge of each kind, the Mini exam (30), and a limited Network Designer and Subnetting Trainer.')}</p>
       <p>${t('I-unlock ang lahat', 'Unlock everything')}${c.price ? `: <b>₱${esc(c.price)}</b>/${c.period === 'year' ? t('taon', 'year') : t('buwan', 'month')}` : ''}.</p>
       <div class="row"><a class="btn primary" href="#upgrade">${STAR}${t('Mag-upgrade sa Premium', 'Upgrade to Premium')}</a><a class="btn" href="#upgrade">${t('May access code ako', 'I have an access code')}</a></div></div></div>`);
+  }
+  // small inline lock used inside free pages (designer limits, subnet quota, answer key, plan, photo)
+  function lockNote(msg, opt) {
+    opt = opt || {};
+    const el = h(`<div class="prem-note ${opt.compact ? 'compact' : ''}" role="note"><span class="prem-note-ic">${ICON}</span><div class="prem-note-t"><b>${esc(opt.title || t('Para sa Premium', 'Premium feature'))}</b><span class="small">${msg}</span></div><a class="btn sm primary" href="#upgrade">${STAR}${t('Mag-upgrade', 'Upgrade')}</a></div>`);
+    if (!me() || (me().role !== 'trainee')) el.querySelector('a').remove();
+    return el;
   }
   function decorate(root) {
     if (isPremium()) { (root || document).querySelectorAll('.is-locked').forEach(a => { a.classList.remove('is-locked'); const i = a.querySelector('.lock-i'); if (i) i.remove(); }); return; }
@@ -11235,8 +11897,8 @@ interface g0/0.10
     const page = h(`<div class="page"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payment')}</h1><p class="muted" style="max-width:70ch">${t('Bayaran ang Admin o Trainor mo gamit ang GCash o Maya, ipadala ang reference number, at bibigyan ka nila ng access code.', 'Pay your Admin or Trainor through GCash or Maya, send the reference number, and they will give you an access code.')}</p></div></div>`);
     page.appendChild(h(`<div class="card stack prem-status"><div class="row between"><h3>${t('Ang plan mo', 'Your plan')}</h3>${badge(st)}</div><p class="small">${statusLine(st)}</p></div>`));
     page.appendChild(h(`<div class="prem-plans">
-      <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Lahat ng Basic labs', 'All Basic labs')} (${Object.keys(window.LABS || {}).filter(labFree).length})</li><li>Mini exam (30)</li><li>Network Designer, Subnetting, Cheat sheets, Glossary</li></ul></div>
-      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3><p class="prem-price">${c.price ? `₱${esc(c.price)}<small>/${c.period === 'year' ? t('taon', 'year') : t('buwan', 'month')}</small>` : t('Tanungin ang Admin', 'Ask the Admin')}</p><ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Lahat ng nasa Free', 'Everything in Free')}</li></ul></div></div>`));
+      <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Lahat ng Basic labs', 'All Basic labs')} (${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length})</li><li>${t('Lab challenges', 'Lab challenges')}: ${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length} ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam (30)</li><li>${t(`Network Designer: hanggang ${LIMITS.designs} design at ${LIMITS.devices} device bawat design, walang Auto-design`, `Network Designer: up to ${LIMITS.designs} designs and ${LIMITS.devices} devices each, no Auto-design`)}</li><li>${t(`Subnetting Trainer: ${LIMITS.subnetDay} tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: ${LIMITS.subnetDay} questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
+      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3><p class="prem-price">${c.price ? `₱${esc(c.price)}<small>/${c.period === 'year' ? t('taon', 'year') : t('buwan', 'month')}</small>` : t('Tanungin ang Admin', 'Ask the Admin')}</p><ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
       const has = c.gcash || c.maya;
@@ -11334,7 +11996,7 @@ interface g0/0.10
     main.appendChild(page);
   }
 
-  window.PREMIUM = { status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
+  window.PREMIUM = { status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
 })();
 
 ;
@@ -11435,6 +12097,9 @@ interface g0/0.10
 
   // ---------- design model ----------
   function newDesign(name, plan) { return { v: 1, id: uid(), name, plan: plan || 'office', devs: {}, links: [], log: [], seq: {}, created: Date.now(), updated: Date.now(), mission: null }; }
+  // Each Internet (ISP) cloud on the floor plan gets its own public block, so two ISPs never clash.
+  const ISPNETS = ['203.0.113', '198.51.100', '192.0.2', '100.64.10', '100.64.20', '100.64.30'];
+  function ispNet(D, id) { if (!D) return ISPNETS[0]; const isps = Object.keys(D.devs).filter(k => D.devs[k].k === 'isp'); return ISPNETS[Math.max(0, isps.indexOf(id)) % ISPNETS.length]; }
   function addDev(D, k, x, y) {
     const pre = K[k].pre; D.seq[pre] = (D.seq[pre] || 0) + 1; let id = pre + D.seq[pre];
     while (D.devs[id]) { D.seq[pre]++; id = pre + D.seq[pre]; }
@@ -11461,7 +12126,7 @@ interface g0/0.10
     L.push('ip routing', 'interface Vlan1', `ip address ${lan.ip} ${lan.mask}`, 'ip nat inside', 'no shutdown', 'interface GigabitEthernet0/0', 'no switchport');
     let wan = null;
     if (c.wan === 'static') { const w = parseCidr(c.wanIp); if (w && isIp(c.wanGw)) wan = { ip: w.ip, mask: w.mask, gw: c.wanGw }; }
-    else { const l = D.links.find(l => (l.a === d.id && l.ai === 'GigabitEthernet0/0') || (l.b === d.id && l.bi === 'GigabitEthernet0/0')); if (l) { const peer = l.a === d.id ? l.b : l.a, pp = l.a === d.id ? l.bi : l.ai; if (D.devs[peer] && K[D.devs[peer].k].isp) { const i = +pp.split('/').pop(); wan = { ip: `203.0.113.${4 * i + 2}`, mask: '255.255.255.252', gw: `203.0.113.${4 * i + 1}` }; } } }
+    else { const l = D.links.find(l => (l.a === d.id && l.ai === 'GigabitEthernet0/0') || (l.b === d.id && l.bi === 'GigabitEthernet0/0')); if (l) { const peer = l.a === d.id ? l.b : l.a, pp = l.a === d.id ? l.bi : l.ai; if (D.devs[peer] && K[D.devs[peer].k].isp) { const i = +pp.split('/').pop(), nb = ispNet(D, peer); wan = { ip: `${nb}.${4 * i + 2}`, mask: '255.255.255.252', gw: `${nb}.${4 * i + 1}` }; } } }
     if (wan) L.push(`ip address ${wan.ip} ${wan.mask}`, 'ip nat outside', 'no shutdown', `ip route 0.0.0.0 0.0.0.0 ${wan.gw}`, 'access-list 1 permit any', 'ip nat inside source list 1 interface GigabitEthernet0/0 overload');
     else L.push('no shutdown');
     if (c.dhcp) {
@@ -11478,7 +12143,7 @@ interface g0/0.10
   function baseCfg(d, D) {
     const k = K[d.k]; if (k.soho && D) return sohoCfg(D, d);
     const L = [`hostname ${d.id}`];
-    if (k.isp) { L.push('interface Loopback0', 'ip address 8.8.8.8 255.255.255.255', 'interface Loopback1', 'ip address 1.1.1.1 255.255.255.255'); for (let i = 0; i < 4; i++) L.push(`interface GigabitEthernet0/${i}`, `ip address 203.0.113.${4 * i + 1} 255.255.255.252`, 'no shutdown'); }
+    if (k.isp) { L.push('interface Loopback0', 'ip address 8.8.8.8 255.255.255.255', 'interface Loopback1', 'ip address 1.1.1.1 255.255.255.255'); for (let i = 0; i < 4; i++) L.push(`interface GigabitEthernet0/${i}`, `ip address ${ispNet(D, d.id)}.${4 * i + 1} 255.255.255.252`, 'no shutdown'); }
     if (['unmanaged', 'ap', 'apout', 'ips', 'smart', 'hub'].includes(d.k)) for (const p of portList(d)) L.push(`interface ${p}`, 'switchport mode access');
     return L.join('\n');
   }
@@ -12070,7 +12735,7 @@ interface g0/0.10
       const w = tryLink(isp, up);
       if (w) {
         const ip = portOf(w, isp), idx = +ip.split('/').pop(), wan = portOf(w, up);
-        const ispIp = `203.0.113.${4 * idx + 1}`, myIp = `203.0.113.${4 * idx + 2}`;
+        const nb = ispNet(D, isp), ispIp = `${nb}.${4 * idx + 1}`, myIp = `${nb}.${4 * idx + 2}`;
         log(up, [`interface ${wan}`, `ip address ${myIp} 255.255.255.252`, 'ip nat outside', 'no shutdown', `ip route 0.0.0.0 0.0.0.0 ${ispIp}`, 'access-list 1 permit any', `ip nat inside source list 1 interface ${wan} overload`]);
         if (D.devs[up].k === 'firewall') D.devs[up].cfg.zones[wan] = 'outside';
         R.done.push((__EN?`${Lb(up)}: ${myIp}/30 to the ISP, NAT (PAT) and default route${D.devs[up].k === 'firewall' ? ', zones inside/outside' : ''}`:`${Lb(up)}: ${myIp}/30 papunta sa ISP, NAT (PAT) at default route${D.devs[up].k === 'firewall' ? ', zones inside/outside' : ''}`));
@@ -12221,6 +12886,9 @@ interface g0/0.10
     const terms = {};
     const narrow = () => innerWidth < 900;
     let zoom = null;
+    let msel = new Set(), band = null, pan = null, placedN = 0;
+    const PR = window.PREMIUM || null, freeDz = () => !!PR && !PR.isPremium(), TT = (f, e) => __EN ? e : f;
+    const designLimit = () => { if (!freeDz() || Object.keys(S.designs).length < PR.LIMITS.designs) return false; toast(TT(`Free plan: hanggang ${PR.LIMITS.designs} design lang. Burahin ang isa o mag-upgrade.`, `Free plan: up to ${PR.LIMITS.designs} designs. Delete one or upgrade.`)); return true; };
     main.classList.add('dz-host');
 
     const page = h((__EN?`<div class="page wide dz">
@@ -12270,7 +12938,7 @@ interface g0/0.10
     function drawPal() {
       cats.innerHTML = GROUPS.map(([g, t]) => `<button class="dz-cat ${openCat === g ? 'on' : ''} ${placing && K[placing].g === g ? 'has' : ''}" data-cat="${g}" aria-expanded="${openCat === g}" title="${t}"><svg viewBox="-26 -22 52 44" aria-hidden="true">${FIG.ICON[GIC[g]] || XI[GIC[g]]}</svg><span>${t}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`).join('');
       pal.hidden = !openCat;
-      pal.innerHTML = openCat ? `<div class="dz-pal-h">${GROUPS.find(g => g[0] === openCat)[1]}</div>` + Object.entries(K).filter(([, k]) => k.g === openCat).map(([id, k]) => `<button class="dz-pi ${placing === id ? 'on' : ''}" data-k="${id}" title="${esc(k.d)}" ${k.isp && Object.values(D.devs).some(d => d.k === 'isp') ? 'disabled' : ''}><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(id)}</svg><b>${k.n}</b><span>${esc(k.d)}</span></button>`).join('') : '';
+      pal.innerHTML = openCat ? `<div class="dz-pal-h">${GROUPS.find(g => g[0] === openCat)[1]}</div>` + Object.entries(K).filter(([, k]) => k.g === openCat).map(([id, k]) => `<button class="dz-pi ${placing === id ? 'on' : ''}" data-k="${id}" title="${esc(k.d)}"><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(id)}</svg><b>${k.n}</b><span>${esc(k.d)}</span></button>`).join('') : '';
     }
     cats.addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; openCat = openCat === b.dataset.cat ? null : b.dataset.cat; panMenu = false; closeCtx(); drawPal(); drawTools(); });
     const onDocDown = e => {
@@ -12278,7 +12946,7 @@ interface g0/0.10
       if (ctxm && !e.target.closest('.dz-ctx')) closeCtx();
     };
     document.addEventListener('pointerdown', onDocDown);
-    pal.addEventListener('click', e => { const b = e.target.closest('.dz-pi'); if (!b || b.disabled) return; if (dragGhost && dragGhost.moved) return; placing = placing === b.dataset.k ? null : b.dataset.k; pending = null; openCat = null; drawPal(); drawTools(); });
+    pal.addEventListener('click', e => { const b = e.target.closest('.dz-pi'); if (!b || b.disabled) return; if (dragGhost && dragGhost.moved) return; placing = placing === b.dataset.k ? null : b.dataset.k; placedN = 0; pending = null; openCat = null; drawPal(); drawTools(); });
     // mouse drag from palette
     let dragGhost = null;
     pal.addEventListener('pointerdown', e => {
@@ -12291,9 +12959,10 @@ interface g0/0.10
 
     function place(k, x, y) {
       const P = plan(); x = Math.max(30, Math.min(P.w - 30, x)); y = Math.max(30, Math.min(P.h - 40, y));
-      if (K[k].isp && Object.values(D.devs).some(d => d.k === 'isp')) { toast((__EN?"Only one Internet (ISP) per design.":'Isang Internet (ISP) lang bawat design.')); return; }
-      const id = addDev(D, k, x, y); SND('place'); placing = null; sel = { t: 'dev', id }; rebuild(); persist(); drawAll();
-      toast(K[k].note ? (__EN?"Note placed. Double-click (or double-tap) to write the text.":'Nailagay ang note. I-double-click (o double-tap) para isulat ang text.') : (__EN?`${K[k].n} (${id}) placed. Drag ⊕ onto another device to add a cable.`:`${K[k].n} (${id}) nailagay. I-drag ang ⊕ papunta sa ibang device para mag-cable.`));
+      if (freeDz() && !K[k].note && Object.values(D.devs).filter(d => !K[d.k].note).length >= PR.LIMITS.devices) { toast(TT(`Free plan: hanggang ${PR.LIMITS.devices} device bawat design. Mag-upgrade para walang limit.`, `Free plan: up to ${PR.LIMITS.devices} devices per design. Upgrade for no limit.`)); placing = null; drawPal(); drawTools(); return; }
+      const id = addDev(D, k, x, y); SND('place'); msel.clear(); sel = { t: 'dev', id }; rebuild(); persist(); drawAll();
+      if (K[k].note) { placing = null; drawPal(); drawTools(); toast((__EN?"Note placed. Double-click (or double-tap) to write the text.":'Nailagay ang note. I-double-click (o double-tap) para isulat ang text.')); return; }
+      if (++placedN === 1) toast(TT(`${K[k].n} (${id}) nailagay. Click ulit para magdagdag pa; Esc o right-click para tumigil.`, `${K[k].n} (${id}) placed. Click again to add more; Esc or right-click to stop.`));
     }
 
     // ---------- tools: panels menu, undo/redo, zoom ----------
@@ -12308,11 +12977,11 @@ interface g0/0.10
       tools.innerHTML = `<div class="seg dz-ur"><button data-u="undo" aria-label="Undo" title="Undo (Ctrl+Z)" ${hist.length ? '' : 'disabled'}>↶</button><button data-u="redo" aria-label="Redo" title="Redo (Ctrl+Y)" ${fwd.length ? '' : 'disabled'}>↷</button></div>
         <div class="seg dz-zoom"><button data-z="-" aria-label="Zoom out">−</button><select data-zs aria-label="Zoom"><option value="fit" ${!zoom ? 'selected' : ''}>Fit${!zoom ? ` (${z}%)` : ''}</option>${ZP.map(p => `<option value="${p}" ${zoom && Math.round(zoom * 100) === p ? 'selected' : ''}>${p}%</option>`).join('')}${zoom && !ZP.includes(Math.round(zoom * 100)) ? `<option selected value="${Math.round(zoom * 100)}">${Math.round(zoom * 100)}%</option>` : ''}</select><button data-z="+" aria-label="Zoom in">+</button></div>`;
       const touch = matchMedia('(hover: none)').matches;
-      hint.textContent = placing ? (__EN?`${touch ? (__EN?"Tap":'I-tap') : (__EN?"Click":'I-click')} the floor plan where you want to place the ${K[placing].n}. Esc to cancel.`:`${touch ? (__EN?"Tap":'I-tap') : (__EN?"Click":'I-click')} ang floor plan kung saan ilalagay ang ${K[placing].n}. Esc para kanselahin.`)
+      hint.textContent = placing ? TT(`${touch ? (__EN?"Tap":'I-tap') : (__EN?"Click":'I-click')} ang floor plan: ${K[placing].n} ang ilalagay sa bawat ${touch ? 'tap' : 'click'}. ${touch ? 'Pindutin ulit ang device sa toolbar' : 'Esc o right-click'} para tumigil.`, `${touch ? 'Tap' : 'Click'} the floor plan: every ${touch ? 'tap' : 'click'} adds a ${K[placing].n}. ${touch ? 'Tap the device in the toolbar again' : 'Esc or right-click'} to stop.`)
         : pending ? (__EN?`${L(pending)}: ${touch ? (__EN?"tap":'i-tap') : (__EN?"click":'i-click')} the device to connect the cable to. Esc to cancel.`:`${L(pending)}: ${touch ? (__EN?"tap":'i-tap') : (__EN?"click":'i-click')} ang device na kakabitan ng cable. Esc para kanselahin.`)
           : touch ? (__EN?"Tap: select · Double-tap: config · Long-press: options · Drag ⊕ to another device: cable":'Tap: piliin · Double-tap: config · Pindutin nang matagal: options · I-drag ang ⊕ sa ibang device: cable')
-            : (__EN?"Click: select · Double-click: config · Right-click: options · Drag ⊕ to another device: cable · Delete: remove":'Click: piliin · Double-click: config · Right-click: options · I-drag ang ⊕ sa ibang device: cable · Delete: burahin');
-      const fsb = page.querySelector('[data-act=fs]'); fsb.innerHTML = full ? '<span class="fsi">✕</span><span class="fst">Exit</span>' : '<span class="fsi">⛶</span><span class="fst">Full screen</span>'; fsb.title = full ? (__EN ? 'Exit full screen (Esc)' : (__EN?"Exit full screen (Esc)":'Lumabas sa full screen (Esc)')) : (__EN ? 'Open the designer in full screen' : 'Buksan ang designer sa full screen'); fsb.setAttribute('aria-pressed', full);
+            : TT('Click: piliin · I-drag sa bakante: piliin ang marami · Right-drag: igalaw ang view · Wheel: zoom · Double-click: config · Right-click: options · ⊕: cable · Delete: burahin', 'Click: select · Drag on empty space: select many · Right-drag: move the view · Wheel: zoom · Double-click: config · Right-click: options · ⊕: cable · Delete: delete');
+      const fsb = page.querySelector('[data-act=fs]'); fsb.innerHTML = full ? '<svg class="fsi" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>' : '<svg class="fsi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'; fsb.setAttribute('aria-label', full ? (__EN ? 'Exit full screen' : 'Lumabas sa full screen') : 'Full screen'); fsb.title = full ? (__EN ? 'Exit full screen (Esc)' : (__EN?"Exit full screen (Esc)":'Lumabas sa full screen (Esc)')) : (__EN ? 'Open the designer in full screen' : 'Buksan ang designer sa full screen'); fsb.setAttribute('aria-pressed', full);
     }
     const setZoom = v => { zoom = v == null ? null : Math.max(0.25, Math.min(3, v)); drawTools(); sizeSvg(); };
     const onTools = e => {
@@ -12324,7 +12993,21 @@ interface g0/0.10
     };
     tools.addEventListener('click', onTools); pmEl.addEventListener('click', onTools);
     tools.addEventListener('change', e => { if (e.target.matches('[data-zs]')) setZoom(e.target.value === 'fit' ? null : +e.target.value / 100); });
-    canvas.addEventListener('wheel', e => { if (!e.ctrlKey && !e.metaKey) return; e.preventDefault(); setZoom(curZoom() * (e.deltaY < 0 ? 1.1 : 0.9)); }, { passive: false });
+    function zoomAt(nz, cx, cy) {
+      const r = canvas.getBoundingClientRect(); if (cx == null) { cx = r.left + r.width / 2; cy = r.top + r.height / 2; }
+      const before = toPlan({ clientX: cx, clientY: cy });
+      setZoom(nz); const m = svg.getScreenCTM(); if (!m) return;
+      const pt = svg.createSVGPoint(); pt.x = before.x; pt.y = before.y; const s2 = pt.matrixTransform(m);
+      canvas.scrollLeft += s2.x - cx; canvas.scrollTop += s2.y - cy;
+    }
+    canvas.addEventListener('wheel', e => {
+      const mouse = e.deltaMode === 1 || (Math.abs(e.deltaY) >= 40 && Number.isInteger(e.deltaY) && !e.deltaX);
+      if (!e.ctrlKey && !e.metaKey && !mouse) return; // trackpad two-finger scroll keeps panning
+      e.preventDefault(); zoomAt(curZoom() * (e.deltaY < 0 ? 1.15 : 1 / 1.15), e.clientX, e.clientY);
+    }, { passive: false });
+    const zfab = h(`<div class="dz-zfab" role="group" aria-label="Zoom"><button type="button" data-zf="+" aria-label="Zoom in" title="Zoom in">+</button><button type="button" data-zf="-" aria-label="Zoom out" title="Zoom out">−</button><button type="button" data-zf="fit" aria-label="${TT('Ipakita lahat', 'Fit to screen')}" title="${TT('Ipakita lahat', 'Fit to screen')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>`);
+    { const cw = document.createElement('div'); cw.className = 'dz-cwrap'; canvas.before(cw); cw.appendChild(canvas); cw.appendChild(zfab); } // the zoom buttons sit on the canvas itself
+    zfab.onclick = e => { const b = e.target.closest('[data-zf]'); if (!b) return; const z = b.dataset.zf; if (z === 'fit') setZoom(null); else zoomAt(curZoom() * (z === '+' ? 1.25 : 0.8)); };
 
     // ---------- fit to screen ----------
     function fitHeight() {
@@ -12385,19 +13068,20 @@ interface g0/0.10
       for (const l of D.links) {
         const A = D.devs[l.a], Bd = D.devs[l.b]; if (!A || !Bd) continue;
         const stt = linkStatus(l), i = linkInfo(D, l), on = sel && sel.t === 'link' && sel.id === l.id;
+        const showDots = on || (sel && sel.t === 'dev' && (sel.id === l.a || sel.id === l.b)) || msel.has(l.a) || msel.has(l.b);
         const mx = (A.x + Bd.x) / 2, my = (A.y + Bd.y) / 2;
         let path;
         if (l.t === 'serial') { const dx = Bd.x - A.x, dy = Bd.y - A.y, n = Math.hypot(dx, dy) || 1, px = -dy / n * 8, py = dx / n * 8; path = `M${A.x} ${A.y}L${mx - dx * .06 + px} ${my - dy * .06 + py}L${mx + dx * .06 - px} ${my + dy * .06 - py}L${Bd.x} ${Bd.y}`; }
         else path = `M${A.x} ${A.y}L${Bd.x} ${Bd.y}`;
         s += `<g data-link="${l.id}" class="dz-link ${stt} ${l.t} ${on ? 'on' : ''}"><path d="${path}" class="hit"/><path d="${path}" class="ln"/>`;
-        [[A, Bd], [Bd, A]].forEach(([p, q], k) => { const dx = q.x - p.x, dy = q.y - p.y, n = Math.hypot(dx, dy) || 1; const up = k === 0 ? endUp(l.a, l.ai) : endUp(l.b, l.bi); s += `<circle cx="${p.x + dx / n * 30}" cy="${p.y + dy / n * 30}" r="4.5" class="pdot ${i.ok && up ? 'ok' : i.ok ? 'warn' : 'bad'}"/>`; });
+        if (showDots) [[A, Bd], [Bd, A]].forEach(([p, q], k) => { const dx = q.x - p.x, dy = q.y - p.y, n = Math.hypot(dx, dy) || 1; const up = k === 0 ? endUp(l.a, l.ai) : endUp(l.b, l.bi); s += `<circle cx="${p.x + dx / n * 30}" cy="${p.y + dy / n * 30}" r="4.5" class="pdot ${i.ok && up ? 'ok' : i.ok ? 'warn' : 'bad'}"/>`; });
         if (on || i.why) s += `<text x="${mx}" y="${my - (on ? 18 : 8)}" text-anchor="middle" class="dz-ll">${on ? `${esc(sh(l.ai))} ↔ ${esc(sh(l.bi))} · ` : ''}${i.len} m${i.why === 'long' ? ' ✕' : ''}</text>`;
         s += `</g>`;
         if (on) top += (__EN?`<g class="dz-ldel" data-ldel="${l.id}" transform="translate(${mx} ${my})" role="button" aria-label="Remove cable"><title>Remove cable (Delete)</title><circle r="11"/><path d="M-4 -4L4 4M4 -4L-4 4"/></g>`:`<g class="dz-ldel" data-ldel="${l.id}" transform="translate(${mx} ${my})" role="button" aria-label="Tanggalin ang cable"><title>Tanggalin ang cable (Delete)</title><circle r="11"/><path d="M-4 -4L4 4M4 -4L-4 4"/></g>`);
       }
       for (const [c, a] of Object.entries(B.assoc)) if (a.ap && D.devs[c] && D.devs[a.ap]) { const C = D.devs[c], A = D.devs[a.ap]; s += `<line x1="${A.x}" y1="${A.y}" x2="${C.x}" y2="${C.y}" class="dz-wl"/>`; }
       for (const d of Object.values(D.devs)) {
-        const k = K[d.k], on = sel && sel.t === 'dev' && sel.id === d.id, pend = pending === d.id;
+        const k = K[d.k], on = (sel && sel.t === 'dev' && sel.id === d.id) || msel.has(d.id), pend = pending === d.id;
         if (k.note) { s += `<g data-dev="${d.id}" class="dz-dev dz-note ${on ? 'on' : ''}" transform="translate(${d.x} ${d.y})">${noteBox(d)}</g>`; continue; }
         const st = devStatus(d);
         const sub = k.host ? ((B.net.hosts[d.id] || {}).ip || (d.cfg.dhcp ? 'DHCP…' : (__EN?"no IP":'walang IP'))) : '';
@@ -12422,9 +13106,15 @@ interface g0/0.10
     let drag = null, suppress = 0, ptrType = 'mouse', ptrXY = [0, 0];
     const clearLp = () => { if (lp) { clearTimeout(lp.t); lp = null; } };
     svg.addEventListener('pointerdown', e => {
-      suppress = 0; ptrType = e.pointerType; ptrXY = [e.clientX, e.clientY]; if (e.button > 0) return;
+      suppress = 0; ptrType = e.pointerType; ptrXY = [e.clientX, e.clientY];
+      if (e.button === 2 && e.pointerType === 'mouse') { const pdv = e.target.closest('[data-dev]'), plk = e.target.closest('[data-link]'); pan = { x: e.clientX, y: e.clientY, sl: canvas.scrollLeft, st: canvas.scrollTop, moved: false, pid: e.pointerId, ctx: null, dv: pdv && pdv.dataset.dev, lk: plk && plk.dataset.link }; try { svg.setPointerCapture(e.pointerId); } catch (er) { } return; }
+      if (e.button > 0) return;
       const ph = e.target.closest('[data-ph]'), dv = e.target.closest('[data-dev]'), lk = e.target.closest('[data-link]');
       if (placing) return;
+      if (!ph && !dv && !lk && !pending && e.pointerType === 'mouse' && !e.target.closest('[data-ldel]')) {
+        const p = toPlan(e); band = { x0: p.x, y0: p.y, cx: e.clientX, cy: e.clientY, moved: false, pid: e.pointerId, el: null, add: e.shiftKey || e.ctrlKey || e.metaKey };
+        try { svg.setPointerCapture(e.pointerId); } catch (er) { } return;
+      }
       if (ph && !pending) {
         const d = D.devs[ph.dataset.ph];
         wire = { from: d.id, x0: e.clientX, y0: e.clientY, moved: false, pid: e.pointerId, el: null, tgt: null };
@@ -12433,7 +13123,7 @@ interface g0/0.10
       }
       if (dv) {
         const d = D.devs[dv.dataset.dev]; const p = toPlan(e);
-        drag = { id: d.id, dx: p.x - d.x, dy: p.y - d.y, x0: e.clientX, y0: e.clientY, moved: false, pid: e.pointerId };
+        drag = { id: d.id, dx: p.x - d.x, dy: p.y - d.y, x0: e.clientX, y0: e.clientY, moved: false, pid: e.pointerId, px: p.x, py: p.y, group: msel.size > 1 && msel.has(d.id) ? [...msel].filter(x => D.devs[x]).map(x => ({ id: x, x: D.devs[x].x, y: D.devs[x].y })) : null };
         try { svg.setPointerCapture(e.pointerId); } catch (er) { }
         e.preventDefault();
       }
@@ -12443,6 +13133,19 @@ interface g0/0.10
       }
     });
     svg.addEventListener('pointermove', e => {
+      if (pan && e.pointerId === pan.pid) {
+        const dx = e.clientX - pan.x, dy = e.clientY - pan.y; if (!pan.moved && Math.hypot(dx, dy) < 4) return;
+        if (!pan.moved) { pan.moved = true; canvas.classList.add('panning'); closeCtx(); }
+        canvas.scrollLeft = pan.sl - dx; canvas.scrollTop = pan.st - dy; return;
+      }
+      if (band && e.pointerId === band.pid) {
+        if (!band.moved && Math.hypot(e.clientX - band.cx, e.clientY - band.cy) < 5) return;
+        band.moved = true; const p = toPlan(e);
+        if (!band.el) { band.el = document.createElementNS('http://www.w3.org/2000/svg', 'rect'); band.el.setAttribute('class', 'dz-band'); svg.appendChild(band.el); }
+        const x = Math.min(band.x0, p.x), y = Math.min(band.y0, p.y); band.x1 = p.x; band.y1 = p.y;
+        band.el.setAttribute('x', x); band.el.setAttribute('y', y); band.el.setAttribute('width', Math.abs(p.x - band.x0)); band.el.setAttribute('height', Math.abs(p.y - band.y0));
+        return;
+      }
       if (lp && Math.hypot(e.clientX - lp.x, e.clientY - lp.y) > 8) clearLp();
       if (wire && e.pointerId === wire.pid) {
         if (!wire.moved && Math.hypot(e.clientX - wire.x0, e.clientY - wire.y0) < 5) return;
@@ -12457,11 +13160,31 @@ interface g0/0.10
       if (!drag || e.pointerId !== drag.pid) return;
       if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 5) return;
       drag.moved = true; clearLp(); const p = toPlan(e), P = plan(), d = D.devs[drag.id];
-      d.x = Math.round(Math.max(30, Math.min(P.w - 30, p.x - drag.dx))); d.y = Math.round(Math.max(30, Math.min(P.h - 40, p.y - drag.dy)));
+      if (drag.group) { const ddx = p.x - drag.px, ddy = p.y - drag.py; drag.group.forEach(g => { const x = D.devs[g.id]; if (x) { x.x = Math.round(Math.max(30, Math.min(P.w - 30, g.x + ddx))); x.y = Math.round(Math.max(30, Math.min(P.h - 40, g.y + ddy))); } }); }
+      else { d.x = Math.round(Math.max(30, Math.min(P.w - 30, p.x - drag.dx))); d.y = Math.round(Math.max(30, Math.min(P.h - 40, p.y - drag.dy))); }
       if (!drag.raf) drag.raf = requestAnimationFrame(() => { if (drag) drag.raf = null; drawCanvas(); });
     });
     const endPtr = e => {
       clearLp();
+      if (pan) {
+        const pn = pan; pan = null; canvas.classList.remove('panning');
+        if (pn.moved) { suppress = performance.now() + 350; return; }
+        if (pn.ctx) openCtxAt(pn.ctx);
+        else if (placing) { placing = null; placedN = 0; drawPal(); drawTools(); }
+        return;
+      }
+      if (band) {
+        const b = band; band = null; if (b.el) b.el.remove();
+        if (!b.moved) return; // a plain click: the click handler clears the selection
+        suppress = performance.now() + 350;
+        const x0 = Math.min(b.x0, b.x1), x1 = Math.max(b.x0, b.x1), y0 = Math.min(b.y0, b.y1), y1 = Math.max(b.y0, b.y1);
+        const hit = Object.values(D.devs).filter(d => d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1).map(d => d.id);
+        if (!b.add) msel = new Set(); hit.forEach(id => msel.add(id));
+        if (msel.size === 1) { sel = { t: 'dev', id: [...msel][0] }; msel.clear(); } else sel = null;
+        drawCanvas(); drawBar(); if (sideOpen && tab === 'dev') drawSide();
+        if (msel.size > 1) toast(TT(`${msel.size} device ang napili. I-drag para ilipat lahat; Delete para burahin.`, `${msel.size} devices selected. Drag to move them all; Delete to remove.`));
+        return;
+      }
       if (wire) {
         const w = wire; wire = null; suppress = performance.now() + 350;
         if (w.el) w.el.remove(); svg.querySelectorAll('.dz-dev.tgt').forEach(x => x.classList.remove('tgt'));
@@ -12474,7 +13197,7 @@ interface g0/0.10
       if (dd.moved) { rebuild(); persist(); drawAll(); } else tapOn({ t: 'dev', id: dd.id });
     };
     svg.addEventListener('pointerup', endPtr);
-    svg.addEventListener('pointercancel', () => { clearLp(); if (wire && wire.el) wire.el.remove(); wire = null; drag = null; drawCanvas(); });
+    svg.addEventListener('pointercancel', () => { clearLp(); if (wire && wire.el) wire.el.remove(); wire = null; drag = null; if (band && band.el) band.el.remove(); band = null; pan = null; canvas.classList.remove('panning'); drawCanvas(); });
     svg.addEventListener('click', e => {
       if (drag || wire) return;
       if (performance.now() < suppress) return;
@@ -12484,7 +13207,7 @@ interface g0/0.10
       if (dv) { tapOn({ t: 'dev', id: dv.dataset.dev }); return; }
       if (pending) { pending = null; drawTools(); drawCanvas(); return; }
       if (lk) { tapOn({ t: 'link', id: lk.dataset.link }); return; }
-      lastTap = null; sel = null; drawCanvas(); if (sideOpen && tab === 'dev') drawSide();
+      lastTap = null; sel = null; msel.clear(); drawCanvas(); if (sideOpen && tab === 'dev') drawSide();
     });
     // single tap selects, a second tap within 380 ms opens the config panel
     function tapOn(t) {
@@ -12492,6 +13215,7 @@ interface g0/0.10
         if (t.t === 'dev' && t.id !== pending && !K[D.devs[t.id].k].note) { const a = pending; pending = null; connect(a, t.id); return; }
         pending = null; drawTools(); drawCanvas(); return;
       }
+      if (msel.size && !(drag && drag.group)) msel.clear();
       const now = performance.now(), key = t.t + ':' + t.id;
       const dbl = lastTap && lastTap.k === key && now - lastTap.t < 380;
       lastTap = dbl ? null : { k: key, t: now }; sel = t;
@@ -12500,10 +13224,16 @@ interface g0/0.10
     svg.addEventListener('contextmenu', e => {
       e.preventDefault(); if (performance.now() < suppress) return;
       const dv = e.target.closest('[data-dev]'), lk = e.target.closest('[data-link]');
-      if (!dv && !lk) { closeCtx(); return; }
-      const t = dv ? { t: 'dev', id: dv.dataset.dev } : { t: 'link', id: lk.dataset.link };
-      sel = t; pending = null; drawCanvas(); if (sideOpen && tab === 'dev') drawSide(); openCtx(t, e.clientX, e.clientY);
+      const c = { dv: dv && dv.dataset.dev, lk: lk && lk.dataset.link, x: e.clientX, y: e.clientY };
+      if (pan) { pan.ctx = Object.assign(c, { dv: pan.dv, lk: pan.lk }); return; } // mouse still down (macOS/Linux): wait to see if it becomes a right-drag
+      openCtxAt(c);
     });
+    function openCtxAt(c) {
+      if (placing) { placing = null; placedN = 0; drawPal(); drawTools(); return; }
+      if (!c.dv && !c.lk) { closeCtx(); return; }
+      const t = c.dv ? { t: 'dev', id: c.dv } : { t: 'link', id: c.lk };
+      sel = t; msel.clear(); pending = null; drawCanvas(); if (sideOpen && tab === 'dev') drawSide(); openCtx(t, c.x, c.y);
+    }
 
     // ---------- context menu ----------
     function openCtx(t, x, y) {
@@ -12710,7 +13440,7 @@ interface g0/0.10
     }
     function ispPanel(d) {
       const n = B.net.devs[d.id];
-      section('Internet service provider', (__EN?`<p class="small">This is "the Internet". It has public servers: <b class="mono">8.8.8.8</b> and <b class="mono">1.1.1.1</b> (ping, web, DNS).</p><p class="small">Connect your router or firewall to an ISP port. Use the IP on the right on your outside interface, and make the gateway your default route.</p><table class="dz-tbl"><tr><th>ISP port</th><th>You</th><th>Gateway</th></tr>${[0, 1, 2, 3].map(i => { const p = `GigabitEthernet0/${i}`; const pr = peerOf(d.id, p); return `<tr><td class="mono">${sh(p)}${pr ? `<div class="tiny muted">${esc(pr)}</div>` : ''}</td><td class="mono">203.0.113.${4 * i + 2}/30</td><td class="mono">203.0.113.${4 * i + 1}</td></tr>`; }).join('')}</table><p class="tiny muted">Private IPs (192.168.x.x, 10.x.x.x) are not routed on the Internet, so NAT/PAT is needed.</p>`:`<p class="small">Ito ang "Internet". May mga public server dito: <b class="mono">8.8.8.8</b> at <b class="mono">1.1.1.1</b> (ping, web, DNS).</p><p class="small">Ikabit ang router o firewall mo sa isang port ng ISP. Gamitin ang IP sa kanan sa outside interface mo, at gawing default route ang gateway.</p><table class="dz-tbl"><tr><th>ISP port</th><th>Ikaw</th><th>Gateway</th></tr>${[0, 1, 2, 3].map(i => { const p = `GigabitEthernet0/${i}`; const pr = peerOf(d.id, p); return `<tr><td class="mono">${sh(p)}${pr ? `<div class="tiny muted">${esc(pr)}</div>` : ''}</td><td class="mono">203.0.113.${4 * i + 2}/30</td><td class="mono">203.0.113.${4 * i + 1}</td></tr>`; }).join('')}</table><p class="tiny muted">Ang private IP (192.168.x.x, 10.x.x.x) ay hindi naa-route sa Internet, kaya kailangan ng NAT/PAT.</p>`), true);
+      const nb = ispNet(D, d.id); section('Internet service provider', (s => nb === '203.0.113' ? s : s.split('203.0.113.').join(nb + '.'))((__EN?`<p class="small">This is "the Internet". It has public servers: <b class="mono">8.8.8.8</b> and <b class="mono">1.1.1.1</b> (ping, web, DNS).</p><p class="small">Connect your router or firewall to an ISP port. Use the IP on the right on your outside interface, and make the gateway your default route.</p><table class="dz-tbl"><tr><th>ISP port</th><th>You</th><th>Gateway</th></tr>${[0, 1, 2, 3].map(i => { const p = `GigabitEthernet0/${i}`; const pr = peerOf(d.id, p); return `<tr><td class="mono">${sh(p)}${pr ? `<div class="tiny muted">${esc(pr)}</div>` : ''}</td><td class="mono">203.0.113.${4 * i + 2}/30</td><td class="mono">203.0.113.${4 * i + 1}</td></tr>`; }).join('')}</table><p class="tiny muted">Private IPs (192.168.x.x, 10.x.x.x) are not routed on the Internet, so NAT/PAT is needed.</p>`:`<p class="small">Ito ang "Internet". May mga public server dito: <b class="mono">8.8.8.8</b> at <b class="mono">1.1.1.1</b> (ping, web, DNS).</p><p class="small">Ikabit ang router o firewall mo sa isang port ng ISP. Gamitin ang IP sa kanan sa outside interface mo, at gawing default route ang gateway.</p><table class="dz-tbl"><tr><th>ISP port</th><th>Ikaw</th><th>Gateway</th></tr>${[0, 1, 2, 3].map(i => { const p = `GigabitEthernet0/${i}`; const pr = peerOf(d.id, p); return `<tr><td class="mono">${sh(p)}${pr ? `<div class="tiny muted">${esc(pr)}</div>` : ''}</td><td class="mono">203.0.113.${4 * i + 2}/30</td><td class="mono">203.0.113.${4 * i + 1}</td></tr>`; }).join('')}</table><p class="tiny muted">Ang private IP (192.168.x.x, 10.x.x.x) ay hindi naa-route sa Internet, kaya kailangan ng NAT/PAT.</p>`)), true);
     }
     function simplePanel(d) {
       section(K[d.k].n, `<p class="small">${d.k === 'ips' ? (__EN?"Inline IPS: place it between the firewall and the core/switch. It inspects traffic (simulated) but doesn't change routing. It's transparent: no IP needed.":'Inline na IPS: ilagay sa pagitan ng firewall at core/switch. Sinusuri nito ang traffic (simulated) pero hindi binabago ang routing. Transparent ito: walang IP na kailangan.') : (__EN?"Plug-and-play: no config, no VLANs. Every port is on one network (VLAN 1). Cheap and simple, but no VLANs, trunks or monitoring.":'Plug-and-play: walang config, walang VLAN. Lahat ng port ay nasa iisang network (VLAN 1). Mura at simple, pero hindi pwede sa VLANs, trunk, o monitoring.')}</p>${portsInfo(d)}`, true);
@@ -13032,6 +13762,7 @@ interface g0/0.10
     let autoLast = null, autoWifiOn = true;
     let noBuyOn = (() => { try { return localStorage.getItem('ccna.dz.nobuy') !== '0'; } catch (e) { return true; } })();
     function panelAuto() {
+      if (freeDz()) { panel.innerHTML = ''; panel.appendChild(PR.lockNote(TT('Premium ang Auto-design: gagawin nito ang cable, IP, VLAN, DHCP, NAT at Wi-Fi para sa buong design mo, kasama ang "Gamitin lang ang meron ako". Sa Free plan, gamitin ang Health tab para sa mga mungkahi at ayusin isa-isa.', 'Auto-design is Premium: it does the cabling, IPs, VLANs, DHCP, NAT and Wi-Fi for your whole design, including "Use only what I have". On the Free plan, use the Health tab for suggestions and fix things one by one.'))); return; }
       const n = Object.keys(D.devs).length;
       const { D: nd, R } = n ? autoDesign(D, { wifi: autoWifiOn, noBuy: noBuyOn }) : { D: null, R: null };
       const li = a => a.map(x => `<li>${esc(x)}</li>`).join('');
@@ -13126,12 +13857,12 @@ interface g0/0.10
         <div class="card stack" style="gap:8px"><b>Mag-import ng design code</b><textarea class="code-box" rows="3" placeholder="CCNADZ:..."></textarea><div class="row"><button class="btn sm" data-act="imp">I-import</button><span class="tiny"></span></div><p class="tiny muted">Para maipakita sa Trainor o mailipat sa ibang device. Naka-save ang designs sa account mo sa device na ito.</p></div></div>`));
       panel.appendChild(s);
       const rn = s.querySelector('[data-f=rn]'); rn.onsubmit = e => { e.preventDefault(); D.name = rn.nm.value.trim() || D.name; persist(); drawBar(); toast((__EN?"Renamed.":'Na-rename.')); };
-      const nf = s.querySelector('[data-f=new]'); nf.onsubmit = e => { e.preventDefault(); const nd = newDesign(nf.nm.value.trim() || (__EN?"New design":'Bagong design'), nf.pl.value); S.designs[nd.id] = nd; switchTo(nd.id); tab = 'dev'; drawSide(); toast((__EN?"Created a new design.":'Gumawa ng bagong design.')); };
+      const nf = s.querySelector('[data-f=new]'); nf.onsubmit = e => { e.preventDefault(); if (designLimit()) return; const nd = newDesign(nf.nm.value.trim() || (__EN?"New design":'Bagong design'), nf.pl.value); S.designs[nd.id] = nd; switchTo(nd.id); tab = 'dev'; drawSide(); toast((__EN?"Created a new design.":'Gumawa ng bagong design.')); };
       s.querySelector('[data-act=sample]').onclick = () => { const nd = sampleDesign(); S.designs[nd.id] = nd; switchTo(nd.id); toast((__EN?"Opened the sample. Try \"Test everything\" in the Test tab.":'Binuksan ang halimbawa. Subukan ang "Subukan lahat" sa Subukan tab.')); };
       s.querySelector('[data-act=exp]').onclick = () => { const box = s.querySelector('.dz-exp'); box.innerHTML = (__EN?`<textarea class="code-box" rows="4" readonly></textarea><div class="row"><button class="btn sm primary">Copy</button><span class="tiny muted"></span></div>`:`<textarea class="code-box" rows="4" readonly></textarea><div class="row"><button class="btn sm primary">Kopyahin</button><span class="tiny muted"></span></div>`); const ta = box.querySelector('textarea'); ta.value = 'CCNADZ:' + enc(D); box.querySelector('button').onclick = async () => { ta.select(); try { await navigator.clipboard.writeText(ta.value); box.querySelector('span').textContent = (__EN?"Copied.":'Nakopya na.'); } catch (e) { try { document.execCommand('copy'); box.querySelector('span').textContent = (__EN?"Copied.":'Nakopya na.'); } catch (e2) { box.querySelector('span').textContent = (__EN?"Select and copy it.":'I-select at kopyahin.'); } } }; };
-      s.querySelector('[data-act=dup]').onclick = () => { const nd = JSON.parse(JSON.stringify(D)); nd.id = uid(); nd.name = D.name + (__EN?" (copy)":' (kopya)'); nd.updated = Date.now(); S.designs[nd.id] = nd; switchTo(nd.id); tab = 'file'; drawSide(); toast((__EN?"Made a copy.":'Gumawa ng kopya.')); };
+      s.querySelector('[data-act=dup]').onclick = () => { if (designLimit()) return; const nd = JSON.parse(JSON.stringify(D)); nd.id = uid(); nd.name = D.name + (__EN?" (copy)":' (kopya)'); nd.updated = Date.now(); S.designs[nd.id] = nd; switchTo(nd.id); tab = 'file'; drawSide(); toast((__EN?"Made a copy.":'Gumawa ng kopya.')); };
       const del = s.querySelector('[data-act=del]'); del.onclick = () => { if (!del.dataset.c) { del.dataset.c = 1; del.textContent = (__EN?"Sure? Tap again":'Sigurado? I-tap ulit'); setTimeout(() => { if (del.isConnected) { delete del.dataset.c; del.textContent = (__EN?"Delete":'Burahin'); } }, 3000); return; } delete S.designs[D.id]; const nx = Object.values(S.designs)[0]; if (nx) switchTo(nx.id); else { const nd = newDesign((__EN?"New design":'Bagong design'), 'office'); S.designs[nd.id] = nd; switchTo(nd.id); } tab = 'file'; drawSide(); toast((__EN?"Design deleted.":'Nabura ang design.')); };
-      s.querySelector('[data-act=imp]').onclick = () => { const m = s.querySelector('.row .tiny'); try { const t = s.querySelector('textarea[placeholder]').value.trim(); if (!t.startsWith('CCNADZ:')) throw 0; const o = dec(t.slice(7)); if (!o || !o.devs || !Array.isArray(o.links)) throw 0; o.id = uid(); o.updated = Date.now(); o.name = (o.name || 'Imported') + ' (import)'; S.designs[o.id] = o; switchTo(o.id); toast((__EN?"Design imported.":'Na-import ang design.')); } catch (e) { m.textContent = (__EN?"Design code is not valid.":'Hindi valid ang design code.'); m.style.color = 'var(--bad)'; } };
+      s.querySelector('[data-act=imp]').onclick = () => { const m = s.querySelector('.row .tiny'); if (designLimit()) return; try { const t = s.querySelector('textarea[placeholder]').value.trim(); if (!t.startsWith('CCNADZ:')) throw 0; const o = dec(t.slice(7)); if (!o || !o.devs || !Array.isArray(o.links)) throw 0; o.id = uid(); o.updated = Date.now(); o.name = (o.name || 'Imported') + ' (import)'; S.designs[o.id] = o; switchTo(o.id); toast((__EN?"Design imported.":'Na-import ang design.')); } catch (e) { m.textContent = (__EN?"Design code is not valid.":'Hindi valid ang design code.'); m.style.color = 'var(--bad)'; } };
     }
 
     // ---------- init ----------
@@ -13143,13 +13874,21 @@ interface g0/0.10
     const onKey = e => {
       if (!page.isConnected) return;
       if (e.key === 'Escape') {
-        if (ctxm) closeCtx(); else if (openCat || panMenu) { openCat = null; panMenu = false; } else if (placing || pending) { placing = null; pending = null; } else if (sideOpen && !typing(e)) closeSide(); else if (full) toggleFull(false);
+        if (ctxm) closeCtx(); else if (openCat || panMenu) { openCat = null; panMenu = false; } else if (placing || pending) { placing = null; pending = null; placedN = 0; } else if (msel.size) { msel.clear(); } else if (sideOpen && !typing(e)) closeSide(); else if (full) toggleFull(false);
         drawPal(); drawTools(); drawCanvas(); return;
       }
       if (typing(e)) return;
       const mod = e.ctrlKey || e.metaKey;
       if (mod && !e.altKey && (e.key === 'z' || e.key === 'Z')) { e.preventDefault(); e.shiftKey ? doRedo() : doUndo(); return; }
       if (mod && (e.key === 'y' || e.key === 'Y')) { e.preventDefault(); doRedo(); return; }
+      if ((e.key === 'Delete' || e.key === 'Backspace') && msel.size > 1 && !mod) {
+        e.preventDefault(); closeCtx(); const ids = [...msel].filter(x => D.devs[x]); msel.clear();
+        ids.forEach(id => { delete D.devs[id]; delete terms[id]; }); D.links = D.links.filter(l => !ids.includes(l.a) && !ids.includes(l.b)); D.log = D.log.filter(x => !ids.includes(x.d));
+        Object.values(D.devs).forEach(x => { if (x.cfg && x.cfg.backends) x.cfg.backends = x.cfg.backends.filter(b => !ids.includes(b)); });
+        if (sel && ids.includes(sel.id)) sel = null; if (ids.includes(pending)) pending = null;
+        rebuild(); persist(); drawAll(); SND('tap'); toast(TT(`Nabura ang ${ids.length} device. (Ctrl+Z para i-undo)`, `Deleted ${ids.length} devices. (Ctrl+Z to undo)`)); return;
+      }
+      if (mod && (e.key === 'a' || e.key === 'A')) { e.preventDefault(); msel = new Set(Object.keys(D.devs)); sel = null; drawCanvas(); return; }
       if ((e.key === 'Delete' || e.key === 'Backspace') && sel && !mod) { e.preventDefault(); closeCtx(); sel.t === 'dev' ? delDev(sel.id) : delLink(sel.id); return; }
       if (e.key === 'Enter' && sel && !sideOpen && e.target === document.body) { openSide('dev'); }
     };
@@ -13186,6 +13925,8 @@ window.startApp = () => {
     key: '<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3"/>',
     target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    back: '<path d="M15 18l-6-6 6-6"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
     moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>',
     palette: '<path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-.9.8-1.7 1.7-1.7H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="10.5" cy="7.5" r="1.2" fill="currentColor"/><circle cx="15" cy="7.8" r="1.2" fill="currentColor"/>',
@@ -13280,6 +14021,32 @@ window.startApp = () => {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !palMenu.hidden) palOpen(false); });
   const setLang = v => { if (v === (window.LANG === 'en' ? 'en' : 'fil')) return; $('#langBtn').classList.add('flip'); try { localStorage.setItem('ccna.lang', v); } catch (e) { } save(); document.body.classList.add('lang-switching'); setTimeout(() => location.reload(), 220); };
   $('#langBtn').onclick = () => setLang(window.LANG === 'en' ? 'fil' : 'en');
+  // ---------- Back button ----------
+  // Each page visit gets an index in history.state, so Back knows if there is an earlier page inside the app.
+  // With nothing to go back to (first page opened), it goes to the parent page instead (lesson -> Lessons, lab -> Labs, ...).
+  const TT = (f, e) => __EN ? e : f;
+  let navIdx = 0, navInit = false;
+  function trackNav() {
+    const st = history.state;
+    if (st && typeof st.ccnaIdx === 'number') navIdx = st.ccnaIdx;
+    else { navIdx = navInit ? navIdx + 1 : 0; try { history.replaceState(Object.assign({}, st || {}, { ccnaIdx: navIdx }), ''); } catch (e) { } }
+    navInit = true;
+  }
+  const parentOf = r => r.startsWith('lesson-') ? 'lessons' : r.startsWith('lab-') ? (LABS[r.slice(4)] && LABS[r.slice(4)].challenge ? 'challenges' : 'labs') : ['settings', 'upgrade', 'premium', 'trainer', 'admin'].includes(r) ? 'profile' : r === 'home' ? null : 'home';
+  const backBtn = h(`<button class="icon-btn back-btn" id="backBtn" type="button" hidden aria-label="${TT('Bumalik', 'Back')}" title="${TT('Bumalik (Alt + ←)', 'Back (Alt + ←)')}">${icon('back')}<span class="back-t">${TT('Bumalik', 'Back')}</span></button>`);
+  $('#menuBtn').insertAdjacentElement('afterend', backBtn);
+  let curRoute = 'home';
+  function goBack() {
+    if (navIdx > 0) history.back();
+    else { const p = parentOf(curRoute); if (p) location.hash = '#' + p; }
+  }
+  backBtn.onclick = goBack;
+  const paintBack = () => { const show = navIdx > 0 || !!parentOf(curRoute); backBtn.hidden = !show; };
+  // the installed app (Electron) has no browser toolbar: support Alt+Left and the mouse "back" button there
+  if (/Electron/i.test(navigator.userAgent)) {
+    addEventListener('keydown', e => { if (e.altKey && e.key === 'ArrowLeft' && !e.target.closest('input, textarea, [contenteditable]')) { e.preventDefault(); goBack(); } });
+    addEventListener('mouseup', e => { if (e.button === 3) { e.preventDefault(); goBack(); } });
+  }
   const paintMe = () => { const a = $('.user-chip .av'); if (a && ME) a.outerHTML = AUTH.avHtml(ME, 'sm', S); };
 
   const EXTRAS = [
@@ -13364,9 +14131,9 @@ window.startApp = () => {
         <div class="row" style="gap:8px">${window.UPDATER ? `<button type="button" class="btn sm" data-a="upd">${t('Mag-check ng update', 'Check for updates')}</button>` : ''}<a class="btn sm ghost" href="#download">${icon('dl')}Download</a></div></div>
     </div>`);
     const pg = c.querySelector('.pal-grid');
-    const drawP = () => { const cp = curPal(); pg.innerHTML = PALS.map(([v, sw, n, d]) => `<button type="button" class="pal-opt ${cp === v ? 'on' : ''}" role="radio" aria-checked="${cp === v}" data-pal="${v}"><span class="pal-sw ${sw}"><i></i><i></i><i></i></span><span><b>${n}</b><small>${d}</small></span></button>`).join(''); };
+    const drawP = () => { const cp = curPal(); pg.innerHTML = PALS.map(([v, sw, n, d]) => `<button type="button" class="pal-opt ${cp === v ? 'on' : ''} ${PRM && !PRM.can('pal:' + v) ? 'is-locked' : ''}" role="radio" aria-checked="${cp === v}" data-pal="${v}"><span class="pal-sw ${sw}"><i></i><i></i><i></i></span><span><b>${n}${PRM && !PRM.can('pal:' + v) ? ' <span class="prem-badge sm">Premium</span>' : ''}</b><small>${d}</small></span></button>`).join(''); };
     drawP();
-    pg.onclick = e => { const b = e.target.closest('[data-pal]'); if (!b) return; S.theme = b.dataset.pal; save(); applyTheme(); drawP(); };
+    pg.onclick = e => { const b = e.target.closest('[data-pal]'); if (!b) return; if (PRM && !PRM.can('pal:' + b.dataset.pal)) { toast(t('Premium ang kulay na ito. Mag-upgrade para magamit.', 'This color is Premium. Upgrade to use it.')); return; } S.theme = b.dataset.pal; save(); applyTheme(); drawP(); };
     c.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => setLang(b.dataset.lang));
     const sw = c.querySelector('[data-a=sfx]');
     const paintSw = () => { if (sw) sw.setAttribute('aria-checked', String(!muted())); };
@@ -13403,10 +14170,11 @@ window.startApp = () => {
     document.body.classList.remove('drawer');
     if (cleanup) { try { cleanup(); } catch (e) { } cleanup = null; }
     const hsh = (location.hash || '#home').slice(1);
+    trackNav();
     let r = hsh;
     main.innerHTML = '';
     if (r.startsWith('lesson-') && lessonById(r.slice(7))) { if (PRM && !PRM.allowLesson(r.slice(7))) main.appendChild(PRM.lockCard('lesson')); else viewLesson(r.slice(7)); }
-    else if (r.startsWith('lab-') && LABS[r.slice(4)]) { if (PRM && !PRM.allowLab(r.slice(4))) main.appendChild(PRM.lockCard('lab')); else viewLab(r.slice(4)); }
+    else if (r.startsWith('lab-') && LABS[r.slice(4)]) { if (PRM && !PRM.allowLab(r.slice(4))) main.appendChild(PRM.lockCard(LABS[r.slice(4)].challenge ? 'challenge' : 'lab')); else viewLab(r.slice(4)); }
     else if (r === 'upgrade' && PRM && ME) PRM.viewUpgrade(main, ctx());
     else if (r === 'premium' && PRM && ME && ME.role !== 'trainee') PRM.viewAdmin(main, ctx());
     else if (r === 'lessons') viewLessons();
@@ -13427,6 +14195,7 @@ window.startApp = () => {
     else if (r === 'admin' && ME && ME.role === 'admin') AUTH.viewAdmin(main, ctx());
     else { r = 'home'; viewHome(); }
     renderSidebar(r);
+    curRoute = r; paintBack();
     if (PRM) PRM.decorate(document);
     const tabFor = r.startsWith('lesson') || r === 'lessons' ? 'lessons' : r.startsWith('lab') || r === 'challenges' ? 'labs' : r === 'exam' ? 'exam' : r === 'home' ? 'home' : 'more';
     $$('#tabbar a').forEach(a => a.classList.toggle('active', a.dataset.t === tabFor));
@@ -13895,12 +14664,26 @@ Total:       ${b.split('').map((x, i) => x === '1' ? 2 ** (7 - i) : 0).filter(Bo
   function viewLabs(challenges) {
     const page = h(`<div class="page wide"><div class="lesson-head"><h1>${challenges ? 'Practical Lab Challenges' : 'Lab Simulator'}</h1><p class="muted" style="max-width:75ch">${challenges ? (__EN?"Longer scenarios that combine many topics, like the sim questions on the real exam. No hints here; the full solution is in the Answer Key.":'Mga mas mahabang scenario na pinagsasama ang maraming topic, katulad ng mga sim question sa totoong exam. Walang hints dito; nasa Answer Key ang buong solusyon.') : (__EN?"Every lab has a Cisco IOS-style terminal. Type the commands, and the tasks on the right are checked automatically. Abbreviations work (e.g. <code>conf t</code>, <code>sh ip int br</code>), <code>?</code> for help, and Tab to complete.":'Bawat lab ay may Cisco IOS-style na terminal. I-type ang commands, at automatic na nache-check ang mga task sa kanan. Gumagana ang abbreviations (hal. <code>conf t</code>, <code>sh ip int br</code>), <code>?</code> para sa help, at Tab para kumpletuhin.')}</p></div></div>`);
     const groups = {};
-    for (const [id, l] of Object.entries(LABS)) { if (!!l.challenge !== challenges) continue; const k = l.challenge ? 'Challenges' : (lessonById(l.lesson)?.ch.title || (__EN?"More":'Iba pa')); (groups[k] = groups[k] || []).push([id, l]); }
+    if (challenges) (window.CH_CATS || []).forEach(c => { groups[c[1]] = []; });
+    for (const [id, l] of Object.entries(LABS)) { if (!!l.challenge !== challenges) continue; const k = l.challenge ? ((window.CH_CATS || []).find(c => c[0] === l.cat) || [0, 'Challenges'])[1] : (lessonById(l.lesson)?.ch.title || (__EN?"More":'Iba pa')); (groups[k] = groups[k] || []).push([id, l]); }
     for (const [g, ls] of Object.entries(groups)) {
-      const sec = h(`<section class="stack">${challenges ? '' : `<h2>${esc(g)}</h2>`}<div class="grid c3"></div></section>`);
+      if (!ls.length) continue;
+      const sec = h(`<section class="stack lab-sec">${challenges && !window.CH_CATS ? '' : `<h2>${esc(g)} <span class="lab-n">${ls.length}</span></h2>`}<div class="grid c3"></div></section>`);
       for (const [id, l] of ls) sec.lastElementChild.appendChild(h(`<a class="lab-card" href="#lab-${id}"><div class="row">${S.labs[id]?.done ? (__EN?"<span class=\"pill ok\">Done</span>":'<span class="pill ok">Tapos</span>') : (__EN?"<span class=\"pill\">Not yet</span>":'<span class="pill">Hindi pa</span>')}<span class="pill">${l.level || 'Basic'}</span><span class="pill">${l.tasks.length} tasks</span></div><h3>${esc(l.title)}</h3><p>${l.desc}</p></a>`));
       page.appendChild(sec);
     }
+    // search + filter (with 100 cards each, finding a lab by name matters)
+    const all = Object.values(LABS).filter(l => !!l.challenge === challenges), dn = all.filter(l => S.labs[Object.keys(LABS).find(k => LABS[k] === l)]?.done).length;
+    const bar = h(`<div class="lab-find"><label class="lab-q">${icon('search')}<input type="search" placeholder="${TT('Hanapin (hal. OSPF, NAT, VLAN)…', 'Search (e.g. OSPF, NAT, VLAN)…')}" aria-label="${TT('Hanapin', 'Search')}"></label><div class="seg lab-f" role="group" aria-label="Filter"><button type="button" class="on" data-f="all">${TT('Lahat', 'All')} <span>${all.length}</span></button><button type="button" data-f="todo">${TT((__EN?"Not yet":'Hindi pa'), 'To do')} <span>${all.length - dn}</span></button><button type="button" data-f="done">${TT('Tapos na', 'Done')} <span>${dn}</span></button></div><p class="tiny muted lab-none" hidden>${TT('Walang tumugma.', 'No matches.')}</p></div>`);
+    page.querySelector('.lesson-head').after(bar);
+    let fl = 'all';
+    const apply = () => {
+      const q = bar.querySelector('input').value.trim().toLowerCase(); let shown = 0;
+      page.querySelectorAll('.lab-sec').forEach(sec => { let n = 0; sec.querySelectorAll('a.lab-card').forEach(a => { const id = a.getAttribute('href').slice(5), d = !!S.labs[id]?.done; const ok = (!q || a.textContent.toLowerCase().includes(q) || id.includes(q)) && (fl === 'all' || (fl === 'done') === d); a.hidden = !ok; if (ok) n++; }); sec.hidden = !n; shown += n; });
+      bar.querySelector('.lab-none').hidden = !!shown;
+    };
+    bar.querySelector('input').oninput = apply;
+    bar.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { fl = b.dataset.f; bar.querySelectorAll('[data-f]').forEach(x => x.classList.toggle('on', x === b)); apply(); });
     main.appendChild(page);
   }
 
@@ -13960,6 +14743,16 @@ Mask ${bits(q.mask)}
     main.appendChild(page);
     const body = $('#snBody');
     const tabs = { p: () => body.appendChild(subnetPractice(false)), v: vlsmTab, c: calcTab, t: refTab };
+    if (PRM && !PRM.isPremium()) {
+      const lim = PRM.LIMITS.subnetDay, quota = h(`<p class="small muted sn-quota"></p>`); page.querySelector('.tabs').after(quota);
+      const left = () => Math.max(0, lim - PRM.subnetToday());
+      const paint = () => { quota.innerHTML = TT(`Free plan: <b>${left()}</b> sa ${lim} tanong na lang ngayong araw. Bukas pa rin ang Calculator at Reference.`, `Free plan: <b>${left()}</b> of ${lim} questions left today. The Calculator and Reference stay open.`); };
+      const blockIfOut = () => { const on = page.querySelector('.tabs button.on'); if (left() > 0 || !on || !'pv'.includes(on.dataset.t)) return false; body.innerHTML = ''; body.appendChild(PRM.lockNote(TT(`Naubos mo na ang ${lim} libreng tanong ngayong araw. Bumalik bukas, o mag-upgrade para walang limit.`, `You have used today's ${lim} free questions. Come back tomorrow, or upgrade for unlimited practice.`), { title: TT('Tapos na ang libreng tanong ngayong araw', 'Free questions used up for today') })); return true; };
+      body.addEventListener('click', e => { if (e.target.closest('button') && blockIfOut()) { e.stopPropagation(); e.preventDefault(); } setTimeout(() => { paint(); }, 0); }, true);
+      body.addEventListener('keydown', e => { if (e.key === 'Enter' && blockIfOut()) { e.stopPropagation(); e.preventDefault(); } setTimeout(paint, 0); }, true);
+      const t0 = tabs.p, t1 = tabs.v; tabs.p = () => { if (!blockIfOut()) t0(); }; tabs.v = () => { if (!blockIfOut()) t1(); };
+      paint();
+    }
     $$('.tabs button', page).forEach(b => b.onclick = () => { $$('.tabs button', page).forEach(x => x.classList.toggle('on', x === b)); body.innerHTML = ''; tabs[b.dataset.t](); });
     tabs.p();
     function vlsmTab() {
@@ -14224,6 +15017,13 @@ Mask ${bits(q.mask)}
         }
       }
     };
+    if (PRM && !PRM.isPremium()) {
+      const e0 = T.e, c0 = T.c, q0 = T.q;
+      T.e = () => body.appendChild(PRM.lockNote(TT('Premium ang sagot at paliwanag ng 120-question practice exam. Sa Free plan, makikita mo ang sagot ng Mini exam pagkatapos mong sagutin ito.', 'The answers and explanations of the 120-question practice exam are Premium. On the Free plan you see the Mini exam answers after you finish it.')));
+      T.c = () => { c0(); body.querySelectorAll('details').forEach(d => { const a = d.querySelector('a[href^="#lab-"]'); if (a && !PRM.labFree(a.getAttribute('href').slice(5))) d.remove(); }); body.prepend(PRM.lockNote(TT('Sa Free plan, makikita ang solusyon ng mga libreng challenge lang.', 'On the Free plan you see the solutions of the free challenges only.'), { compact: true })); };
+      T.q = () => { q0(); [...body.querySelectorAll(':scope > details')].forEach((d, i) => { if (CH[i] && !PRM.chapterFree(CH[i].id)) d.remove(); }); body.prepend(PRM.lockNote(TT('Sa Free plan, makikita ang sagot ng quiz sa Chapter 1–2 lang.', 'On the Free plan you see the quiz answers for Chapters 1–2 only.'), { compact: true })); };
+      void e0;
+    }
     $$('.tabs button', page).forEach(b => b.onclick = () => { $$('.tabs button', page).forEach(x => x.classList.toggle('on', x === b)); body.innerHTML = ''; T[b.dataset.t](); });
     T.e();
   }
@@ -14238,6 +15038,11 @@ Mask ${bits(q.mask)}
       w.items.forEach((it, i) => { const k = wi + '-' + i; const r = h(`<label class="check"><input type="checkbox" id="pl-${k}" ${S.plan[k] ? 'checked' : ''}><span>${it}</span></label>`); r.querySelector('input').onchange = e => { S.plan[k] = e.target.checked; save(); }; box.lastElementChild.appendChild(r); });
       page.appendChild(box);
     });
+    if (PRM && !PRM.isPremium()) {
+      const wk = PRM.LIMITS.planWeeks, weeks = page.querySelectorAll('section.week');
+      weeks.forEach((s, wi) => { if (wi >= wk) { s.classList.add('prem-dim'); s.setAttribute('aria-disabled', 'true'); s.querySelectorAll('input').forEach(i => { i.disabled = true; }); } });
+      if (weeks[wk]) weeks[wk].before(PRM.lockNote(TT(`Bukas sa Free plan ang Week 1–${wk}. I-unlock ang Week ${wk + 1}–${weeks.length} gamit ang Premium.`, `Weeks 1–${wk} are open on the Free plan. Unlock Weeks ${wk + 1}–${weeks.length} with Premium.`)));
+    }
     main.appendChild(page);
   }
   function viewTips() { main.appendChild(h((__EN?`<div class="page"><div class="lesson-head"><h1>Recommendations for Learning CCNA</h1><p class="muted">Practical advice from people who passed.</p></div><div class="prose">${window.TIPS}</div></div>`:`<div class="page"><div class="lesson-head"><h1>Recommendations para Matutunan ang CCNA</h1><p class="muted">Mga praktikal na payo mula sa mga pumasa na.</p></div><div class="prose">${window.TIPS}</div></div>`))); }
