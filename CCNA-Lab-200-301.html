@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.9.0";/*CCNA_APP_VERSION="2.9.0"*/
+<script>window.APP_VERSION="2.10.0";/*CCNA_APP_VERSION="2.10.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1183,6 +1183,48 @@ form.dz-autof [data-auto] { display: none; }
 .dl-main h3 svg { width: 20px; height: 20px; color: var(--accent); }
 .dl-main .btn.primary { font-weight: 700; }
 .dl-move .code-box { width: 100%; }
+.dl-prog { display: grid; gap: 6px; }
+.dl-prog .bar { height: 8px; }
+.dl-prog .bar i { transition: width .2s; }
+
+/* v2.10: payment settings, one row per method with its own QR */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.prem-pf { display: grid; gap: 12px; }
+.prem-pf-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-weight: 700; font-size: .92rem; margin-top: 4px; }
+.prem-pf-g { gap: 10px 14px; align-items: start; }
+.prem-mrows { display: grid; gap: 8px; }
+.prem-mrow { display: grid; grid-template-columns: 84px minmax(0, 1fr) minmax(170px, auto); gap: 10px; align-items: center; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); }
+.prem-mrow .pill { justify-self: start; }
+.prem-mrow .fld { margin: 0; }
+.prem-mqr { display: flex; align-items: center; gap: 6px; justify-content: flex-end; }
+.prem-mqr.tiny { justify-content: flex-start; max-width: 230px; }
+.prem-qr0 { width: 40px; height: 40px; border: 1.5px dashed var(--line-2); border-radius: 8px; display: grid; place-items: center; font-size: .7rem; font-weight: 700; color: var(--muted); }
+.prem-mqr .prem-qr.sm { width: 40px; height: 40px; object-fit: contain; }
+@media (max-width: 640px) { .prem-mrow { grid-template-columns: 1fr; gap: 6px; } .prem-mqr { justify-content: flex-start; } }
+.prem-m-gcash .pill, .pill.prem-m-gcash { background: color-mix(in srgb, #0a5bd3 13%, var(--panel)); color: #0a4fb8; }
+.prem-m-maya .pill, .pill.prem-m-maya { background: color-mix(in srgb, #12a150 15%, var(--panel)); color: #0b7a3b; }
+.pill.prem-m-gotyme { background: color-mix(in srgb, #00b3a4 16%, var(--panel)); color: #007f74; }
+.pill.prem-m-paypal { background: color-mix(in srgb, #0070e0 14%, var(--panel)); color: #0058b0; }
+.prem-pf-g.grid.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 640px) { .prem-pf-g.grid.c2 { grid-template-columns: 1fr; } }
+
+/* v2.10 designer: shape sizes, custom shape corners, template inside a growing workspace, size badge */
+.dz-dim { fill: var(--fg-2); font-size: 12px; font-family: var(--f-mono); font-weight: 600; paint-order: stroke; stroke: var(--panel); stroke-width: 3px; pointer-events: none; }
+.dz-vh { fill: var(--panel); stroke: var(--accent); stroke-width: 2.5; vector-effect: non-scaling-stroke; cursor: move; }
+.dz-vh:hover { fill: var(--accent); }
+.dz-vm { fill: var(--accent); fill-opacity: .55; stroke: var(--panel); stroke-width: 1.5; vector-effect: non-scaling-stroke; cursor: copy; }
+.dz-vm:hover { fill-opacity: 1; }
+.dz-base { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 10 7; vector-effect: non-scaling-stroke; opacity: .7; pointer-events: none; }
+.dz-base-l { fill: var(--accent); font-size: 14px; font-family: var(--f-body); font-weight: 700; pointer-events: none; }
+.dz-size { position: absolute; left: 58px; bottom: 12px; z-index: 3; padding: 4px 10px; border-radius: 999px; background: color-mix(in srgb, var(--panel) 88%, transparent); border: 1px solid var(--line); color: var(--fg-2); box-shadow: 0 2px 8px rgb(0 0 0 / .06); pointer-events: none; max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dz-size b { color: var(--fg); font-family: var(--f-mono); font-weight: 600; }
+.dz-io { position: relative; }
+.dz-io .seg button { display: inline-flex; align-items: center; gap: 6px; }
+.dz-io .ic { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.dz-io-m { right: 0; left: auto; width: min(380px, calc(100vw - 24px)); max-height: min(70vh, 620px); overflow: auto; }
+.dz-io-m .dz-mh { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 10px 12px 4px; }
+.dz-io-m .dz-mnote { margin: 6px 10px 8px; padding: 8px 10px; border-radius: 8px; background: var(--panel-2); }
+@media (max-width: 640px) { .dz-io-l { display: none; } }
 
 </style>
 </head>
@@ -1199,7 +1241,7 @@ var __EN = window.LANG === "en";
    in the public repo, so these links always give the newest version. */
 (function () {
   var PAGE = 'https://github.com/cdelimajr/ccna-lab', RAW = PAGE + '/raw/main/', REMOTE = 'https://raw.githubusercontent.com/cdelimajr/ccna-lab/main/';
-  window.DL_LINKS = { page: PAGE, lite: RAW + 'CCNA-Lab-Lite-Setup.zip', offline: RAW + 'CCNA-Lab-Offline.zip', full: RAW + 'CCNA-Lab-200-301-Setup.zip', version: REMOTE + 'version.json', counter: REMOTE + 'counter.txt' };
+  window.DL_LINKS = { page: PAGE, lite: RAW + 'CCNA-Lab-Lite-Setup.zip', offline: RAW + 'CCNA-Lab-Offline.zip', full: RAW + 'CCNA-Lab-200-301-Setup.zip', fullRaw: REMOTE + 'CCNA-Lab-200-301-Setup.zip', version: REMOTE + 'version.json', counter: REMOTE + 'counter.txt' };
 })();
 
 ;
@@ -12088,6 +12130,9 @@ interface g0/0.10
     return out;
   }
   // where trainees can pay: GCash, Maya, GoTyme (QR Ph works for all three) and PayPal
+  // QR per method; the old single QR (c.qr) counts for GCash, and is the fallback for Maya and GoTyme (QR Ph works in all three)
+  const QRK = { gcash: 'qrGcash', maya: 'qrMaya', gotyme: 'qrGotyme' };
+  const qrOf = (c, id) => !QRK[id] ? '' : c[QRK[id]] || (c.qr && (id === 'gcash' || !c.qrGcash) ? c.qr : '');
   function methods(c) {
     c = c || cfg(); const out = [];
     if (c.gcash) out.push({ id: 'gcash', n: 'GCash', v: c.gcash });
@@ -12252,13 +12297,14 @@ interface g0/0.10
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
       const ms = methods(c), has = ms.length > 0;
-      pay.appendChild(h(has ? `<div class="prem-pay">${c.qr ? `<figure class="prem-qrf"><img class="prem-qr" src="${esc(c.qr)}" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted">QR Ph · GCash, Maya, GoTyme</figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${m.n}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b></label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, GoTyme o PayPal) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, GoTyme or PayPal) on this device yet. Contact your Admin or Trainor.')}</p>`));
+      pay.appendChild(h(has ? `<div class="prem-pay">${ms.some(m => qrOf(c, m.id)) ? `<figure class="prem-qrf" hidden><img class="prem-qr" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted"></figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${m.n}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b></label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, GoTyme o PayPal) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, GoTyme or PayPal) on this device yet. Contact your Admin or Trainor.')}</p>`));
       const steps = h(`<ol class="small prem-steps"><li>${t('Pumili ng paraan sa itaas at magbayad (GCash, Maya, GoTyme o PayPal).', 'Pick a method above and pay (GCash, Maya, GoTyme or PayPal).')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
       pay.appendChild(steps);
       const chosen = () => { const v = (page.querySelector('[name=prem-plan]:checked') || {}).value; return plans(c).find(p => p.id === v) || plans(c)[0] || null; };
       const method = () => { const v = (pay.querySelector('[name=prem-m]:checked') || {}).value; return ms.find(m => m.id === v) || ms[0] || null; };
       const showAmt = () => {
         const p = chosen(), m = method(), el = pay.querySelector('.prem-amt'); if (el && p) el.innerHTML = `${p.was ? `<s class="muted">${peso(p.was)}</s> ` : ''}<b>${peso(p.price)}</b> · Premium ${esc(p.name)}${p.was && sl ? ` · ${esc(sl.label || t('Promo', 'Promo'))}` : ''}`;
+        const qf = pay.querySelector('.prem-qrf'); if (qf) { const q = m ? qrOf(c, m.id) : ''; qf.hidden = !q; if (q) { qf.querySelector('img').src = q; qf.querySelector('figcaption').textContent = 'QR · ' + m.n; } }
         const pp = pay.querySelector('.prem-pp'); if (!pp) return;
         if (m && m.id === 'paypal') { const me_ = ppMe(m.v); pp.hidden = false; pp.innerHTML = me_ ? `<a class="btn sm primary" href="https://www.paypal.me/${encodeURIComponent(me_)}${p ? '/' + p.price + 'PHP' : ''}" target="_blank" rel="noopener">${t('Magbayad sa PayPal', 'Pay with PayPal')}${p ? ' · ' + peso(p.price) : ''}</a><span class="tiny muted">${t('Bubukas ang PayPal sa browser. Kopyahin ang Transaction ID pagkatapos magbayad.', 'PayPal opens in your browser. Copy the Transaction ID after you pay.')}</span>` : `<span class="tiny muted">${t('Ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.')}</span>`; }
         else { pp.hidden = true; pp.innerHTML = ''; }
@@ -12296,26 +12342,33 @@ interface g0/0.10
     // payment details
     if (admin) {
       const pd = h(`<div class="card stack"><h3>${t('Detalye ng bayad', 'Payment details')}</h3><p class="small muted">${t('Makikita ito ng mga trainee sa "Mag-upgrade" page sa device na ito.', 'Trainees see this on the "Upgrade" page on this device.')}</p>
-        <form class="grid c2 prem-form" autocomplete="off">
-          <label class="fld">GCash number<input name="gcash" inputmode="tel" maxlength="20" value="${esc(c.gcash)}" placeholder="09XX XXX XXXX"></label>
-          <label class="fld">Maya number<input name="maya" inputmode="tel" maxlength="20" value="${esc(c.maya)}" placeholder="09XX XXX XXXX"></label>
-          <label class="fld">GoTyme ${t('account number', 'account number')}<input name="gotyme" inputmode="tel" maxlength="24" value="${esc(c.gotyme)}" placeholder="0123 4567 8901"></label>
-          <label class="fld">PayPal<input name="paypal" maxlength="80" value="${esc(c.paypal)}" placeholder="${t('email o paypal.me/pangalan', 'email or paypal.me/yourname')}"><span class="tiny muted">${t('Kapag paypal.me link, may "Magbayad sa PayPal" button na may halaga na.', 'With a paypal.me link, trainees get a "Pay with PayPal" button with the amount filled in.')}</span></label>
-          <label class="fld">${t('Pangalan sa account', 'Account name')}<input name="name" maxlength="40" value="${esc(c.name)}" placeholder="J. Dela Cruz"></label>
-          <label class="fld">${t('Saan ipapadala ang ref no.', 'Where to send the ref no.')}<input name="contact" maxlength="60" value="${esc(c.contact)}" placeholder="Messenger: ..."></label>
-          <label class="fld">${t('Presyo bawat buwan (₱)', 'Price per month (₱)')}<input name="price" inputmode="numeric" maxlength="6" value="${esc(c.price)}" placeholder="${t('blangko = walang buwanan', 'blank = no monthly plan')}"></label>
-          <label class="fld">${t('Presyo ng 1 taon (₱)', 'Price for 1 year (₱)')}<input name="priceYear" inputmode="numeric" maxlength="7" value="${esc(c.priceYear)}" placeholder="${t('blangko = walang 1 taon', 'blank = no 1-year plan')}"><span class="tiny muted prem-yhint"></span></label>
-          <label class="fld">${t('Libreng trial sa bagong trainee (araw)', 'Free trial for new trainees (days)')}<input name="trialDays" inputmode="numeric" maxlength="3" value="${esc(c.trialDays)}"></label>
-          <div class="fld"><span>${t('QR Ph para sa GCash, Maya, GoTyme (opsyonal)', 'QR Ph for GCash, Maya, GoTyme (optional)')}</span><div class="row" style="gap:8px">${c.qr ? `<img class="prem-qr sm" src="${esc(c.qr)}" alt="QR">` : ''}<button type="button" class="btn sm" data-a="qr">${c.qr ? t('Palitan', 'Change') : t('Mag-upload', 'Upload')}</button>${c.qr ? `<button type="button" class="btn sm ghost" data-a="qrx">${t('Alisin', 'Remove')}</button>` : ''}<input type="file" accept="image/*" hidden></div></div>
+        <form class="prem-form prem-pf" autocomplete="off">
+          <div class="prem-pf-h">${t('Mga paraan ng bayad', 'Payment methods')}<span class="tiny muted">${t('Iwanang blangko ang hindi ginagamit. Bawat isa ay may sariling QR.', 'Leave unused ones blank. Each one has its own QR.')}</span></div>
+          <div class="prem-mrows">${[['gcash', 'GCash', t('GCash number', 'GCash number'), '09XX XXX XXXX', 20], ['maya', 'Maya', t('Maya number', 'Maya number'), '09XX XXX XXXX', 20], ['gotyme', 'GoTyme', t('GoTyme account number', 'GoTyme account number'), '0123 4567 8901', 24], ['paypal', 'PayPal', t('PayPal email o paypal.me link', 'PayPal email or paypal.me link'), t('email o paypal.me/pangalan', 'email or paypal.me/yourname'), 80]].map(([id, n, lab, ph, mx]) => { const q = qrOf(c, id); return `<div class="prem-mrow" data-m="${id}"><span class="pill prem-m-${id}">${n}</span><label class="fld"><span class="sr-only">${lab}</span><input name="${id}" ${id === 'paypal' ? '' : 'inputmode="tel"'} maxlength="${mx}" value="${esc(c[id] || '')}" placeholder="${esc(ph)}" aria-label="${esc(lab)}"></label>${QRK[id] ? `<div class="prem-mqr">${q ? `<img class="prem-qr sm" src="${esc(q)}" alt="QR ${n}">` : `<span class="prem-qr0" aria-hidden="true">QR</span>`}<button type="button" class="btn sm" data-qr="${id}">${q ? t('Palitan', 'Change') : t('QR', 'QR')}</button>${q ? `<button type="button" class="btn sm ghost" data-qrx="${id}" aria-label="${t('Alisin ang QR', 'Remove QR')} ${n}">✕</button>` : ''}</div>` : `<div class="prem-mqr tiny muted">${t('May "Magbayad sa PayPal" button kapag paypal.me link.', 'A paypal.me link gives a "Pay with PayPal" button.')}</div>`}</div>`; }).join('')}</div>
+          <input type="file" accept="image/*" hidden data-qrfile>
+          <div class="prem-pf-h">${t('Account', 'Account')}</div>
+          <div class="grid c2 prem-pf-g">
+            <label class="fld">${t('Pangalan sa account', 'Account name')}<input name="name" maxlength="40" value="${esc(c.name)}" placeholder="J. Dela Cruz"></label>
+            <label class="fld">${t('Saan ipapadala ang ref no.', 'Where to send the ref no.')}<input name="contact" maxlength="60" value="${esc(c.contact)}" placeholder="Messenger: ..."></label>
+          </div>
+          <div class="prem-pf-h">${t('Presyo', 'Prices')}</div>
+          <div class="grid c2 prem-pf-g">
+            <label class="fld">${t('Buwanan (₱)', 'Monthly (₱)')}<input name="price" inputmode="numeric" maxlength="6" value="${esc(c.price)}" placeholder="${t('blangko = walang buwanan', 'blank = no monthly plan')}"></label>
+            <label class="fld">${t('1 Taon (₱)', '1 Year (₱)')}<input name="priceYear" inputmode="numeric" maxlength="7" value="${esc(c.priceYear)}" placeholder="${t('blangko = walang 1 taon', 'blank = no 1-year plan')}"></label>
+            <p class="tiny muted prem-yhint" style="grid-column:1/-1;margin:0"></p>
+            <label class="fld">${t('Libreng trial sa bagong trainee (araw)', 'Free trial for new trainees (days)')}<input name="trialDays" inputmode="numeric" maxlength="3" value="${esc(c.trialDays)}"></label>
+          </div>
           <div class="row"><button class="btn primary" type="submit">${t('I-save', 'Save')}</button></div></form></div>`);
       const f = pd.querySelector('form');
       f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), gotyme: f.gotyme.value.trim(), paypal: f.paypal.value.trim(), name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), priceYear: f.priceYear.value.replace(/[^\d.]/g, ''), period: 'month', trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
       const yh = () => { const m = +f.price.value.replace(/[^\d.]/g, ''), y = +f.priceYear.value.replace(/[^\d.]/g, ''), el = pd.querySelector('.prem-yhint'); el.textContent = m > 0 && y > 0 ? (12 * m > y ? t(`Makakatipid ang trainee ng ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) kumpara sa 12 buwan.`, `Trainees save ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) compared with 12 months.`) : t('Mas mahal ito kaysa 12 buwan na buwanan.', 'This costs more than 12 monthly payments.')) : ''; };
       f.price.oninput = f.priceYear.oninput = yh; yh();
-      const fi = pd.querySelector('input[type=file]');
-      pd.querySelector('[data-a=qr]').onclick = () => fi.click();
-      fi.onchange = () => { const file = fi.files[0]; if (!file) return; const img = new Image(); const url = URL.createObjectURL(file); img.onload = () => { const N = 360, k = Math.min(1, N / Math.max(img.naturalWidth, img.naturalHeight)); const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); saveCfg(Object.assign(cfg(), { qr: cv.toDataURL('image/png') })); ctx.route(); }; img.onerror = () => ctx.toast(t('Hindi mabasa ang larawan.', 'Could not read that image.')); img.src = url; };
-      const qx = pd.querySelector('[data-a=qrx]'); if (qx) qx.onclick = () => { saveCfg(Object.assign(cfg(), { qr: '' })); ctx.route(); };
+      const fi = pd.querySelector('[data-qrfile]'); let qrFor = 'gcash';
+      // keep what was typed when a QR is changed (the page re-renders)
+      const keepTyped = () => Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), gotyme: f.gotyme.value.trim(), paypal: f.paypal.value.trim() });
+      pd.querySelectorAll('[data-qr]').forEach(b => b.onclick = () => { qrFor = b.dataset.qr; fi.value = ''; fi.click(); });
+      fi.onchange = () => { const file = fi.files[0]; if (!file) return; const img = new Image(); const url = URL.createObjectURL(file); img.onload = () => { const N = 360, k = Math.min(1, N / Math.max(img.naturalWidth, img.naturalHeight)); const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); const nc = keepTyped(); if (nc.qr && !nc.qrGcash) nc.qrGcash = nc.qr; nc.qr = ''; nc[QRK[qrFor]] = cv.toDataURL('image/png'); saveCfg(nc); ctx.toast(t(`Na-save ang QR ng ${qrFor === 'gcash' ? 'GCash' : qrFor === 'maya' ? 'Maya' : 'GoTyme'}.`, `Saved the ${qrFor === 'gcash' ? 'GCash' : qrFor === 'maya' ? 'Maya' : 'GoTyme'} QR.`)); ctx.route(); }; img.onerror = () => ctx.toast(t('Hindi mabasa ang larawan.', 'Could not read that image.')); img.src = url; };
+      pd.querySelectorAll('[data-qrx]').forEach(b => b.onclick = () => { const id = b.dataset.qrx, nc = keepTyped(); if (nc.qr && !nc.qrGcash) nc.qrGcash = nc.qr; nc.qr = ''; nc[QRK[id]] = ''; saveCfg(nc); ctx.route(); });
       page.appendChild(pd);
       // promo / sale (discount)
       const so = c.sale && c.sale.until > Date.now() && +c.sale.pct > 0 ? c.sale : null, s0 = c.sale || {};
@@ -12447,6 +12500,7 @@ interface g0/0.10
     shp_dia: { n: 'Diamond', ic: 's_dia', note: 1, shape: 'dia', pre: 'SHP', g: 'ot', d: E('Desisyon o junction', 'Decision or junction') },
     shp_hex: { n: E('Heksagono', 'Hexagon'), ic: 's_hex', note: 1, shape: 'hex', pre: 'SHP', g: 'ot', d: E('Hal. cloud o data center', 'E.g. cloud or data center') },
     shp_line: { n: E('Linya', 'Line'), ic: 's_line', note: 1, shape: 'line', pre: 'SHP', g: 'ot', d: E('Pader, hangganan o daan', 'Wall, boundary or path') },
+    shp_poly: { n: E('Custom na hugis', 'Custom shape'), ic: 's_poly', note: 1, shape: 'poly', pre: 'SHP', g: 'ot', d: E('I-drag ang mga kanto para baguhin ang hugis (hal. L-shaped na kwarto)', 'Drag the corners to change the shape (e.g. an L-shaped room)') },
     shp_arrow: { n: E('Palaso', 'Arrow'), ic: 's_arrow', note: 1, shape: 'arrow', pre: 'SHP', g: 'ot', d: E('Direksyon ng traffic', 'Traffic direction') },
     // ---- brand models: each one works exactly like its base kind (b), with its own name and port count ----
     tpl_sg108: { n: 'TP-Link TL-SG108', b: 'unmanaged', brand: 'TP-Link', ports: 'g0/1-8', d: E('8-port Gigabit, plug-and-play', '8-port Gigabit, plug-and-play') },
@@ -12681,6 +12735,7 @@ interface g0/0.10
     s_hex: `<path d="M-18 0L-9 -15H9L18 0L9 15H-9Z" style="${ln}"/>`,
     s_line: `<path d="M-19 12L19 -12" style="${ln}"/>`,
     s_arrow: `<path d="M-19 0H17M9 -7L17 0L9 7" style="${ln}"/>`,
+    s_poly: `<path d="M-18 -14H4V-2H18V14H-18Z" style="${ln}"/><circle cx="-18" cy="-14" r="2.6" style="fill:var(--accent)"/><circle cx="4" cy="-14" r="2.6" style="fill:var(--accent)"/><circle cx="18" cy="14" r="2.6" style="fill:var(--accent)"/>`,
     core: `<rect x="-24" y="-17" width="48" height="34" rx="4" style="${st}"/><path d="M-24 0h48" style="${ln}"/><path d="M-15 -8h20M1 -12l4 4-4 4M15 8h-20M-1 4l-4 4 4 4" style="${ln}"/>`
   };
   // country-size plans: inside a site box the scale is metres; between sites, links are long-haul (km)
@@ -12711,7 +12766,9 @@ interface g0/0.10
   // Each Internet (ISP) cloud on the floor plan gets its own public block, so two ISPs never clash.
   const ISPNETS = ['203.0.113', '198.51.100', '192.0.2', '100.64.10', '100.64.20', '100.64.30'];
   function ispNet(D, id) { if (!D) return ISPNETS[0]; const isps = Object.keys(D.devs).filter(k => bk(D.devs[k].k) === 'isp'); return ISPNETS[Math.max(0, isps.indexOf(id)) % ISPNETS.length]; }
-  const SHDEF = { rect: { w: 260, h: 160 }, sq: { w: 170, h: 170 }, circ: { w: 170, h: 170 }, ell: { w: 260, h: 150 }, tri: { w: 190, h: 165 }, dia: { w: 190, h: 190 }, hex: { w: 210, h: 182 }, line: { w: 260, h: 0 }, arrow: { w: 220, h: 0 } };
+  const SHDEF = { rect: { w: 260, h: 160 }, sq: { w: 170, h: 170 }, circ: { w: 170, h: 170 }, ell: { w: 260, h: 150 }, tri: { w: 190, h: 165 }, dia: { w: 190, h: 190 }, hex: { w: 210, h: 182 }, line: { w: 260, h: 0 }, arrow: { w: 220, h: 0 }, poly: { w: 280, h: 200 } };
+  // custom shape: corners as fractions of the width and height, around the middle
+  const POLY = { L: [[-.5, -.5], [.05, -.5], [.05, 0], [.5, 0], [.5, .5], [-.5, .5]], U: [[-.5, -.5], [-.2, -.5], [-.2, .2], [.2, .2], [.2, -.5], [.5, -.5], [.5, .5], [-.5, .5]], T: [[-.5, -.5], [.5, -.5], [.5, -.1], [.15, -.1], [.15, .5], [-.15, .5], [-.15, -.1], [-.5, -.1]], pent: [[0, -.5], [.5, -.12], [.31, .5], [-.31, .5], [-.5, -.12]], oct: [[-.21, -.5], [.21, -.5], [.5, -.21], [.5, .21], [.21, .5], [-.21, .5], [-.5, .21], [-.5, -.21]] };
   const SHC = { accent: 'var(--accent)', blue: '#2f7fd1', green: '#2f9a5a', orange: '#d9822b', red: '#cf4b45', purple: '#8a5cc7', gray: '#7b8794' };
   function addDev(D, k, x, y) {
     const pre = K[k].pre; D.seq[pre] = (D.seq[pre] || 0) + 1; let id = pre + D.seq[pre];
@@ -12726,6 +12783,7 @@ interface g0/0.10
     if (bk(k) === 'soho') Object.assign(cfg, { mode: 'router', lan: '192.168.0.1/24', dhcp: true, from: 100, to: 199, ssid: 'TP-Link_2.4G', psk: '', wan: 'auto', wanIp: '', wanGw: '' });
     if (bk(k) === 'note') cfg.text = (__EN?"Note: double-click to edit":'Note: i-double-click para baguhin');
     if (K[k].shape) Object.assign(cfg, SHDEF[K[k].shape], { c: 'accent', fill: K[k].shape !== 'line' && K[k].shape !== 'arrow', dash: false, sw: 2, rot: 0, text: '' });
+    if (K[k].shape === 'poly') cfg.pts = POLY.L.map(p => p.slice());
     if (bk(k) === 'firewall') Object.assign(cfg, { zones: {}, rules: [] });
     if (bk(k) === 'lb') Object.assign(cfg, { backends: [], svc: 'http' });
     D.devs[id] = { id, k, x: Math.round(x), y: Math.round(y), label: id, cfg };
@@ -13181,6 +13239,61 @@ interface g0/0.10
       R.done.push(__EN ? `Added ${id} (Wi-Fi AP) near ${grp.map(d => d.label).join(', ')}` : `Nagdagdag ng ${id} (Wi-Fi AP) malapit sa ${grp.map(d => d.label).join(', ')}`);
     }
   }
+
+  // Arranges the devices as a tidy top-down network: Internet on top, then firewall / router, core, access
+  // switches, and every end device in a small grid under the switch or AP it connects to.
+  // Uses the cables already in D (run autoDesign first). Notes and shapes stay where they are.
+  // box = [x, y, w, h] to fit into (fixed floor plans), or null to keep the design's current middle.
+  function autoLayout(D, box) {
+    const devs = Object.values(D.devs).filter(d => !K[d.k].note && !K[d.k].shape); if (devs.length < 2) return 0;
+    const rank = d => { const k = K[d.k], b = bk(d.k); return b === 'isp' ? 0 : k.fw ? 1 : (k.ios === 'router' || b === 'soho') ? 2 : (k.l3 && k.l2) || b === 'core' ? 3 : 4; };
+    const isLeaf = d => K[d.k].host && bk(d.k) !== 'lb';
+    const nb = {}; devs.forEach(d => { nb[d.id] = []; }); D.links.forEach(l => { if (nb[l.a] && nb[l.b]) { nb[l.a].push(l.b); nb[l.b].push(l.a); } });
+    const heads = devs.filter(d => !isLeaf(d) && rank(d) === 4 && bk(d.k) !== 'lb').sort((a, b) => a.x - b.x);   // switches and APs: the access row
+    const upper = devs.filter(d => !isLeaf(d) && (rank(d) < 4 || bk(d.k) === 'lb'));
+    const groups = heads.map(d => ({ head: d, leaves: [] })), gOf = id => groups.find(g => g.head.id === id);
+    const aps = groups.filter(g => K[g.head.k].ap), sws = groups.filter(g => !K[g.head.k].ap);
+    const extra = { head: null, leaves: [] };
+    const leaves = devs.filter(isLeaf).sort((a, b) => a.x - b.x || a.y - b.y);
+    for (const d of leaves) {
+      const via = nb[d.id].map(gOf).find(Boolean) || (D.devs[d.id] && null);
+      const wifiOnly = K[d.k].wifi === 2;
+      let g = via && (!wifiOnly || K[via.head.k].ap) ? via : null;
+      if (!g && wifiOnly && aps.length) g = aps.slice().sort((x, y) => x.leaves.length - y.leaves.length)[0];
+      if (!g && sws.length) g = sws.slice().sort((x, y) => x.leaves.length - y.leaves.length || dist(x.head, d) - dist(y.head, d))[0];
+      (g || extra).leaves.push(d.id);
+    }
+    if (extra.leaves.length) groups.push(extra);
+    const ranks = [...new Set(upper.map(rank))].sort((a, b) => a - b);
+    const GX = 122, GY = 108, PAD = 40;
+    const lay = (cmax, TY) => {
+      const pos = {}; let x = 0;
+      const row = ranks.length * TY;
+      groups.forEach(g => { const n = g.leaves.length, c = Math.max(1, Math.min(cmax, n)); g.c = c; g.w = Math.max(GX, c * GX); });
+      const total = groups.reduce((a, g) => a + g.w, 0) + Math.max(0, groups.length - 1) * PAD;
+      groups.forEach(g => {
+        if (g.head) pos[g.head.id] = [x + g.w / 2, row];
+        const top = g.head ? row + TY * .8 : row, rows = Math.ceil(g.leaves.length / g.c);
+        g.leaves.forEach((id, i) => { const r = Math.floor(i / g.c), inRow = r === rows - 1 ? g.leaves.length - r * g.c : g.c, ci = i - r * g.c; pos[id] = [x + g.w / 2 + (ci - (inRow - 1) / 2) * GX, top + r * GY]; });
+        x += g.w + PAD;
+      });
+      const W = Math.max(total, GX);
+      ranks.forEach((rk, i) => { const us = upper.filter(d => rank(d) === rk).sort((a, b) => a.x - b.x), step = W / us.length; us.forEach((d, j) => { pos[d.id] = [step * (j + .5), i * TY]; }); });
+      const ys = Object.values(pos).map(p => p[1]);
+      return { pos, W, H: Math.max(...ys) - Math.min(...ys) };
+    };
+    let L = null;
+    if (box) { for (const TY of [150, 125, 110]) { for (let c = 5; c >= 1 && !L; c--) { const t = lay(c, TY); if (t.W <= box[2] - 110 && t.H <= box[3] - 120) L = t; } if (L) break; } }
+    if (!L) L = lay(3, 150);
+    const xs = Object.values(L.pos).map(p => p[0]), ys = Object.values(L.pos).map(p => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys), W = maxX - minX || 1, Hh = maxY - minY || 1;
+    let sx = 1, sy = 1, ox, oy;
+    if (box) { sx = Math.max(.6, Math.min(1, (box[2] - 110) / W)); sy = Math.max(.6, Math.min(1, (box[3] - 120) / Hh)); ox = box[0] + box[2] / 2 - W * sx / 2; oy = box[1] + 55 + Math.max(0, (box[3] - 120 - Hh * sy) / 3); }
+    else { const cx0 = devs.reduce((a, d) => a + d.x, 0) / devs.length, cy0 = devs.reduce((a, d) => a + d.y, 0) / devs.length; ox = cx0 - W / 2; oy = cy0 - Hh / 2; }
+    let moved = 0;
+    for (const [id, [x, y]] of Object.entries(L.pos)) { const d = D.devs[id]; let nx = Math.round(ox + (x - minX) * sx), ny = Math.round(oy + (y - minY) * sy); if (box) { nx = Math.max(box[0] + 40, Math.min(box[0] + box[2] - 40, nx)); ny = Math.max(box[1] + 40, Math.min(box[1] + box[3] - 55, ny)); } if (Math.abs(nx - d.x) > 2 || Math.abs(ny - d.y) > 2) moved++; d.x = nx; d.y = ny; }
+    return moved;
+  }
   function autoDesign(src, opt) {
     const D = JSON.parse(JSON.stringify(src));
     D.links = []; D.log = []; D.mission = null;
@@ -13525,7 +13638,7 @@ interface g0/0.10
     if (!D) { const first = Object.values(S.designs)[0]; if (first) D = first; else { D = sampleDesign(); S.designs[D.id] = D; } S.designCur = D.id; save(); }
     let B = build(D);
     let undo = null, sel = null, pending = null, placing = null, tab = 'dev', last = null, testRes = null, anim = null, dirtyT = null, matrix = null;
-    let sideOpen = false, panMenu = false, ctxm = null, wire = null, lastTap = null, lp = null;
+    let sideOpen = false, panMenu = false, ioMenu = false, ctxm = null, wire = null, lastTap = null, lp = null;
     const terms = {};
     const narrow = () => innerWidth < 900;
     let zoom = null;
@@ -13576,17 +13689,33 @@ interface g0/0.10
     const rebuild = () => { B = build(D); matrix = null; };
     const L = id => (D.devs[id] || {}).label || id;
     let infP = null;
-    const plan = () => { const P = PLANS[D.plan] || PLANS.office; if (!P.inf) return P; if (!(D.pw > 0) || !(D.ph > 0)) { D.pw = P.w; D.ph = P.h; } if (!infP || infP.w !== D.pw || infP.h !== D.ph) infP = { ...P, w: D.pw, h: D.ph }; return infP; };
+    const canGrow = P => !!P && !P.geo;
+    const plan = () => {
+      const P = PLANS[D.plan] || PLANS.office; if (!P.inf && !(D.grow && canGrow(P))) return P;
+      if (!(D.pw > 0) || !(D.ph > 0)) { D.pw = P.w; D.ph = P.h; D.ox = 0; D.oy = 0; }
+      const ox = D.ox || 0, oy = D.oy || 0;
+      if (!infP || infP.w !== D.pw || infP.h !== D.ph || infP.ox !== ox || infP.oy !== oy || infP.src !== P) infP = { ...P, src: P, inf: 1, grid: P.grid || 50, w: D.pw, h: D.ph, ox, oy, base: P.inf ? null : { x: ox, y: oy, w: P.w, h: P.h }, rooms: P.rooms.map(r => [r[0] + ox, r[1] + oy, ...r.slice(2)]), notes: (P.notes || []).map(n => [n[0] + ox, n[1] + oy, ...n.slice(2)]) };
+      return infP;
+    };
+    // switch "grows as you design" on or off for the current template
+    function setGrow(on) {
+      const P = PLANS[D.plan] || PLANS.office; if (P.inf || !canGrow(P)) return;
+      if (on) { D.grow = true; D.pw = P.w; D.ph = P.h; D.ox = 0; D.oy = 0; infP = null; growPlan(true); }
+      else { const ox = D.ox || 0, oy = D.oy || 0; Object.values(D.devs).forEach(d => { d.x = Math.max(30, Math.min(P.w - 30, d.x - ox)); d.y = Math.max(30, Math.min(P.h - 40, d.y - oy)); }); delete D.grow; delete D.pw; delete D.ph; delete D.ox; delete D.oy; infP = null; }
+      zoom = null; rebuild(); persist(); drawAll(); relayout();
+    }
+    const mtr = v => Math.round(v / U).toLocaleString();
     // "Unlimited" workspace: the plan grows (and shifts) so there is always room on every side of the design
     const INF = { pad: 1500, step: 1000, max: 100000 };
     function growPlan(final) {
       const P = plan(); if (!P.inf) return false; const ds = Object.values(D.devs); if (!ds.length) return false;
       let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
       ds.forEach(d => { const c = d.cfg || {}, r = K[d.k].shape ? Math.hypot(+c.w || 0, +c.h || 0) / 2 : 60; x0 = Math.min(x0, d.x - r); x1 = Math.max(x1, d.x + r); y0 = Math.min(y0, d.y - r); y1 = Math.max(y1, d.y + r); });
+      if (P.base) { x0 = Math.min(x0, P.base.x); y0 = Math.min(y0, P.base.y); x1 = Math.max(x1, P.base.x + P.base.w); y1 = Math.max(y1, P.base.y + P.base.h); }
       let sx = 0, sy = 0, ch = false;
       if (final && x0 < INF.pad && D.pw < INF.max) sx = Math.min(INF.max - D.pw, Math.ceil((INF.pad - x0) / INF.step) * INF.step);
       if (final && y0 < INF.pad && D.ph < INF.max) sy = Math.min(INF.max - D.ph, Math.ceil((INF.pad - y0) / INF.step) * INF.step);
-      if (sx || sy) { ds.forEach(d => { d.x += sx; d.y += sy; }); D.pw += sx; D.ph += sy; x1 += sx; y1 += sy; ch = true; }
+      if (sx || sy) { ds.forEach(d => { d.x += sx; d.y += sy; }); D.pw += sx; D.ph += sy; if (P.base) { D.ox = (D.ox || 0) + sx; D.oy = (D.oy || 0) + sy; } x1 += sx; y1 += sy; ch = true; }
       const nw = Math.min(INF.max, Math.ceil((x1 + INF.pad) / INF.step) * INF.step), nh = Math.min(INF.max, Math.ceil((y1 + INF.pad) / INF.step) * INF.step);
       if (nw > D.pw) { D.pw = nw; ch = true; } if (nh > D.ph) { D.ph = nh; ch = true; }
       if (!ch) return false;
@@ -13599,7 +13728,9 @@ interface g0/0.10
     function infFit() {
       const P = plan(), ds = Object.values(D.devs); let x0, y0, x1, y1;
       if (ds.length) { x0 = Math.min(...ds.map(d => d.x)) - 160; x1 = Math.max(...ds.map(d => d.x)) + 160; y0 = Math.min(...ds.map(d => d.y)) - 140; y1 = Math.max(...ds.map(d => d.y)) + 160; }
+      else if (P.base) { x0 = P.base.x - 40; x1 = P.base.x + P.base.w + 40; y0 = P.base.y - 40; y1 = P.base.y + P.base.h + 40; }
       else { x0 = P.w / 2 - 550; x1 = P.w / 2 + 550; y0 = P.h / 2 - 350; y1 = P.h / 2 + 350; }
+      if (ds.length && P.base) { x0 = Math.min(x0, P.base.x - 40); x1 = Math.max(x1, P.base.x + P.base.w + 40); y0 = Math.min(y0, P.base.y - 40); y1 = Math.max(y1, P.base.y + P.base.h + 40); }
       const bw = Math.max(1100, x1 - x0), bh = Math.max(700, y1 - y0), cw = (canvas.clientWidth || 800) - 2, chh = (canvas.clientHeight || 500) - 2;
       return { z: Math.max(zMin(), Math.min(1, cw / bw, chh / bh)), x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
     }
@@ -13618,7 +13749,7 @@ interface g0/0.10
     }
     cats.addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; openCat = openCat === b.dataset.cat ? null : b.dataset.cat; panMenu = false; closeCtx(); drawPal(); drawTools(); });
     const onDocDown = e => {
-      if ((openCat || panMenu) && !e.target.closest('.dz-top, .dz-tools')) { openCat = null; panMenu = false; drawPal(); drawTools(); }
+      if ((openCat || panMenu || ioMenu) && !e.target.closest('.dz-top, .dz-tools')) { openCat = null; panMenu = false; ioMenu = false; drawPal(); drawTools(); }
       if (ctxm && !e.target.closest('.dz-ctx')) closeCtx();
     };
     document.addEventListener('pointerdown', onDocDown);
@@ -13654,7 +13785,8 @@ interface g0/0.10
         ${panMenu ? `<div class="dz-menu" role="menu">${TABS.map(([t, ic, n, d]) => `<button role="menuitem" data-tab="${t}" class="${sideOpen && tab === t ? 'on' : ''}"><i class="dz-mic">${ic}</i><span><b>${n}${t === 'health' ? healthBadge() : ''}</b><span class="tiny muted">${d}</span></span></button>`).join('')}</div>` : ''}</div>`:`<div class="dz-dd"><button class="dz-cat ${panMenu || sideOpen ? 'on' : ''}" data-pm aria-haspopup="menu" aria-expanded="${panMenu}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Mga panel</span>${healthBadge()}<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
         ${panMenu ? `<div class="dz-menu" role="menu">${TABS.map(([t, ic, n, d]) => `<button role="menuitem" data-tab="${t}" class="${sideOpen && tab === t ? 'on' : ''}"><i class="dz-mic">${ic}</i><span><b>${n}${t === 'health' ? healthBadge() : ''}</b><span class="tiny muted">${d}</span></span></button>`).join('')}</div>` : ''}</div>`);
       tools.innerHTML = `<div class="seg dz-ur"><button data-u="undo" aria-label="Undo" title="Undo (Ctrl+Z)" ${hist.length ? '' : 'disabled'}>↶</button><button data-u="redo" aria-label="Redo" title="Redo (Ctrl+Y)" ${fwd.length ? '' : 'disabled'}>↷</button></div>
-        <div class="seg dz-zoom"><button data-z="-" aria-label="Zoom out">−</button><select data-zs aria-label="Zoom"><option value="fit" ${!zoom ? 'selected' : ''}>Fit${!zoom ? ` (${z}%)` : ''}</option>${ZP.filter(p => p >= zMin() * 100).map(p => `<option value="${p}" ${zoom && Math.round(zoom * 100) === p ? 'selected' : ''}>${p}%</option>`).join('')}${zoom && !ZP.includes(Math.round(zoom * 100)) ? `<option selected value="${Math.round(zoom * 100)}">${Math.round(zoom * 100)}%</option>` : ''}</select><button data-z="+" aria-label="Zoom in">+</button></div>`;
+        <div class="seg dz-zoom"><button data-z="-" aria-label="Zoom out">−</button><select data-zs aria-label="Zoom"><option value="fit" ${!zoom ? 'selected' : ''}>Fit${!zoom ? ` (${z}%)` : ''}</option>${ZP.filter(p => p >= zMin() * 100).map(p => `<option value="${p}" ${zoom && Math.round(zoom * 100) === p ? 'selected' : ''}>${p}%</option>`).join('')}${zoom && !ZP.includes(Math.round(zoom * 100)) ? `<option selected value="${Math.round(zoom * 100)}">${Math.round(zoom * 100)}%</option>` : ''}</select><button data-z="+" aria-label="Zoom in">+</button></div>
+        <div class="dz-dd dz-io"><div class="seg"><button data-io="shot" aria-label="${TT('Screenshot ng design (PNG)', 'Screenshot of the design (PNG)')}" title="${TT('Screenshot ng nakikita sa screen (PNG)', 'Screenshot of what is on screen (PNG)')}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button><button data-io="menu" aria-haspopup="menu" aria-expanded="${ioMenu}" title="${TT('I-download o i-upload ang plan', 'Download or upload the plan')}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v12M4 12l4 4 4-4M16 20V8M12 12l4-4 4 4"/></svg><span class="dz-io-l">Plan</span></button></div>${ioMenu ? ioMenuHtml() : ''}</div>`;
       const touch = matchMedia('(hover: none)').matches;
       hint.textContent = placing ? TT(`${touch ? (__EN?"Tap":'I-tap') : (__EN?"Click":'I-click')} ang floor plan: ${K[placing].n} ang ilalagay sa bawat ${touch ? 'tap' : 'click'}. ${touch ? 'Pindutin ulit ang device sa toolbar' : 'Esc o right-click'} para tumigil.`, `${touch ? 'Tap' : 'Click'} the floor plan: every ${touch ? 'tap' : 'click'} adds a ${K[placing].n}. ${touch ? 'Tap the device in the toolbar again' : 'Esc or right-click'} to stop.`)
         : pending ? (__EN?`${L(pending)}: ${touch ? (__EN?"tap":'i-tap') : (__EN?"click":'i-click')} the device to connect the cable to. Esc to cancel.`:`${L(pending)}: ${touch ? (__EN?"tap":'i-tap') : (__EN?"click":'i-click')} ang device na kakabitan ng cable. Esc para kanselahin.`)
@@ -13665,7 +13797,9 @@ interface g0/0.10
     const zMin = () => { const P = plan(); return P.inf ? 0.02 : P.w > 2500 || P.h > 2500 ? 0.04 : 0.25; };
     const setZoom = v => { zoom = v == null ? null : Math.max(zMin(), Math.min(3, v)); drawTools(); sizeSvg(); };
     const onTools = e => {
-      const pm = e.target.closest('[data-pm]'), tb = e.target.closest('[data-tab]'), z = e.target.closest('[data-z]'), u = e.target.closest('[data-u]');
+      const pm = e.target.closest('[data-pm]'), tb = e.target.closest('[data-tab]'), z = e.target.closest('[data-z]'), u = e.target.closest('[data-u]'), io = e.target.closest('[data-io]'), iox = e.target.closest('[data-iox]');
+      if (io) { if (io.dataset.io === 'shot') { ioMenu = false; drawTools(); shot('view'); } else { ioMenu = !ioMenu; panMenu = false; openCat = null; drawPal(); drawTools(); } return; }
+      if (iox) { ioMenu = false; drawTools(); ioAct(iox.dataset.iox); return; }
       if (pm) { panMenu = !panMenu; openCat = null; drawPal(); drawTools(); return; }
       if (tb) { panMenu = false; openSide(tb.dataset.tab); return; }
       if (u) { u.dataset.u === 'undo' ? doUndo() : doRedo(); return; }
@@ -13766,7 +13900,7 @@ interface g0/0.10
         vb = vbFor().map(v => Math.round(v));
         const o = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); o.setAttribute('class', 'dz-svg dz-pp-svg'); o.setAttribute('viewBox', vb.join(' ')); o.setAttribute('preserveAspectRatio', 'xMidYMid meet');
         o.innerHTML = svg.innerHTML;
-        o.querySelectorAll('.dz-ldel, .dz-ph, .dz-rsz, .dz-shp-sel, .dz-over, .dz-band, .dz-wire, .dz-anim, .dz-ghostp').forEach(n => n.remove());
+        o.querySelectorAll('.dz-ldel, .dz-ph, .dz-rsz, .dz-vhs, .dz-shp-sel, .dz-over, .dz-band, .dz-wire, .dz-anim, .dz-ghostp, .dz-wsz').forEach(n => n.remove());
         o.querySelectorAll('.on, .pend, .tgt').forEach(n => n.classList.remove('on', 'pend', 'tgt'));
         if (!grid) o.querySelectorAll('.dz-floor-g').forEach(n => n.remove());
         const pt = o.querySelector('pattern'); if (pt) { pt.id = 'dzgp'; o.querySelectorAll('[fill="url(#dzg)"]').forEach(n => n.setAttribute('fill', 'url(#dzgp)')); }
@@ -13830,11 +13964,13 @@ interface g0/0.10
       const ls = lines.slice(0, 8); const w = Math.max(60, Math.min(230, Math.max(...ls.map(x => x.length)) * 7.2 + 20)), hh = ls.length * 16 + 14;
       return `<rect x="${-w / 2}" y="${-hh / 2}" width="${w}" height="${hh}" rx="6" class="dz-nb"/>${ls.map((t, i) => `<text x="${-w / 2 + 10}" y="${-hh / 2 + 19 + i * 16}" class="dz-nt">${esc(t)}</text>`).join('')}`;
     }
+    let hTop = '';
     function drawCanvas() {
-      const P = plan(); let s = '';
+      const P = plan(); let s = ''; hTop = '';
       const gs = P.grid || 50, gm = P.geo ? 0 : gs * 10, gf = P.geo ? 0 : gs / 5;
       s += `<defs><pattern id="dzg" width="${gs}" height="${gs}" patternUnits="userSpaceOnUse"><path d="M${gs} 0H0V${gs}" class="dz-grid"/></pattern>${gm ? `<pattern id="dzgm" width="${gm}" height="${gm}" patternUnits="userSpaceOnUse"><path d="M${gm} 0H0V${gm}" class="dz-grid-m"/></pattern><pattern id="dzgf" width="${gf}" height="${gf}" patternUnits="userSpaceOnUse"><path d="M${gf} 0H0V${gf}" class="dz-grid-f"/></pattern>` : ''}</defs>`;
       s += `<rect x="${-P.w * 4}" y="${-P.h * 4}" width="${P.w * 9}" height="${P.h * 9}" class="dz-void"/><rect x="0" y="0" width="${P.w}" height="${P.h}" class="dz-floor ${P.geo ? 'dz-sea' : ''}"/>${gm ? `<rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzgf)" class="dz-floor-g dz-g-fine"/>` : ''}<rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzg)" class="dz-floor-g dz-g-min"/>${gm ? `<rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzgm)" class="dz-floor-g dz-g-maj"/>` : ''}`;
+      if (P.base) s += `<rect x="${P.base.x}" y="${P.base.y}" width="${P.base.w}" height="${P.base.h}" rx="8" class="dz-base"/><text x="${P.base.x + 8}" y="${P.base.y - 10}" class="dz-base-l">${esc(String(P.src.n).replace(/\s*\(.*\)$/, ''))} · ${mtr(P.base.w)} × ${mtr(P.base.h)} m</text>`;
       for (const ld of P.land || []) s += `<path d="${ld}" class="dz-land"/>`;
       for (const g of P.regions || []) s += `<text x="${g[0]}" y="${g[1]}" text-anchor="middle" class="dz-region-l">${g[2]}</text>`;
       for (const r of P.rooms) s += `<rect x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}" rx="6" class="${r[5] ? 'dz-bldg' : 'dz-room'}${P.geo ? ' dz-site' : ''}"/><text x="${r[0] + 10}" y="${r[1] + 20}" class="dz-rl ${r[5] ? 'b' : ''}">${esc(r[4])}</text>${P.geo ? `<text x="${r[0] + r[2] / 2}" y="${r[1] - 22}" text-anchor="middle" class="dz-site-l">${esc(r[4])}</text>` : ''}`;
@@ -13867,8 +14003,9 @@ interface g0/0.10
         const sub = k.host ? ((B.net.hosts[d.id] || {}).ip || (d.cfg.dhcp ? 'DHCP…' : (__EN?"no IP":'walang IP'))) : '';
         s += (__EN?`<g data-dev="${d.id}" class="dz-dev ${on ? 'on' : ''} ${pend ? 'pend' : ''}" transform="translate(${d.x} ${d.y})"><circle r="30" class="hit"/>${iconSvg(d.k)}<text y="36" text-anchor="middle" class="dz-dl">${esc(d.label)}</text>${sub ? `<text y="49" text-anchor="middle" class="dz-ds">${esc(sub)}</text>` : ''}<g class="dz-ph" data-ph="${d.id}" transform="translate(33 4)"><title>Drag onto another device to add a cable</title><circle r="12" class="phh"/><circle r="8.5"/><path d="M-4 0h8M0 -4v8"/></g></g>`:`<g data-dev="${d.id}" class="dz-dev ${on ? 'on' : ''} ${pend ? 'pend' : ''}" transform="translate(${d.x} ${d.y})"><circle r="30" class="hit"/>${iconSvg(d.k)}<text y="36" text-anchor="middle" class="dz-dl">${esc(d.label)}</text>${sub ? `<text y="49" text-anchor="middle" class="dz-ds">${esc(sub)}</text>` : ''}<g class="dz-ph" data-ph="${d.id}" transform="translate(33 4)"><title>I-drag papunta sa ibang device para mag-cable</title><circle r="12" class="phh"/><circle r="8.5"/><path d="M-4 0h8M0 -4v8"/></g></g>`);
       }
-      s += top + `<g class="dz-anim"></g><g class="dz-over">${overSvg()}</g>`;
+      s += hTop + top + `<g class="dz-anim"></g><g class="dz-over">${overSvg()}</g>`;
       svg.innerHTML = s;
+      sizeBadge(P);
     }
     // ---------- shapes ----------
     function shapeSvg(d, on) {
@@ -13880,11 +14017,48 @@ interface g0/0.10
       else if (sh_ === 'tri') g = `<path d="M0 ${-hh / 2}L${w / 2} ${hh / 2}L${-w / 2} ${hh / 2}Z"/>`;
       else if (sh_ === 'dia') g = `<path d="M0 ${-hh / 2}L${w / 2} 0L0 ${hh / 2}L${-w / 2} 0Z"/>`;
       else if (sh_ === 'hex') g = `<path d="M${-w / 2} 0L${-w / 4} ${-hh / 2}L${w / 4} ${-hh / 2}L${w / 2} 0L${w / 4} ${hh / 2}L${-w / 4} ${hh / 2}Z"/>`;
+      else if (sh_ === 'poly') g = `<path d="M${polyPts(c).map(q => (q[0] * w).toFixed(1) + ' ' + (q[1] * hh).toFixed(1)).join('L')}Z"/>`;
       else { const ah = sh_ === 'arrow' ? Math.max(10, sw * 5) : 0; g = `<path d="M${-w / 2} 0H${w / 2 - ah * .6}"/>${ah ? `<path d="M${w / 2 - ah} ${-ah * .6}L${w / 2} 0L${w / 2 - ah} ${ah * .6}Z" style="fill:${col};fill-opacity:1;stroke-dasharray:none"/>` : ''}`; }
       const line = sh_ === 'line' || sh_ === 'arrow', bw = line ? w : w, bh = line ? 24 : hh;
       const txt = c.text ? `<text y="${line ? -12 : 5}" text-anchor="middle" class="dz-shp-t" style="fill:${col}">${esc(String(c.text).slice(0, 60))}</text>` : '';
       const selb = on ? `<rect class="dz-shp-sel" x="${-bw / 2 - 6}" y="${-bh / 2 - 6}" width="${bw + 12}" height="${bh + 12}" rx="4"/><g class="dz-rsz" data-rsz="${d.id}" transform="translate(${line ? w / 2 : w / 2 + 6} ${line ? 0 : hh / 2 + 6})"><title>${TT('I-drag para palakihin o paliitin', 'Drag to resize')}</title><rect x="-8" y="-8" width="16" height="16" rx="4"/></g>` : '';
-      return `<g data-dev="${d.id}" class="dz-dev dz-shape ${on ? 'on' : ''}" transform="translate(${d.x} ${d.y}) rotate(${+c.rot || 0})"><g class="shp-hit">${g}</g><g style="${sty}">${g}</g>${txt}${selb}</g>`;
+      // size in metres: always on the selected shape, and on any shape that has "Show size" ticked
+      const dimL = line ? `${(w / U).toFixed(1)} m` : `${(w / U).toFixed(1)} × ${(hh / U).toFixed(1)} m`;
+      const dim = on || c.dim ? `<text class="dz-dim" y="${line ? 22 : hh / 2 + (on ? 26 : 16)}" text-anchor="middle" transform="rotate(${-(+c.rot || 0)} 0 ${line ? 22 : hh / 2 + (on ? 26 : 16)})">${dimL}</text>` : '';
+      let vh = '';
+      if (on && sh_ === 'poly' && sel && sel.id === d.id) { const P_ = polyPts(c); P_.forEach((q, i) => { const n_ = P_[(i + 1) % P_.length]; vh += `<circle class="dz-vm" data-vm="${d.id}:${i}" cx="${((q[0] + n_[0]) / 2 * w).toFixed(1)}" cy="${((q[1] + n_[1]) / 2 * hh).toFixed(1)}" r="5"><title>${TT('I-drag para magdagdag ng kanto', 'Drag to add a corner')}</title></circle>`; }); P_.forEach((q, i) => { vh += `<circle class="dz-vh" data-vh="${d.id}:${i}" cx="${(q[0] * w).toFixed(1)}" cy="${(q[1] * hh).toFixed(1)}" r="7"><title>${TT('I-drag ang kanto · Double-click para alisin', 'Drag the corner · Double-click to remove')}</title></circle>`; }); }
+      if (vh) hTop += `<g class="dz-vhs" transform="translate(${d.x} ${d.y}) rotate(${+c.rot || 0})">${vh}</g>`; // corner handles go above the devices
+      return `<g data-dev="${d.id}" class="dz-dev dz-shape ${on ? 'on' : ''}" transform="translate(${d.x} ${d.y}) rotate(${+c.rot || 0})"><g class="shp-hit">${g}</g><g style="${sty}">${g}</g>${txt}${selb}${dim}</g>`;
+    }
+    // the workspace and the design: how big they are, in metres
+    function sizeBadge(P) {
+      let el = page.querySelector('.dz-size'); if (!el) { el = h(`<div class="dz-size tiny" role="status"></div>`); canvas.parentElement.appendChild(el); }
+      const ds = Object.values(D.devs);
+      let t = (P.inf ? TT('Workspace', 'Workspace') : TT('Floor plan', 'Floor plan')) + `: <b>${mtr(P.w)} × ${mtr(P.h)} m</b>`;
+      if (ds.length > 1) { const b = designBox(ds); t += ` · ${TT('Design', 'Design')}: <b>${mtr(b[2] - 120)} × ${mtr(b[3] - 120)} m</b>`; }
+      if (P.inf) t += ` · <span class="muted">${TT('lumalaki habang nagdidisenyo', 'grows as you design')}</span>`;
+      el.innerHTML = t;
+    }
+    // box around everything on the plan (devices, notes and shapes), in plan units: [x, y, w, h]
+    function designBox(ds) {
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      (ds || Object.values(D.devs)).forEach(d => { const k = K[d.k], c = d.cfg || {}; const rx = k.shape ? Math.hypot(+c.w || 0, +c.h || 0) / 2 : k.note ? 120 : 60, ry0 = k.shape ? rx : k.note ? 70 : 50, ry1 = k.shape ? rx : k.note ? 70 : 70; x0 = Math.min(x0, d.x - rx); x1 = Math.max(x1, d.x + rx); y0 = Math.min(y0, d.y - ry0); y1 = Math.max(y1, d.y + ry1); });
+      if (!isFinite(x0)) { const P = plan(); return [0, 0, P.w, P.h]; }
+      return [x0, y0, x1 - x0, y1 - y0];
+    }
+    function polyPts(c) { return Array.isArray(c.pts) && c.pts.length >= 3 ? c.pts : POLY.L; }
+    // move one corner of a custom shape to a point on the plan; the shape's box and middle follow its corners
+    function editVertex(d, i, px, py) {
+      const c = d.cfg, r = (+c.rot || 0) * Math.PI / 180, co = Math.cos(r), si = Math.sin(r), dx = px - d.x, dy = py - d.y;
+      const L_ = polyPts(c).map(q => [q[0] * c.w, q[1] * c.h]); L_[i] = [dx * co + dy * si, -dx * si + dy * co];
+      normPoly(d, L_);
+    }
+    function normPoly(d, L_) {
+      const c = d.cfg, r = (+c.rot || 0) * Math.PI / 180, co = Math.cos(r), si = Math.sin(r);
+      const xs = L_.map(q => q[0]), ys = L_.map(q => q[1]), x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+      const w = Math.max(24, x1 - x0), hh = Math.max(24, y1 - y0), cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+      d.x = Math.round(d.x + cx * co - cy * si); d.y = Math.round(d.y + cx * si + cy * co); c.w = Math.round(w); c.h = Math.round(hh);
+      c.pts = L_.map(q => [+((q[0] - cx) / w).toFixed(4), +((q[1] - cy) / hh).toFixed(4)]);
     }
     // resize from the corner handle; the opposite corner (or the start of a line) stays put
     function resizeShape(d, px, py, keep) {
@@ -13941,12 +14115,22 @@ interface g0/0.10
     const devAt = (x, y) => { const el = document.elementFromPoint(x, y); const g = el && el.closest && el.closest('[data-dev]'); return g && svg.contains(g) ? g.dataset.dev : null; };
 
     // ---------- pointer: select, drag, cable from ⊕, long-press ----------
-    let drag = null, suppress = 0, ptrType = 'mouse', ptrXY = [0, 0], rsz = null;
+    let drag = null, suppress = 0, ptrType = 'mouse', ptrXY = [0, 0], rsz = null, lastV = null;
     const clearLp = () => { if (lp) { clearTimeout(lp.t); lp = null; } };
     svg.addEventListener('pointerdown', e => {
       suppress = 0; ptrType = e.pointerType; ptrXY = [e.clientX, e.clientY];
       if (e.button === 2 && e.pointerType === 'mouse') { const pdv = e.target.closest('[data-dev]'), plk = e.target.closest('[data-link]'); pan = { x: e.clientX, y: e.clientY, sl: canvas.scrollLeft, st: canvas.scrollTop, moved: false, pid: e.pointerId, ctx: null, dv: pdv && pdv.dataset.dev, lk: plk && plk.dataset.link }; try { svg.setPointerCapture(e.pointerId); } catch (er) { } return; }
       if (e.button > 0) return;
+      const vx = e.target.closest('[data-vh], [data-vm]');
+      if (vx && !placing) {
+        const [vid, vi] = (vx.dataset.vh || vx.dataset.vm).split(':'), d = D.devs[vid];
+        if (d) {
+          let i = +vi;
+          if (vx.dataset.vh && lastV && lastV.k === vx.dataset.vh && performance.now() - lastV.t < 400 && polyPts(d.cfg).length > 3) { lastV = null; const L_ = polyPts(d.cfg).map(q => [q[0] * d.cfg.w, q[1] * d.cfg.h]); L_.splice(i, 1); normPoly(d, L_); persist(); drawAll(); e.preventDefault(); e.stopPropagation(); return; }
+          if (vx.dataset.vh) lastV = { k: vx.dataset.vh, t: performance.now() };
+          rsz = vx.dataset.vm ? { id: vid, vi: null, ins: i, pid: e.pointerId, moved: false } : { id: vid, vi: i, pid: e.pointerId, moved: false }; try { svg.setPointerCapture(e.pointerId); } catch (er) { } e.preventDefault(); e.stopPropagation(); return;
+        }
+      }
       const rz = e.target.closest('[data-rsz]');
       if (rz && !placing && D.devs[rz.dataset.rsz]) { rsz = { id: rz.dataset.rsz, pid: e.pointerId, moved: false }; try { svg.setPointerCapture(e.pointerId); } catch (er) { } e.preventDefault(); e.stopPropagation(); return; }
       const ph = e.target.closest('[data-ph]'), dv = e.target.closest('[data-dev]'), lk = e.target.closest('[data-link]');
@@ -13973,7 +14157,7 @@ interface g0/0.10
       }
     });
     svg.addEventListener('pointermove', e => {
-      if (rsz && e.pointerId === rsz.pid) { const d = D.devs[rsz.id]; if (!d) return; rsz.moved = true; const p = toPlan(e); resizeShape(d, p.x, p.y, e.shiftKey); if (!rsz.raf) rsz.raf = requestAnimationFrame(() => { if (rsz) rsz.raf = null; drawCanvas(); }); return; }
+      if (rsz && e.pointerId === rsz.pid) { const d = D.devs[rsz.id]; if (!d) return; rsz.moved = true; const p = toPlan(e); if (rsz.ins != null) { const P_ = polyPts(d.cfg), i = rsz.ins, a = P_[i], b = P_[(i + 1) % P_.length]; d.cfg.pts = P_.slice(0, i + 1).concat([[(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]], P_.slice(i + 1)); rsz.vi = i + 1; rsz.ins = null; } if (rsz.vi != null) editVertex(d, rsz.vi, p.x, p.y); else resizeShape(d, p.x, p.y, e.shiftKey); if (!rsz.raf) rsz.raf = requestAnimationFrame(() => { if (rsz) rsz.raf = null; drawCanvas(); }); return; }
       if (placing && e.pointerType === 'mouse' && !pan) { hoverPlace(e); return; }
       if (pan && e.pointerId === pan.pid) {
         const dx = e.clientX - pan.x, dy = e.clientY - pan.y; if (!pan.moved && Math.hypot(dx, dy) < 4) return;
@@ -14408,15 +14592,24 @@ interface g0/0.10
         <label class="fld">${TT('Text (opsyonal)', 'Text (optional)')}<input name="text" maxlength="60" value="${esc(c.text || '')}" placeholder="${TT('hal. Zone A, DMZ, Luzon WAN', 'e.g. Zone A, DMZ, Luzon WAN')}"></label>
         <div class="fld"><span>${TT('Kulay', 'Color')}</span><div class="dz-sw">${Object.entries(SHC).map(([k, v]) => `<button type="button" class="${(c.c || 'accent') === k ? 'on' : ''}" data-c="${k}" style="--c:${v}" aria-label="${k}" title="${k}"></button>`).join('')}</div></div>
         <div class="row2">${line ? '' : `<label class="dz-ck"><input type="checkbox" name="fill" ${c.fill ? 'checked' : ''}> ${TT('May kulay sa loob', 'Filled')}</label>`}<label class="dz-ck"><input type="checkbox" name="dash" ${c.dash ? 'checked' : ''}> ${TT('Putol-putol na linya', 'Dashed line')}</label></div>
-        <div class="row2"><label class="fld">${line ? TT('Haba', 'Length') : TT('Lapad', 'Width')}<input name="w" type="number" min="20" max="9000" value="${Math.round(c.w)}"></label>${line ? '' : `<label class="fld">${TT('Taas', 'Height')}<input name="h" type="number" min="20" max="9000" value="${Math.round(c.h)}"></label>`}</div>
+        <div class="row2"><label class="fld">${line ? TT('Haba (m)', 'Length (m)') : TT('Lapad (m)', 'Width (m)')}<input name="w" type="number" min="2" max="9000" step="0.5" value="${+(c.w / U).toFixed(1)}"></label>${line ? '' : `<label class="fld">${TT('Taas (m)', 'Height (m)')}<input name="h" type="number" min="2" max="9000" step="0.5" value="${+(c.h / U).toFixed(1)}"></label>`}</div>
+        <label class="dz-ck"><input type="checkbox" name="dim" ${c.dim ? 'checked' : ''}> ${TT('Laging ipakita ang sukat sa floor plan', 'Always show the size on the floor plan')}</label>
+        ${s_ === 'poly' ? `<div class="fld"><span>${TT('Hugis', 'Shape')}</span><div class="row" style="gap:6px;flex-wrap:wrap">${[['L', 'L'], ['U', 'U'], ['T', 'T'], ['pent', TT('5 kanto', '5 corners')], ['oct', TT('8 kanto', '8 corners')]].map(([k_, n_]) => `<button type="button" class="btn sm" data-poly="${k_}">${n_}</button>`).join('')}<button type="button" class="btn sm" data-pc="+">+ ${TT('Kanto', 'Corner')}</button><button type="button" class="btn sm" data-pc="-">− ${TT('Kanto', 'Corner')}</button></div><span class="tiny muted">${TT('Sa floor plan: i-drag ang bilog sa kanto; i-drag ang maliit na bilog sa gitna ng gilid para magdagdag ng kanto; i-double-click ang kanto para alisin.', 'On the floor plan: drag a corner dot; drag the small dot in the middle of a side to add a corner; double-click a corner to remove it.')}</span></div>` : ''}
         <div class="row2"><label class="fld">${TT('Kapal ng linya', 'Line width')}<input name="sw" type="range" min="1" max="8" value="${c.sw || 2}"></label><label class="fld">${TT('Ikot (°)', 'Rotate (°)')}<input name="rot" type="number" min="0" max="359" value="${Math.round(c.rot || 0)}"></label></div>
         <div class="row" style="gap:6px">${[0, 45, 90, 135].map(a => `<button type="button" class="btn sm" data-rot="${a}">${a}°</button>`).join('')}</div>
         <p class="tiny muted">${TT('Laging nasa ilalim ng mga device ang shape. I-drag para ilipat; ang maliit na kahon sa kanto para palakihin (Shift: pareho ang hugis).', 'Shapes always sit under the devices. Drag to move; drag the small square at the corner to resize (Shift keeps the proportions).')}</p></form>`, true);
       const f = s.querySelector('form'); let t0 = null;
-      const upd = (now) => { c.text = f.text.value.slice(0, 60); if (f.fill) c.fill = f.fill.checked; c.dash = f.dash.checked; c.sw = +f.sw.value; c.rot = ((+f.rot.value || 0) % 360 + 360) % 360; const w = Math.max(20, Math.min(9000, +f.w.value || c.w)); if (s_ === 'sq' || s_ === 'circ') { c.w = c.h = w; } else { c.w = w; if (f.h) c.h = Math.max(20, Math.min(9000, +f.h.value || c.h)); } drawCanvas(); clearTimeout(t0); if (now) persist(); else t0 = setTimeout(persist, 500); };
+      const upd = (now) => { c.text = f.text.value.slice(0, 60); if (f.fill) c.fill = f.fill.checked; c.dash = f.dash.checked; c.sw = +f.sw.value; c.rot = ((+f.rot.value || 0) % 360 + 360) % 360; c.dim = f.dim.checked; const w = Math.max(20, Math.min(90000, Math.round((+f.w.value || c.w / U) * U))); if (s_ === 'sq' || s_ === 'circ') { c.w = c.h = w; } else { c.w = w; if (f.h) c.h = Math.max(20, Math.min(90000, Math.round((+f.h.value || c.h / U) * U))); } drawCanvas(); clearTimeout(t0); if (now) persist(); else t0 = setTimeout(persist, 500); };
       f.addEventListener('input', () => upd(false)); f.addEventListener('change', () => upd(true)); f.onsubmit = e => e.preventDefault();
       f.querySelectorAll('[data-c]').forEach(b => b.onclick = () => { c.c = b.dataset.c; f.querySelectorAll('[data-c]').forEach(x => x.classList.toggle('on', x === b)); drawCanvas(); persist(); });
       f.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { f.rot.value = b.dataset.rot; upd(true); });
+      f.querySelectorAll('[data-poly]').forEach(b => b.onclick = () => { c.pts = POLY[b.dataset.poly].map(q => q.slice()); drawCanvas(); persist(); });
+      f.querySelectorAll('[data-pc]').forEach(b => b.onclick = () => {
+        const P_ = polyPts(c).map(q => q.slice());
+        if (b.dataset.pc === '+') { let bi = 0, bl = -1; P_.forEach((q, i) => { const n_ = P_[(i + 1) % P_.length], l_ = Math.hypot((q[0] - n_[0]) * c.w, (q[1] - n_[1]) * c.h); if (l_ > bl) { bl = l_; bi = i; } }); const a = P_[bi], n_ = P_[(bi + 1) % P_.length]; P_.splice(bi + 1, 0, [(a[0] + n_[0]) / 2, (a[1] + n_[1]) / 2]); }
+        else { if (P_.length <= 3) { toast(TT('Kailangan ng hindi bababa sa 3 kanto.', 'A shape needs at least 3 corners.')); return; } P_.pop(); }
+        normPoly(d, P_.map(q => [q[0] * c.w, q[1] * c.h])); drawCanvas(); persist();
+      });
     }
     function notePanel(d) {
       const s = section('Text note', (__EN?`<form class="dz-form"><label class="fld">Text<textarea name="t" rows="5" maxlength="400">${esc(d.cfg.text || '')}</textarea></label><p class="tiny muted">Shows on the floor plan as you type. You can drag the note to move it.</p></form>`:`<form class="dz-form"><label class="fld">Text<textarea name="t" rows="5" maxlength="400">${esc(d.cfg.text || '')}</textarea></label><p class="tiny muted">Lumalabas agad sa floor plan habang nagta-type. Pwedeng i-drag ang note para ilipat.</p></form>`), true);
@@ -14712,11 +14905,22 @@ interface g0/0.10
 
     // ---------- auto-design tab ----------
     let autoLast = null, autoWifiOn = true;
+    let arrangeOn = (() => { try { return localStorage.getItem('ccna.dz.arrange') !== '0'; } catch (e) { return true; } })();
+    // auto-design, then (when on) arrange the devices and design again so the cables follow the new places
+    function autoDesignArr(src, opt) {
+      const r = autoDesign(src, opt); if (!arrangeOn) return r;
+      const tmp = JSON.parse(JSON.stringify(r.D)), P = plan();
+      const box = P.inf ? (P.base ? [P.base.x, P.base.y, P.base.w, P.base.h] : null) : [0, 0, P.w, P.h];
+      const n = autoLayout(tmp, box); if (!n) return r;
+      const r2 = autoDesign(tmp, opt);
+      r2.R.done = [TT(`Inayos ang puwesto ng ${n} device: Internet sa itaas, sunod ang firewall at router, ang core at mga switch, at ang mga end device sa ilalim ng switch o AP nila`, `Arranged ${n} devices: Internet on top, then the firewall and router, the core and switches, and the end devices under their switch or AP`)].concat(r.R.done.filter(x => /^(Added|Nagdagdag)/.test(x)), r2.R.done.filter(x => !/^(Added|Nagdagdag)/.test(x)));
+      return r2;
+    }
     let noBuyOn = (() => { try { return localStorage.getItem('ccna.dz.nobuy') !== '0'; } catch (e) { return true; } })();
     function panelAuto() {
       if (freeDz()) { panel.innerHTML = ''; panel.appendChild(PR.lockNote(TT('Premium ang Auto-design: gagawin nito ang cable, IP, VLAN, DHCP, NAT at Wi-Fi para sa buong design mo, kasama ang "Gamitin lang ang meron ako". Sa Free plan, gamitin ang Health tab para sa mga mungkahi at ayusin isa-isa.', 'Auto-design is Premium: it does the cabling, IPs, VLANs, DHCP, NAT and Wi-Fi for your whole design, including "Use only what I have". On the Free plan, use the Health tab for suggestions and fix things one by one.'))); return; }
       const n = Object.keys(D.devs).length;
-      const { D: nd, R } = n ? autoDesign(D, { wifi: autoWifiOn, noBuy: noBuyOn }) : { D: null, R: null };
+      const { D: nd, R } = n ? autoDesignArr(D, { wifi: autoWifiOn, noBuy: noBuyOn }) : { D: null, R: null };
       const li = a => a.map(x => `<li>${esc(x)}</li>`).join('');
       let pv = '';
       if (nd) { const B2 = build(nd); const m = matrixOf(nd, B2); pv = (__EN?`<div class="dz-out ${m.ok === m.n && m.n ? 'ok' : 'bad'}"><p><b>${m.n ? (__EN?`Expected result: ${m.ok}/${m.n} tests will pass`:`Inaasahang resulta: ${m.ok}/${m.n} test ang papasa`) : (__EN?"No hosts to test":'Walang host na masusubukan')}</b></p><p class="tiny muted">Each host pinged to its gateway, to each other${Object.values(D.devs).some(d => bk(d.k) === 'isp') ? (__EN?" and to the Internet (8.8.8.8)":' at sa Internet (8.8.8.8)') : ''}.</p></div>`:`<div class="dz-out ${m.ok === m.n && m.n ? 'ok' : 'bad'}"><p><b>${m.n ? (__EN?`Expected result: ${m.ok}/${m.n} tests will pass`:`Inaasahang resulta: ${m.ok}/${m.n} test ang papasa`) : (__EN?"No hosts to test":'Walang host na masusubukan')}</b></p><p class="tiny muted">Ping ng bawat host sa gateway, sa isa't isa${Object.values(D.devs).some(d => bk(d.k) === 'isp') ? (__EN?" and to the Internet (8.8.8.8)":' at sa Internet (8.8.8.8)') : ''}.</p></div>`); }
@@ -14752,6 +14956,9 @@ interface g0/0.10
         if (first) first.insertBefore(mode, first.querySelector('ul'));
         mode.querySelectorAll('[data-nb]').forEach(b => b.onclick = () => { noBuyOn = b.dataset.nb === '1'; try { localStorage.setItem('ccna.dz.nobuy', noBuyOn ? '1' : '0'); } catch (e) { } panelAuto(); });
         const wl = panel.querySelector('label.dz-chk'); if (wl && noBuyOn) wl.hidden = true;
+        const ar = h(`<label class="dz-chk small dz-arr"><input type="checkbox" ${arrangeOn ? 'checked' : ''}> <span><b>${tt('Ayusin din ang puwesto ng mga device', 'Also arrange where the devices go')}</b><span class="tiny muted" style="display:block">${tt('Internet sa itaas → firewall / router → core → switch → mga PC, laptop at printer sa ilalim ng switch o AP nila. Hindi ginagalaw ang notes at shapes.', 'Internet on top → firewall / router → core → switches → PCs, laptops and printers under their switch or AP. Notes and shapes stay put.')}</span></span></label>`);
+        if (first) (wl || first.querySelector('p.tiny') || first.lastElementChild).before(ar);
+        ar.querySelector('input').onchange = e => { arrangeOn = e.target.checked; try { localStorage.setItem('ccna.dz.arrange', arrangeOn ? '1' : '0'); } catch (er) { } panelAuto(); };
         if (R && noBuyOn && R.tips.length) {
           const tc = h(`<div class="card stack dz-tips" style="gap:6px"><b>💡 ${tt('Paraan gamit ang meron ka', 'Ways to make it work with what you have')}</b><ul class="small dz-ul">${R.tips.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`);
           const anchor = panel.querySelector('.dz-miss, .done-banner'); if (anchor) anchor.before(tc); else panel.firstElementChild.appendChild(tc);
@@ -14763,7 +14970,7 @@ interface g0/0.10
       const ap = panel.querySelector('[data-a=apply]');
       if (ap) ap.onclick = () => {
         if (!ap.dataset.c && (D.links.length || D.log.length)) { ap.dataset.c = 1; ap.textContent = (__EN?"This replaces cables and config. Tap again":'Papalitan ang cable at config. I-tap ulit'); setTimeout(() => { if (ap.isConnected) { delete ap.dataset.c; ap.textContent = (__EN?"✨ Apply to this design":'✨ I-apply sa design na ito'); } }, 3500); return; }
-        undo = JSON.stringify(D); Object.assign(D, { links: nd.links, log: nd.log, devs: nd.devs, seq: nd.seq, mission: null }); finishAuto();
+        undo = JSON.stringify(D); Object.assign(D, { links: nd.links, log: nd.log, devs: nd.devs, seq: nd.seq, mission: null }); finishAuto(); if (arrangeOn) { zoom = null; relayout(); }
       };
       const cp = panel.querySelector('[data-a=copy]');
       if (cp) cp.onclick = () => { nd.id = uid(); nd.name = D.name + ' (auto)'; nd.updated = Date.now(); S.designs[nd.id] = nd; switchTo(nd.id); finishAuto(); };
@@ -14799,6 +15006,198 @@ interface g0/0.10
     }
 
     // ---------- file tab ----------
+
+    // ---------- screenshot + download / upload the plan ----------
+    const fileBase = () => (D.name || 'design').replace(/[^\w\- ]+/g, '').trim().replace(/\s+/g, '-') || 'design';
+    async function saveFile(blob, fn) {
+      const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+      if (dl) { await dl.save({ filename: fn, data: blob }); return; }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fn; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 8000);
+    }
+    function ioMenuHtml() {
+      const it = (k, ic, n, d) => `<button role="menuitem" data-iox="${k}"><i class="dz-mic">${ic}</i><span><b>${n}</b><span class="tiny muted">${d}</span></span></button>`;
+      return `<div class="dz-menu dz-io-m" role="menu">
+        <div class="dz-mh">${TT('Screenshot (PNG)', 'Screenshot (PNG)')}</div>
+        ${it('shot-view', '▣', TT('Ang nakikita sa screen', 'What is on screen'), TT('Kasama ang zoom at puwesto ngayon', 'At the current zoom and position'))}
+        ${it('shot-all', '⛶', TT('Buong design', 'The whole design'), TT('Lahat ng device, cable at shape, malinaw at malaki', 'Every device, cable and shape, sharp and large'))}
+        <div class="dz-mh">${TT('I-download ang plan', 'Download the plan')}</div>
+        ${it('json', '⬇', 'CCNA Lab (.json)', TT('Buo: lahat ng config. Mabubuksan ulit dito, sa ibang PC o ng Trainor', 'Complete, with every config. Opens again here, on another PC or for your Trainor'))}
+        ${it('gns3', '⬇', 'GNS3 (.gns3)', TT('Topology para sa GNS3 2.2: switch, PC at Internet, handa na; ang router ay kailangan ng sariling IOS image sa GNS3', 'Topology for GNS3 2.2: switches, PCs and Internet are ready; routers need your own IOS image in GNS3'))}
+        ${it('drawio', '⬇', 'draw.io (.drawio)', TT('Diagram na mae-edit sa diagrams.net / draw.io; nabubuksan din sa Visio at Lucidchart', 'A diagram you can edit in diagrams.net / draw.io; also opens in Visio and Lucidchart'))}
+        ${it('cfg', '⬇', TT('Mga config (.txt)', 'Configs (.txt)'), TT('Running-config ng bawat router at switch, at IP ng bawat PC: i-paste sa Packet Tracer o GNS3', 'The running-config of every router and switch, and every PC\'s IP: paste into Packet Tracer or GNS3'))}
+        <div class="dz-mh">${TT('I-upload ang plan', 'Upload a plan')}</div>
+        ${it('open', '⬆', TT('Buksan ang file…', 'Open a file…'), TT('.json (CCNA Lab), .gns3 (GNS3) o .drawio (draw.io): magiging bagong design', '.json (CCNA Lab), .gns3 (GNS3) or .drawio (draw.io): becomes a new design'))}
+        <p class="tiny muted dz-mnote">${TT('Packet Tracer (.pkt): naka-encrypt ng Cisco ang format na ito, kaya walang ibang app na nakakabasa o nakakagawa nito. Para sa Packet Tracer, gamitin ang "Mga config" at i-paste sa CLI ng bawat device.', 'Packet Tracer (.pkt): Cisco encrypts this format, so no other app can read or write it. For Packet Tracer, use "Configs" and paste into each device\'s CLI.')}</p></div>`;
+    }
+    async function ioAct(k) {
+      try {
+        if (k === 'shot-view' || k === 'shot-all') return await shot(k === 'shot-all' ? 'all' : 'view');
+        if (k === 'open') return openPlanFile();
+        const b = fileBase();
+        if (k === 'json') { await saveFile(new Blob([JSON.stringify({ format: 'ccna-lab-design', v: 1, app: window.APP_VERSION || '', saved: new Date().toISOString(), design: D }, null, 1)], { type: 'application/json' }), b + '.ccnalab.json'); toast(TT('Na-download ang plan (.json). Buksan ito sa "Plan → Buksan ang file…".', 'Downloaded the plan (.json). Open it with "Plan → Open a file…".')); }
+        else if (k === 'gns3') { const r = toGns3(); await saveFile(new Blob([JSON.stringify(r.o, null, 2)], { type: 'application/json' }), b + '.gns3'); toast(TT(`Na-download para sa GNS3: ${r.n} device, ${r.l} cable.${r.skip ? ` Hindi kasama ang ${r.skip} Wi-Fi na koneksyon (walang Wi-Fi sa GNS3).` : ''}`, `Downloaded for GNS3: ${r.n} devices, ${r.l} cables.${r.skip ? ` ${r.skip} Wi-Fi connections are left out (GNS3 has no Wi-Fi).` : ''}`)); }
+        else if (k === 'drawio') { await saveFile(new Blob([toDrawio()], { type: 'application/xml' }), b + '.drawio'); toast(TT('Na-download ang diagram (.drawio). Buksan sa app.diagrams.net o sa draw.io.', 'Downloaded the diagram (.drawio). Open it in app.diagrams.net or draw.io.')); }
+        else if (k === 'cfg') { await saveFile(new Blob([toConfigs()], { type: 'text/plain' }), b + '-configs.txt'); toast(TT('Na-download ang mga config (.txt).', 'Downloaded the configs (.txt).')); }
+      } catch (er) { if (!(er && er.code === 'declined')) toast(TT('Hindi ma-save ang file dito.', 'Could not save the file here.')); }
+    }
+    // PNG of the floor plan: what is on screen, or the whole design. Selection marks and handles are left out.
+    async function shot(mode) {
+      const P = plan(); let vb;
+      if (mode === 'view') { const r = canvas.getBoundingClientRect(), sr = svg.getBoundingClientRect(), L0 = Math.max(r.left, sr.left), T0 = Math.max(r.top, sr.top), R0 = Math.min(r.right, sr.right), B0 = Math.min(r.bottom, sr.bottom); const a = toPlan({ clientX: L0, clientY: T0 }), b2 = toPlan({ clientX: R0, clientY: B0 }); vb = [a.x, a.y, b2.x - a.x, b2.y - a.y]; }
+      else if (P.inf) { const ds = Object.values(D.devs); const bx = ds.length ? designBox(ds) : [0, 0, P.w, P.h]; if (P.base) { const x0 = Math.min(bx[0], P.base.x), y0 = Math.min(bx[1], P.base.y - 30), x1 = Math.max(bx[0] + bx[2], P.base.x + P.base.w), y1 = Math.max(bx[1] + bx[3], P.base.y + P.base.h); vb = [x0, y0, x1 - x0, y1 - y0]; } else vb = bx; vb = [vb[0] - 40, vb[1] - 40, vb[2] + 80, vb[3] + 80]; }
+      else vb = [-20, -20, P.w + 40, P.h + 40];
+      const host = h(`<div style="position:absolute;left:0;top:0;width:10px;height:10px;overflow:hidden;opacity:0;pointer-events:none" aria-hidden="true"></div>`);
+      const o = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); o.setAttribute('class', 'dz-svg'); o.setAttribute('viewBox', vb.map(v => v.toFixed(1)).join(' '));
+      o.innerHTML = svg.innerHTML;
+      o.querySelectorAll('.dz-ldel, .dz-ph, .dz-rsz, .dz-vhs, .dz-shp-sel, .dz-over, .dz-band, .dz-wire, .dz-anim, .dz-ghostp').forEach(n => n.remove());
+      o.querySelectorAll('.on, .pend, .tgt').forEach(n => n.classList.remove('on', 'pend', 'tgt'));
+      o.querySelectorAll('.dz-dim').forEach(n => { const g = n.closest('[data-dev]'); const d = g && D.devs[g.dataset.dev]; if (!d || !d.cfg.dim) n.remove(); });
+      const pt = o.querySelector('pattern'); if (pt) { o.querySelectorAll('pattern').forEach(x => { const nid = x.id + 'x'; o.querySelectorAll(`[fill="url(#${x.id})"]`).forEach(n => n.setAttribute('fill', `url(#${nid})`)); x.id = nid; }); }
+      host.appendChild(o); wrap.appendChild(host);
+      try {
+        const src = [o, ...o.querySelectorAll('*')];
+        const props = ['fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-opacity', 'stroke-linecap', 'stroke-linejoin', 'opacity', 'font-size', 'font-family', 'font-weight', 'letter-spacing', 'display', 'visibility', 'paint-order', 'text-anchor'];
+        const sty = src.map(el => { const cs = getComputedStyle(el); return props.map(q => `${q}:${cs.getPropertyValue(q)}`).join(';'); });
+        const cl = o.cloneNode(true), dst = [cl, ...cl.querySelectorAll('*')]; dst.forEach((el, i) => el.setAttribute('style', sty[i]));
+        const bg = getComputedStyle(canvas).backgroundColor || '#ffffff';
+        const sc = Math.max(0.5, Math.min(mode === 'all' ? 3 : 2, 3200 / Math.max(vb[2], vb[3]))), W = Math.max(200, Math.round(vb[2] * sc)), H = Math.max(160, Math.round(vb[3] * sc)), FOOT = 36;
+        cl.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); cl.setAttribute('width', W); cl.setAttribute('height', H);
+        const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(cl)); await img.decode();
+        const cv = document.createElement('canvas'); cv.width = W; cv.height = H + FOOT; const x = cv.getContext('2d');
+        x.fillStyle = bg; x.fillRect(0, 0, W, H + FOOT); x.drawImage(img, 0, 0, W, H);
+        const fg = getComputedStyle(page).color || '#222';
+        x.fillStyle = getComputedStyle(page).getPropertyValue('--panel') || '#fff'; x.fillRect(0, H, W, FOOT);
+        x.fillStyle = fg; x.font = '600 15px system-ui, sans-serif'; x.textBaseline = 'middle'; x.fillText(`${D.name || 'Network design'}`, 14, H + FOOT / 2);
+        x.font = '13px system-ui, sans-serif'; x.textAlign = 'right'; x.globalAlpha = .7; x.fillText(`CCNA Lab · ${Math.round(vb[2] / U)} × ${Math.round(vb[3] / U)} m · ${new Date().toLocaleDateString(__EN ? 'en-PH' : 'fil-PH')}`, W - 14, H + FOOT / 2);
+        const blob = await new Promise(r => cv.toBlob(r, 'image/png'));
+        await saveFile(blob, `${fileBase()}-${mode === 'all' ? 'buong-design' : 'screenshot'}.png`.replace('buong-design', __EN ? 'whole-design' : 'buong-design'));
+        toast(TT('Na-save ang screenshot (PNG).', 'Saved the screenshot (PNG).')); SND('ok');
+      } catch (er) { if (!(er && er.code === 'declined')) toast(TT('Hindi ma-save ang screenshot dito.', 'Could not save the screenshot here.')); }
+      finally { host.remove(); }
+    }
+    // what a device is, for other tools
+    const roleOf = d => { const k = K[d.k], b = bk(d.k); if (k.shape || k.note) return null; if (b === 'isp') return 'cloud'; if (k.fw) return 'firewall'; if (k.l3 && k.l2) return 'l3'; if (k.ios === 'router' || b === 'soho') return 'router'; if (k.ap) return 'ap'; if (k.l2 || b === 'hub') return 'switch'; if (b === 'server' || b === 'nas' || b === 'dnssrv' || b === 'lb') return 'server'; if (b === 'laptop' || b === 'tablet' || b === 'mobile') return 'laptop'; if (b === 'printer') return 'printer'; if (b === 'phone') return 'phone'; return 'pc'; };
+    const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g, () => (Math.random() * 16 | 0).toString(16)));
+    const xml = v => String(v == null ? '' : v).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])).replace(/\n/g, '&#xa;');
+    function netDevs() { return Object.values(D.devs).filter(d => roleOf(d)); }
+    function originOf(ds) { return { x: Math.min(...ds.map(d => d.x)) - 80, y: Math.min(...ds.map(d => d.y)) - 80 }; }
+    function toGns3() {
+      const ds = netDevs(), o0 = ds.length ? originOf(ds) : { x: 0, y: 0 }, nodes = [], links = [], ids = {}, next = {}, info = {};
+      const sym = { cloud: ':/symbols/cloud.svg', firewall: ':/symbols/firewall.svg', l3: ':/symbols/multilayer_switch.svg', router: ':/symbols/router.svg', switch: ':/symbols/ethernet_switch.svg', ap: ':/symbols/ethernet_switch.svg', server: ':/symbols/server.svg', laptop: ':/symbols/computer.svg', printer: ':/symbols/computer.svg', phone: ':/symbols/computer.svg', pc: ':/symbols/computer.svg' };
+      const used = {}; D.links.forEach(l => { used[l.a] = (used[l.a] || 0) + 1; used[l.b] = (used[l.b] || 0) + 1; });
+      let dyn = 0;
+      for (const d of ds) {
+        const r = roleOf(d), id = uuid(); ids[d.id] = id; next[d.id] = 0;
+        const name = String(d.label || d.id).replace(/[^\w.-]+/g, '-').slice(0, 30) || d.id;
+        let n = { compute_id: 'local', console: null, console_auto_start: false, console_type: 'none', custom_adapters: [], first_port_name: null, height: 48, label: { rotation: 0, style: 'font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;', text: name, x: 0, y: -25 }, locked: false, name, node_id: id, port_name_format: 'Ethernet{0}', port_segment_size: 0, symbol: sym[r], width: 64, x: Math.round(d.x - o0.x - 32), y: Math.round(d.y - o0.y - 24), z: 1 };
+        if (r === 'cloud') { Object.assign(n, { node_type: 'nat', properties: { ports_mapping: [{ interface: 'virbr0', name: 'nat0', port_number: 0, type: 'ethernet' }] } }); info[d.id] = { kind: 'one' }; }
+        else if (r === 'switch' || r === 'ap') { const np = Math.max(8, used[d.id] || 0); Object.assign(n, { node_type: 'ethernet_switch', properties: { ports_mapping: Array.from({ length: np }, (_, i) => ({ ethertype: '', name: 'Ethernet' + i, port_number: i, type: 'access', vlan: 1 })) } }); info[d.id] = { kind: 'sw' }; }
+        else if (r === 'router' || r === 'l3' || r === 'firewall') { dyn++; Object.assign(n, { node_type: 'dynamips', console_type: 'telnet', properties: { platform: 'c7200', image: 'c7200-adventerprisek9-mz.124-24.T5.image', ram: 512, nvram: 512, dynamips_id: dyn, idlepc: '', slot0: 'C7200-IO-FE', slot1: 'PA-2FE-TX', slot2: 'PA-2FE-TX', slot3: 'PA-2FE-TX', slot4: 'PA-2FE-TX', slot5: 'PA-2FE-TX', slot6: 'PA-2FE-TX' } }); info[d.id] = { kind: 'c7200' }; }
+        else { Object.assign(n, { node_type: 'vpcs', console_type: 'telnet', properties: {} }); info[d.id] = { kind: 'one' }; }
+        nodes.push(n);
+      }
+      const port = id => { const k = info[id].kind, i = next[id]++; if (k === 'one') return i === 0 ? [0, 0] : null; if (k === 'sw') return [0, i]; if (i === 0) return [0, 0]; const j = i - 1, a = 1 + Math.floor(j / 2); return a > 6 ? null : [a, j % 2]; };
+      let skip = 0;
+      for (const l of D.links) { if (!ids[l.a] || !ids[l.b]) continue; const pa = port(l.a), pb = port(l.b); if (!pa || !pb) { skip++; continue; } links.push({ filters: {}, link_id: uuid(), nodes: [{ adapter_number: pa[0], node_id: ids[l.a], port_number: pa[1] }, { adapter_number: pb[0], node_id: ids[l.b], port_number: pb[1] }], suspend: false }); }
+      skip += Object.values(B.assoc || {}).filter(a => a.ap).length;
+      const W_ = Math.max(2000, ...nodes.map(n => n.x + 200)), H_ = Math.max(1000, ...nodes.map(n => n.y + 200));
+      return { o: { auto_close: true, auto_open: false, auto_start: false, drawing_grid_size: 25, grid_size: 75, name: fileBase(), project_id: uuid(), revision: 9, scene_height: H_, scene_width: W_, show_grid: false, show_interface_labels: false, show_layers: false, snap_to_grid: false, supplier: null, topology: { computes: [], drawings: [], links, nodes }, type: 'topology', variables: null, version: '2.2.0', zoom: 100 }, n: nodes.length, l: links.length, skip };
+    }
+    function toDrawio() {
+      const P = plan(), all = Object.values(D.devs), ds = netDevs(), cells = [];
+      const st = { cloud: 'mxgraph.cisco.storage.cloud', firewall: 'mxgraph.cisco.security.firewall', l3: 'mxgraph.cisco.switches.layer_3_switch', router: 'mxgraph.cisco.routers.router', switch: 'mxgraph.cisco.switches.workgroup_switch', ap: 'mxgraph.cisco.wireless.access_point', server: 'mxgraph.cisco.servers.fileserver', laptop: 'mxgraph.cisco.computers_and_peripherals.laptop', printer: 'mxgraph.cisco.computers_and_peripherals.printer', phone: 'mxgraph.cisco.modems_and_phones.ip_phone', pc: 'mxgraph.cisco.computers_and_peripherals.pc' };
+      const sz = { cloud: [90, 56], firewall: [40, 60], l3: [64, 64], router: [60, 40], switch: [64, 32], ap: [50, 32], server: [40, 64], laptop: [60, 40], printer: [56, 44], phone: [36, 40], pc: [52, 46] };
+      const pts = all.length ? all : []; const x0 = (P.base ? Math.min(P.base.x, ...pts.map(d => d.x - 200)) : 0), y0 = (P.base ? Math.min(P.base.y, ...pts.map(d => d.y - 200)) : 0);
+      const X = v => Math.round(v - x0), Y = v => Math.round(v - y0);
+      for (const r of P.rooms || []) cells.push(`<mxCell id="room${cells.length}" value="${xml(r[4])}" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;verticalAlign=top;align=left;spacingLeft=8;spacingTop=4;fillColor=#f5f7f8;strokeColor=#c9d1d6;fontColor=#5b6770;fontStyle=1;" vertex="1" parent="1"><mxGeometry x="${X(r[0])}" y="${Y(r[1])}" width="${r[2]}" height="${r[3]}" as="geometry"/></mxCell>`);
+      const colHex = { accent: '#2b6f86', blue: '#2f7fd1', green: '#2f9a5a', orange: '#d9822b', red: '#cf4b45', purple: '#8a5cc7', gray: '#7b8794' };
+      for (const d of all) {
+        const k = K[d.k], c = d.cfg || {};
+        if (k.note) { cells.push(`<mxCell id="n_${xml(d.id)}" value="${xml(c.text || '')}" style="shape=note;whiteSpace=wrap;html=1;size=12;fillColor=#fff7d6;strokeColor=#d6b656;align=left;spacingLeft=6;" vertex="1" parent="1"><mxGeometry x="${X(d.x - 110)}" y="${Y(d.y - 40)}" width="220" height="80" as="geometry"/></mxCell>`); continue; }
+        if (k.shape) {
+          const shk = k.shape, col = colHex[c.c] || colHex.accent, w = +c.w || 100, hh = +c.h || 2, base = `strokeColor=${col};strokeWidth=${c.sw || 2};${c.dash ? 'dashed=1;' : ''}fillColor=${c.fill ? col : 'none'};opacity=100;fillOpacity=12;rotation=${+c.rot || 0};whiteSpace=wrap;html=1;fontColor=${col};`;
+          if (shk === 'line' || shk === 'arrow') { const r = (+c.rot || 0) * Math.PI / 180, ax = d.x - w / 2 * Math.cos(r), ay = d.y - w / 2 * Math.sin(r), bx = d.x + w / 2 * Math.cos(r), by = d.y + w / 2 * Math.sin(r); cells.push(`<mxCell id="s_${xml(d.id)}" value="${xml(c.text || '')}" style="endArrow=${shk === 'arrow' ? 'block' : 'none'};html=1;strokeColor=${col};strokeWidth=${c.sw || 2};${c.dash ? 'dashed=1;' : ''}" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="${X(ax)}" y="${Y(ay)}" as="sourcePoint"/><mxPoint x="${X(bx)}" y="${Y(by)}" as="targetPoint"/></mxGeometry></mxCell>`); continue; }
+          const shp = { circ: 'ellipse;', ell: 'ellipse;', tri: 'triangle;direction=north;', dia: 'rhombus;', hex: 'shape=hexagon;perimeter=hexagonPerimeter2;', rect: 'rounded=1;arcSize=4;', sq: 'rounded=1;arcSize=4;' }[shk];
+          if (shk === 'poly') { cells.push(`<mxCell id="s_${xml(d.id)}" value="${xml(c.text || '')}" style="shape=mxgraph.basic.polygon;polyCoords=[${polyPts(c).map(q => `[${(q[0] + .5).toFixed(4)},${(q[1] + .5).toFixed(4)}]`).join(',')}];${base}" vertex="1" parent="1"><mxGeometry x="${X(d.x - w / 2)}" y="${Y(d.y - hh / 2)}" width="${w}" height="${hh}" as="geometry"/></mxCell>`); continue; }
+          cells.push(`<mxCell id="s_${xml(d.id)}" value="${xml(c.text || '')}" style="${shp}${base}" vertex="1" parent="1"><mxGeometry x="${X(d.x - w / 2)}" y="${Y(d.y - hh / 2)}" width="${w}" height="${hh}" as="geometry"/></mxCell>`); continue;
+        }
+      }
+      for (const d of ds) {
+        const r = roleOf(d), [w, hh] = sz[r], hst = (B.net.hosts || {})[d.id], ip = hst && hst.ip ? `${hst.ip}${hst.mask ? ' ' + hst.mask : ''}` : '';
+        cells.push(`<object id="d_${xml(d.id)}" label="${xml(d.label + (ip ? '\n' + ip : ''))}" ccna_kind="${xml(d.k)}" ccna_id="${xml(d.id)}" model="${xml(K[d.k].n)}"><mxCell style="shape=${st[r]};html=1;whiteSpace=wrap;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=11;" vertex="1" parent="1"><mxGeometry x="${X(d.x - w / 2)}" y="${Y(d.y - hh / 2)}" width="${w}" height="${hh}" as="geometry"/></mxCell></object>`);
+      }
+      for (const l of D.links) { if (!D.devs[l.a] || !D.devs[l.b]) continue; const col = l.t === 'fiber' ? '#d9822b' : l.t === 'serial' ? '#cf4b45' : '#2f9a5a'; cells.push(`<mxCell id="l_${xml(l.id)}" value="${xml(sh(l.ai) + ' – ' + sh(l.bi))}" style="endArrow=none;html=1;strokeWidth=${l.t === 'fiber' ? 3 : 2};strokeColor=${col};fontSize=9;labelBackgroundColor=#ffffff;${l.t === 'serial' ? 'dashed=1;' : ''}" edge="1" parent="1" source="d_${xml(l.a)}" target="d_${xml(l.b)}"><mxGeometry relative="1" as="geometry"/></mxCell>`); }
+      for (const [c, a] of Object.entries(B.assoc || {})) if (a.ap && D.devs[c] && D.devs[a.ap]) cells.push(`<mxCell id="w_${xml(c)}" value="Wi-Fi" style="endArrow=none;html=1;dashed=1;strokeColor=#2f7fd1;fontSize=9;" edge="1" parent="1" source="d_${xml(a.ap)}" target="d_${xml(c)}"><mxGeometry relative="1" as="geometry"/></mxCell>`);
+      return `<mxfile host="CCNA Lab" version="24.0.0"><diagram id="${uid()}" name="${xml(D.name || 'Network')}"><mxGraphModel grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" math="0" shadow="0"><root><mxCell id="0"/><mxCell id="1" parent="0"/>${cells.join('')}</root></mxGraphModel></diagram></mxfile>`;
+    }
+    function toConfigs() {
+      const out = [], hr = '!' + '='.repeat(60), ds = netDevs();
+      out.push(`! ${D.name || 'Network design'}: ${TT('mga config mula sa CCNA Lab Network Designer', 'configs from the CCNA Lab Network Designer')} (${new Date().toLocaleString(__EN ? 'en-PH' : 'fil-PH')})`);
+      out.push(`! ${TT('Para sa Packet Tracer o GNS3: buksan ang CLI ng device, i-type ang "enable" at "configure terminal", tapos i-paste ang config niya.', 'For Packet Tracer or GNS3: open the device CLI, type "enable" and "configure terminal", then paste its config.')}`);
+      out.push(`! ${TT('Paalala: baka iba ang pangalan ng interface sa ibang modelo (hal. GigabitEthernet0/0 laban sa FastEthernet0/0).', 'Note: interface names can differ on other models (e.g. GigabitEthernet0/0 versus FastEthernet0/0).')}`, '');
+      for (const d of ds) { const n = B.net.devs[d.id]; if (!n || !K[d.k].cli) continue; out.push(hr, `! ${d.label} · ${K[d.k].n}`, hr, ...IOS.runningConfig(n).slice(4), ''); }
+      const hs = ds.filter(d => K[d.k].host);
+      if (hs.length) { out.push(hr, `! ${TT('Mga end device (PC, laptop, server)', 'End devices (PC, laptop, server)')}`, hr); for (const d of hs) { const x = B.net.hosts[d.id] || {}; out.push(`! ${d.label.padEnd(12)} ${d.cfg.dhcp ? 'DHCP' + (x.ip ? ` (${x.ip})` : '') : `IP ${x.ip || '-'}  mask ${x.mask || '-'}  gateway ${x.gw || '-'}${x.dns ? '  DNS ' + x.dns : ''}`}`); } out.push(''); }
+      out.push(hr, `! ${TT('Mga cable', 'Cables')}`, hr); for (const l of D.links) { if (!D.devs[l.a] || !D.devs[l.b]) continue; out.push(`! ${L(l.a)} ${l.ai}  <->  ${L(l.b)} ${l.bi}  (${l.t})`); }
+      return out.join('\r\n') + '\r\n';
+    }
+    // ---------- upload: CCNA Lab .json, GNS3 .gns3, draw.io .drawio (and the old CCNADZ code in a .txt) ----------
+    function openPlanFile() {
+      if (designLimit()) return;
+      const fi = document.createElement('input'); fi.type = 'file'; fi.accept = '.json,.gns3,.drawio,.xml,.txt,application/json'; fi.style.display = 'none'; document.body.appendChild(fi);
+      fi.onchange = async () => { const f = fi.files[0]; fi.remove(); if (!f) return; try { const nd = await planFromFile(f.name, await f.text()); nd.id = uid(); nd.updated = Date.now(); S.designs[nd.id] = nd; switchTo(nd.id); zoom = null; relayout(); toast(nd._msg || TT('Na-import ang plan.', 'Imported the plan.')); delete nd._msg; persist(); SND('ok'); } catch (er) { toast(TT('Hindi mabasa ang file: ', 'Could not read the file: ') + (er && er.message ? er.message : '')); } };
+      fi.click();
+    }
+    const KIND = { cloud: 'isp', firewall: 'firewall', l3: 'l3', router: 'router', switch: 'managed', ap: 'ap', server: 'server', laptop: 'laptop', printer: 'printer', phone: 'phone', pc: 'pc', hub: 'hub' };
+    function guessRole(t) { t = String(t || '').toLowerCase(); if (/cloud|nat\b|internet|isp/.test(t)) return 'cloud'; if (/firewall|asa|fortigate|palo|pfsense/.test(t)) return 'firewall'; if (/multilayer|layer_3|layer3|l3.?switch|3650|3850|9300/.test(t)) return 'l3'; if (/router|dynamips|c7200|c3725|c2691|iosv\b|iou_l3|vios\b|csr|mikrotik/.test(t)) return 'router'; if (/access.?point|wireless|wifi|wlan/.test(t)) return 'ap'; if (/hub/.test(t)) return 'hub'; if (/switch|iosvl2|l2/.test(t)) return 'switch'; if (/server|nas|dns|web/.test(t)) return 'server'; if (/laptop|notebook/.test(t)) return 'laptop'; if (/printer/.test(t)) return 'printer'; if (/phone/.test(t)) return 'phone'; if (/vpcs|pc|computer|workstation|host|desktop|client/.test(t)) return 'pc'; return null; }
+    async function planFromFile(name, text) {
+      const t = text.replace(/^﻿/, '').trim();
+      if (t.startsWith('CCNADZ:')) { const o = dec(t.slice(7)); if (!o || !o.devs) throw new Error('code'); o.name = (o.name || 'Imported') + ' (import)'; return o; }
+      if (t.startsWith('{')) {
+        const j = JSON.parse(t);
+        if (j.format === 'ccna-lab-design' && j.design && j.design.devs) { const o = j.design; o.name = (o.name || 'Imported') + ' (import)'; return o; }
+        if (j.devs && Array.isArray(j.links)) { j.name = (j.name || 'Imported') + ' (import)'; return j; }
+        if (j.topology && Array.isArray(j.topology.nodes)) return fromGns3(j, name);
+        throw new Error(TT('hindi kilalang JSON', 'unknown JSON'));
+      }
+      if (t.startsWith('<')) return await fromDrawio(t, name);
+      throw new Error(TT('hindi kilalang format', 'unknown format'));
+    }
+    function importInto(name, items, edges) {
+      // items: [{ key, role, kind?, label, x, y }], edges: [[keyA, keyB]]; coordinates in plan units
+      const nd = newDesign(name, 'inf'), map = {}; nd.pw = PLANS.inf.w; nd.ph = PLANS.inf.h;
+      if (!items.length) throw new Error(TT('walang device na nakita', 'no devices found'));
+      const xs = items.map(i => i.x), ys = items.map(i => i.y), cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+      for (const it of items) { const k = it.kind && K[it.kind] ? it.kind : KIND[it.role]; if (!k) continue; const id = addDev(nd, k, nd.pw / 2 + (it.x - cx), nd.ph / 2 + (it.y - cy)); map[it.key] = id; if (it.label) nd.devs[id].label = String(it.label).slice(0, 24); }
+      let ok = 0, bad = 0;
+      for (const [a, b] of edges) { if (!map[a] || !map[b] || map[a] === map[b]) { bad++; continue; } const r = linkBest(nd, map[a], map[b]); if (r && r.err) bad++; else ok++; }
+      nd._msg = TT(`Na-import: ${Object.keys(map).length} device, ${ok} cable.${bad ? ` ${bad} cable ang hindi naikabit (kulang ang port o hindi kilala ang device).` : ''} Gamitin ang Auto-design para sa IP at config.`, `Imported: ${Object.keys(map).length} devices, ${ok} cables.${bad ? ` ${bad} cables could not be connected (no free port or unknown device).` : ''} Use Auto-design for IPs and configs.`);
+      return nd;
+    }
+    function fromGns3(j, fname) {
+      const nodes = j.topology.nodes || [], items = [];
+      for (const n of nodes) { const role = n.node_type === 'nat' || n.node_type === 'cloud' ? 'cloud' : n.node_type === 'ethernet_switch' ? 'switch' : n.node_type === 'ethernet_hub' ? 'hub' : n.node_type === 'vpcs' ? 'pc' : guessRole([n.symbol, n.name, (n.properties || {}).platform, n.node_type].join(' ')) || (/(qemu|docker)/.test(n.node_type) ? 'pc' : null); if (!role) continue; items.push({ key: n.node_id, role, label: n.name, x: (+n.x || 0) + (+n.width || 60) / 2, y: (+n.y || 0) + (+n.height || 48) / 2 }); }
+      const edges = (j.topology.links || []).map(l => (l.nodes || []).map(x => x.node_id)).filter(x => x.length === 2);
+      return importInto((j.name || fname.replace(/\.[^.]+$/, '')) + ' (GNS3)', items, edges);
+    }
+    async function fromDrawio(t, fname) {
+      const doc = new DOMParser().parseFromString(t, 'text/xml'); if (doc.querySelector('parsererror')) throw new Error('XML');
+      let model = doc.querySelector('mxGraphModel');
+      if (!model) { const dg = doc.querySelector('diagram'); const raw = dg && dg.textContent.trim(); if (!raw) throw new Error(TT('walang diagram', 'no diagram')); const bin = Uint8Array.from(atob(raw), c => c.charCodeAt(0)); const ds = new DecompressionStream('deflate-raw'); const out = await new Response(new Blob([bin]).stream().pipeThrough(ds)).text(); model = new DOMParser().parseFromString(decodeURIComponent(out), 'text/xml').querySelector('mxGraphModel'); if (!model) throw new Error('diagram'); }
+      const items = [], edges = [], cellOf = {};
+      model.querySelectorAll('mxCell').forEach(c => { const obj = c.parentElement && c.parentElement.tagName === 'object' ? c.parentElement : null; const id = (obj || c).getAttribute('id'); cellOf[id] = { c, obj }; });
+      for (const [id, { c, obj }] of Object.entries(cellOf)) {
+        if (c.getAttribute('vertex') !== '1') continue; const g = c.querySelector('mxGeometry'); if (!g) continue;
+        const kind = obj && obj.getAttribute('ccna_kind'); const lab = ((obj ? obj.getAttribute('label') : c.getAttribute('value')) || '').replace(/<[^>]+>/g, ' ').split(/\n|&#xa;/)[0].trim();
+        const sty_ = c.getAttribute('style') || ''; if (!(kind && K[kind]) && (!/shape=|image=|stencil/.test(sty_) || /shape=(note|mxgraph\.basic|hexagon|rhombus|triangle|ellipse|cloud)\b/.test(sty_) && !/cloud/.test(sty_))) continue; // rooms, notes and plain shapes are not devices
+        const role = kind && K[kind] ? 'x' : guessRole(sty_ + ' ' + lab); if (!role) continue;
+        const w = +g.getAttribute('width') || 50, hh = +g.getAttribute('height') || 50;
+        items.push({ key: id, role, kind: kind && K[kind] ? kind : null, label: lab || null, x: (+g.getAttribute('x') || 0) + w / 2, y: (+g.getAttribute('y') || 0) + hh / 2 });
+      }
+      for (const { c } of Object.values(cellOf)) if (c.getAttribute('edge') === '1' && c.getAttribute('source') && c.getAttribute('target')) edges.push([c.getAttribute('source'), c.getAttribute('target')]);
+      const nm = (doc.querySelector('diagram') && doc.querySelector('diagram').getAttribute('name')) || fname.replace(/\.[^.]+$/, '');
+      return importInto(nm + ' (draw.io)', items, edges);
+    }
     function panelFile() {
       const s = h((__EN?`<div class="stack" style="gap:14px">
         <div class="card stack" style="gap:8px"><b>This design</b><form class="dz-form row2" data-f="rn"><label class="fld">Name<input name="nm" value="${esc(D.name)}" maxlength="60"></label><button class="btn sm" type="submit" data-auto>Rename</button></form><p class="tiny muted">Floor plan: ${esc(plan().n)} · Last changed: ${new Date(D.updated).toLocaleString()}</p><div class="row"><button class="btn sm" data-act="exp">Copy design code</button><button class="btn sm" data-act="dup">Make a copy</button><button class="btn sm" data-act="del">Delete</button></div><div class="dz-exp"></div></div>
@@ -14810,12 +15209,15 @@ interface g0/0.10
       panel.appendChild(s);
       { const pl = h(`<label class="fld">${TT('Floor plan / workspace', 'Floor plan / workspace')}<select>${Object.entries(PLANS).map(([k, p]) => `<option value="${k}" ${k === (PLANS[D.plan] ? D.plan : 'office') ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label>`);
         s.querySelector('[data-f=rn]').after(pl);
+        const P0 = PLANS[D.plan] || PLANS.office;
+        if (!P0.inf && canGrow(P0)) { const gr = h(`<label class="dz-chk small"><input type="checkbox" ${D.grow ? 'checked' : ''}> ${TT('Walang hanggan: lumalaki habang nagdidisenyo', 'Unlimited: grows as you design')}<span class="tiny muted" style="display:block">${TT('Nananatili ang floor plan; may dagdag na espasyo sa paligid habang nagdadagdag ka.', 'The floor plan stays; more room appears around it as you add things.')}</span></label>`); pl.after(gr); gr.querySelector('input').onchange = e => { setGrow(e.target.checked); toast(e.target.checked ? TT('Walang hanggan na ang workspace.', 'The workspace is now unlimited.') : TT('Bumalik sa sukat ng floor plan.', 'Back to the floor plan size.')); }; }
         pl.querySelector('select').onchange = e => { D.plan = e.target.value; const P = plan(); Object.values(D.devs).forEach(d => { d.x = Math.max(30, Math.min(P.w - 30, d.x)); d.y = Math.max(30, Math.min(P.h - 40, d.y)); }); zoom = null; rebuild(); persist(); drawAll(); relayout(); toast(TT(`Floor plan: ${P.n}`, `Floor plan: ${P.n}`)); };
         const sw = h(`<button class="btn sm" type="button">${TT('Buksan ang halimbawang Pilipinas WAN (Luzon, Visayas, Mindanao)', 'Open the Philippines WAN sample (Luzon, Visayas, Mindanao)')}</button>`);
         s.querySelector('[data-act=sample]').after(sw);
         sw.onclick = () => { if (designLimit()) return; const nd = sampleWan(); S.designs[nd.id] = nd; switchTo(nd.id); toast(TT('Binuksan ang Pilipinas WAN. Mag-zoom in sa bawat site; subukan ang ping mula Manila hanggang Davao.', 'Opened the Philippines WAN. Zoom in on each site; try a ping from Manila to Davao.')); }; }
       const rn = s.querySelector('[data-f=rn]'); rn.onsubmit = e => { e.preventDefault(); D.name = rn.nm.value.trim() || D.name; persist(); drawBar(); toast((__EN?"Renamed.":'Na-rename.')); };
-      const nf = s.querySelector('[data-f=new]'); nf.onsubmit = e => { e.preventDefault(); if (designLimit()) return; const nd = newDesign(nf.nm.value.trim() || (__EN?"New design":'Bagong design'), nf.pl.value); S.designs[nd.id] = nd; switchTo(nd.id); tab = 'dev'; drawSide(); toast((__EN?"Created a new design.":'Gumawa ng bagong design.')); };
+      { const gr = h(`<label class="dz-chk small"><input type="checkbox" name="gr" checked> ${TT('Walang hanggan: lumalaki habang nagdidisenyo', 'Unlimited: grows as you design')}</label>`); const nfx = s.querySelector('[data-f=new]'); nfx.querySelector('[name=pl]').closest('label').after(gr); const sync = () => { const pp = PLANS[nfx.pl.value]; gr.hidden = !pp || pp.inf || !canGrow(pp); }; nfx.pl.addEventListener('change', sync); sync(); }
+      const nf = s.querySelector('[data-f=new]'); nf.onsubmit = e => { e.preventDefault(); if (designLimit()) return; const nd = newDesign(nf.nm.value.trim() || (__EN?"New design":'Bagong design'), nf.pl.value); if (nf.gr && nf.gr.checked && !PLANS[nd.plan].inf && canGrow(PLANS[nd.plan])) nd.grow = true; S.designs[nd.id] = nd; switchTo(nd.id); tab = 'dev'; drawSide(); toast((__EN?"Created a new design.":'Gumawa ng bagong design.')); };
       s.querySelector('[data-act=sample]').onclick = () => { const nd = sampleDesign(); S.designs[nd.id] = nd; switchTo(nd.id); toast((__EN?"Opened the sample. Try \"Test everything\" in the Test tab.":'Binuksan ang halimbawa. Subukan ang "Subukan lahat" sa Subukan tab.')); };
       s.querySelector('[data-act=exp]').onclick = () => { const box = s.querySelector('.dz-exp'); box.innerHTML = (__EN?`<textarea class="code-box" rows="4" readonly></textarea><div class="row"><button class="btn sm primary">Copy</button><span class="tiny muted"></span></div>`:`<textarea class="code-box" rows="4" readonly></textarea><div class="row"><button class="btn sm primary">Kopyahin</button><span class="tiny muted"></span></div>`); const ta = box.querySelector('textarea'); ta.value = 'CCNADZ:' + enc(D); box.querySelector('button').onclick = async () => { ta.select(); try { await navigator.clipboard.writeText(ta.value); box.querySelector('span').textContent = (__EN?"Copied.":'Nakopya na.'); } catch (e) { try { document.execCommand('copy'); box.querySelector('span').textContent = (__EN?"Copied.":'Nakopya na.'); } catch (e2) { box.querySelector('span').textContent = (__EN?"Select and copy it.":'I-select at kopyahin.'); } } }; };
       s.querySelector('[data-act=dup]').onclick = () => { if (designLimit()) return; const nd = JSON.parse(JSON.stringify(D)); nd.id = uid(); nd.name = D.name + (__EN?" (copy)":' (kopya)'); nd.updated = Date.now(); S.designs[nd.id] = nd; switchTo(nd.id); tab = 'file'; drawSide(); toast((__EN?"Made a copy.":'Gumawa ng kopya.')); };
@@ -14832,7 +15234,7 @@ interface g0/0.10
     const onKey = e => {
       if (!page.isConnected) return;
       if (e.key === 'Escape') {
-        if (ctxm) closeCtx(); else if (openCat || panMenu) { openCat = null; panMenu = false; } else if (placing || pending) { placing = null; pending = null; placedN = 0; } else if (msel.size) { msel.clear(); } else if (sideOpen && !typing(e)) closeSide(); else if (full) toggleFull(false);
+        if (ctxm) closeCtx(); else if (openCat || panMenu || ioMenu) { openCat = null; panMenu = false; ioMenu = false; } else if (placing || pending) { placing = null; pending = null; placedN = 0; } else if (msel.size) { msel.clear(); } else if (sideOpen && !typing(e)) closeSide(); else if (full) toggleFull(false);
         drawPal(); drawTools(); drawCanvas(); return;
       }
       if (typing(e)) return;
@@ -15158,6 +15560,7 @@ window.startApp = () => {
     const release = () => { if (!held) return; const el = held; held = null; setTimeout(() => el.classList.remove('is-pressed'), 90); };
     document.addEventListener('pointerdown', e => {
       if (e.button > 0) return;
+      if (e.target.matches && e.target.matches('input, select, textarea')) return; // a checkbox inside a pressed label would move away from the pointer
       const el = e.target.closest(SEL); if (!el || el.disabled || el.closest('.dz-canvas, svg, .term')) return;
       release(); el.classList.add('is-pressed'); held = el;
       if (RM()) return;
@@ -15357,6 +15760,47 @@ window.startApp = () => {
   }
 
   // ---------- Download / install ----------
+  // Downloads the Full installer inside the app (with progress), so no website opens or shows.
+  // Offline and desktop: straight from the update repo. Online (claude.ai): from the app's own files, in parts.
+  async function getFull(btn, box) {
+    const T = (f, e) => __EN ? e : f, L = window.DL_LINKS || {}, bar = box.querySelector('i'), msg = box.querySelector('.dl-msg');
+    const NAME = 'CCNA-Lab-200-301-Setup.zip', mb = n => (n / 1048576).toFixed(1);
+    const say = (t, c) => { msg.textContent = t; msg.style.color = c || ''; };
+    const dlr = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+    btn.disabled = true; box.hidden = false; bar.style.width = '0%'; say(T('Kumokonekta…', 'Connecting…'));
+    try {
+      let blob;
+      const pull = async (url, done, total, onChunk) => {
+        const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) throw new Error('HTTP ' + r.status);
+        if (!r.body || !r.body.getReader) { const b = await r.arrayBuffer(); onChunk(b.byteLength); return [new Uint8Array(b)]; }
+        const rd = r.body.getReader(), out = []; for (; ;) { const { done: d, value } = await rd.read(); if (d) break; out.push(value); onChunk(value.length); } return out;
+      };
+      if (dlr) {
+        const man = await (await fetch(new URL('dl/full/manifest.json', location.href), { cache: 'no-store' })).json();
+        const total = man.b64 || 1; let got = 0; const parts = [];
+        for (const pth of man.parts) {
+          const ch = await pull(new URL(pth, location.href), got, total, n => { got += n; bar.style.width = Math.min(99, 100 * got / total).toFixed(1) + '%'; say(T(`Dina-download… ${Math.round(100 * got / total)}%`, `Downloading… ${Math.round(100 * got / total)}%`)); });
+          parts.push(new TextDecoder().decode(await new Blob(ch).arrayBuffer()).replace(/\s+/g, ''));
+        }
+        const bin = atob(parts.join('')), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+        blob = new Blob([u8], { type: 'application/zip' });
+      } else {
+        let got = 0, total = 0;
+        const r0 = await fetch(L.fullRaw + '?t=' + Date.now(), { method: 'HEAD', cache: 'no-store' }).catch(() => null); if (r0 && r0.ok) total = +r0.headers.get('content-length') || 0;
+        const ch = await pull(L.fullRaw + '?t=' + Date.now(), 0, total, n => { got += n; if (total) bar.style.width = Math.min(99, 100 * got / total).toFixed(1) + '%'; say(total ? T(`Dina-download… ${mb(got)} / ${mb(total)} MB`, `Downloading… ${mb(got)} / ${mb(total)} MB`) : T(`Dina-download… ${mb(got)} MB`, `Downloading… ${mb(got)} MB`)); });
+        blob = new Blob(ch, { type: 'application/zip' });
+      }
+      bar.style.width = '100%';
+      if (dlr) await dlr.save({ filename: NAME, data: blob });
+      else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = NAME; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 60000); }
+      say(T(`Tapos! ${NAME} (${mb(blob.size)} MB) ay nasa Downloads folder mo. I-extract, tapos i-double-click ang Setup.exe.`, `Done! ${NAME} (${mb(blob.size)} MB) is in your Downloads folder. Extract it, then double-click Setup.exe.`), 'var(--ok)'); SND('ok');
+    } catch (e) {
+      const c = e && e.code;
+      say(c === 'declined' ? T((__EN?"Cancelled.":'Kinansela.'), 'Cancelled.') : c === 'rate_limited' ? T((__EN?"A download prompt is still open. Try again in a moment.":'May bukas pang download prompt. Subukan ulit maya-maya.'), 'A download prompt is still open. Try again in a moment.') : T('Hindi ma-download ngayon. Tingnan kung may Internet, tapos subukan ulit.', 'Could not download right now. Check your Internet, then try again.'), c === 'declined' ? '' : 'var(--bad)');
+      if (c !== 'declined') bar.style.width = '0%';
+    }
+    btn.disabled = false;
+  }
   function viewDownload() {
     // One download for everyone: the Full installer. The Lite and Offline versions keep working and keep
     // updating, but their accounts live in their own storage, so this page also moves them into the Full app.
@@ -15374,9 +15818,8 @@ window.startApp = () => {
     const main_ = h(`<div class="card stack dl-pub dl-main"><div class="row between" style="gap:8px;flex-wrap:wrap"><h3>${icon('box')} Full installer <span class="pill ok">${T('Main', 'Main')}</span></h3><span class="tiny muted">Windows 10/11 · zip · ${T('mga', 'about')} 80 MB</span></div>
       <p class="small">${T('Ang kumpletong CCNA Lab app: sariling window, shortcut sa Desktop at Start menu, gumagana kahit walang Internet, at kusang nag-a-update.', 'The complete CCNA Lab app: its own window, shortcuts on the Desktop and Start menu, works without Internet, and updates by itself.')}</p>
       ${step(T(['Pindutin ang <b>I-download ang Full installer</b>.', 'Sa Downloads folder: i-right-click ang zip → <b>Extract All</b> → <b>Extract</b>.', 'I-double-click ang <b>Setup.exe</b>. Kung lumabas ang asul na <b>"Windows protected your PC"</b>: <b>More info</b> → <b>Run anyway</b>.', (__EN?"<b>Next</b> → <b>Finish</b>. Open <b>CCNA Lab 200-301</b> from the Desktop.":'<b>Next</b> → <b>Finish</b>. Buksan ang <b>CCNA Lab 200-301</b> sa Desktop.')], ['Press <b>Download the Full installer</b>.', 'In your Downloads folder: right-click the zip → <b>Extract All</b> → <b>Extract</b>.', 'Double-click <b>Setup.exe</b>. If the blue <b>"Windows protected your PC"</b> shows: <b>More info</b> → <b>Run anyway</b>.', '<b>Next</b> → <b>Finish</b>. Open <b>CCNA Lab 200-301</b> on the Desktop.']))}
-      <div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn primary" href="${esc(L.full || '#')}" target="_blank" rel="noopener">⬇ ${T('I-download ang Full installer', 'Download the Full installer')}</a><span class="tiny muted dl-ver">${T('Tinitingnan ang pinakabagong version…', 'Checking the latest version…')}</span></div>
-      <div class="stack" style="gap:6px"><span class="tiny muted">${T('Libreng link para i-share (walang account na kailangan, laging pinakabago):', 'Free link to share (no account needed, always the newest):')}</span>
-      <div class="dl-link"><input class="mono" readonly aria-label="Download link" value="${esc(L.page || '')}"><button class="btn sm" type="button" data-pub="copy">${T('Kopyahin', 'Copy')}</button>${navigator.share ? `<button class="btn sm" type="button" data-pub="share">${T('Ibahagi', 'Share')}</button>` : ''}<a class="btn sm" href="${esc(L.page || '#')}" target="_blank" rel="noopener">${T('Buksan', 'Open')}</a></div></div></div>`);
+      <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><button class="btn primary" type="button" data-get="full">⬇ ${T('I-download ang Full installer', 'Download the Full installer')}</button><span class="tiny muted dl-ver">${T('Tinitingnan ang pinakabagong version…', 'Checking the latest version…')}</span></div>
+      <div class="dl-prog" hidden><div class="bar"><i style="width:0%"></i></div><span class="tiny dl-msg" role="status" aria-live="polite"></span></div></div>`);
     st.appendChild(main_);
     const sec = [];
     // move accounts from Lite / Offline into Full
@@ -15409,10 +15852,7 @@ window.startApp = () => {
     sec.forEach(c => st.appendChild(c));
     accordion(sec, { key: 'dl2', open: sec[0].classList.contains('dl-move') && (legacy || electron) ? 0 : -1, icons: sec.length === 3 ? ['db', 'globe', 'bulb'] : ['globe', 'bulb'] });
     const ub = page.querySelector('[data-upd]'); if (ub) ub.onclick = () => window.UPDATER ? UPDATER.check() : null;
-    const inp = main_.querySelector('input');
-    inp.onclick = () => inp.select();
-    main_.querySelector('[data-pub=copy]').onclick = () => { const ok = () => toast(T('Nakopya ang link.', 'Link copied.')); (navigator.clipboard ? navigator.clipboard.writeText(L.page).then(ok, () => { inp.select(); document.execCommand('copy'); ok(); }) : (inp.select(), document.execCommand('copy'), ok())); };
-    const sb = main_.querySelector('[data-pub=share]'); if (sb) sb.onclick = () => navigator.share({ title: 'CCNA Lab 200-301', text: T('Libreng CCNA 200-301 trainer: lessons, CLI labs, exam at Network Designer.', 'Free CCNA 200-301 trainer: lessons, CLI labs, exam and Network Designer.'), url: L.page }).catch(() => { });
+    main_.querySelector('[data-get=full]').onclick = e => getFull(e.currentTarget, main_.querySelector('.dl-prog'));
     const vEl = main_.querySelector('.dl-ver');
     if (L.version) fetch(L.version + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(j => {
       const cmp = (a, b) => { a = String(a).split('.').map(Number); b = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) { const d = (a[i] || 0) - (b[i] || 0); if (d) return d; } return 0; };
