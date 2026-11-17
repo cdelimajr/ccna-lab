@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.10.0";/*CCNA_APP_VERSION="2.10.0"*/
+<script>window.APP_VERSION="2.11.0";/*CCNA_APP_VERSION="2.11.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1225,6 +1225,75 @@ form.dz-autof [data-auto] { display: none; }
 .dz-io-m .dz-mh { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 10px 12px 4px; }
 .dz-io-m .dz-mnote { margin: 6px 10px 8px; padding: 8px 10px; border-radius: 8px; background: var(--panel-2); }
 @media (max-width: 640px) { .dz-io-l { display: none; } }
+
+/* ---- v2.11: designer tabs, zoom on the canvas, open device tray, shape lock, departments, 100 missions ---- */
+.dz-pal { position: static; margin-top: 6px; max-height: clamp(120px, 24vh, 214px); box-shadow: none; padding-top: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+.dz-pal .dz-pi { grid-template-columns: 36px minmax(0, 1fr); padding: 5px 8px; column-gap: 8px; }
+.dz-pal .dz-pi svg { width: 36px; height: 30px; }
+.dz-pal .dz-pi b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dz-pal .dz-pi span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dz-pal .dz-palx { position: sticky; top: -2px; justify-self: end; grid-column: 1 / -1; margin: -6px -2px -30px auto; z-index: 2; width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--panel); color: var(--fg-3); cursor: pointer; font-size: .9rem; }
+.dz-pal .dz-palx:hover { color: var(--fg); border-color: var(--accent); }
+.dz-rail { position: absolute; right: 12px; top: 12px; z-index: 7; }
+.dz-ptabs { display: flex; flex-direction: column; gap: 2px; padding: 4px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--panel); box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+.dz-ptab { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; width: 70px; font: inherit; font-size: .66rem; font-weight: 600; line-height: 1.15; text-align: center; color: var(--fg-2); background: none; border: 1px solid transparent; border-radius: 9px; padding: 7px 3px 6px; cursor: pointer; transition: background .12s, border-color .12s, color .12s; }
+.dz-ptab i { font-style: normal; font-size: 1.05rem; line-height: 1; }
+.dz-ptab:hover { background: var(--panel-2); color: var(--fg); }
+.dz-ptab.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.dz-ptab .pill { position: absolute; top: 2px; right: 2px; padding: 0 4px; font-size: .58rem; line-height: 1.5; }
+.dz-ptab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 899px) { .dz-ptab { width: 46px; padding: 8px 2px; } .dz-ptab > span:not(.pill) { display: none; } .dz-rail { right: 8px; top: 8px; } }
+.dz-zfab .dz-zpct { width: 46px; font-size: .7rem; font-weight: 700; letter-spacing: .01em; color: var(--fg-3); }
+.dz-zfab .dz-zpct:hover { color: var(--accent); }
+.dz-st.dz-st-t { font-weight: 700; color: var(--fg); font-size: .9rem; }
+.dz-tall { align-self: flex-start; }
+.dz-shape.locked { cursor: default; }
+.dz-lock rect { fill: var(--panel); stroke: var(--line-2); stroke-width: 1; }
+.dz-lock path { fill: none; stroke: var(--fg-3); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.dz-lockck { margin-top: 2px; }
+.dz-dtag { pointer-events: none; }
+.dz-dtag rect { fill: var(--c); opacity: .92; }
+.dz-dtag text { fill: #fff; font: 700 8.5px/1 var(--f-body, system-ui), sans-serif; letter-spacing: .03em; }
+.dz-dept .dz-q { display: flex; flex-direction: column; gap: 6px; padding-top: 8px; border-top: 1px dashed var(--line); }
+.dz-dchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.dz-dchip { display: inline-flex; align-items: center; gap: 4px; font: inherit; font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--panel); color: var(--fg); cursor: pointer; }
+.dz-dchip::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--accent)); opacity: .35; }
+.dz-dchip.on { border-color: var(--c, var(--accent)); background: color-mix(in srgb, var(--c, var(--accent)) 12%, var(--panel)); }
+.dz-dchip.on::before { opacity: 1; }
+.dz-dchip.cust { --c: var(--accent); cursor: default; }
+.dz-dchip.cust button { border: 0; background: none; color: var(--fg-3); cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 0 0 2px; }
+.dz-dadd { gap: 6px; flex-wrap: nowrap; }
+.dz-dadd input { flex: 1; min-width: 0; font: inherit; font-size: .84rem; padding: 6px 9px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--panel); color: var(--fg); }
+.dz-acc { display: flex; flex-direction: column; gap: 5px; }
+.dz-arow { display: grid; grid-template-columns: minmax(84px, 112px) 1fr; gap: 8px; align-items: center; }
+.dz-arow select, .dz-drow select { font: inherit; font-size: .82rem; padding: 5px 7px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--panel); color: var(--fg); min-width: 0; }
+.dz-dpill { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dz-dpill::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+.dz-dgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 5px; max-height: 260px; overflow-y: auto; padding-right: 2px; }
+.dz-drow { display: grid; grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1.2fr); gap: 6px; align-items: center; font-size: .8rem; font-weight: 600; padding: 3px 5px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel-2); }
+.dz-drow svg { width: 26px; height: 22px; }
+.dz-drow span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dz-dsrv { grid-column: 1 / -1; margin: 2px 0 0; }
+.dz-mprog .bar { margin: 0; }
+.dz-mf { display: flex; flex-wrap: wrap; gap: 5px; }
+.dz-mfb { font: inherit; font-size: .78rem; font-weight: 600; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--panel); color: var(--fg); cursor: pointer; }
+.dz-mfb span { color: var(--fg-3); font-weight: 500; margin-left: 2px; }
+.dz-mfb.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.dz-ml { display: flex; flex-direction: column; gap: 6px; }
+.dz-mi .dz-mn { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: .78rem; font-weight: 700; background: var(--panel); border: 1px solid var(--line); color: var(--fg-3); }
+.dz-mi .dz-mt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.dz-mi.cur { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.prem-uses { display: grid; gap: 6px; margin-top: 4px; }
+.prem-use { display: grid; grid-template-columns: minmax(120px, 200px) 1fr auto; gap: 10px; align-items: center; font-size: .82rem; }
+.prem-use .bar { margin: 0; }
+.prem-use b { font-variant-numeric: tabular-nums; }
+.dz-ptab .dz-ptn { font-size: .6rem; font-weight: 600; color: var(--fg-3); font-variant-numeric: tabular-nums; }
+.dz-ptab.on .dz-ptn { color: var(--accent); }
+@media (max-width: 899px) { .dz-ptab .dz-ptn { display: none; } }
+.dz-zone-t { font-family: var(--f-body, system-ui), sans-serif; pointer-events: none; paint-order: stroke; stroke: var(--panel); stroke-width: 3px; stroke-linejoin: round; }
+.dz-zone-t .n { font-size: 12.5px; font-weight: 700; }
+.dz-zone-t .s { font-size: 9.5px; font-weight: 600; opacity: .9; }
+@media (max-width: 600px) { .dz-pal { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 168px; } .dz-pal .dz-pi { padding: 4px 6px; grid-template-columns: 30px minmax(0, 1fr); } .dz-pal .dz-pi svg { width: 30px; height: 26px; } .dz-pal .dz-pi b { font-size: .78rem; } }
 
 </style>
 </head>
@@ -12157,10 +12226,17 @@ interface g0/0.10
     const ch = (window.CURRICULUM || []).find(c => c.lessons.some(l => l.id === id)); if (!ch) return true;
     return FREE_CH.includes(ch.id) || ch.lessons[0].id === id;
   }
-  const labFree = id => { const l = (window.LABS || {})[id]; return !l || (l.challenge ? !!l.free : (l.level || 'Basic') === 'Basic'); };
+  // Free: the first 10 Basic labs and 5 starter challenges (in the order of the lab list)
+  let freeSet = null;
+  const freeLabs = () => {
+    if (freeSet) return freeSet; const L = window.LABS || {}, ks = Object.keys(L); if (!ks.length) return new Set();
+    const b = ks.filter(k => !L[k].challenge && (L[k].level || 'Basic') === 'Basic').slice(0, LIMITS.labs), c = ks.filter(k => L[k].challenge && L[k].free).slice(0, LIMITS.challenges);
+    return (freeSet = new Set([...b, ...c]));
+  };
+  const labFree = id => { const l = (window.LABS || {})[id]; return !l || freeLabs().has(id); };
   const chapterFree = id => FREE_CH.includes(id);
   // Limits for Free users in Practice & References and Account (Premium removes all of them)
-  const LIMITS = { designs: 2, devices: 15, subnetDay: 20, planWeeks: 4 };
+  const LIMITS = { designs: 1, devices: 10, subnetDay: 10, planWeeks: 4, labs: 10, challenges: 5, mini: 20 };
   const PREM_PAL = ['warm'];
   const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
   // questions answered today in the Subnetting Trainer (counted from the running total, so the trainer code stays as it is)
@@ -12254,13 +12330,19 @@ interface g0/0.10
     if (st.src === 'staff') return t('Admin/Trainor: bukas ang lahat ng lessons, labs at exam.', 'Admin/Trainor: every lesson, lab and exam is open.');
     if (st.src === 'noacct') return '';
     if (st.tier === 'premium') return `${st.src === 'promo' ? t('Libre ang Premium para sa lahat', 'Premium is free for everyone') : st.src === 'trial' ? t('Free trial', 'Free trial') : 'Premium'} ${t('hanggang', 'until')} <b>${fmt(st.until)}</b> (${t('natitira', 'left')}: ${left(st.until - Date.now())})${st.note ? ` · ${esc(st.note)}` : ''}`;
-    return st.src === 'expired' ? t(`Natapos ang Premium mo noong ${fmt(st.was)}.`, `Your Premium ended on ${fmt(st.was)}.`) : t('Free plan: Chapter 1–2, unang lesson ng bawat chapter, Basic labs, ilang challenge, Mini exam, at limitadong tools.', 'Free plan: Chapters 1–2, the first lesson of every chapter, Basic labs, some challenges, the Mini exam, and limited tools.');
+    return st.src === 'expired' ? t(`Natapos ang Premium mo noong ${fmt(st.was)}.`, `Your Premium ended on ${fmt(st.was)}.`) : t(`Free plan: Chapter 1–2, unang lesson ng bawat chapter, ${LIMITS.labs} Basic lab, ${LIMITS.challenges} challenge, Mini exam (${LIMITS.mini}), at limitadong tools.`, `Free plan: Chapters 1–2, the first lesson of every chapter, ${LIMITS.labs} Basic labs, ${LIMITS.challenges} challenges, the Mini exam (${LIMITS.mini}), and limited tools.`);
+  }
+  // Free plan: how much of today's / the plan's limits is used
+  function usage() {
+    const s = S(), sn = subnetToday(), ds = Object.values(s.designs || {}).filter(x => !x.mission && !x.sample && !/^(Halimbawa|Sample):/.test(x.name || '')).length;
+    const m = (n, used, max) => `<div class="prem-use"><span>${n}</span><div class="bar ${used >= max ? 'warn' : ''}"><i style="width:${Math.min(100, 100 * used / max)}%"></i></div><b>${Math.min(used, max)}/${max}</b></div>`;
+    return `<div class="prem-uses">${m(t('Subnetting ngayong araw', 'Subnetting today'), sn, LIMITS.subnetDay)}${m(t('Sariling design sa Designer', 'Own designs in the Designer'), ds, LIMITS.designs)}</div>`;
   }
   function lockCard(kind) {
     const what = kind === 'challenge' ? t('Premium challenge ito', 'This is a Premium challenge') : kind === 'lab' ? t('Premium lab ito', 'This is a Premium lab') : kind === 'exam' ? t('Premium ang buong 120-question exam', 'The full 120-question exam is Premium') : t('Premium lesson ito', 'This is a Premium lesson');
     const c = cfg();
     return h(`<div class="page"><div class="card stack prem-lock"><div class="prem-lock-ic">${ICON}</div><h2>${what}</h2>
-      <p class="muted">${t('Sa Free plan, bukas ang Chapter 1–2, ang unang lesson ng bawat chapter, ang lahat ng Basic labs, ang unang challenge ng bawat uri, ang Mini exam (30), at limitadong Network Designer at Subnetting Trainer.', 'On the Free plan you get Chapters 1–2, the first lesson of every chapter, all Basic labs, the first challenge of each kind, the Mini exam (30), and a limited Network Designer and Subnetting Trainer.')}</p>
+      <p class="muted">${t(`Sa Free plan, bukas ang Chapter 1–2, ang unang lesson ng bawat chapter, ${LIMITS.labs} Basic lab, ${LIMITS.challenges} lab challenge, ang Mini exam (${LIMITS.mini} tanong), at limitadong Network Designer at Subnetting Trainer.`, `On the Free plan you get Chapters 1–2, the first lesson of every chapter, ${LIMITS.labs} Basic labs, ${LIMITS.challenges} lab challenges, the Mini exam (${LIMITS.mini} questions), and a limited Network Designer and Subnetting Trainer.`)}</p>
       <p>${t('I-unlock ang lahat', 'Unlock everything')}${plans(c).length ? `: ${priceTxt(c)}` : ''}.</p>
       <div class="row"><a class="btn primary" href="#upgrade">${STAR}${t('Mag-upgrade sa Premium', 'Upgrade to Premium')}</a><a class="btn" href="#upgrade">${t('May access code ako', 'I have an access code')}</a></div></div></div>`);
   }
@@ -12290,9 +12372,9 @@ interface g0/0.10
       if (pf) pf.onsubmit = e => { e.preventDefault(); const v = pf.pc.value.trim(); if (v.toUpperCase() === String(sl.code).trim().toUpperCase()) { S().promoCode = v.toUpperCase(); SAVE(); ctx.toast(t(`Nagamit ang promo: ${sl.pct}% bawas.`, `Promo applied: ${sl.pct}% off.`)); try { window.SFX && SFX.play('ok'); } catch (x) { } ctx.route(); } else { ctx.toast(t('Mali ang promo code.', 'That promo code is not valid.')); try { window.SFX && SFX.play('err'); } catch (x) { } } };
       page.appendChild(sb);
     }
-    page.appendChild(h(`<div class="card stack prem-status"><div class="row between"><h3>${t('Ang plan mo', 'Your plan')}</h3>${badge(st)}</div><p class="small">${statusLine(st)}</p></div>`));
+    page.appendChild(h(`<div class="card stack prem-status"><div class="row between"><h3>${t('Ang plan mo', 'Your plan')}</h3>${badge(st)}</div><p class="small">${statusLine(st)}</p>${st.tier === 'free' ? usage() : ''}</div>`));
     page.appendChild(h(`<div class="prem-plans">
-      <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Lahat ng Basic labs', 'All Basic labs')} (${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length})</li><li>${t('Lab challenges', 'Lab challenges')}: ${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length} ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam (30)</li><li>${t(`Network Designer: hanggang ${LIMITS.designs} design at ${LIMITS.devices} device bawat design, walang Auto-design`, `Network Designer: up to ${LIMITS.designs} designs and ${LIMITS.devices} devices each, no Auto-design`)}</li><li>${t(`Subnetting Trainer: ${LIMITS.subnetDay} tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: ${LIMITS.subnetDay} questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
+      <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Basic labs', 'Basic labs')}: <b>${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length}</b> ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => !l.challenge && (l.level || 'Basic') === 'Basic').length}</li><li>${t('Lab challenges', 'Lab challenges')}: <b>${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length}</b> ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam: <b>${LIMITS.mini}</b> ${t('tanong', 'questions')}</li><li>${t(`Network Designer: <b>${LIMITS.designs}</b> sariling design at <b>${LIMITS.devices}</b> device, walang Auto-design (bukas ang 100 mission)`, `Network Designer: <b>${LIMITS.designs}</b> design of your own and <b>${LIMITS.devices}</b> devices, no Auto-design (all 100 missions open)`)}</li><li>${t(`Subnetting Trainer: <b>${LIMITS.subnetDay}</b> tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: <b>${LIMITS.subnetDay}</b> questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
       <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3>${plans(c).length ? `<div class="prem-opts" role="radiogroup" aria-label="${t('Piliin ang plan', 'Choose a plan')}">${plans(c).map((p, i, a) => `<label class="prem-opt ${p.id === 'y' ? 'best' : ''}"><input type="radio" name="prem-plan" value="${p.id}" ${(a.length > 1 ? p.id === 'y' : i === 0) ? 'checked' : ''}><span class="prem-opt-n">${p.name}${p.id === 'y' && p.save ? `<i class="prem-tag">${t('Pinakasulit', 'Best value')}</i>` : ''}</span><span class="prem-price">${p.was ? `<s class="prem-was">${peso(p.was)}</s>` : ''}${peso(p.price)}<small>/${p.per}</small></span>${p.save ? `<span class="tiny prem-save">${t(`Makatipid ng ${peso(p.save)} (${p.pct}%) · ${peso(p.month)} lang bawat buwan`, `Save ${peso(p.save)} (${p.pct}%) · just ${peso(p.month)} a month`)}</span>` : p.id === 'm' ? `<span class="tiny muted">${t('Bayaran bawat buwan', 'Pay every month')}</span>` : `<span class="tiny muted">${t('Isang bayad para sa buong taon', 'One payment for the whole year')}</span>`}</label>`).join('')}</div>` : `<p class="prem-price">${t('Tanungin ang Admin', 'Ask the Admin')}</p>`}<ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
@@ -12769,7 +12851,7 @@ interface g0/0.10
   const SHDEF = { rect: { w: 260, h: 160 }, sq: { w: 170, h: 170 }, circ: { w: 170, h: 170 }, ell: { w: 260, h: 150 }, tri: { w: 190, h: 165 }, dia: { w: 190, h: 190 }, hex: { w: 210, h: 182 }, line: { w: 260, h: 0 }, arrow: { w: 220, h: 0 }, poly: { w: 280, h: 200 } };
   // custom shape: corners as fractions of the width and height, around the middle
   const POLY = { L: [[-.5, -.5], [.05, -.5], [.05, 0], [.5, 0], [.5, .5], [-.5, .5]], U: [[-.5, -.5], [-.2, -.5], [-.2, .2], [.2, .2], [.2, -.5], [.5, -.5], [.5, .5], [-.5, .5]], T: [[-.5, -.5], [.5, -.5], [.5, -.1], [.15, -.1], [.15, .5], [-.15, .5], [-.15, -.1], [-.5, -.1]], pent: [[0, -.5], [.5, -.12], [.31, .5], [-.31, .5], [-.5, -.12]], oct: [[-.21, -.5], [.21, -.5], [.5, -.21], [.5, .21], [.21, .5], [-.21, .5], [-.5, .21], [-.5, -.21]] };
-  const SHC = { accent: 'var(--accent)', blue: '#2f7fd1', green: '#2f9a5a', orange: '#d9822b', red: '#cf4b45', purple: '#8a5cc7', gray: '#7b8794' };
+  const SHC = { accent: 'var(--accent)', blue: '#2f7fd1', green: '#2f9a5a', orange: '#d9822b', red: '#cf4b45', purple: '#8a5cc7', gray: '#7b8794', teal: '#1f9aa6', pink: '#c94f8a' };
   function addDev(D, k, x, y) {
     const pre = K[k].pre; D.seq[pre] = (D.seq[pre] || 0) + 1; let id = pre + D.seq[pre];
     while (D.devs[id]) { D.seq[pre]++; id = pre + D.seq[pre]; }
@@ -13240,6 +13322,143 @@ interface g0/0.10
     }
   }
 
+  // ---------- departments (Auto-design: one VLAN per department, who may reach whom, zones, where devices go) ----------
+  // [id, name, zone color, VLAN]
+  const DEPTS = [['it', 'IT', 'blue', 10], ['hr', 'HR', 'red', 20], ['acct', 'Accounting', 'orange', 30], ['mkt', 'Marketing', 'purple', 40], ['sales', 'Sales', 'green', 50], ['admin', 'Admin', 'gray', 60], ['ops', 'Operations', 'teal', 70], ['guest', 'Guest', 'pink', 90]];
+  const DCOL = ['teal', 'pink', 'purple', 'green', 'orange', 'blue'];
+  const DABBR = { it: 'IT', hr: 'HR', acct: 'ACCT', mkt: 'MKTG', sales: 'SALES', admin: 'ADMIN', ops: 'OPS', guest: 'GUEST' };
+  const isSrvK = k => !!(K[k] && (K[k].srv || K[k].lb));
+  const isInfra = d => { const k = K[d.k], b = bk(d.k); return !!(k.isp || k.fw || k.soho || (k.ios === 'router' && !k.host) || (k.l3 && k.l2) || b === 'ips' || b === 'wlc' || isSrvK(d.k)); };
+  const isAccSw = d => { const k = K[d.k]; return !isInfra(d) && !!k.l2 && !k.ap; };
+  const isEnd = d => { const k = K[d.k]; return !!k.host && !isInfra(d); };
+  // the departments of a design ({id, n, c, v, acc}); "Servers" is always added last. null when the feature is off
+  function deptList(D) {
+    const c = D && D.depts; if (!c || !c.on || !(c.list || []).length) return null;
+    const cust = c.list.filter(x => !DEPTS.some(d => d[0] === x));
+    const out = c.list.map(id => {
+      const p = DEPTS.find(x => x[0] === id), ci = cust.indexOf(id);
+      return { id, n: p ? p[1] : String((c.names || {})[id] || id).slice(0, 16), c: p ? p[2] : DCOL[ci % DCOL.length], v: p ? p[3] : 110 + 10 * ci, acc: (c.acc || {})[id] || deptDefAcc(id) };
+    });
+    out.push({ id: 'srv', n: 'Servers', c: 'accent', v: 100, acc: (c.acc || {}).srv || 'all', srv: true });
+    return out;
+  }
+  const deptDefAcc = id => id === 'guest' ? 'self' : id === 'hr' || id === 'acct' ? 'it' : 'all';
+  // may department a and department b talk to each other? (both sides' rules must allow it)
+  function deptAllows(L, a, b) {
+    if (!L || a === b) return true; const A = L.find(x => x.id === a), Bd = L.find(x => x.id === b); if (!A || !Bd) return true;
+    const ok = (to, from) => to.acc === 'all' || (to.acc === 'it' && from.id === 'it');
+    return ok(Bd, A) && ok(A, Bd);
+  }
+  function deptOf(L, d) { if (!L || !d) return null; if (isSrvK(d.k)) return 'srv'; const t = d.cfg && d.cfg.dept; return L.some(x => x.id === t && !x.srv) ? t : null; }
+  // intended block by the access rules (the design really has department VLANs)
+  function deptBlocked(D, a, b) { const L = D.depts && D.depts.applied ? deptList(D) : null; if (!L) return false; const x = deptOf(L, a), y = deptOf(L, b); return !!(x && y && !deptAllows(L, x, y)); }
+  const DPREF = { admin: /manager|admin|exec|ceo|boss|director/i, guest: /lobby|reception|lounge|wi-?fi|guest|caf/i, it: /\bit\b|tech|network|noc/i, hr: /\bhr\b|human/i, acct: /account|financ|cash/i, sales: /sales/i, mkt: /market/i, ops: /operation|warehouse|ops\b/i, srv: /server|data ?cent|mdf|rack/i };
+  // give a department to every end device and AP that has none: by the room it is in, else split by position
+  function deptGuess(D, L, P) {
+    const user = (L || []).filter(x => !x.srv); if (!user.length) return 0;
+    const rooms = ((P && P.rooms) || []).filter(r => !r[5]);
+    const roomOf = d => rooms.find(r => d.x >= r[0] && d.x <= r[0] + r[2] && d.y >= r[1] && d.y <= r[1] + r[3]);
+    const todo = []; let n = 0;
+    for (const d of Object.values(D.devs)) {
+      if (!(isEnd(d) || (K[d.k].ap && !K[d.k].soho))) continue;
+      if (user.some(x => x.id === d.cfg.dept)) continue;
+      const r = roomOf(d), m = r && user.find(x => DPREF[x.id] && DPREF[x.id].test(r[4]));
+      if (m) { d.cfg.dept = m.id; n++; } else todo.push(d);
+    }
+    if (!todo.length) return n;
+    const pool = user.length > 1 ? user.filter(x => x.id !== 'guest') : user;
+    const cnt = {}; pool.forEach(x => { cnt[x.id] = Object.values(D.devs).filter(d => d.cfg && d.cfg.dept === x.id).length; });
+    const ri = d => { const r = roomOf(d); return r ? rooms.indexOf(r) : 99; };
+    todo.sort((a, b) => ri(a) - ri(b) || a.x - b.x || a.y - b.y);
+    // even blocks, in floor-plan order; the departments with the fewest devices get filled first
+    const order = pool.slice().sort((a, b) => cnt[a.id] - cnt[b.id]);
+    todo.forEach((d, i) => { d.cfg.dept = order[Math.min(order.length - 1, Math.floor(i * order.length / todo.length))].id; n++; });
+    return n;
+  }
+  // Puts the network where it belongs on the floor plan: Internet, firewall, router, core and servers in the
+  // server room; every department in its own room (or part of a room) with its own switch and AP.
+  // P = the current plan (rooms already moved for grown workspaces); box = [x, y, w, h] or null (unlimited).
+  // Returns { moved, zones: [{id, x, y, w, h}], loc: [[label, place]] }
+  function deptLayout(D, L, P, box) {
+    const devs = Object.values(D.devs).filter(d => !K[d.k].note && !K[d.k].shape);
+    const user = L.filter(x => !x.srv);
+    const infra = devs.filter(isInfra), sws = devs.filter(isAccSw);
+    const mem = {}; user.forEach(x => { mem[x.id] = []; });
+    for (const d of devs) if (!isInfra(d) && !isAccSw(d)) { const t = mem[d.cfg.dept] ? d.cfg.dept : user[0].id; mem[t].push(d); }
+    const act = user.filter(x => mem[x.id].length).sort((a, b) => mem[b.id].length - mem[a.id].length);
+    // switches: one per department first, the rest to the departments with the most devices per switch
+    const swOf = {}; act.forEach(x => { swOf[x.id] = []; });
+    for (const s of sws.slice().sort((a, b) => a.x - b.x)) { if (!act.length) break; const t = act.slice().sort((a, b) => mem[b.id].length / (swOf[b.id].length + 1) - mem[a.id].length / (swOf[a.id].length + 1))[0]; swOf[t.id].push(s); s.cfg.dept = t.id; }
+    // ---- the places: rooms of the floor plan, or blocks that we draw ourselves
+    const rank = d => { const k = K[d.k], b = bk(d.k); return k.isp ? 0 : k.fw ? 1 : (k.ios === 'router' || k.soho) ? 2 : b === 'ips' ? 2 : (k.l3 && k.l2) ? 3 : b === 'wlc' ? 3 : 4; };
+    infra.sort((a, b) => rank(a) - rank(b) || a.x - b.x);
+    const need = n => { const c = Math.max(1, Math.min(4, Math.ceil(Math.sqrt(n)))); return { w: Math.max(240, c * 112 + 50), h: 70 + Math.ceil(n / c) * 96 + 20 }; };
+    const rooms = ((P && P.rooms) || []).filter(r => !r[5]).map(r => ({ x: r[0], y: r[1], w: r[2], h: r[3], n: r[4] }));
+    const slots = {}; let virt = false;
+    const usable = rooms.filter(r => !/storage|cctv|parking|stair|toilet|comfort/i.test(r.n));
+    const groups = [...(infra.length ? [{ id: 'srv', n: infra.length }] : []), ...act.map(x => ({ id: x.id, n: mem[x.id].length + swOf[x.id].length + 1 }))];
+    if (usable.length) {
+      const free = usable.slice();
+      const take = r => { free.splice(free.indexOf(r), 1); return { x: r.x, y: r.y, w: r.w, h: r.h, n: r.n }; };
+      for (const g of groups) { const r = DPREF[g.id] && free.find(f => DPREF[g.id].test(f.n)); if (r) slots[g.id] = take(r); }
+      let rest = groups.filter(g => !slots[g.id]);
+      // fewer rooms than departments: split the biggest room in two, along its longer side
+      let guard = 0;
+      while (free.length < rest.length && free.length && guard++ < 20) {
+        free.sort((a, b) => b.w * b.h - a.w * a.h); const r = free.shift();
+        if (r.w >= r.h) free.push({ x: r.x, y: r.y, w: r.w / 2, h: r.h, n: r.n }, { x: r.x + r.w / 2, y: r.y, w: r.w / 2, h: r.h, n: r.n });
+        else free.push({ x: r.x, y: r.y, w: r.w, h: r.h / 2, n: r.n }, { x: r.x, y: r.y + r.h / 2, w: r.w, h: r.h / 2, n: r.n });
+      }
+      free.sort((a, b) => b.w * b.h - a.w * a.h); rest.sort((a, b) => b.n - a.n);
+      rest.forEach((g, i) => { if (free[i]) slots[g.id] = free[i]; });
+    }
+    const left = groups.filter(g => !slots[g.id]);
+    if (left.length) {          // no (or not enough) rooms: draw blocks in rows, inside the plan when there is one
+      virt = true; const sz = left.map(g => need(g.n)), gap = 40;
+      const total = sz.reduce((a, b) => a + b.w * b.h, 0), rowW = box ? Math.max(300, box[2] - 80) : Math.max(700, Math.sqrt(total) * 1.7);
+      let ox, oy;
+      const used = Object.values(slots);
+      if (box) { ox = box[0] + 40; oy = used.length ? Math.max(...used.map(r => r.y + r.h)) + gap : box[1] + 40; }
+      else { const cx = devs.reduce((a, d) => a + d.x, 0) / devs.length, cy = devs.reduce((a, d) => a + d.y, 0) / devs.length; ox = cx - rowW / 2; oy = cy - 200; }
+      let x = ox, y = oy, rh = 0;
+      left.forEach((g, i) => { const z = sz[i]; if (x > ox && x + z.w > ox + rowW) { x = ox; y += rh + gap; rh = 0; } slots[g.id] = { x, y, w: z.w, h: z.h }; x += z.w + gap; rh = Math.max(rh, z.h); });
+    }
+    // ---- put the devices in their place
+    const pos = {};
+    const grid = (s, items, top) => {
+      if (!items.length) return;
+      const n = items.length, ih = s.h - top - 12; let best = null;
+      for (let c = 1; c <= n; c++) { const r = Math.ceil(n / c), gx = Math.min(116, (s.w - 24) / c), gy = Math.min(100, ih / r), sc = Math.min(gx / 96, gy / 84); if (!best || sc > best.sc + 1e-6) best = { c, r, gx, gy, sc }; }
+      const gx = Math.max(64, best.gx), gy = Math.max(70, best.gy);
+      items.forEach((d, i) => { const r = Math.floor(i / best.c), inRow = r === best.r - 1 ? n - r * best.c : best.c, ci = i - r * best.c; pos[d.id] = [s.x + s.w / 2 + (ci - (inRow - 1) / 2) * gx, s.y + top + gy * (r + .5) - 4]; });
+    };
+    if (slots.srv) grid(slots.srv, infra, 52);
+    for (const x of act) {
+      const s = slots[x.id]; if (!s) continue;
+      const aps = mem[x.id].filter(d => K[d.k].ap), ends = mem[x.id].filter(d => !K[d.k].ap);
+      const head = [...swOf[x.id], ...aps];
+      if (head.length && s.h >= 230) { grid({ x: s.x, y: s.y, w: s.w, h: 52 + 86 }, head, 52); grid({ x: s.x, y: s.y + 128, w: s.w, h: s.h - 128 }, ends, 16); }
+      else grid(s, [...head, ...ends], 52);
+    }
+    let moved = 0;
+    for (const [id, [x, y]] of Object.entries(pos)) { const d = D.devs[id], nx = Math.round(x), ny = Math.round(y); if (Math.abs(nx - d.x) > 2 || Math.abs(ny - d.y) > 2) moved++; d.x = nx; d.y = ny; }
+    const zones = Object.entries(slots).map(([id, r]) => ({ id, x: r.x + 6, y: r.y + 6, w: r.w - 12, h: r.h - 12, room: r.n || null }));
+    const loc = [];
+    if (slots.srv) { const where = slots.srv.n && DPREF.srv.test(slots.srv.n) ? slots.srv.n : 'Server room'; infra.forEach(d => loc.push([d.label, where])); }
+    for (const x of act) { const s = slots[x.id]; if (s) [...swOf[x.id], ...mem[x.id]].forEach(d => loc.push([d.label, s.n ? `${x.n} (${s.n})` : x.n])); }
+    return { moved, zones, loc, virt };
+  }
+  // zones without moving anything: a box around each department's devices
+  function deptBoxes(D, L) {
+    const out = [];
+    for (const x of L) {
+      const ds = Object.values(D.devs).filter(d => !K[d.k].note && !K[d.k].shape && (x.srv ? isInfra(d) : !isInfra(d) && d.cfg.dept === x.id)); if (!ds.length) continue;
+      const x0 = Math.min(...ds.map(d => d.x)) - 60, x1 = Math.max(...ds.map(d => d.x)) + 60, y0 = Math.min(...ds.map(d => d.y)) - 84, y1 = Math.max(...ds.map(d => d.y)) + 62;
+      out.push({ id: x.id, x: x0, y: y0, w: x1 - x0, h: y1 - y0 });
+    }
+    return out;
+  }
+
   // Arranges the devices as a tidy top-down network: Internet on top, then firewall / router, core, access
   // switches, and every end device in a small grid under the switch or AP it connects to.
   // Uses the cables already in D (run autoDesign first). Notes and shapes stay where they are.
@@ -13324,7 +13543,14 @@ interface g0/0.10
     const gl3 = !gsoho && G && K[D.devs[G].k].l3 && K[D.devs[G].k].l2;           // L3 switch as gateway
     const extraCores = cores.slice(1);
     const sws = [...extraCores, ...access];                            // access layer
-    const useVlans = gl3 && sws.every(s => K[D.devs[s].k].cli);
+    const DL = opt && opt.depts ? opt.depts : null, allCli = sws.every(s => K[D.devs[s].k].cli);
+    const deptR = !!(DL && G && !gsoho && !gl3 && K[D.devs[G].k].ios === 'router' && !K[D.devs[G].k].fw && sws.length && allCli);   // router-on-a-stick
+    const deptOk = !!(DL && G && !gsoho && allCli && (gl3 || deptR));
+    const useVlans = (gl3 && allCli) || deptOk;
+    if (DL) { D.depts = Object.assign({}, D.depts, { applied: deptOk }); if (!deptOk) R.notes.push(__EN ? `Departments not split into VLANs: ${!G ? 'there is no router or Layer 3 switch' : gsoho ? 'a TP-Link Wi-Fi router cannot do VLANs' : !allCli ? 'every switch must be a Managed / PoE switch (Unmanaged and Smart switches cannot carry the VLANs)' : bk(D.devs[G].k) === 'firewall' ? 'add a router or Layer 3 switch behind the firewall' : 'add a switch between the router and the devices'}. The tags and zones stay.` : `Hindi nahati sa VLAN ang mga department: ${!G ? 'walang router o Layer 3 switch' : gsoho ? 'hindi kaya ng TP-Link Wi-Fi router ang VLAN' : !allCli ? 'dapat Managed / PoE switch ang lahat (hindi kaya ng Unmanaged at Smart switch ang VLAN)' : bk(D.devs[G].k) === 'firewall' ? 'maglagay ng router o Layer 3 switch sa likod ng firewall' : 'maglagay ng switch sa pagitan ng router at ng mga device'}. Nananatili ang tags at zones.`); }
+    const dvOf = h => { const d = D.devs[h]; if (isSrvK(d.k) || isInfra(d)) return 'srv'; if (DL.some(x => x.id === d.cfg.dept && !x.srv)) return d.cfg.dept; const nb = Object.values(D.devs).filter(o => o.id !== h && DL.some(x => x.id === (o.cfg || {}).dept && !x.srv)).sort((a, b) => dist(a, d) - dist(b, d))[0]; d.cfg.dept = nb ? nb.cfg.dept : DL.find(x => !x.srv).id; return d.cfg.dept; };
+    const dvV = h => DL.find(x => x.id === dvOf(h)).v;
+    const VLN = v => deptOk ? (DL.find(x => x.v === v) || { n: 'VLAN' + v }).n.toUpperCase().replace(/[^A-Z0-9]+/g, '-') : VL[v];
     for (const r of [...routers, ...fws]) if (r !== G && r !== E) R.unused.push((__EN?`${Lb(r)} (not needed in this design)`:`${Lb(r)} (hindi kailangan sa disenyong ito)`));
     // ---- what is missing
     if (!G) R.missing.push({ t: (__EN?"Router or Layer 3 switch":'Router o Layer 3 switch'), why: (__EN?"No gateway: devices can't leave their own LAN, and there is no DHCP server.":'Walang gateway: hindi makakalabas ng sariling LAN ang mga device, at walang DHCP server.') });
@@ -13375,7 +13601,7 @@ interface g0/0.10
       const ap = byDist(h, aps.filter(a => (gsoho && a === G) || D.links.some(l => l.a === a || l.b === a)))[0];
       const apOk = ap && dist(D.devs[ap], d) <= apRange(D.devs[ap]);
       if (K[d.k].wifi === 2 || (K[d.k].wifi && apOk)) {
-        if (apOk) { Object.assign(d.cfg, { ssid: D.devs[ap].cfg.ssid, psk: D.devs[ap].cfg.psk }); wifi.push(h); }
+        if (apOk) { Object.assign(d.cfg, { ssid: D.devs[ap].cfg.ssid, psk: D.devs[ap].cfg.psk }); wifi.push(h); if (deptOk && !K[D.devs[ap].k].soho) { const was = d.cfg.dept, now = dvOf(ap); if (was !== now) { d.cfg.dept = now; R.notes.push(__EN ? `${d.label} joins ${Lb(ap)}'s Wi-Fi, so it is in ${DL.find(x => x.id === now).n}'s VLAN.` : `${d.label}: nasa Wi-Fi ng ${Lb(ap)} kaya kasama sa VLAN ng ${DL.find(x => x.id === now).n}.`); } } }
         else if (ap) R.notes.push((__EN?`${d.label}: more than ${apRange(D.devs[ap]) / U} m from ${Lb(ap)}. Move it closer, or add an AP near it.`:`${d.label}: lampas ${apRange(D.devs[ap]) / U} m sa ${Lb(ap)}. Ilapit ito, o magdagdag ng AP malapit dito.`));
         continue;
       }
@@ -13391,7 +13617,7 @@ interface g0/0.10
       wired.push(h);
     }
     // ---- addressing
-    const vl = h => useVlans ? vlanOfK(bk(D.devs[h].k)) : 1;
+    const vl = h => deptOk ? dvV(h) : useVlans ? vlanOfK(bk(D.devs[h].k)) : 1;
     const sohoLan = gsoho ? (parseCidr(D.devs[G].cfg.lan) || { ip: '192.168.0.1' }).ip : null;
     const net = v => gsoho ? sohoLan.split('.').slice(0, 3).join('.') : useVlans ? `192.168.${v}` : '192.168.1';
     const used = new Set([...wired, ...wifi, ...aps].map(x => vl(x)));
@@ -13410,27 +13636,35 @@ interface g0/0.10
     if (gsoho) R.done.push((__EN?`${Lb(G)} (TP-Link) is the gateway: built-in DHCP ${net(1)}.${D.devs[G].cfg.from}-${D.devs[G].cfg.to}, Wi-Fi "${D.devs[G].cfg.ssid}" and NAT`:`${Lb(G)} (TP-Link) ang gateway: built-in DHCP ${net(1)}.${D.devs[G].cfg.from}-${D.devs[G].cfg.to}, Wi-Fi "${D.devs[G].cfg.ssid}" at NAT`));
     // ---- switch config (VLANs + trunks)
     if (useVlans) {
-      const vcmds = vlans.flatMap(v => [`vlan ${v}`, `name ${VL[v]}`]);
+      const vcmds = vlans.flatMap(v => [`vlan ${v}`, `name ${VLN(v)}`]);
       for (const s of tree) {
         const c = [...vcmds];
         for (const l of D.links.filter(l => l.a === s || l.b === s)) {
           const p = portOf(l, s), peer = l.a === s ? l.b : l.a, pk = D.devs[peer].k;
-          if (tree.includes(peer)) c.push(`interface ${p}`, ...(K[D.devs[s].k].ios === 'l3switch' ? ['switchport trunk encapsulation dot1q'] : []), 'switchport mode trunk');
+          if (tree.includes(peer) || (deptR && peer === G)) c.push(`interface ${p}`, ...(K[D.devs[s].k].ios === 'l3switch' ? ['switchport trunk encapsulation dot1q'] : []), 'switchport mode trunk');
           else if (K[pk].host || pk === 'ap') c.push(`interface ${p}`, 'switchport mode access', `switchport access vlan ${vl(peer)}`);
         }
         log(s, c);
       }
-      R.done.push((__EN?`VLANs: ${vlans.map(v => `${v} ${VL[v]} (${net(v)}.0/24)`).join(', ')}; trunks between switches`:`VLAN: ${vlans.map(v => `${v} ${VL[v]} (${net(v)}.0/24)`).join(', ')}; trunk sa pagitan ng mga switch`));
+      R.done.push(deptOk ? (__EN ? `One VLAN per department: ${vlans.map(v => `${VLN(v)} = VLAN ${v} (${net(v)}.0/24)`).join(', ')}; trunks between the switches${deptR ? ` and to ${Lb(G)} (router-on-a-stick)` : ''}` : `Isang VLAN bawat department: ${vlans.map(v => `${VLN(v)} = VLAN ${v} (${net(v)}.0/24)`).join(', ')}; trunk sa pagitan ng mga switch${deptR ? ` at papunta sa ${Lb(G)} (router-on-a-stick)` : ''}`) : (__EN?`VLANs: ${vlans.map(v => `${v} ${VL[v]} (${net(v)}.0/24)`).join(', ')}; trunks between switches`:`VLAN: ${vlans.map(v => `${v} ${VL[v]} (${net(v)}.0/24)`).join(', ')}; trunk sa pagitan ng mga switch`));
     } else if (G && !gsoho && (lanPort || !direct.length)) R.done.push((__EN?"One LAN: 192.168.1.0/24":'Isang LAN: 192.168.1.0/24'));
     // ---- gateway config
-    const pool = v => [`ip dhcp excluded-address ${net(v)}.1 ${net(v)}.49`, `ip dhcp pool ${useVlans ? VL[v] : 'LAN'}`, `network ${net(v)}.0 255.255.255.0`, `default-router ${gwIp(v)}`, 'dns-server 8.8.8.8'];
+    const pool = v => [`ip dhcp excluded-address ${net(v)}.1 ${net(v)}.49`, `ip dhcp pool ${useVlans ? VLN(v) : 'LAN'}`, `network ${net(v)}.0 255.255.255.0`, `default-router ${gwIp(v)}`, 'dns-server 8.8.8.8'];
     const lanSubs = useVlans ? vlans : [1];
     let transit = null;
     if (G && !gsoho) {
       const c = [];
+      // department access rules: an inbound ACL on each department's gateway interface
+      const aclN = v => 'DEPT-' + VLN(v);
+      const blockedOf = v => { if (!deptOk) return []; const A = DL.find(x => x.v === v); return A ? DL.filter(x => x.v !== v && lanSubs.includes(x.v) && !deptAllows(DL, A.id, x.id)) : []; };
+      for (const v of lanSubs) { const bl = blockedOf(v); if (bl.length) c.push(`ip access-list extended ${aclN(v)}`, ...bl.map(x => `deny ip ${net(v)}.0 0.0.0.255 ${net(x.v)}.0 0.0.0.255`), 'permit ip any any', 'exit'); }
+      const aclIf = v => blockedOf(v).length ? [`ip access-group ${aclN(v)} in`] : [];
       if (gl3) {
         c.push('ip routing');
-        for (const v of lanSubs) c.push(`interface Vlan${v}`, `ip address ${gwIp(v)} 255.255.255.0`, 'no shutdown');
+        for (const v of lanSubs) c.push(`interface Vlan${v}`, `ip address ${gwIp(v)} 255.255.255.0`, ...aclIf(v), 'no shutdown');
+      } else if (lanPort && deptR) {
+        c.push(`interface ${lanPort}`, 'no shutdown');
+        for (const v of lanSubs) c.push(`interface ${lanPort}.${v}`, `encapsulation dot1Q ${v}`, `ip address ${gwIp(v)} 255.255.255.0`, ...(E === G ? ['ip nat inside'] : []), ...aclIf(v));
       } else if (lanPort) {
         c.push(`interface ${lanPort}`, `ip address ${gwIp(1)} 255.255.255.0`, ...(E === G ? ['ip nat inside'] : []), 'no shutdown');
         if (bk(D.devs[G].k) === 'firewall') D.devs[G].cfg.zones[lanPort] = 'inside';
@@ -13445,6 +13679,10 @@ interface g0/0.10
       if (direct.length) R.tips.push(__EN ? `No switch needed: ${direct.map(x => Lb(x.h)).join(', ')} plug straight into ${Lb(G)}'s free ports. Each port is its own network (192.168.21.0/24 and up), and ${Lb(G)} routes between them.` : `Hindi na kailangan ng switch: ${direct.map(x => Lb(x.h)).join(', ')} ay direktang nakakabit sa bakanteng port ng ${Lb(G)}. Bawat port ay sariling network (192.168.21.0/24 pataas) at ang ${Lb(G)} ang nagro-route sa pagitan nila.`);
       log(G, c);
       R.done.push((__EN?`${Lb(G)} is the gateway${gl3 ? ' (SVI + IP routing)' : ''} and DHCP server`:`${Lb(G)} ang gateway${gl3 ? ' (SVI + IP routing)' : ''} at DHCP server`));
+      if (deptOk) {
+        const rules = DL.filter(x => lanSubs.includes(x.v) && x.acc !== 'all');
+        R.done.push(rules.length ? (__EN ? `Access rules (ACL on ${Lb(G)}): ${rules.map(x => `${x.n}: ${x.acc === 'it' && x.id !== 'it' && DL.some(y => y.id === 'it') ? `only IT and ${x.n}` : `${x.n} only`}`).join('; ')}. Every department still has the Internet.` : `Access rules (ACL sa ${Lb(G)}): ${rules.map(x => `${x.n}: ${x.acc === 'it' && x.id !== 'it' && DL.some(y => y.id === 'it') ? `IT at ${x.n} lang` : `${x.n} lang`}`).join('; ')}. May Internet pa rin ang bawat department.`) : (__EN ? 'Nothing blocked: every department can reach every other.' : 'Walang hinarang: lahat ng department ay nakakapag-usap.'));
+      }
     }
     // ---- edge / Internet
     if (isp && E && gsoho) { if (tryLink(isp, G)) R.done.push((__EN?`${Lb(G)} WAN → ISP (Dynamic IP, automatic NAT)`:`${Lb(G)} WAN → ISP (Dynamic IP, awtomatikong NAT)`)); }
@@ -13502,7 +13740,7 @@ interface g0/0.10
   const P = (k, x, y) => [k, x, y];
   const MISSIONS = [
     {
-      id: 'm1', t: (__EN?"Small office":'Maliit na opisina'), lvl: 'Basic', plan: 'office', d: (__EN?"One router, one switch, and three PCs on a single LAN (192.168.1.0/24).":'Isang router, isang switch, at tatlong PC sa iisang LAN (192.168.1.0/24).'),
+      id: 'm1', fam: 'lan', t: (__EN?"Small office":'Maliit na opisina'), lvl: 'Basic', plan: 'office', d: (__EN?"One router, one switch, and three PCs on a single LAN (192.168.1.0/24).":'Isang router, isang switch, at tatlong PC sa iisang LAN (192.168.1.0/24).'),
       start: [P('router', 110, 90), P('managed', 110, 170), P('pc', 320, 120), P('pc', 460, 120), P('pc', 600, 120)],
       hints: [(__EN?"Use Copper cables: PC → SW1, and SW1 → R1.":'Gamitin ang Copper cable: PC → SW1, at SW1 → R1.'), (__EN?"R1 Config → Interfaces: give the port facing SW1 192.168.1.1/24 and check \"Enabled\".":'R1 Config → Interfaces: lagyan ng 192.168.1.1/24 ang port na papuntang SW1 at i-check ang "Enabled".'), (__EN?"Each PC: IP 192.168.1.11/24, .12, .13; gateway 192.168.1.1.":'Bawat PC: IP 192.168.1.11/24, .12, .13; gateway 192.168.1.1.')],
       goals: [
@@ -13514,7 +13752,7 @@ interface g0/0.10
       ]
     },
     {
-      id: 'm2', t: (__EN?"Two departments using VLANs":'Dalawang department gamit ang VLAN'), lvl: 'Intermediate', plan: 'office', d: (__EN?"Sales (VLAN 10) and HR (VLAN 20) on one managed switch. Router-on-a-stick lets the two VLANs talk.":'Sales (VLAN 10) at HR (VLAN 20) sa iisang managed switch. Router-on-a-stick para mag-usap ang dalawang VLAN.'),
+      id: 'm2', fam: 'vlan', t: (__EN?"Two departments using VLANs":'Dalawang department gamit ang VLAN'), lvl: 'Intermediate', plan: 'office', d: (__EN?"Sales (VLAN 10) and HR (VLAN 20) on one managed switch. Router-on-a-stick lets the two VLANs talk.":'Sales (VLAN 10) at HR (VLAN 20) sa iisang managed switch. Router-on-a-stick para mag-usap ang dalawang VLAN.'),
       start: [P('router', 110, 90), P('managed', 110, 170), P('pc', 300, 100), P('pc', 420, 100), P('pc', 560, 300), P('pc', 680, 300)],
       hints: [(__EN?"SW1 Config → VLANs: add 10 SALES and 20 HR.":'SW1 Config → VLANs: idagdag ang 10 SALES at 20 HR.'), (__EN?"SW1 Ports: PC1/PC2 = access VLAN 10, PC3/PC4 = access VLAN 20, port to R1 = trunk.":'SW1 Ports: PC1/PC2 = access VLAN 10, PC3/PC4 = access VLAN 20, port papuntang R1 = trunk.'), (__EN?"R1: enable the physical port, then add subinterface .10 (VLAN 10, 192.168.10.1/24) and .20 (VLAN 20, 192.168.20.1/24).":'R1: i-enable ang physical port, tapos magdagdag ng subinterface .10 (VLAN 10, 192.168.10.1/24) at .20 (VLAN 20, 192.168.20.1/24).'), 'PC1/PC2: 192.168.10.x, gw .10.1. PC3/PC4: 192.168.20.x, gw .20.1.'],
       goals: [
@@ -13526,7 +13764,7 @@ interface g0/0.10
       ]
     },
     {
-      id: 'm3', t: (__EN?"DHCP and Wi-Fi":'DHCP at Wi-Fi'), lvl: 'Basic', plan: 'office', d: (__EN?"Set up DHCP on the router and a Wi-Fi AP so laptops and phones get an IP automatically.":'Mag-setup ng DHCP sa router at Wi-Fi AP para awtomatikong makakuha ng IP ang mga laptop at phone.'),
+      id: 'm3', fam: 'wifi', t: (__EN?"DHCP and Wi-Fi":'DHCP at Wi-Fi'), lvl: 'Basic', plan: 'office', d: (__EN?"Set up DHCP on the router and a Wi-Fi AP so laptops and phones get an IP automatically.":'Mag-setup ng DHCP sa router at Wi-Fi AP para awtomatikong makakuha ng IP ang mga laptop at phone.'),
       start: [P('router', 110, 90), P('managed', 110, 170), P('ap', 480, 470), P('laptop', 360, 540), P('mobile', 620, 540), P('laptop', 420, 250)],
       hints: [(__EN?"Cable: R1 → SW1, SW1 → AP1, and LAP2 → SW1 (copper).":'Cable: R1 → SW1, SW1 → AP1, at LAP2 → SW1 (copper).'), 'R1 Interfaces: 192.168.50.1/24. R1 DHCP: pool LAN, network 192.168.50.0/24, gateway 192.168.50.1, DNS 8.8.8.8.', (__EN?"AP1: SSID and password. On LAP1 and MOB1, the same SSID and password, and DHCP.":'AP1: SSID at password. Sa LAP1 at MOB1, parehong SSID at password, at DHCP.')],
       goals: [
@@ -13538,7 +13776,7 @@ interface g0/0.10
       ]
     },
     {
-      id: 'm4', t: 'Internet access: Firewall + NAT', lvl: 'Intermediate', plan: 'office', d: (__EN?"Connect the office to the Internet behind a firewall. The LAN is inside, the ISP is outside, with PAT.":'Ikonekta ang opisina sa Internet sa likod ng firewall. Inside ang LAN, outside ang ISP, at may PAT.'),
+      id: 'm4', fam: 'fw', t: 'Internet access: Firewall + NAT', lvl: 'Intermediate', plan: 'office', d: (__EN?"Connect the office to the Internet behind a firewall. The LAN is inside, the ISP is outside, with PAT.":'Ikonekta ang opisina sa Internet sa likod ng firewall. Inside ang LAN, outside ang ISP, at may PAT.'),
       start: [P('isp', 110, 60), P('firewall', 110, 150), P('managed', 300, 120), P('pc', 420, 220), P('pc', 560, 220), P('server', 860, 520)],
       hints: [(__EN?"Cables: ISP → FW1, FW1 → SW1, PCs → SW1. Check the ISP Config for the IP it gives you (e.g. 203.0.113.2/30).":'Cable: ISP → FW1, FW1 → SW1, PCs → SW1. Tingnan sa ISP Config kung anong IP ang ibibigay sa iyo (hal. 203.0.113.2/30).'), 'FW1 Interfaces: outside = 203.0.113.2/30 (zone outside), inside = 192.168.1.1/24 (zone inside).', (__EN?"FW1 Routing: default route to 203.0.113.1. FW1 NAT: choose the outside interface.":'FW1 Routing: default route papunta sa 203.0.113.1. FW1 NAT: piliin ang outside interface.'), (__EN?"PCs: 192.168.1.x/24, gw 192.168.1.1. Test: PC1 → 8.8.8.8.":'PCs: 192.168.1.x/24, gw 192.168.1.1. Subukan: PC1 → 8.8.8.8.')],
       goals: [
@@ -13550,7 +13788,7 @@ interface g0/0.10
       ]
     },
     {
-      id: 'm5', t: (__EN?"Server farm with a Load Balancer":'Server farm na may Load Balancer'), lvl: 'Advanced', plan: 'office', d: (__EN?"Two web servers behind one VIP. The web must keep working even if only one server is alive.":'Dalawang web server sa likod ng isang VIP. Dapat gumana ang web kahit isa lang ang buhay na server.'),
+      id: 'm5', fam: 'lb', t: (__EN?"Server farm with a Load Balancer":'Server farm na may Load Balancer'), lvl: 'Advanced', plan: 'office', d: (__EN?"Two web servers behind one VIP. The web must keep working even if only one server is alive.":'Dalawang web server sa likod ng isang VIP. Dapat gumana ang web kahit isa lang ang buhay na server.'),
       start: [P('l3', 110, 120), P('server', 60, 190), P('server', 160, 190), P('lb', 110, 60), P('pc', 400, 160), P('pc', 520, 160)],
       hints: [(__EN?"Cable everything to MLS1 (copper).":'Cable lahat sa MLS1 (copper).'), (__EN?"MLS1: VLAN 10 (USERS) and VLAN 20 (SERVERS); SVI Vlan10 192.168.10.1/24, Vlan20 192.168.20.1/24; check IP routing; put the ports in the right VLAN.":'MLS1: VLAN 10 (USERS) at VLAN 20 (SERVERS); SVI Vlan10 192.168.10.1/24, Vlan20 192.168.20.1/24; i-check ang IP routing; ilagay ang ports sa tamang VLAN.'), (__EN?"SRV1/SRV2: 192.168.20.11/.12, gw .20.1, HTTP on. LB1: VIP 192.168.20.100/24, gw .20.1, backends SRV1 and SRV2.":'SRV1/SRV2: 192.168.20.11/.12, gw .20.1, naka-on ang HTTP. LB1: VIP 192.168.20.100/24, gw .20.1, backends SRV1 at SRV2.'), (__EN?"PCs: 192.168.10.x, gw .10.1. Test: PC1 → 192.168.20.100 (HTTP).":'PCs: 192.168.10.x, gw .10.1. Subukan: PC1 → 192.168.20.100 (HTTP).')],
       goals: [
@@ -13562,7 +13800,7 @@ interface g0/0.10
       ]
     },
     {
-      id: 'm6', t: (__EN?"Campus: core switch and fiber":'Campus: core switch at fiber'), lvl: 'Advanced', plan: 'campus', d: (__EN?"Core switch in Building A, access switch in Building B. They're far apart, so copper won't work.":'Core switch sa Building A, access switch sa Building B. Malayo sila, kaya hindi pwede ang copper.'),
+      id: 'm6', fam: 'campus', t: (__EN?"Campus: core switch and fiber":'Campus: core switch at fiber'), lvl: 'Advanced', plan: 'campus', d: (__EN?"Core switch in Building A, access switch in Building B. They're far apart, so copper won't work.":'Core switch sa Building A, access switch sa Building B. Malayo sila, kaya hindi pwede ang copper.'),
       start: [P('core', 120, 120), P('managed', 1300, 200), P('pc', 1180, 300), P('pc', 1420, 300), P('pc', 360, 300)],
       hints: [(__EN?"First try copper for CORE1 → SW1 and check Health: over 100 m. Delete it and use Fiber.":'Subukan munang copper ang CORE1 → SW1 at tingnan ang Health: lampas 100 m. Burahin at gumamit ng Fiber.'), (__EN?"CORE1: SVI Vlan1 192.168.100.1/24 and IP routing. PC3 in Building A → CORE1 (copper).":'CORE1: SVI Vlan1 192.168.100.1/24 at IP routing. PC3 sa Building A → CORE1 (copper).'), 'PCs: 192.168.100.x/24, gw 192.168.100.1.'],
       goals: [
@@ -13574,6 +13812,145 @@ interface g0/0.10
       ]
     }
   ];
+
+  // ---------- 94 more missions, made from 11 families (each one is checked by solving it with Auto-design) ----------
+  (function moreMissions() {
+    const SC = [['Klinika', 'Clinic'], ['Sari-sari store', 'Sari-sari store'], ['Computer lab ng paaralan', 'School computer lab'], ['Internet café', 'Internet café'], ['Law office', 'Law office'], ['Barangay hall', 'Barangay hall'], ['Printing shop', 'Printing shop'], ['Bakery', 'Bakery'], ['Accounting firm', 'Accounting firm'], ['Dental clinic', 'Dental clinic'],
+      ['Travel agency', 'Travel agency'], ['Coffee shop', 'Coffee shop'], ['Real estate office', 'Real estate office'], ['Botika', 'Pharmacy'], ['Hardware store', 'Hardware store'], ['Tutorial center', 'Tutorial center'], ['Startup office', 'Startup office'], ['Call center', 'Call center'], ['Restawran', 'Restaurant'], ['Munisipyo', 'Municipal hall'],
+      ['Kooperatiba', 'Cooperative'], ['Laundry shop', 'Laundry shop'], ['Gym', 'Gym'], ['Salon', 'Salon'], ['Car repair shop', 'Car repair shop'], ['Bangko (sangay)', 'Bank branch'], ['Hotel front desk', 'Hotel front desk'], ['Simbahan', 'Parish office'], ['Library', 'Library'], ['Water refilling station', 'Water refilling station'],
+      ['Architect firm', 'Architecture firm'], ['Radio station', 'Radio station'], ['Courier hub', 'Courier hub'], ['Veterinary clinic', 'Veterinary clinic'], ['Pawnshop', 'Pawnshop'], ['Review center', 'Review center'], ['Event venue', 'Event venue'], ['Furniture shop', 'Furniture shop'], ['Pharmacy warehouse', 'Pharmacy warehouse'], ['Media studio', 'Media studio']];
+    const nm = i => E(SC[i % SC.length][0], SC[i % SC.length][1]);
+    const P_ = (k, x, y) => [k, Math.round(x), Math.round(y)];
+    // n devices across a band of the Open Office (or any box)
+    const spread = (k, n, x0, x1, y, out) => { for (let i = 0; i < n; i++) out.push(P_(k, n === 1 ? (x0 + x1) / 2 : x0 + (x1 - x0) * i / (n - 1), y)); };
+    const rows = (k, n, x0, x1, y0, per, out) => { for (let r = 0; r * per < n; r++) spread(k, Math.min(per, n - r * per), x0, x1, y0 + r * 110, out); };
+    const ip = (a, id) => (a.host(id) || {}).ip, gw = (a, id) => (a.host(id) || {}).gw;
+    const ends = (a, ks) => ks.flatMap(k => a.all(k));
+    const G = {
+      cabled: (ks, sw) => [E(`Naka-cable sa switch ang lahat ng ${ks.join(', ')}`, `Every ${ks.join(', ')} is cabled to a switch`), a => ends(a, ks).length > 0 && ends(a, ks).every(x => sw.some(s => a.linkedTo(x, s)))],
+      upl: (sw, up) => [E('Naka-cable ang switch papunta sa gateway', 'The switch is cabled to the gateway'), a => a.all(sw).length > 0 && a.all(sw).some(s => up.some(u => a.linkedTo(s, u)))],
+      rtIp: k => [E('May IP at naka-enable ang LAN interface ng gateway', 'The gateway\'s LAN interface has an IP and is enabled'), a => a.all(k).some(r => a.upIps(r).length > 0)],
+      hasIp: ks => [E('May IP at gateway ang bawat end device', 'Every end device has an IP and a gateway'), a => ends(a, ks).length > 0 && ends(a, ks).every(x => ip(a, x) && gw(a, x))],
+      pingGw: ks => [E('Bawat end device ay nakaka-ping sa gateway', 'Every end device pings its gateway'), a => ends(a, ks).length > 0 && ends(a, ks).every(x => gw(a, x) && a.test(x, gw(a, x)).ok)],
+      p2p: (s_, d_) => [E(`${s_} ay nakaka-ping sa ${d_}`, `${s_} pings ${d_}`), a => a.has(s_) && a.has(d_) && ip(a, d_) && a.test(s_, ip(a, d_)).ok],
+      pool: k => [E('May DHCP pool sa gateway', 'The gateway has a DHCP pool'), a => a.all(k).some(r => Object.values((a.dev(r).dhcp || { pools: {} }).pools).some(p => p.net))],
+      dhcp: ks => [E(`Naka-DHCP at may IP ang lahat ng ${ks.join(', ')}`, `Every ${ks.join(', ')} uses DHCP and got an IP`), a => ends(a, ks).length > 0 && ends(a, ks).every(x => a.d(x).cfg.dhcp && ip(a, x))],
+      static: k => [E(`Static IP (hindi DHCP) ang bawat ${k}`, `Every ${k} has a static IP (not DHCP)`), a => a.all(k).length > 0 && a.all(k).every(x => !a.d(x).cfg.dhcp && ip(a, x))],
+      apUp: sw => [E((__EN?"The AP is uplinked to the switch":'Naka-uplink ang AP sa switch'), 'The AP is uplinked to a switch'), a => a.all('ap').length > 0 && a.all('ap').every(x => sw.some(s => a.linkedTo(x, s)))],
+      wifi: ks => [E(`Nakakonekta sa Wi-Fi ang lahat ng ${ks.join(', ')}`, `Every ${ks.join(', ')} is on the Wi-Fi`), a => ends(a, ks).length > 0 && ends(a, ks).every(x => a.assoc(x) && a.assoc(x).ap)],
+      defRt: k => [E('May default route papunta sa ISP', 'There is a default route to the ISP'), a => a.all(k).some(r => (a.dev(r).routes || []).some(x => x.net === '0.0.0.0'))],
+      nat: k => [E('Naka-on ang NAT (PAT) papunta sa Internet', 'NAT (PAT) to the Internet is on'), a => a.all(k).some(r => ((a.dev(r).nat || {}).rules || []).some(x => x.overload))],
+      inet: ks => [E('Bawat end device ay nakaka-ping sa 8.8.8.8 (Internet)', 'Every end device pings 8.8.8.8 (Internet)'), a => ends(a, ks).length > 0 && ends(a, ks).every(x => a.test(x, '8.8.8.8').ok)],
+      web: (s_) => [E(`${s_} ay nakakapag-web (HTTPS) sa 1.1.1.1`, `${s_} browses the web (HTTPS) at 1.1.1.1`), a => a.has(s_) && a.test(s_, '1.1.1.1', 'https').ok],
+      zones: () => [E((__EN?"The firewall has inside and outside zones":'May inside at outside zone ang firewall'), 'The firewall has an inside and an outside zone'), a => a.all('firewall').some(f => { const z = Object.values(a.d(f).cfg.zones || {}); return z.includes('inside') && z.includes('outside'); })],
+      ipr: k => [E((__EN?"IP routing is on at the Layer 3 switch":'Naka-on ang IP routing sa Layer 3 switch'), 'IP routing is on in the Layer 3 switch'), a => a.all(k).some(s => a.dev(s).ipRouting)],
+      vlans: (k, n) => [E(`May ${n} o higit pang VLAN sa ${k === 'core' ? 'core switch' : 'Layer 3 switch'}`, `The ${k === 'core' ? 'core switch' : 'Layer 3 switch'} has ${n} or more VLANs`), a => a.all(k).some(s => Object.keys(a.dev(s).vlans || {}).filter(v => +v > 1 && +v < 1000).length >= n)],
+      trunk: () => [E('Trunk ang link sa pagitan ng mga switch', 'The links between the switches are trunks'), a => a.all('managed').length > 0 && a.all('managed').every(s => a.portsTo(s, 'l3').concat(a.portsTo(s, 'core'), a.portsTo(s, 'managed')).some(p => IOS.operMode(a.net, a.dev(s), p) === 'trunk'))],
+      diffNet: (x, y) => [E(`Magkaibang subnet ang ${x} at ${y}`, `${x} and ${y} are in different subnets`), a => a.has(x) && a.has(y) && ip(a, x) && ip(a, y) && !IOS.sameNet(ip(a, x), ip(a, y), (a.host(x) || {}).mask)],
+      http: (s_, d_) => [E(`${s_} ay nakakabukas ng website ng ${d_} (HTTP)`, `${s_} opens ${d_}'s website (HTTP)`), a => a.has(s_) && a.has(d_) && ip(a, d_) && a.test(s_, ip(a, d_), 'http').ok],
+      swAll: () => [E('Konektado sa network ang bawat switch', 'Every switch is connected to the network'), a => a.all('managed').length > 0 && a.all('managed').every(s => a.linkedTo(s, 'managed') || a.linkedTo(s, 'router') || a.linkedTo(s, 'l3') || a.linkedTo(s, 'core'))],
+      fiber: () => [E('Fiber ang link ng core papunta sa malayong switch', 'The core uses fiber to reach the far switch'), a => a.links().some(l => l.t === 'fiber')],
+      noLong: () => [E((__EN?"No copper cable is over 100 m":'Walang copper cable na lampas 100 m'), 'No copper cable is longer than 100 m'), a => a.links().length > 0 && a.links().every(l => linkInfo(a.D, l).ok)],
+      lbBack: n => [E(`May ${n} o higit pang backend ang load balancer`, `The load balancer has ${n} or more backends`), a => a.all('lb').some(l => (a.d(l).cfg.backends || []).length >= n)],
+      vip: s_ => [E(`${s_} → VIP ng load balancer (HTTP) gumagana`, `${s_} → the load balancer VIP (HTTP) works`), a => { const l = a.all('lb')[0]; return a.has(s_) && l && ip(a, l) && a.test(s_, ip(a, l), 'http').ok; }],
+      srvHttp: () => [E('May IP at naka-on ang HTTP ng bawat server', 'Every server has an IP and HTTP on'), a => a.all('server').length > 0 && a.all('server').every(x => ip(a, x) && (a.d(x).cfg.svcs || {}).http)]
+    };
+    const H = {
+      lan: E('Copper cable: bawat device → switch, at switch → router.', 'Copper cables: every device → switch, and switch → router.'),
+      rip: E('Router Config → Interfaces: lagyan ng IP (hal. 192.168.1.1/24) ang port papuntang switch at i-check ang "Enabled".', 'Router Config → Interfaces: give the port to the switch an IP (e.g. 192.168.1.1/24) and tick "Enabled".'),
+      hip: E('Bawat PC: IP sa parehong subnet (hal. 192.168.1.11/24 pataas) at gateway = IP ng router.', 'Every PC: an IP in the same subnet (e.g. 192.168.1.11/24 and up) and gateway = the router\'s IP.'),
+      dhcp: E('Router Config → DHCP: gumawa ng pool (network ng LAN, default router = IP ng router, DNS 8.8.8.8). Sa bawat PC, piliin ang DHCP.', 'Router Config → DHCP: make a pool (the LAN network, default router = the router\'s IP, DNS 8.8.8.8). On every PC, choose DHCP.'),
+      ap: E('AP → switch (copper). AP Config: SSID at password; sa bawat laptop at mobile, parehong SSID at password, at DHCP.', 'AP → switch (copper). AP Config: SSID and password; on every laptop and mobile, the same SSID and password, and DHCP.'),
+      nat: E('Router: IP mula sa ISP sa WAN port (tingnan ang ISP Config), default route papunta sa ISP, at NAT: inside = LAN, outside = WAN.', 'Router: the ISP\'s IP on the WAN port (see ISP Config), a default route to the ISP, and NAT: inside = LAN, outside = WAN.'),
+      fw: E('Firewall: outside = port papuntang ISP, inside = port papuntang switch, default route sa ISP, at NAT sa outside interface.', 'Firewall: outside = the port to the ISP, inside = the port to the switch, a default route to the ISP, and NAT on the outside interface.'),
+      vl: E('Layer 3 switch: gumawa ng VLAN (hal. 10 USERS, 20 VOICE, 30 SERVERS, 40 DEVICES), SVI bawat VLAN, at i-check ang IP routing. Access port bawat device, trunk papunta sa ibang switch.', 'Layer 3 switch: make VLANs (e.g. 10 USERS, 20 VOICE, 30 SERVERS, 40 DEVICES), an SVI for each, and tick IP routing. An access port for each device, a trunk to the other switches.'),
+      st: E('Server at printer: static IP (hal. .10 at .20) para hindi nagbabago ang address nila. Ang mga PC ay DHCP.', 'Server and printer: a static IP (e.g. .10 and .20) so their address never changes. The PCs use DHCP.'),
+      far: E('Malayo ang building: hanggang 100 m lang ang copper, kaya Fiber ang gamitin (right-click ang cable → Fiber).', 'The buildings are far apart: copper only reaches 100 m, so use Fiber (right-click the cable → Fiber).'),
+      lb: E('Load balancer: VIP sa VLAN ng mga server, gateway = SVI, at idagdag ang mga server bilang backend.', 'Load balancer: a VIP in the servers\' VLAN, gateway = the SVI, and add the servers as backends.'),
+      auto: E('Natigil? Subukan ang Auto-design (Premium) sa isang kopya para makita ang isang sagot, tapos gawin mo ito nang mano-mano.', 'Stuck? Run Auto-design (Premium) on a copy to see one answer, then build it yourself.')
+    };
+    const out = []; let si = 0;
+    const add = (lvl, plan, t, d, start, hints, goals, fam) => out.push({ lvl, plan, t, d, start, hints: [...hints, H.auto], goals, fam });
+    // A. LAN basics (10)
+    [[2, 0], [3, 0], [3, 1], [4, 0], [4, 1], [5, 0], [5, 1], [6, 0], [6, 1], [4, 2]].forEach(([n, pr]) => {
+      const st = [P_('router', 110, 90), P_('managed', 110, 170)]; rows('pc', n, 290, 680, 130, 4, st); if (pr) spread('printer', pr, 330, 640, 320, st);
+      const last = 'PC' + n, ks = pr ? ['pc', 'printer'] : ['pc'];
+      add('Basic', 'office', E(`${nm(si)}: LAN na may ${n} PC${pr ? ' at printer' : ''}`, `${nm(si++)}: a LAN with ${n} PCs${pr ? ' and a printer' : ''}`), E(`Isang router, isang switch at ${n} PC${pr ? `, ${pr} printer` : ''} sa iisang LAN.`, `One router, one switch and ${n} PCs${pr ? `, ${pr} printer${pr > 1 ? 's' : ''}` : ''} on one LAN.`), st, [H.lan, H.rip, H.hip],
+        [G.cabled(ks, ['managed']), G.upl('managed', ['router']), G.rtIp('router'), G.hasIp(ks), G.pingGw(ks), G.p2p('PC1', last)], 'lan');
+    });
+    // B. DHCP (10)
+    [[2, 1], [3, 1], [3, 2], [4, 1], [4, 2], [5, 1], [5, 2], [6, 2], [2, 3], [6, 3]].forEach(([n, l]) => {
+      const st = [P_('router', 110, 90), P_('managed', 110, 170)]; rows('pc', n, 290, 680, 130, 4, st); spread('laptop', l, 330, 640, 330, st);
+      add('Basic', 'office', E(`${nm(si)}: DHCP para sa ${n + l} device`, `${nm(si++)}: DHCP for ${n + l} devices`), E(`Ayaw ng may-ari na mag-type ng IP sa bawat isa: gumawa ng DHCP sa router para sa ${n} PC at ${l} laptop (naka-cable).`, `The owner does not want to type an IP on each one: set up DHCP on the router for ${n} PCs and ${l} laptop${l > 1 ? 's' : ''} (cabled).`), st, [H.lan, H.rip, H.dhcp],
+        [G.cabled(['pc', 'laptop'], ['managed']), G.pool('router'), G.dhcp(['pc', 'laptop']), G.pingGw(['pc', 'laptop']), G.p2p('PC1', 'LAP1')], 'dhcp');
+    });
+    // C. Wi-Fi (9)
+    [[1, 1], [2, 0], [2, 1], [1, 2], [3, 1], [2, 2], [3, 2], [4, 1], [3, 3]].forEach(([m, l]) => {
+      const st = [P_('router', 110, 90), P_('managed', 110, 170), P_('pc', 420, 150), P_('ap', 480, 480)]; spread('mobile', m, 300, 660, 560, st); if (l) spread('laptop', l, 330, 630, 440, st);
+      const ks = l ? ['mobile', 'laptop'] : ['mobile'];
+      add('Basic', 'office', E(`${nm(si)}: Wi-Fi para sa ${m + l} device`, `${nm(si++)}: Wi-Fi for ${m + l} devices`), E(`Mag-setup ng Wi-Fi AP sa lounge para sa ${m} mobile${l ? ` at ${l} laptop` : ''}, may DHCP mula sa router.`, `Set up a Wi-Fi AP in the lounge for ${m} mobile${m > 1 ? 's' : ''}${l ? ` and ${l} laptop${l > 1 ? 's' : ''}` : ''}, with DHCP from the router.`), st, [H.lan, H.rip, H.dhcp, H.ap],
+        [G.apUp(['managed']), G.pool('router'), G.wifi(ks), G.dhcp(ks), G.pingGw(ks)], 'wifi');
+    });
+    // G. Server and printer (9)
+    [[2, 1, 1], [3, 1, 1], [3, 1, 2], [4, 1, 1], [4, 2, 1], [5, 1, 1], [5, 2, 2], [6, 1, 1], [6, 2, 1]].forEach(([n, sv, pr]) => {
+      const st = [P_('router', 110, 90), P_('managed', 110, 170)]; rows('pc', n, 290, 680, 130, 4, st); spread('server', sv, 60, 160, 300, st); spread('printer', pr, 860, 900, 310, st);
+      add('Basic', 'office', E(`${nm(si)}: file server at printer`, `${nm(si++)}: file server and printer`), E(`${n} PC na DHCP, ${sv} server at ${pr} printer na static IP. Dapat mabuksan ng PC ang website ng server.`, `${n} PCs on DHCP, ${sv} server${sv > 1 ? 's' : ''} and ${pr} printer${pr > 1 ? 's' : ''} on static IPs. The PCs must open the server's website.`), st, [H.lan, H.rip, H.dhcp, H.st],
+        [G.cabled(['pc', 'server', 'printer'], ['managed']), G.dhcp(['pc']), G.static('server'), G.static('printer'), G.http('PC1', 'SRV1'), G.p2p('PC' + n, 'PRN1')], 'srv');
+    });
+    // D. Internet through the router (10)
+    [[2, 0], [3, 0], [3, 1], [4, 0], [4, 1], [5, 0], [5, 1], [6, 0], [6, 1], [2, 1]].forEach(([n, sv]) => {
+      const st = [P_('isp', 110, 60), P_('router', 110, 140), P_('managed', 300, 110)]; rows('pc', n, 400, 700, 230, 4, st); if (sv) st.push(P_('server', 110, 330));
+      add('Intermediate', 'office', E(`${nm(si)}: Internet gamit ang router`, `${nm(si++)}: Internet through the router`), E(`Ikonekta ang ${n} PC sa Internet: router na may NAT (PAT) at default route papunta sa ISP.`, `Get ${n} PCs on the Internet: a router with NAT (PAT) and a default route to the ISP.`), st, [E('Cable: ISP → R1, R1 → SW1, mga PC → SW1.', 'Cables: ISP → R1, R1 → SW1, PCs → SW1.'), H.rip, H.dhcp, H.nat],
+        [G.cabled(['pc'], ['managed']), G.defRt('router'), G.nat('router'), G.inet(['pc']), G.web('PC1')], 'inet');
+    });
+    // E. Firewall at the edge (9)
+    [[2, 0], [3, 0], [3, 1], [4, 0], [4, 1], [5, 0], [5, 1], [6, 1], [2, 1]].forEach(([n, sv]) => {
+      const st = [P_('isp', 110, 60), P_('firewall', 110, 150), P_('managed', 300, 120)]; rows('pc', n, 420, 700, 230, 4, st); if (sv) st.push(P_('server', 860, 520));
+      add('Intermediate', 'office', E(`${nm(si)}: firewall at Internet`, `${nm(si++)}: firewall and Internet`), E(`Ilagay ang opisina sa likod ng firewall: inside ang LAN, outside ang ISP, may PAT. ${n} PC ang kailangang may Internet.`, `Put the office behind a firewall: the LAN inside, the ISP outside, with PAT. ${n} PCs need the Internet.`), st, [E('Cable: ISP → FW1, FW1 → SW1, mga PC → SW1.', 'Cables: ISP → FW1, FW1 → SW1, PCs → SW1.'), H.fw, H.dhcp],
+        [G.zones(), G.defRt('firewall'), G.nat('firewall'), G.inet(['pc']), G.web('PC' + n)], 'fw');
+    });
+    // F. VLANs with a Layer 3 switch (9)
+    [[2, 1, 0, 1, 1], [3, 1, 0, 1, 1], [3, 1, 1, 1, 1], [4, 1, 1, 1, 1], [2, 2, 0, 1, 2], [3, 2, 1, 1, 2], [4, 2, 1, 2, 2], [3, 3, 1, 1, 2], [5, 2, 1, 1, 2]].forEach(([n, ph, cam, sv, swn]) => {
+      const st = [P_('l3', 110, 120), P_('managed', 330, 90)]; if (swn > 1) st.push(P_('managed', 620, 300));
+      rows('pc', n, 300, 700, 170, 4, st); spread('phone', ph, 320, 680, 360, st); if (cam) st.push(P_('camera', 870, 470)); spread('server', sv, 60, 160, 190, st); st.push(P_('printer', 870, 300));
+      const nv = 2 + (ph ? 1 : 0) + 1;
+      add('Intermediate', 'office', E(`${nm(si)}: VLAN para sa PC, phone at server`, `${nm(si++)}: VLANs for PCs, phones and servers`), E(`Hatiin ang network sa VLAN (users, voice, servers, devices) gamit ang Layer 3 switch. ${swn > 1 ? 'May dalawang access switch kaya kailangan ng trunk.' : ''}`, `Split the network into VLANs (users, voice, servers, devices) with a Layer 3 switch. ${swn > 1 ? 'There are two access switches, so you need trunks.' : ''}`), st, [E('Cable: bawat switch → MLS1; mga device → pinakamalapit na switch; server → MLS1.', 'Cables: every switch → MLS1; devices → the nearest switch; servers → MLS1.'), H.vl, H.dhcp],
+        [G.ipr('l3'), G.vlans('l3', nv), G.trunk(), G.diffNet('PC1', 'SRV1'), G.p2p('PC1', 'SRV1'), G.p2p('PC' + n, 'PRN1')], 'vlan');
+    });
+    // H. Several switches (9)
+    [[2, 2, 0], [2, 3, 0], [3, 2, 0], [3, 3, 0], [2, 2, 2], [3, 3, 2], [4, 3, 0], [4, 4, 2], [3, 2, 3]].forEach(([a, b, c]) => {
+      const st = [P_('router', 110, 90), P_('managed', 330, 70), P_('managed', 660, 70)]; if (c) st.push(P_('managed', 480, 450));
+      spread('pc', a, 260, 420, 190, st); spread('pc', b, 560, 720, 190, st); if (c) spread('pc', c, 300, 660, 560, st);
+      const n = a + b + c;
+      add('Intermediate', 'office', E(`${nm(si)}: ${c ? 3 : 2} switch sa iisang LAN`, `${nm(si++)}: ${c ? 3 : 2} switches on one LAN`), E(`Lumaki ang opisina: ${n} PC sa ${c ? 'tatlong' : 'dalawang'} area. Ikabit ang bawat PC sa pinakamalapit na switch at pagdugtungin ang mga switch.`, `The office grew: ${n} PCs in ${c ? 'three' : 'two'} areas. Plug every PC into the nearest switch and join the switches together.`), st, [E('Switch → switch (copper), at isang switch → R1.', 'Switch → switch (copper), and one switch → R1.'), H.rip, H.dhcp],
+        [G.swAll(), G.cabled(['pc'], ['managed']), G.pool('router'), G.pingGw(['pc']), G.p2p('PC1', 'PC' + n)], 'multi');
+    });
+    // I. Campus with fiber (9)
+    [[1, 2, 1], [1, 3, 1], [2, 2, 1], [2, 3, 1], [1, 2, 2], [2, 2, 2], [3, 3, 1], [2, 4, 2], [3, 4, 2]].forEach(([a, b, swb], ci) => {
+      const st = [P_('core', 120, 120), P_('managed', 1300, 120)]; if (swb > 1) st.push(P_('managed', 1300, 470));
+      spread('pc', a, 300, 480, 300, st); spread('pc', b, 1150, 1500, 230, st); if (swb > 1) spread('pc', 2, 1200, 1450, 560, st);
+      const last = 'PC' + (a + b + (swb > 1 ? 2 : 0));
+      add('Advanced', 'campus', E(`Campus ${ci + 1}: fiber papunta sa Building B`, `Campus ${ci + 1}: fiber to Building B`), E(`Core switch sa Building A, ${swb} access switch sa Building B. ${a + b + (swb > 1 ? 2 : 0)} PC ang kailangang mag-usap.`, `A core switch in Building A, ${swb} access switch${swb > 1 ? 'es' : ''} in Building B. ${a + b + (swb > 1 ? 2 : 0)} PCs must talk to each other.`), st, [H.far, E('CORE1: SVI (hal. Vlan1 192.168.100.1/24), IP routing at DHCP.', 'CORE1: an SVI (e.g. Vlan1 192.168.100.1/24), IP routing and DHCP.'), H.dhcp],
+        [G.fiber(), G.noLong(), G.rtIp('core'), G.pingGw(['pc']), G.p2p('PC1', last)], 'campus');
+    });
+    // J. Server farm with a load balancer (5)
+    [[2, 2], [3, 2], [2, 3], [3, 3], [4, 4]].forEach(([n, sv]) => {
+      const st = [P_('l3', 110, 120), P_('lb', 110, 50)]; spread('server', sv, 50, 190, 200, st); spread('pc', n, 380, 640, 160, st);
+      add('Advanced', 'office', E(`${nm(si)}: ${sv} web server sa likod ng VIP`, `${nm(si++)}: ${sv} web servers behind a VIP`), E(`Dapat bukas ang website kahit may isang server na down: ${sv} server sa likod ng load balancer, at ${n} PC na gagamit nito.`, `The website must stay up even with one server down: ${sv} servers behind a load balancer, and ${n} PCs using it.`), st, [E('Cable lahat sa MLS1.', 'Cable everything to MLS1.'), H.vl, H.lb],
+        [G.ipr('l3'), G.srvHttp(), G.lbBack(2), G.vip('PC1'), G.vip('PC' + n)], 'lb');
+    });
+    // K. Full small business (5)
+    [[2, 1, 1], [3, 1, 2], [3, 2, 2], [4, 2, 2], [4, 3, 3]].forEach(([n, l, m]) => {
+      const st = [P_('isp', 110, 50), P_('firewall', 110, 120), P_('router', 110, 190), P_('managed', 320, 90), P_('ap', 480, 480), P_('server', 60, 300)];
+      rows('pc', n, 380, 700, 180, 4, st); spread('laptop', l, 330, 630, 440, st); spread('mobile', m, 300, 660, 560, st);
+      add('Advanced', 'office', E(`${nm(si)}: buong network ng negosyo`, `${nm(si++)}: the whole business network`), E(`Firewall sa Internet, router bilang gateway, switch, Wi-Fi at server. Lahat ng ${n + l + m} end device ay dapat may Internet.`, `A firewall to the Internet, a router as the gateway, a switch, Wi-Fi and a server. All ${n + l + m} end devices need the Internet.`), st, [E('ISP → FW1 → R1 → SW1; mga PC, AP at server → SW1.', 'ISP → FW1 → R1 → SW1; PCs, AP and server → SW1.'), H.fw, E('R1: LAN at DHCP; link papuntang FW1 na may sariling /30 network; default route sa FW1. FW1: route pabalik sa LAN at NAT.', 'R1: the LAN and DHCP; a /30 link to FW1; a default route to FW1. FW1: a route back to the LAN, and NAT.'), H.ap],
+        [G.zones(), G.wifi(['mobile']), G.dhcp(['pc', 'laptop', 'mobile']), G.inet(['pc', 'laptop', 'mobile']), G.p2p('PC1', 'SRV1')], 'biz');
+    });
+    const ord = { Basic: 0, Intermediate: 1, Advanced: 2 };
+    out.sort((a, b) => ord[a.lvl] - ord[b.lvl]);
+    out.forEach((m, i) => { m.id = 'm' + (MISSIONS.length + 1); MISSIONS.push(m); });
+  })();
+  const MFAM = { lan: 'LAN', dhcp: 'DHCP', wifi: 'Wi-Fi', srv: E('Server at printer', 'Server and printer'), inet: 'Internet', fw: 'Firewall', vlan: 'VLAN', multi: E('Maraming switch', 'Several switches'), campus: 'Campus', lb: 'Load balancer', biz: E('Buong network', 'Whole network') };
   function missionApi(D, B) {
     const net = B.net; const cache = {};
     const a = {
@@ -13588,7 +13965,7 @@ interface g0/0.10
     return a;
   }
   function sampleDesign() {
-    const D = newDesign((__EN?"Example: a working office":'Halimbawa: gumaganang opisina'), 'office');
+    const D = newDesign((__EN?"Example: a working office":'Halimbawa: gumaganang opisina'), 'office'); D.sample = true;
     const at = (k, x, y) => addDev(D, k, x, y);
     at('isp', 110, 60); at('router', 110, 140); at('managed', 300, 110); at('ap', 480, 470); at('pc', 380, 220); at('pc', 520, 220); at('printer', 660, 220); at('laptop', 380, 540); at('server', 860, 300);
     const L = (a, b, t) => { const pa = pickPort(D, a, t, D.devs[b].k).p, pb = pickPort(D, b, t, D.devs[a].k).p; D.links.push({ id: uid(), a, ai: pa, b, bi: pb, t }); };
@@ -13603,7 +13980,7 @@ interface g0/0.10
 
   // Philippines WAN sample: 3 sites (Manila HQ, Cebu, Davao), serial WAN triangle with OSPF, Internet at the HQ
   function sampleWan() {
-    const D = newDesign(E('Halimbawa: Pilipinas WAN', 'Sample: Philippines WAN'), 'ph'), P = PLANS.ph;
+    const D = newDesign(E('Halimbawa: Pilipinas WAN', 'Sample: Philippines WAN'), 'ph'), P = PLANS.ph; D.sample = true;
     const site = n => P.rooms.find(r => r[4].startsWith(n));
     const at = (k, r, x, y) => addDev(D, k, r[0] + x, r[1] + y);
     const L = (a, b, t) => { const pa = pickPort(D, a, t, D.devs[b].k).p, pb = pickPort(D, b, t, D.devs[a].k).p; D.links.push({ id: uid(), a, ai: pa, b, bi: pb, t }); return [pa, pb]; };
@@ -13644,7 +14021,10 @@ interface g0/0.10
     let zoom = null;
     let msel = new Set(), band = null, pan = null, placedN = 0;
     const PR = window.PREMIUM || null, freeDz = () => !!PR && !PR.isPremium(), TT = (f, e) => __EN ? e : f;
-    const designLimit = () => { if (!freeDz() || Object.keys(S.designs).length < PR.LIMITS.designs) return false; toast(TT(`Free plan: hanggang ${PR.LIMITS.designs} design lang. Burahin ang isa o mag-upgrade.`, `Free plan: up to ${PR.LIMITS.designs} designs. Delete one or upgrade.`)); return true; };
+    // Free plan: the user's own designs (samples and missions do not count)
+    const ownDesigns = () => Object.values(S.designs).filter(x => !x.mission && !x.sample && !/^(Halimbawa|Sample):/.test(x.name || '')).length;
+    const designLimit = () => { if (!freeDz() || ownDesigns() < PR.LIMITS.designs) return false; toast(TT(`Free plan: ${PR.LIMITS.designs} sariling design lang (hindi kasama ang mga halimbawa at mission). Burahin ito o mag-upgrade.`, `Free plan: ${PR.LIMITS.designs} design of your own (samples and missions don't count). Delete it or upgrade.`)); return true; };
+    const devLimit = (add = 1) => { if (!freeDz() || Object.values(D.devs).filter(d => !K[d.k].note && !K[d.k].shape).length + add <= PR.LIMITS.devices) return false; toast(TT(`Free plan: hanggang ${PR.LIMITS.devices} device bawat design. Mag-upgrade para walang limit.`, `Free plan: up to ${PR.LIMITS.devices} devices per design. Upgrade for no limit.`)); return true; };
     main.classList.add('dz-host');
 
     const page = h((__EN?`<div class="page wide dz">
@@ -13736,7 +14116,15 @@ interface g0/0.10
     }
 
     // ---------- palette ----------
+    const palScroll = {};
     function drawPal() {
+      const pc = pal.dataset.cat || '', ph0 = pal.hidden ? 0 : pal.offsetHeight; if (pc && !pal.hidden) palScroll[pc] = pal.scrollTop;
+      drawPal0();
+      pal.dataset.cat = openCat || '';
+      if (openCat) { if (!pal.querySelector('.dz-palx')) { const x = h(`<button type="button" class="dz-palx" aria-label="${TT('Isara', 'Close')}" title="${TT('Isara (o i-click ulit ang button sa itaas)', 'Close (or click the button above again)')}">✕</button>`); pal.prepend(x); } pal.scrollTop = palScroll[openCat] || 0; }
+      if ((pal.hidden ? 0 : pal.offsetHeight) !== ph0 || pc !== (openCat || '')) requestAnimationFrame(() => relayout());
+    }
+    function drawPal0() {
       cats.innerHTML = GROUPS.map(([g, t]) => `<button class="dz-cat ${openCat === g ? 'on' : ''} ${placing && K[placing].g === g ? 'has' : ''}" data-cat="${g}" aria-expanded="${openCat === g}" title="${t}"><svg viewBox="-26 -22 52 44" aria-hidden="true">${FIG.ICON[GIC[g]] || XI[GIC[g]]}</svg><span>${t}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>`).join('');
       pal.hidden = !openCat;
       const item = ([id, k]) => `<button class="dz-pi ${placing === id ? 'on' : ''}" data-k="${id}" title="${esc(k.d)}"><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(id)}</svg><b>${esc(k.n)}</b><span>${k.brand ? `<i class="dz-brand">${esc(k.brand)}</i>` : ''}${esc(k.d)}</span></button>`;
@@ -13749,18 +14137,18 @@ interface g0/0.10
     }
     cats.addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (!b) return; openCat = openCat === b.dataset.cat ? null : b.dataset.cat; panMenu = false; closeCtx(); drawPal(); drawTools(); });
     const onDocDown = e => {
-      if ((openCat || panMenu || ioMenu) && !e.target.closest('.dz-top, .dz-tools')) { openCat = null; panMenu = false; ioMenu = false; drawPal(); drawTools(); }
+      if ((panMenu || ioMenu) && !e.target.closest('.dz-top, .dz-tools')) { panMenu = false; ioMenu = false; drawTools(); }
       if (ctxm && !e.target.closest('.dz-ctx')) closeCtx();
     };
     document.addEventListener('pointerdown', onDocDown);
-    pal.addEventListener('click', e => { const bc = e.target.closest('[data-brand]'); if (bc) { palBrand = bc.dataset.brand; drawPal(); return; } const b = e.target.closest('.dz-pi'); if (!b || b.disabled) return; if (dragGhost && dragGhost.moved) return; placing = placing === b.dataset.k ? null : b.dataset.k; placedN = 0; pending = null; openCat = null; drawPal(); drawTools(); });
+    pal.addEventListener('click', e => { if (e.target.closest('.dz-palx')) { openCat = null; drawPal(); drawTools(); return; } const bc = e.target.closest('[data-brand]'); if (bc) { palBrand = bc.dataset.brand; drawPal(); return; } const b = e.target.closest('.dz-pi'); if (!b || b.disabled) return; if (dragGhost && dragGhost.moved) return; placing = placing === b.dataset.k ? null : b.dataset.k; placedN = 0; pending = null; drawPal(); drawTools(); });
     // mouse drag from palette
     let dragGhost = null;
     pal.addEventListener('pointerdown', e => {
       const b = e.target.closest('.dz-pi'); if (!b || b.disabled || e.pointerType !== 'mouse') return;
       dragGhost = { k: b.dataset.k, x0: e.clientX, y0: e.clientY, moved: false, el: null };
       const mv = ev => { if (!dragGhost) return; if (!dragGhost.moved && Math.hypot(ev.clientX - dragGhost.x0, ev.clientY - dragGhost.y0) < 6) return; if (!dragGhost.el) { dragGhost.moved = true; dragGhost.el = h(`<div class="dz-ghost"><svg viewBox="-26 -22 52 44">${iconSvg(dragGhost.k)}</svg></div>`); document.body.appendChild(dragGhost.el); } dragGhost.el.style.transform = `translate(${ev.clientX - 26}px,${ev.clientY - 22}px)`; };
-      const upf = ev => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', upf); const g = dragGhost; if (g && g.el) { g.el.remove(); openCat = null; drawPal(); const r = canvas.getBoundingClientRect(); if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) { const p = toPlan(ev); place(g.k, p.x, p.y); } } setTimeout(() => { dragGhost = null; }, 0); };
+      const upf = ev => { document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', upf); const g = dragGhost; if (g && g.el) { g.el.remove(); drawPal(); const r = canvas.getBoundingClientRect(); if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) { const p = toPlan(ev); place(g.k, p.x, p.y); } } setTimeout(() => { dragGhost = null; }, 0); };
       document.addEventListener('pointermove', mv); document.addEventListener('pointerup', upf);
     });
 
@@ -13768,7 +14156,7 @@ interface g0/0.10
       const P = plan(); x = Math.max(30, Math.min(P.w - 30, x)); y = Math.max(30, Math.min(P.h - 40, y));
       if (!K[k].shape && !(window.event && window.event.altKey)) { const sn = snapAlign(x, y); x = sn.x; y = sn.y; }
       ghostP = null; guides = null;
-      if (freeDz() && !K[k].note && Object.values(D.devs).filter(d => !K[d.k].note).length >= PR.LIMITS.devices) { toast(TT(`Free plan: hanggang ${PR.LIMITS.devices} device bawat design. Mag-upgrade para walang limit.`, `Free plan: up to ${PR.LIMITS.devices} devices per design. Upgrade for no limit.`)); placing = null; drawPal(); drawTools(); return; }
+      if (!K[k].note && !K[k].shape && devLimit()) { placing = null; drawPal(); drawTools(); return; }
       const id = addDev(D, k, x, y); SND('place'); msel.clear(); sel = { t: 'dev', id }; rebuild(); persist(); drawAll();
       if (K[k].shape) { placing = null; drawPal(); drawTools(); toast(TT('Nailagay ang shape. I-drag ang maliit na kahon sa kanto para palakihin; i-double-click para sa kulay, text at iba pa.', 'Shape added. Drag the small square at the corner to resize; double-click for color, text and more.')); return; }
       if (K[k].note) { placing = null; drawPal(); drawTools(); toast((__EN?"Note placed. Double-click (or double-tap) to write the text.":'Nailagay ang note. I-double-click (o double-tap) para isulat ang text.')); return; }
@@ -13781,12 +14169,11 @@ interface g0/0.10
     const TABS = [['dev', '⚙', 'Config', (__EN?"Settings of the selected device or cable":'Settings ng napiling device o cable')], ['test', '▶', (__EN?"Test":'Subukan'), (__EN?"Ping, traceroute, test everything":'Ping, traceroute, test ng lahat')], ['health', '♥', 'Health', (__EN?"Problems and how to fix them":'Mga problema at paano ayusin')], ['auto', '✨', 'Auto-design', (__EN?"Do the cabling and config automatically":'Gawin ang cable at config nang awtomatiko')], ['mission', '◎', 'Missions', (__EN?"Guided exercises":'May-gabay na exercises')], ['file', '▤', (__EN?"Designs":'Mga design'), (__EN?"New, copy, import/export":'Bago, kopya, import/export')]];
     function drawTools() {
       const z = Math.round(curZoom() * 100);
-      pmEl.innerHTML = (__EN?`<div class="dz-dd"><button class="dz-cat ${panMenu || sideOpen ? 'on' : ''}" data-pm aria-haspopup="menu" aria-expanded="${panMenu}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Panels</span>${healthBadge()}<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-        ${panMenu ? `<div class="dz-menu" role="menu">${TABS.map(([t, ic, n, d]) => `<button role="menuitem" data-tab="${t}" class="${sideOpen && tab === t ? 'on' : ''}"><i class="dz-mic">${ic}</i><span><b>${n}${t === 'health' ? healthBadge() : ''}</b><span class="tiny muted">${d}</span></span></button>`).join('')}</div>` : ''}</div>`:`<div class="dz-dd"><button class="dz-cat ${panMenu || sideOpen ? 'on' : ''}" data-pm aria-haspopup="menu" aria-expanded="${panMenu}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Mga panel</span>${healthBadge()}<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-        ${panMenu ? `<div class="dz-menu" role="menu">${TABS.map(([t, ic, n, d]) => `<button role="menuitem" data-tab="${t}" class="${sideOpen && tab === t ? 'on' : ''}"><i class="dz-mic">${ic}</i><span><b>${n}${t === 'health' ? healthBadge() : ''}</b><span class="tiny muted">${d}</span></span></button>`).join('')}</div>` : ''}</div>`);
+      const mDone = MISSIONS.filter(x => S.missions[x.id]).length;
+      pmEl.innerHTML = `<div class="dz-ptabs" role="tablist" aria-label="${TT('Mga panel', 'Panels')}">${['health', 'mission', 'auto', 'file'].map(t => { const T_ = TABS.find(x => x[0] === t), on = sideOpen && tab === t; return `<button type="button" role="tab" class="dz-ptab ${on ? 'on' : ''}" data-ptab="${t}" aria-selected="${on}" title="${esc(T_[3])}"><i aria-hidden="true">${T_[1]}</i><span>${T_[2]}</span>${t === 'health' ? healthBadge() : t === 'mission' ? `<small class="dz-ptn">${mDone}/${MISSIONS.length}</small>` : ''}</button>`; }).join('')}</div>`;
       tools.innerHTML = `<div class="seg dz-ur"><button data-u="undo" aria-label="Undo" title="Undo (Ctrl+Z)" ${hist.length ? '' : 'disabled'}>↶</button><button data-u="redo" aria-label="Redo" title="Redo (Ctrl+Y)" ${fwd.length ? '' : 'disabled'}>↷</button></div>
-        <div class="seg dz-zoom"><button data-z="-" aria-label="Zoom out">−</button><select data-zs aria-label="Zoom"><option value="fit" ${!zoom ? 'selected' : ''}>Fit${!zoom ? ` (${z}%)` : ''}</option>${ZP.filter(p => p >= zMin() * 100).map(p => `<option value="${p}" ${zoom && Math.round(zoom * 100) === p ? 'selected' : ''}>${p}%</option>`).join('')}${zoom && !ZP.includes(Math.round(zoom * 100)) ? `<option selected value="${Math.round(zoom * 100)}">${Math.round(zoom * 100)}%</option>` : ''}</select><button data-z="+" aria-label="Zoom in">+</button></div>
         <div class="dz-dd dz-io"><div class="seg"><button data-io="shot" aria-label="${TT('Screenshot ng design (PNG)', 'Screenshot of the design (PNG)')}" title="${TT('Screenshot ng nakikita sa screen (PNG)', 'Screenshot of what is on screen (PNG)')}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button><button data-io="menu" aria-haspopup="menu" aria-expanded="${ioMenu}" title="${TT('I-download o i-upload ang plan', 'Download or upload the plan')}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4v12M4 12l4 4 4-4M16 20V8M12 12l4-4 4 4"/></svg><span class="dz-io-l">Plan</span></button></div>${ioMenu ? ioMenuHtml() : ''}</div>`;
+      { const zp = page.querySelector('.dz-zpct'); if (zp) { zp.textContent = z + '%'; zp.title = TT(`Zoom: ${z}% · i-click para 100%`, `Zoom: ${z}% · click for 100%`); } }
       const touch = matchMedia('(hover: none)').matches;
       hint.textContent = placing ? TT(`${touch ? (__EN?"Tap":'I-tap') : (__EN?"Click":'I-click')} ang floor plan: ${K[placing].n} ang ilalagay sa bawat ${touch ? 'tap' : 'click'}. ${touch ? 'Pindutin ulit ang device sa toolbar' : 'Esc o right-click'} para tumigil.`, `${touch ? 'Tap' : 'Click'} the floor plan: every ${touch ? 'tap' : 'click'} adds a ${K[placing].n}. ${touch ? 'Tap the device in the toolbar again' : 'Esc or right-click'} to stop.`)
         : pending ? (__EN?`${L(pending)}: ${touch ? (__EN?"tap":'i-tap') : (__EN?"click":'i-click')} the device to connect the cable to. Esc to cancel.`:`${L(pending)}: ${touch ? (__EN?"tap":'i-tap') : (__EN?"click":'i-click')} ang device na kakabitan ng cable. Esc para kanselahin.`)
@@ -13798,9 +14185,11 @@ interface g0/0.10
     const setZoom = v => { zoom = v == null ? null : Math.max(zMin(), Math.min(3, v)); drawTools(); sizeSvg(); };
     const onTools = e => {
       const pm = e.target.closest('[data-pm]'), tb = e.target.closest('[data-tab]'), z = e.target.closest('[data-z]'), u = e.target.closest('[data-u]'), io = e.target.closest('[data-io]'), iox = e.target.closest('[data-iox]');
-      if (io) { if (io.dataset.io === 'shot') { ioMenu = false; drawTools(); shot('view'); } else { ioMenu = !ioMenu; panMenu = false; openCat = null; drawPal(); drawTools(); } return; }
+      if (io) { if (io.dataset.io === 'shot') { ioMenu = false; drawTools(); shot('view'); } else { ioMenu = !ioMenu; panMenu = false; drawTools(); } return; }
       if (iox) { ioMenu = false; drawTools(); ioAct(iox.dataset.iox); return; }
-      if (pm) { panMenu = !panMenu; openCat = null; drawPal(); drawTools(); return; }
+      const pt = e.target.closest('[data-ptab]');
+      if (pt) { if (sideOpen && tab === pt.dataset.ptab) closeSide(); else openSide(pt.dataset.ptab); return; }
+      if (pm) { panMenu = !panMenu; drawTools(); return; }
       if (tb) { panMenu = false; openSide(tb.dataset.tab); return; }
       if (u) { u.dataset.u === 'undo' ? doUndo() : doRedo(); return; }
       if (z) { const c = Math.round(curZoom() * 100); const nx = z.dataset.z === '+' ? ZP.find(p => p > c) || 300 : [...ZP].reverse().find(p => p < c && p >= zMin() * 100) || zMin() * 100; setZoom(nx / 100); }
@@ -13819,9 +14208,9 @@ interface g0/0.10
       if (!e.ctrlKey && !e.metaKey && !mouse) return; // trackpad two-finger scroll keeps panning
       e.preventDefault(); zoomAt(curZoom() * (e.deltaY < 0 ? 1.15 : 1 / 1.15), e.clientX, e.clientY);
     }, { passive: false });
-    const zfab = h(`<div class="dz-zfab" role="group" aria-label="Zoom"><button type="button" data-zf="+" aria-label="Zoom in" title="Zoom in">+</button><button type="button" data-zf="-" aria-label="Zoom out" title="Zoom out">−</button><button type="button" data-zf="fit" aria-label="${TT('Ipakita lahat', 'Fit to screen')}" title="${TT('Ipakita lahat', 'Fit to screen')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>`);
-    { const cw = document.createElement('div'); cw.className = 'dz-cwrap'; canvas.before(cw); cw.appendChild(canvas); cw.appendChild(zfab); } // the zoom buttons sit on the canvas itself
-    zfab.onclick = e => { const b = e.target.closest('[data-zf]'); if (!b) return; const z = b.dataset.zf; if (z === 'fit') setZoom(null); else zoomAt(curZoom() * (z === '+' ? 1.25 : 0.8)); };
+    const zfab = h(`<div class="dz-zfab" role="group" aria-label="Zoom"><button type="button" data-zf="+" aria-label="Zoom in" title="Zoom in">+</button><button type="button" data-zf="100" class="dz-zpct" aria-label="Zoom 100%">100%</button><button type="button" data-zf="-" aria-label="Zoom out" title="Zoom out">−</button><button type="button" data-zf="fit" aria-label="${TT('Ipakita lahat', 'Fit to screen')}" title="${TT('Ipakita lahat', 'Fit to screen')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div>`);
+    { const cw = document.createElement('div'); cw.className = 'dz-cwrap'; canvas.before(cw); cw.appendChild(canvas); cw.appendChild(zfab); cw.appendChild(pmEl); pmEl.classList.add('dz-rail'); } // the zoom buttons sit on the canvas itself
+    zfab.onclick = e => { const b = e.target.closest('[data-zf]'); if (!b) return; const z = b.dataset.zf; if (z === 'fit') setZoom(null); else if (z === '100') zoomAt(1); else zoomAt(curZoom() * (z === '+' ? 1.25 : 0.8)); };
 
     // ---------- fit to screen ----------
     function fitHeight() {
@@ -13995,9 +14384,12 @@ interface g0/0.10
         if (on) top += (__EN?`<g class="dz-ldel" data-ldel="${l.id}" transform="translate(${mx} ${my})" role="button" aria-label="Remove cable"><title>Remove cable (Delete)</title><circle r="11"/><path d="M-4 -4L4 4M4 -4L-4 4"/></g>`:`<g class="dz-ldel" data-ldel="${l.id}" transform="translate(${mx} ${my})" role="button" aria-label="Tanggalin ang cable"><title>Tanggalin ang cable (Delete)</title><circle r="11"/><path d="M-4 -4L4 4M4 -4L-4 4"/></g>`);
       }
       for (const [c, a] of Object.entries(B.assoc)) if (a.ap && D.devs[c] && D.devs[a.ap]) { const C = D.devs[c], A = D.devs[a.ap]; s += `<line x1="${A.x}" y1="${A.y}" x2="${C.x}" y2="${C.y}" class="dz-wl"/>`; }
+      const DLs = deptList(D);
       for (const d of Object.values(D.devs)) {
         const k = K[d.k], on = (sel && sel.t === 'dev' && sel.id === d.id) || msel.has(d.id), pend = pending === d.id;
         if (k.shape) continue;
+        const dx = DLs && !isInfra(d) && !k.note ? DLs.find(x => x.id === d.cfg.dept) : null;
+        if (dx) { const ab = DABBR[dx.id] || dx.n.replace(/[^A-Za-z0-9]/g, '').slice(0, 5).toUpperCase() || dx.n.slice(0, 4), tw = 8 + ab.length * 6.2; top += `<g class="dz-dtag" transform="translate(${d.x - 30} ${d.y - 34})" style="--c:${SHC[dx.c] || SHC.accent}"><title>${esc(dx.n)}</title><rect x="0" y="0" width="${tw}" height="14" rx="4"/><text x="${tw / 2}" y="10.5" text-anchor="middle">${esc(ab)}</text></g>`; }
         if (k.note) { s += `<g data-dev="${d.id}" class="dz-dev dz-note ${on ? 'on' : ''}" transform="translate(${d.x} ${d.y})">${noteBox(d)}</g>`; continue; }
         const st = devStatus(d);
         const sub = k.host ? ((B.net.hosts[d.id] || {}).ip || (d.cfg.dhcp ? 'DHCP…' : (__EN?"no IP":'walang IP'))) : '';
@@ -14020,15 +14412,19 @@ interface g0/0.10
       else if (sh_ === 'poly') g = `<path d="M${polyPts(c).map(q => (q[0] * w).toFixed(1) + ' ' + (q[1] * hh).toFixed(1)).join('L')}Z"/>`;
       else { const ah = sh_ === 'arrow' ? Math.max(10, sw * 5) : 0; g = `<path d="M${-w / 2} 0H${w / 2 - ah * .6}"/>${ah ? `<path d="M${w / 2 - ah} ${-ah * .6}L${w / 2} 0L${w / 2 - ah} ${ah * .6}Z" style="fill:${col};fill-opacity:1;stroke-dasharray:none"/>` : ''}`; }
       const line = sh_ === 'line' || sh_ === 'arrow', bw = line ? w : w, bh = line ? 24 : hh;
-      const txt = c.text ? `<text y="${line ? -12 : 5}" text-anchor="middle" class="dz-shp-t" style="fill:${col}">${esc(String(c.text).slice(0, 60))}</text>` : '';
-      const selb = on ? `<rect class="dz-shp-sel" x="${-bw / 2 - 6}" y="${-bh / 2 - 6}" width="${bw + 12}" height="${bh + 12}" rx="4"/><g class="dz-rsz" data-rsz="${d.id}" transform="translate(${line ? w / 2 : w / 2 + 6} ${line ? 0 : hh / 2 + 6})"><title>${TT('I-drag para palakihin o paliitin', 'Drag to resize')}</title><rect x="-8" y="-8" width="16" height="16" rx="4"/></g>` : '';
+      const top_ = c.tpos === 'top' && !line;
+      let txt = c.text ? `<text y="${line ? -12 : 5}" text-anchor="middle" class="dz-shp-t" style="fill:${col}">${esc(String(c.text).slice(0, 60))}</text>` : '';
+      if (c.text && top_) { const [a_, ...b_] = String(c.text).slice(0, 60).split(' · '); const ty = -hh / 2 + (c.troom ? 33 : 19); txt = `<text x="${-w / 2 + 10}" y="${ty}" class="dz-zone-t" style="fill:${col}"><tspan class="n">${esc(a_)}</tspan>${b_.length ? `<tspan x="${-w / 2 + 10}" dy="13" class="s">${esc(b_.join(' · '))}</tspan>` : ''}</text>`; }
+      const lk = !!c.lock;
+      const selb = on ? `<rect class="dz-shp-sel" x="${-bw / 2 - 6}" y="${-bh / 2 - 6}" width="${bw + 12}" height="${bh + 12}" rx="4"/>${lk ? '' : `<g class="dz-rsz" data-rsz="${d.id}" transform="translate(${line ? w / 2 : w / 2 + 6} ${line ? 0 : hh / 2 + 6})"><title>${TT('I-drag para palakihin o paliitin', 'Drag to resize')}</title><rect x="-8" y="-8" width="16" height="16" rx="4"/></g>`}` : '';
+      const lockI = lk ? `<g class="dz-lock" transform="translate(${line ? -w / 2 : w / 2 - 16} ${line ? -16 : hh / 2 - 16})"><title>${TT('Naka-lock: hindi magagalaw o mapapalaki. Right-click → I-unlock.', 'Locked: it cannot be moved or resized. Right-click → Unlock.')}</title><rect x="-9" y="-9" width="18" height="18" rx="5"/><path d="M-4 -1v-3a4 4 0 0 1 8 0v3M-5.5 -1h11v7h-11z"/></g>` : '';
       // size in metres: always on the selected shape, and on any shape that has "Show size" ticked
       const dimL = line ? `${(w / U).toFixed(1)} m` : `${(w / U).toFixed(1)} × ${(hh / U).toFixed(1)} m`;
       const dim = on || c.dim ? `<text class="dz-dim" y="${line ? 22 : hh / 2 + (on ? 26 : 16)}" text-anchor="middle" transform="rotate(${-(+c.rot || 0)} 0 ${line ? 22 : hh / 2 + (on ? 26 : 16)})">${dimL}</text>` : '';
       let vh = '';
-      if (on && sh_ === 'poly' && sel && sel.id === d.id) { const P_ = polyPts(c); P_.forEach((q, i) => { const n_ = P_[(i + 1) % P_.length]; vh += `<circle class="dz-vm" data-vm="${d.id}:${i}" cx="${((q[0] + n_[0]) / 2 * w).toFixed(1)}" cy="${((q[1] + n_[1]) / 2 * hh).toFixed(1)}" r="5"><title>${TT('I-drag para magdagdag ng kanto', 'Drag to add a corner')}</title></circle>`; }); P_.forEach((q, i) => { vh += `<circle class="dz-vh" data-vh="${d.id}:${i}" cx="${(q[0] * w).toFixed(1)}" cy="${(q[1] * hh).toFixed(1)}" r="7"><title>${TT('I-drag ang kanto · Double-click para alisin', 'Drag the corner · Double-click to remove')}</title></circle>`; }); }
+      if (on && !lk && sh_ === 'poly' && sel && sel.id === d.id) { const P_ = polyPts(c); P_.forEach((q, i) => { const n_ = P_[(i + 1) % P_.length]; vh += `<circle class="dz-vm" data-vm="${d.id}:${i}" cx="${((q[0] + n_[0]) / 2 * w).toFixed(1)}" cy="${((q[1] + n_[1]) / 2 * hh).toFixed(1)}" r="5"><title>${TT('I-drag para magdagdag ng kanto', 'Drag to add a corner')}</title></circle>`; }); P_.forEach((q, i) => { vh += `<circle class="dz-vh" data-vh="${d.id}:${i}" cx="${(q[0] * w).toFixed(1)}" cy="${(q[1] * hh).toFixed(1)}" r="7"><title>${TT('I-drag ang kanto · Double-click para alisin', 'Drag the corner · Double-click to remove')}</title></circle>`; }); }
       if (vh) hTop += `<g class="dz-vhs" transform="translate(${d.x} ${d.y}) rotate(${+c.rot || 0})">${vh}</g>`; // corner handles go above the devices
-      return `<g data-dev="${d.id}" class="dz-dev dz-shape ${on ? 'on' : ''}" transform="translate(${d.x} ${d.y}) rotate(${+c.rot || 0})"><g class="shp-hit">${g}</g><g style="${sty}">${g}</g>${txt}${selb}${dim}</g>`;
+      return `<g data-dev="${d.id}" class="dz-dev dz-shape ${on ? 'on' : ''} ${lk ? 'locked' : ''}" transform="translate(${d.x} ${d.y}) rotate(${+c.rot || 0})"><g class="shp-hit">${g}</g><g style="${sty}">${g}</g>${txt}${selb}${dim}${lockI}</g>`;
     }
     // the workspace and the design: how big they are, in metres
     function sizeBadge(P) {
@@ -14133,7 +14529,8 @@ interface g0/0.10
       }
       const rz = e.target.closest('[data-rsz]');
       if (rz && !placing && D.devs[rz.dataset.rsz]) { rsz = { id: rz.dataset.rsz, pid: e.pointerId, moved: false }; try { svg.setPointerCapture(e.pointerId); } catch (er) { } e.preventDefault(); e.stopPropagation(); return; }
-      const ph = e.target.closest('[data-ph]'), dv = e.target.closest('[data-dev]'), lk = e.target.closest('[data-link]');
+      const ph = e.target.closest('[data-ph]'), dv0 = e.target.closest('[data-dev]'), lk = e.target.closest('[data-link]');
+      const dv = dv0 && !isLocked(dv0.dataset.dev) ? dv0 : null;
       if (placing) return;
       if (!ph && !dv && !lk && !pending && e.pointerType === 'mouse' && !e.target.closest('[data-ldel]')) {
         const p = toPlan(e); band = { x0: p.x, y0: p.y, cx: e.clientX, cy: e.clientY, moved: false, pid: e.pointerId, el: null, add: e.shiftKey || e.ctrlKey || e.metaKey };
@@ -14147,12 +14544,12 @@ interface g0/0.10
       }
       if (dv) {
         const d = D.devs[dv.dataset.dev]; const p = toPlan(e);
-        drag = { id: d.id, dx: p.x - d.x, dy: p.y - d.y, x0: e.clientX, y0: e.clientY, moved: false, pid: e.pointerId, px: p.x, py: p.y, group: msel.size > 1 && msel.has(d.id) ? [...msel].filter(x => D.devs[x]).map(x => ({ id: x, x: D.devs[x].x, y: D.devs[x].y })) : null };
+        drag = { id: d.id, dx: p.x - d.x, dy: p.y - d.y, x0: e.clientX, y0: e.clientY, moved: false, pid: e.pointerId, px: p.x, py: p.y, group: msel.size > 1 && msel.has(d.id) ? [...msel].filter(x => D.devs[x] && !isLocked(x)).map(x => ({ id: x, x: D.devs[x].x, y: D.devs[x].y })) : null };
         try { svg.setPointerCapture(e.pointerId); } catch (er) { }
         e.preventDefault();
       }
-      if ((dv || lk) && e.pointerType !== 'mouse') {
-        const cx = e.clientX, cy = e.clientY, t = dv ? { t: 'dev', id: dv.dataset.dev } : { t: 'link', id: lk.dataset.link };
+      if ((dv0 || lk) && e.pointerType !== 'mouse') {
+        const cx = e.clientX, cy = e.clientY, t = dv0 ? { t: 'dev', id: dv0.dataset.dev } : { t: 'link', id: lk.dataset.link };
         lp = { x: cx, y: cy, t: setTimeout(() => { lp = null; if (drag && drag.moved) return; drag = null; suppress = performance.now() + 600; sel = t; drawCanvas(); drawSide(); openCtx(t, cx, cy); if (navigator.vibrate) try { navigator.vibrate(15); } catch (er) { } }, 520) };
       }
     });
@@ -14213,7 +14610,7 @@ interface g0/0.10
         if (!b.moved) return; // a plain click: the click handler clears the selection
         suppress = performance.now() + 350;
         const x0 = Math.min(b.x0, b.x1), x1 = Math.max(b.x0, b.x1), y0 = Math.min(b.y0, b.y1), y1 = Math.max(b.y0, b.y1);
-        const hit = Object.values(D.devs).filter(d => d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1).map(d => d.id);
+        const hit = Object.values(D.devs).filter(d => d.x >= x0 && d.x <= x1 && d.y >= y0 && d.y <= y1 && !isLocked(d.id)).map(d => d.id);
         if (!b.add) msel = new Set(); hit.forEach(id => msel.add(id));
         if (msel.size === 1) { sel = { t: 'dev', id: [...msel][0] }; msel.clear(); } else sel = null;
         drawCanvas(); drawBar(); if (sideOpen && tab === 'dev') drawSide();
@@ -14279,6 +14676,7 @@ interface g0/0.10
         if (!k.note) items.push(['cab', '⊕', (__EN?"Connect a cable…":'Ikabit ang cable…'), '']);
         if (k.cli || k.host) items.push(['cli', '>_', k.host ? TT('Buksan ang Command Prompt', 'Open Command Prompt') : TT('Buksan ang CLI', 'Open the CLI'), '']);
         if (k.host && bk(d.k) !== 'lb') items.push(['test', '▶', (__EN?"Test (ping) from here":'Subukan (ping) mula dito'), '']);
+        if (k.shape) items.push(['lock', d.cfg.lock ? '🔓' : '🔒', d.cfg.lock ? TT('I-unlock', 'Unlock') : TT('I-lock (hindi magagalaw)', 'Lock (cannot be moved)'), '']);
         items.push(['dup', '⧉', 'Duplicate', '']);
         if (!k.isp) items.push(['-']);
         items.push(['del', '🗑', (__EN?"Delete":'Burahin'), 'Delete', 'bad']);
@@ -14305,6 +14703,7 @@ interface g0/0.10
       else if (a === 'cab') { pending = t.id; sel = t; drawTools(); drawCanvas(); }
       else if (a === 'test') { sel = t; testRes = null; openSide('dev', 'test'); }
       else if (a === 'dup') dupDev(t.id);
+      else if (a === 'lock') setLock(t.id, !isLocked(t.id));
       else if (a === 'del') t.t === 'dev' ? delDev(t.id) : delLink(t.id);
       else if (a.startsWith('t:')) setLinkType(t.id, a.slice(2));
     });
@@ -14314,8 +14713,11 @@ interface g0/0.10
     });
 
     // ---------- edit operations ----------
+    function isLocked(id) { const d = D.devs[id]; return !!(d && K[d.k].shape && d.cfg && d.cfg.lock); }
+    function setLock(id, on) { const d = D.devs[id]; if (!d) return; d.cfg.lock = !!on; persist(); drawAll(); SND('tap'); toast(on ? TT('Naka-lock ang shape: hindi na ito magagalaw, mapapalaki o mabubura nang hindi sinasadya.', 'Shape locked: it can no longer be moved, resized or deleted by accident.') : TT('Na-unlock ang shape.', 'Shape unlocked.')); }
     function delDev(id) {
       const d = D.devs[id]; if (!d) return;
+      if (isLocked(id)) { toast(TT('Naka-lock ang shape na ito. I-unlock muna (right-click → I-unlock).', 'This shape is locked. Unlock it first (right-click → Unlock).')); SND('err'); return; }
       delete D.devs[id]; D.links = D.links.filter(l => l.a !== id && l.b !== id); D.log = D.log.filter(x => x.d !== id);
       Object.values(D.devs).forEach(x => { if (x.cfg && x.cfg.backends) x.cfg.backends = x.cfg.backends.filter(b => b !== id); });
       delete terms[id]; if (sel && sel.id === id) sel = null; if (pending === id) pending = null;
@@ -14327,9 +14729,9 @@ interface g0/0.10
       rebuild(); persist(); drawAll(); SND('tap'); toast((__EN?"Cable removed. (Ctrl+Z to undo)":'Natanggal ang cable. (Ctrl+Z para i-undo)'));
     }
     function dupDev(id) {
-      const d = D.devs[id]; if (!d) return; const P = plan();
+      const d = D.devs[id]; if (!d) return; const P = plan(); if (!K[d.k].note && !K[d.k].shape && devLimit()) return;
       const nid = addDev(D, d.k, Math.min(P.w - 30, d.x + 50), Math.min(P.h - 40, d.y + 40)); const n = D.devs[nid];
-      if (d.cfg) { n.cfg = JSON.parse(JSON.stringify(d.cfg)); if (K[d.k].host && !n.cfg.dhcp) n.cfg.ip = ''; }
+      if (d.cfg) { n.cfg = JSON.parse(JSON.stringify(d.cfg)); if (K[d.k].host && !n.cfg.dhcp) n.cfg.ip = ''; delete n.cfg.lock; delete n.cfg.auto; }
       sel = { t: 'dev', id: nid }; rebuild(); persist(); drawAll(); SND('place');
       toast(K[d.k].host || K[d.k].note || bk(d.k) === 'soho' ? (__EN?`Copied as ${n.label}.`:`Nakopya bilang ${n.label}.`) : (__EN?`Copied as ${n.label} (new device, no CLI config).`:`Nakopya bilang ${n.label} (bagong device, walang CLI config).`));
     }
@@ -14383,7 +14785,7 @@ interface g0/0.10
         // first time: open on the side away from the device, so the device stays visible
         const d = sel && sel.t === 'dev' && D.devs[sel.id]; let right = true;
         if (d) try { const m = svg.getScreenCTM(), r = wrap.getBoundingClientRect(); if (m) right = (d.x * m.a + m.e) < r.left + r.width / 2; } catch (e) { }
-        x = right ? W - w - 8 : 8; y = 8;
+        const rw = pmEl.offsetWidth ? pmEl.offsetWidth + 16 : 8; x = right ? W - w - rw : 8; y = 8;
       }
       side.style.left = x + 'px'; side.style.top = y + 'px'; clampWin();
     }
@@ -14462,10 +14864,10 @@ interface g0/0.10
       if (!dts.some(x => x[0] === dtab)) dtab = 'cfg';
       const devWin = tab === 'dev' && sel && (dv || sel.t === 'link');
       side.classList.toggle('dz-devwin', !!devWin);
-      $('.dz-ssel').hidden = !!devWin; const wt = $('.dz-wtabs'); wt.hidden = !dv || dts.length < 2;
+      $('.dz-ssel').hidden = true; const wt = $('.dz-wtabs'); wt.hidden = !dv || dts.length < 2;
       wt.innerHTML = dts.map(([t, ic, n]) => `<button type="button" role="tab" data-dt="${t}" aria-selected="${t === dtab}" tabindex="${t === dtab ? 0 : -1}" class="${t === dtab ? 'on' : ''}"><i aria-hidden="true">${ic}</i>${esc(n)}</button>`).join('');
       side.setAttribute('aria-label', devWin ? (dv ? dv.label : 'Cable') : T[2]);
-      $('.dz-st').textContent = sub;
+      $('.dz-st').textContent = devWin ? sub : `${T[1]}  ${T[2]}`; $('.dz-st').classList.toggle('dz-st-t', !devWin);
       const key = tab + ':' + (devWin ? dtab : '') + ':' + (sel ? sel.t + sel.id : ''), same = key === sideKey, keep = same ? panel.scrollTop : 0; sideKey = key; if (!same && !autoSv) { const sv = $('.dz-saved'); sv.classList.remove('on'); sv.textContent = ''; }
       // remember which field had focus, so saving one field does not throw the cursor out
       const ae = document.activeElement, fl = [...panel.querySelectorAll('input,select,textarea,button')], fi = same && ae && panel.contains(ae) ? fl.indexOf(ae) : -1;
@@ -14594,12 +14996,13 @@ interface g0/0.10
         <div class="row2">${line ? '' : `<label class="dz-ck"><input type="checkbox" name="fill" ${c.fill ? 'checked' : ''}> ${TT('May kulay sa loob', 'Filled')}</label>`}<label class="dz-ck"><input type="checkbox" name="dash" ${c.dash ? 'checked' : ''}> ${TT('Putol-putol na linya', 'Dashed line')}</label></div>
         <div class="row2"><label class="fld">${line ? TT('Haba (m)', 'Length (m)') : TT('Lapad (m)', 'Width (m)')}<input name="w" type="number" min="2" max="9000" step="0.5" value="${+(c.w / U).toFixed(1)}"></label>${line ? '' : `<label class="fld">${TT('Taas (m)', 'Height (m)')}<input name="h" type="number" min="2" max="9000" step="0.5" value="${+(c.h / U).toFixed(1)}"></label>`}</div>
         <label class="dz-ck"><input type="checkbox" name="dim" ${c.dim ? 'checked' : ''}> ${TT('Laging ipakita ang sukat sa floor plan', 'Always show the size on the floor plan')}</label>
+        <label class="dz-ck dz-lockck"><input type="checkbox" name="lock" ${c.lock ? 'checked' : ''}> 🔒 ${TT('I-lock: hindi magagalaw, mapapalaki o mabubura sa floor plan (puwede pa ring baguhin dito)', 'Lock: it cannot be moved, resized or deleted on the floor plan (you can still change it here)')}</label>
         ${s_ === 'poly' ? `<div class="fld"><span>${TT('Hugis', 'Shape')}</span><div class="row" style="gap:6px;flex-wrap:wrap">${[['L', 'L'], ['U', 'U'], ['T', 'T'], ['pent', TT('5 kanto', '5 corners')], ['oct', TT('8 kanto', '8 corners')]].map(([k_, n_]) => `<button type="button" class="btn sm" data-poly="${k_}">${n_}</button>`).join('')}<button type="button" class="btn sm" data-pc="+">+ ${TT('Kanto', 'Corner')}</button><button type="button" class="btn sm" data-pc="-">− ${TT('Kanto', 'Corner')}</button></div><span class="tiny muted">${TT('Sa floor plan: i-drag ang bilog sa kanto; i-drag ang maliit na bilog sa gitna ng gilid para magdagdag ng kanto; i-double-click ang kanto para alisin.', 'On the floor plan: drag a corner dot; drag the small dot in the middle of a side to add a corner; double-click a corner to remove it.')}</span></div>` : ''}
         <div class="row2"><label class="fld">${TT('Kapal ng linya', 'Line width')}<input name="sw" type="range" min="1" max="8" value="${c.sw || 2}"></label><label class="fld">${TT('Ikot (°)', 'Rotate (°)')}<input name="rot" type="number" min="0" max="359" value="${Math.round(c.rot || 0)}"></label></div>
         <div class="row" style="gap:6px">${[0, 45, 90, 135].map(a => `<button type="button" class="btn sm" data-rot="${a}">${a}°</button>`).join('')}</div>
         <p class="tiny muted">${TT('Laging nasa ilalim ng mga device ang shape. I-drag para ilipat; ang maliit na kahon sa kanto para palakihin (Shift: pareho ang hugis).', 'Shapes always sit under the devices. Drag to move; drag the small square at the corner to resize (Shift keeps the proportions).')}</p></form>`, true);
       const f = s.querySelector('form'); let t0 = null;
-      const upd = (now) => { c.text = f.text.value.slice(0, 60); if (f.fill) c.fill = f.fill.checked; c.dash = f.dash.checked; c.sw = +f.sw.value; c.rot = ((+f.rot.value || 0) % 360 + 360) % 360; c.dim = f.dim.checked; const w = Math.max(20, Math.min(90000, Math.round((+f.w.value || c.w / U) * U))); if (s_ === 'sq' || s_ === 'circ') { c.w = c.h = w; } else { c.w = w; if (f.h) c.h = Math.max(20, Math.min(90000, Math.round((+f.h.value || c.h / U) * U))); } drawCanvas(); clearTimeout(t0); if (now) persist(); else t0 = setTimeout(persist, 500); };
+      const upd = (now) => { c.text = f.text.value.slice(0, 60); if (f.fill) c.fill = f.fill.checked; c.dash = f.dash.checked; c.sw = +f.sw.value; c.rot = ((+f.rot.value || 0) % 360 + 360) % 360; c.dim = f.dim.checked; c.lock = f.lock.checked; const w = Math.max(20, Math.min(90000, Math.round((+f.w.value || c.w / U) * U))); if (s_ === 'sq' || s_ === 'circ') { c.w = c.h = w; } else { c.w = w; if (f.h) c.h = Math.max(20, Math.min(90000, Math.round((+f.h.value || c.h / U) * U))); } drawCanvas(); clearTimeout(t0); if (now) persist(); else t0 = setTimeout(persist, 500); };
       f.addEventListener('input', () => upd(false)); f.addEventListener('change', () => upd(true)); f.onsubmit = e => e.preventDefault();
       f.querySelectorAll('[data-c]').forEach(b => b.onclick = () => { c.c = b.dataset.c; f.querySelectorAll('[data-c]').forEach(x => x.classList.toggle('on', x === b)); drawCanvas(); persist(); });
       f.querySelectorAll('[data-rot]').forEach(b => b.onclick = () => { f.rot.value = b.dataset.rot; upd(true); });
@@ -14838,22 +15241,27 @@ interface g0/0.10
       const showRes = () => { const r = testRes; if (!r) return; s.querySelector('.dz-res').innerHTML = `<div class="dz-out ${r.ok ? 'ok' : 'bad'}"><b>${r.ok ? (__EN?"✓ Works":'✓ Gumagana') : (__EN?"✕ Didn't reach":'✕ Hindi umabot')}</b><p>${esc(r.msg)}</p>${r.hops && r.hops.length ? `<div class="tiny mono muted">Hops: ${r.hops.join(' → ')}</div>` : ''}</div>`; };
       showRes();
       s.querySelector('[data-act=all]').onclick = () => { matrix = runMatrix(); drawMx(); SND(matrix.n && matrix.ok === matrix.n ? 'win' : 'err'); };
+      const drawMx0 = () => { if (matrix && matrix.blocked) s.querySelector('.dz-mx').insertAdjacentHTML('beforeend', `<p class="tiny muted">🔒 ${TT(`Kasama ang ${matrix.blocked} ping na sinadyang hinarang ng access rules ng department (pasado iyon).`, `Includes ${matrix.blocked} pings blocked on purpose by the department access rules (those pass).`)}</p>`); };
       const drawMx = () => { if (!matrix) return; const m = matrix; s.querySelector('.dz-mx').innerHTML = (__EN?`<div class="row between"><b>${m.ok}/${m.n} working</b><span class="pill ${m.ok === m.n ? 'ok' : m.ok ? 'warn' : 'bad'}">${m.n ? Math.round(100 * m.ok / m.n) : 0}%</span></div>${m.fails.slice(0, 15).map(x => `<div class="dz-fail"><b>${esc(x.t)}</b><span class="tiny">${esc(x.r.msg)}</span></div>`).join('')}${m.fails.length > 15 ? `<p class="tiny muted">…at ${m.fails.length - 15} pa.</p>` : ''}`:`<div class="row between"><b>${m.ok}/${m.n} gumagana</b><span class="pill ${m.ok === m.n ? 'ok' : m.ok ? 'warn' : 'bad'}">${m.n ? Math.round(100 * m.ok / m.n) : 0}%</span></div>${m.fails.slice(0, 15).map(x => `<div class="dz-fail"><b>${esc(x.t)}</b><span class="tiny">${esc(x.r.msg)}</span></div>`).join('')}${m.fails.length > 15 ? `<p class="tiny muted">…at ${m.fails.length - 15} pa.</p>` : ''}`); };
-      drawMx();
+      drawMx(); drawMx0(); s.querySelector('[data-act=all]').addEventListener('click', drawMx0);
     }
     function runMatrix() { return matrixOf(D, B); }
     function matrixOf(D, B) {
-      const hs = Object.values(D.devs).filter(d => K[d.k].host && bk(d.k) !== 'lb'); let n = 0, ok = 0; const fails = [];
+      const hs = Object.values(D.devs).filter(d => K[d.k].host && bk(d.k) !== 'lb'); let n = 0, ok = 0, blocked = 0; const fails = [];
       const isp = Object.values(D.devs).some(d => bk(d.k) === 'isp');
       for (const a of hs) {
         const tg = [];
         const gw = (B.net.hosts[a.id] || {}).gw; if (gw) tg.push([gw, 'gateway']);
-        for (const b of hs) if (b !== a && (B.net.hosts[b.id] || {}).ip) tg.push([B.net.hosts[b.id].ip, b.label]);
+        for (const b of hs) if (b !== a && (B.net.hosts[b.id] || {}).ip) tg.push([B.net.hosts[b.id].ip, b.label, b]);
         if (isp) tg.push(['8.8.8.8', 'Internet']);
         if (!(B.net.hosts[a.id] || {}).ip) { n++; fails.push({ t: (__EN?`${a.label}: no IP`:`${a.label}: walang IP`), r: runTest(D, B, a.id, '8.8.8.8', 'icmp') }); continue; }
-        for (const [ip, nm] of tg) { n++; const r = runTest(D, B, a.id, ip, 'icmp'); if (r.ok) ok++; else fails.push({ t: `${a.label} → ${nm} (${ip})`, r }); }
+        for (const [ip, nm, bd] of tg) {
+          n++; const r = runTest(D, B, a.id, ip, 'icmp');
+          if (bd && deptBlocked(D, a, bd)) { if (!r.ok) { ok++; blocked++; } else fails.push({ t: `${a.label} → ${nm} (${ip})`, r: { msg: TT('Dapat hinarang ito ng access rules ng department pero nakalusot.', 'The department access rules should block this, but it got through.') } }); continue; }
+          if (r.ok) ok++; else fails.push({ t: `${a.label} → ${nm} (${ip})`, r });
+        }
       }
-      return { n, ok, fails };
+      return { n, ok, fails, blocked };
     }
     function animate(r) {
       if (anim) cancelAnimationFrame(anim.raf);
@@ -14900,6 +15308,7 @@ interface g0/0.10
         undo = before; rebuild(); persist(); drawAll(); SND('ok');
         toast(msg + (__EN?" (You can undo it in the Health tab.)":' (Pwedeng i-undo sa Health tab.)'));
       });
+      { const tb = h(`<button type="button" class="btn sm dz-tall">▶ ${TT('Subukan ang buong network (ping lahat)', 'Test the whole network (ping everything)')}</button>`); tb.onclick = () => { sel = null; openSide('test'); matrix = runMatrix(); drawSide(); }; panel.firstChild.prepend(tb); }
       if (undo) { const u = h((__EN?`<button class="btn sm ghost">↶ Undo last fix</button>`:`<button class="btn sm ghost">↶ I-undo ang huling ayos</button>`)); u.onclick = () => { const o = JSON.parse(undo); undo = null; Object.keys(D).forEach(k => delete D[k]); Object.assign(D, o); rebuild(); persist(); drawAll(); toast((__EN?"Undone.":'Na-undo.')); }; panel.firstChild.appendChild(u); }
     }
 
@@ -14908,13 +15317,71 @@ interface g0/0.10
     let arrangeOn = (() => { try { return localStorage.getItem('ccna.dz.arrange') !== '0'; } catch (e) { return true; } })();
     // auto-design, then (when on) arrange the devices and design again so the cables follow the new places
     function autoDesignArr(src, opt) {
-      const r = autoDesign(src, opt); if (!arrangeOn) return r;
-      const tmp = JSON.parse(JSON.stringify(r.D)), P = plan();
+      const L = deptList(src), P = plan();
+      const base = JSON.parse(JSON.stringify(src));
+      Object.values(base.devs).forEach(d => { if (d.cfg && d.cfg.auto === 'dept') delete base.devs[d.id]; });   // old department zones are drawn again
+      if (L) deptGuess(base, L, P);
+      const o = Object.assign({}, opt, { depts: L });
+      const r = autoDesign(base, o); let r2 = r, lay = null;
       const box = P.inf ? (P.base ? [P.base.x, P.base.y, P.base.w, P.base.h] : null) : [0, 0, P.w, P.h];
-      const n = autoLayout(tmp, box); if (!n) return r;
-      const r2 = autoDesign(tmp, opt);
-      r2.R.done = [TT(`Inayos ang puwesto ng ${n} device: Internet sa itaas, sunod ang firewall at router, ang core at mga switch, at ang mga end device sa ilalim ng switch o AP nila`, `Arranged ${n} devices: Internet on top, then the firewall and router, the core and switches, and the end devices under their switch or AP`)].concat(r.R.done.filter(x => /^(Added|Nagdagdag)/.test(x)), r2.R.done.filter(x => !/^(Added|Nagdagdag)/.test(x)));
+      if (arrangeOn) {
+        const tmp = JSON.parse(JSON.stringify(r.D)); let n;
+        if (L) { lay = deptLayout(tmp, L, P, box); n = lay.moved; } else n = autoLayout(tmp, box);
+        if (n) {
+          r2 = autoDesign(tmp, o);
+          r2.R.done = [L ? TT(`Inayos ang puwesto ng ${n} device: sa server room ang Internet, firewall, router, core at mga server; bawat department sa sariling kwarto o bahagi ng kwarto, kasama ang switch at AP nito`, `Arranged ${n} devices: the Internet, firewall, router, core and servers in the server room; every department in its own room or part of a room, with its switch and AP`) : TT(`Inayos ang puwesto ng ${n} device: Internet sa itaas, sunod ang firewall at router, ang core at mga switch, at ang mga end device sa ilalim ng switch o AP nila`, `Arranged ${n} devices: Internet on top, then the firewall and router, the core and switches, and the end devices under their switch or AP`)].concat(r.R.done.filter(x => /^(Added|Nagdagdag)/.test(x)), r2.R.done.filter(x => !/^(Added|Nagdagdag)/.test(x)));
+        }
+      }
+      if (L) {
+        const Dx = r2.D, zs = lay ? lay.zones : deptBoxes(Dx, L), ap = Dx.depts && Dx.depts.applied;
+        for (const z of zs) { const x = L.find(q => q.id === z.id); if (!x) continue; const id = addDev(Dx, 'shp_rect', Math.round(z.x + z.w / 2), Math.round(z.y + z.h / 2)); Object.assign(Dx.devs[id].cfg, { w: Math.round(z.w), h: Math.round(z.h), c: x.c, fill: true, dash: true, sw: 2, text: (x.srv ? 'Servers / Data center' : x.n) + (ap ? ` · VLAN ${x.v} · 192.168.${x.v}.0/24` : ''), tpos: 'top', troom: !!z.room || !lay, lock: true, auto: 'dept', dept: x.id }); }
+        r2.R.done.push(TT(`${zs.length} zone (naka-lock) sa floor plan na may pangalan, VLAN at network ng bawat department`, `${zs.length} locked zones on the floor plan with each department's name, VLAN and network`));
+        // where each device belongs
+        const loc = {};
+        if (lay) lay.loc.forEach(([lb, w]) => { (loc[w] = loc[w] || []).push(lb); });
+        else {
+          const sr = (P.rooms || []).find(q => DPREF.srv.test(q[4]));
+          if (sr) Object.values(Dx.devs).filter(d => isInfra(d) && !K[d.k].isp && !(d.x >= sr[0] && d.x <= sr[0] + sr[2] && d.y >= sr[1] && d.y <= sr[1] + sr[3])).forEach(d => { (loc[sr[4]] = loc[sr[4]] || []).push(d.label); });
+        }
+        r2.R.loc = Object.entries(loc).map(([w, ls]) => [w, ls]); r2.R.locMoved = !!lay;
+      }
       return r2;
+    }
+    // ---- the department questions (shown in the Auto-design tab)
+    function deptCard() {
+      const c = D.depts || {}, on = !!c.on, L = on ? deptList(D) : null;
+      const pick = DEPTS.map(x => x[0]), list = c.list || [], hasIt = list.includes('it');
+      const accOpt = x => `<select data-acc="${x.id}" aria-label="${esc(x.n)}">${[['all', TT('Lahat ng department', 'Every department')], ...(hasIt && x.id !== 'it' && !x.srv ? [['it', TT(`IT at ${x.n} lang`, `Only IT and ${x.n}`)]] : []), ...(x.srv && hasIt ? [['it', TT('IT lang', 'Only IT')]] : []), ['self', x.srv ? TT('Walang department (mga server lang)', 'No department (servers only)') : TT(`${x.n} lang`, `Only ${x.n}`)]].map(([v, n]) => `<option value="${v}" ${x.acc === v ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
+      let devRows = '';
+      if (L) {
+        const gd = JSON.parse(JSON.stringify(D)); deptGuess(gd, L, plan());
+        const ds = Object.values(gd.devs).filter(d => isEnd(d) || (K[d.k].ap && !K[d.k].soho)).sort((a, b) => (a.cfg.dept || '').localeCompare(b.cfg.dept || '') || a.label.localeCompare(b.label, undefined, { numeric: true }));
+        const user = L.filter(x => !x.srv);
+        devRows = ds.map(d => `<label class="dz-drow"><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(d.k)}</svg><span>${esc(d.label)}</span><select data-dd="${d.id}">${user.map(x => `<option value="${x.id}" ${d.cfg.dept === x.id ? 'selected' : ''}>${esc(x.n)}</option>`).join('')}</select></label>`).join('');
+        const srv = Object.values(gd.devs).filter(d => isInfra(d) && !K[d.k].isp);
+        if (srv.length) devRows += `<p class="tiny muted dz-dsrv">🗄 ${TT('Sa server room / data center', 'In the server room / data center')}: ${srv.map(d => esc(d.label)).join(', ')}</p>`;
+      }
+      const el = h(`<div class="card stack dz-dept" style="gap:10px">
+        <label class="dz-chk small"><input type="checkbox" data-dp="on" ${on ? 'checked' : ''}> <span><b>🏢 ${TT('Hatiin ayon sa department', 'Split by department')}</b><span class="tiny muted" style="display:block">${TT('Isang VLAN bawat department (IT, HR, Accounting at iba pa), access rules kung sino ang puwedeng mag-access sa kanino, naka-lock na zone sa floor plan, at mungkahi kung saan dapat ilagay ang bawat device (hal. server sa server room).', 'One VLAN per department (IT, HR, Accounting and more), access rules for who may reach whom, a locked zone on the floor plan, and where each device should go (e.g. servers in the server room).')}</span></span></label>
+        ${on ? `<div class="dz-q"><b class="small">1. ${TT('Anong mga department ang meron?', 'Which departments are there?')}</b>
+          <div class="dz-dchips">${pick.map(id => { const x = DEPTS.find(q => q[0] === id); return `<button type="button" class="dz-dchip ${list.includes(id) ? 'on' : ''}" data-dpt="${id}" style="--c:${SHC[x[2]]}" aria-pressed="${list.includes(id)}">${x[1]}</button>`; }).join('')}${list.filter(id => !pick.includes(id)).map(id => `<span class="dz-dchip on cust">${esc((c.names || {})[id] || id)}<button type="button" data-dx="${id}" aria-label="${TT('Alisin', 'Remove')}">×</button></span>`).join('')}</div>
+          <div class="row dz-dadd"><input data-dp="new" maxlength="16" placeholder="${TT('Iba pa (hal. Legal, Clinic)', 'Other (e.g. Legal, Clinic)')}" aria-label="${TT('Ibang department', 'Other department')}"><button type="button" class="btn sm" data-dp="add">+ ${TT('Idagdag', 'Add')}</button></div></div>
+        ${L ? `<div class="dz-q"><b class="small">2. ${TT('Sino ang puwedeng mag-access sa bawat department?', 'Who may reach each department?')}</b>
+          <div class="dz-acc">${L.map(x => `<div class="dz-arow"><span class="dz-dpill" style="--c:${SHC[x.c] || SHC.accent}">${esc(x.srv ? 'Servers' : x.n)}</span>${accOpt(x)}</div>`).join('')}</div>
+          <p class="tiny muted">${TT('Halimbawa: kapag "IT at HR lang" ang HR, hindi maaabot ng Marketing ang HR at hindi rin maaabot ng HR ang Marketing. May Internet pa rin ang lahat. Ginagawa ito ng ACL sa gateway.', 'Example: with HR set to "Only IT and HR", Marketing cannot reach HR and HR cannot reach Marketing. Everyone still has the Internet. An ACL on the gateway does this.')}</p></div>
+        <div class="dz-q"><b class="small">3. ${TT('Saang department ang bawat device?', 'Which department is each device in?')}</b><span class="tiny muted">${TT('Hula batay sa kwarto o puwesto nito. Palitan kung mali.', 'A guess from its room or position. Change it if it is wrong.')}</span>
+          <div class="dz-dgrid">${devRows || `<p class="tiny muted">${TT('Wala pang end device.', 'No end devices yet.')}</p>`}</div>
+          <button type="button" class="btn sm ghost" data-dp="guess">↻ ${TT('Hulaan ulit lahat', 'Guess them all again')}</button></div>` : `<p class="tiny muted">${TT('Pumili ng kahit isang department.', 'Pick at least one department.')}</p>`}` : ''}</div>`);
+      const save_ = () => { persist(); panelAuto(); };
+      el.querySelector('[data-dp=on]').onchange = e => { D.depts = Object.assign({ list: ['it', 'hr', 'acct', 'sales'], acc: {}, names: {} }, D.depts, { on: e.target.checked }); save_(); };
+      el.querySelectorAll('[data-dpt]').forEach(b => b.onclick = () => { const id = b.dataset.dpt; const l = D.depts.list || []; D.depts.list = l.includes(id) ? l.filter(x => x !== id) : DEPTS.map(x => x[0]).filter(x => x === id || l.includes(x)).concat(l.filter(x => !DEPTS.some(q => q[0] === x))); save_(); });
+      el.querySelectorAll('[data-dx]').forEach(b => b.onclick = () => { D.depts.list = D.depts.list.filter(x => x !== b.dataset.dx); save_(); });
+      const add = () => { const i = el.querySelector('[data-dp=new]'), v = i.value.trim().replace(/[<>"]/g, '').slice(0, 16); if (!v) { i.focus(); return; } const pre = DEPTS.find(x => x[1].toLowerCase() === v.toLowerCase()); if (pre) { if (!D.depts.list.includes(pre[0])) D.depts.list.push(pre[0]); save_(); return; } if (D.depts.list.filter(x => !DEPTS.some(q => q[0] === x)).length >= 6) { toast(TT('Hanggang 6 na sariling department lang.', 'Up to 6 departments of your own.')); return; } const id = 'd' + uid().slice(-5); D.depts.names = Object.assign({}, D.depts.names, { [id]: v }); D.depts.list.push(id); save_(); };
+      const ab = el.querySelector('[data-dp=add]'); if (ab) { ab.onclick = add; el.querySelector('[data-dp=new]').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); add(); } }; }
+      el.querySelectorAll('[data-acc]').forEach(x => x.onchange = () => { D.depts.acc = Object.assign({}, D.depts.acc, { [x.dataset.acc]: x.value }); save_(); });
+      el.querySelectorAll('[data-dd]').forEach(x => x.onchange = () => { const d = D.devs[x.dataset.dd]; if (d) { d.cfg.dept = x.value; rebuild(); save_(); drawCanvas(); } });
+      const gb = el.querySelector('[data-dp=guess]'); if (gb) gb.onclick = () => { Object.values(D.devs).forEach(d => { if (d.cfg) delete d.cfg.dept; }); save_(); drawCanvas(); };
+      return el;
     }
     let noBuyOn = (() => { try { return localStorage.getItem('ccna.dz.nobuy') !== '0'; } catch (e) { return true; } })();
     function panelAuto() {
@@ -14923,7 +15390,8 @@ interface g0/0.10
       const { D: nd, R } = n ? autoDesignArr(D, { wifi: autoWifiOn, noBuy: noBuyOn }) : { D: null, R: null };
       const li = a => a.map(x => `<li>${esc(x)}</li>`).join('');
       let pv = '';
-      if (nd) { const B2 = build(nd); const m = matrixOf(nd, B2); pv = (__EN?`<div class="dz-out ${m.ok === m.n && m.n ? 'ok' : 'bad'}"><p><b>${m.n ? (__EN?`Expected result: ${m.ok}/${m.n} tests will pass`:`Inaasahang resulta: ${m.ok}/${m.n} test ang papasa`) : (__EN?"No hosts to test":'Walang host na masusubukan')}</b></p><p class="tiny muted">Each host pinged to its gateway, to each other${Object.values(D.devs).some(d => bk(d.k) === 'isp') ? (__EN?" and to the Internet (8.8.8.8)":' at sa Internet (8.8.8.8)') : ''}.</p></div>`:`<div class="dz-out ${m.ok === m.n && m.n ? 'ok' : 'bad'}"><p><b>${m.n ? (__EN?`Expected result: ${m.ok}/${m.n} tests will pass`:`Inaasahang resulta: ${m.ok}/${m.n} test ang papasa`) : (__EN?"No hosts to test":'Walang host na masusubukan')}</b></p><p class="tiny muted">Ping ng bawat host sa gateway, sa isa't isa${Object.values(D.devs).some(d => bk(d.k) === 'isp') ? (__EN?" and to the Internet (8.8.8.8)":' at sa Internet (8.8.8.8)') : ''}.</p></div>`); }
+      let pvB = 0;
+      if (nd) { const B2 = build(nd); const m = matrixOf(nd, B2); pvB = m.blocked; pv = (__EN?`<div class="dz-out ${m.ok === m.n && m.n ? 'ok' : 'bad'}"><p><b>${m.n ? (__EN?`Expected result: ${m.ok}/${m.n} tests will pass`:`Inaasahang resulta: ${m.ok}/${m.n} test ang papasa`) : (__EN?"No hosts to test":'Walang host na masusubukan')}</b></p><p class="tiny muted">Each host pinged to its gateway, to each other${Object.values(D.devs).some(d => bk(d.k) === 'isp') ? (__EN?" and to the Internet (8.8.8.8)":' at sa Internet (8.8.8.8)') : ''}.</p></div>`:`<div class="dz-out ${m.ok === m.n && m.n ? 'ok' : 'bad'}"><p><b>${m.n ? (__EN?`Expected result: ${m.ok}/${m.n} tests will pass`:`Inaasahang resulta: ${m.ok}/${m.n} test ang papasa`) : (__EN?"No hosts to test":'Walang host na masusubukan')}</b></p><p class="tiny muted">Ping ng bawat host sa gateway, sa isa't isa${Object.values(D.devs).some(d => bk(d.k) === 'isp') ? (__EN?" and to the Internet (8.8.8.8)":' at sa Internet (8.8.8.8)') : ''}.</p></div>`); }
       panel.innerHTML = (__EN?`<div class="stack" style="gap:12px">
         <div class="card stack" style="gap:6px"><b>✨ Auto-design</b><p class="small">Just place devices on the floor plan, even without cables. Auto-design builds the best network from those devices:</p>
           <ul class="small dz-ul"><li>Cables: end device → nearest switch, switch → core/router (fiber beyond 100 m), AP → switch, laptops and mobiles on Wi-Fi when an AP reaches them.</li><li>IP plan: one LAN (192.168.1.0/24), or VLAN 10 USERS / 20 VOICE / 30 SERVERS / 40 DEVICES when there's a Layer 3 switch.</li><li>DHCP for PCs, laptops, phones; static IPs for servers and printers; NAT, default route and firewall zones toward the Internet.</li><li>Wi-Fi: an SSID and password on every AP, and if mobiles, tablets or laptops have no AP in reach, it adds an AP (or a TP-Link Wi-Fi router when there is no router).</li></ul>
@@ -14958,7 +15426,10 @@ interface g0/0.10
         const wl = panel.querySelector('label.dz-chk'); if (wl && noBuyOn) wl.hidden = true;
         const ar = h(`<label class="dz-chk small dz-arr"><input type="checkbox" ${arrangeOn ? 'checked' : ''}> <span><b>${tt('Ayusin din ang puwesto ng mga device', 'Also arrange where the devices go')}</b><span class="tiny muted" style="display:block">${tt('Internet sa itaas → firewall / router → core → switch → mga PC, laptop at printer sa ilalim ng switch o AP nila. Hindi ginagalaw ang notes at shapes.', 'Internet on top → firewall / router → core → switches → PCs, laptops and printers under their switch or AP. Notes and shapes stay put.')}</span></span></label>`);
         if (first) (wl || first.querySelector('p.tiny') || first.lastElementChild).before(ar);
+        if (first) first.after(deptCard());
+        if (R && R.loc && R.loc.length) { const lc = h(`<div class="card stack dz-loc" style="gap:6px"><b>📍 ${R.locMoved ? TT('Puwesto ng mga device', 'Where the devices go') : TT('Mungkahing puwesto', 'Suggested places')}</b><ul class="small dz-ul">${R.loc.map(([w, ls]) => `<li><b>${esc(w)}</b>: ${ls.map(esc).join(', ')}</li>`).join('')}</ul>${R.locMoved ? '' : `<p class="tiny muted">${TT('I-check ang "Ayusin din ang puwesto" para ilipat sila nang kusa.', 'Tick "Also arrange where the devices go" to move them for you.')}</p>`}</div>`); const an = panel.querySelector('.dz-miss, .done-banner'); if (an) an.after(lc); }
         ar.querySelector('input').onchange = e => { arrangeOn = e.target.checked; try { localStorage.setItem('ccna.dz.arrange', arrangeOn ? '1' : '0'); } catch (er) { } panelAuto(); };
+        if (pvB) { const o_ = panel.querySelector('.dz-out'); if (o_) o_.insertAdjacentHTML('beforeend', `<p class="tiny muted">🔒 ${TT(`${pvB} dito ay sinadyang hinarang ng access rules ng department.`, `${pvB} of these are blocked on purpose by the department access rules.`)}</p>`); }
         if (R && noBuyOn && R.tips.length) {
           const tc = h(`<div class="card stack dz-tips" style="gap:6px"><b>💡 ${tt('Paraan gamit ang meron ka', 'Ways to make it work with what you have')}</b><ul class="small dz-ul">${R.tips.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`);
           const anchor = panel.querySelector('.dz-miss, .done-banner'); if (anchor) anchor.before(tc); else panel.firstElementChild.appendChild(tc);
@@ -14970,7 +15441,7 @@ interface g0/0.10
       const ap = panel.querySelector('[data-a=apply]');
       if (ap) ap.onclick = () => {
         if (!ap.dataset.c && (D.links.length || D.log.length)) { ap.dataset.c = 1; ap.textContent = (__EN?"This replaces cables and config. Tap again":'Papalitan ang cable at config. I-tap ulit'); setTimeout(() => { if (ap.isConnected) { delete ap.dataset.c; ap.textContent = (__EN?"✨ Apply to this design":'✨ I-apply sa design na ito'); } }, 3500); return; }
-        undo = JSON.stringify(D); Object.assign(D, { links: nd.links, log: nd.log, devs: nd.devs, seq: nd.seq, mission: null }); finishAuto(); if (arrangeOn) { zoom = null; relayout(); }
+        undo = JSON.stringify(D); Object.assign(D, { links: nd.links, log: nd.log, devs: nd.devs, seq: nd.seq, mission: null, depts: nd.depts }); finishAuto(); if (arrangeOn) { zoom = null; relayout(); }
       };
       const cp = panel.querySelector('[data-a=copy]');
       if (cp) cp.onclick = () => { nd.id = uid(); nd.name = D.name + ' (auto)'; nd.updated = Date.now(); S.designs[nd.id] = nd; switchTo(nd.id); finishAuto(); };
@@ -14985,6 +15456,7 @@ interface g0/0.10
     }
 
     // ---------- missions tab ----------
+    let mFilt = 'all';
     function panelMission() {
       const m = MISSIONS.find(x => x.id === D.mission);
       let html = '';
@@ -14994,8 +15466,15 @@ interface g0/0.10
         if (done === res.length && !S.missions[m.id]) { S.missions[m.id] = true; save(); setTimeout(() => { toast((__EN?`Mission complete: ${m.t}! Great job!`:`Mission complete: ${m.t}! Galing!`)); SND('win'); }, 50); }
         html += (__EN?`<div class="card stack" style="gap:10px"><div class="row between"><b>${esc(m.t)}</b><span class="pill ${done === res.length ? 'ok' : ''}">${done}/${res.length}</span></div><p class="small">${esc(m.d)}</p><div class="bar ${done === res.length ? 'ok' : ''}"><i style="width:${100 * done / res.length}%"></i></div><ul class="task-list">${res.map(([t, ok]) => `<li class="task ${ok ? 'done' : ''}"><span class="cb"></span><div class="tx">${esc(t)}</div></li>`).join('')}</ul>${done === res.length ? (__EN?`<div class="done-banner">${icon('check')}Mission complete! The network works.</div>`:`<div class="done-banner">${icon('check')}Tapos ang mission! Gumagana ang network.</div>`) : ''}<details><summary class="small">Hints</summary><ol class="small">${m.hints.map(x => `<li>${esc(x)}</li>`).join('')}</ol></details><button class="btn sm" data-act="recheck">Check again</button></div>`:`<div class="card stack" style="gap:10px"><div class="row between"><b>${esc(m.t)}</b><span class="pill ${done === res.length ? 'ok' : ''}">${done}/${res.length}</span></div><p class="small">${esc(m.d)}</p><div class="bar ${done === res.length ? 'ok' : ''}"><i style="width:${100 * done / res.length}%"></i></div><ul class="task-list">${res.map(([t, ok]) => `<li class="task ${ok ? 'done' : ''}"><span class="cb"></span><div class="tx">${esc(t)}</div></li>`).join('')}</ul>${done === res.length ? (__EN?`<div class="done-banner">${icon('check')}Mission complete! The network works.</div>`:`<div class="done-banner">${icon('check')}Tapos ang mission! Gumagana ang network.</div>`) : ''}<details><summary class="small">Mga hint</summary><ol class="small">${m.hints.map(x => `<li>${esc(x)}</li>`).join('')}</ol></details><button class="btn sm" data-act="recheck">I-check ulit</button></div>`);
       }
-      html += (__EN?`<div class="stack" style="gap:8px"><h4>${m ? (__EN?"Other missions":'Iba pang mission') : (__EN?"Choose a mission":'Pumili ng mission')}</h4><p class="tiny muted">Each mission creates a new design with the devices already placed. You do the cabling and configuration.</p>${MISSIONS.map(x => `<button class="dz-mi" data-m="${x.id}"><span><b>${esc(x.t)}</b><span class="tiny muted">${x.lvl} · ${esc(x.d)}</span></span>${S.missions[x.id] ? (__EN?"<span class=\"pill ok\">Done</span>":'<span class="pill ok">Tapos</span>') : ''}</button>`).join('')}</div>`:`<div class="stack" style="gap:8px"><h4>${m ? (__EN?"Other missions":'Iba pang mission') : (__EN?"Choose a mission":'Pumili ng mission')}</h4><p class="tiny muted">Bawat mission ay gagawa ng bagong design na may mga device na nakalagay na. Ikaw ang magka-cable at magko-configure.</p>${MISSIONS.map(x => `<button class="dz-mi" data-m="${x.id}"><span><b>${esc(x.t)}</b><span class="tiny muted">${x.lvl} · ${esc(x.d)}</span></span>${S.missions[x.id] ? (__EN?"<span class=\"pill ok\">Done</span>":'<span class="pill ok">Tapos</span>') : ''}</button>`).join('')}</div>`);
+      const dn = MISSIONS.filter(x => S.missions[x.id]).length, fl = mFilt;
+      const cnt = k => MISSIONS.filter(x => k === 'all' || (k === 'todo' ? !S.missions[x.id] : x.lvl === k)).length;
+      const lst = MISSIONS.map((x, i) => [x, i]).filter(([x]) => fl === 'all' || (fl === 'todo' ? !S.missions[x.id] : x.lvl === fl));
+      const prog = `<div class="card stack dz-mprog" style="gap:6px"><div class="row between"><b>${TT('Mga mission', 'Missions')}: ${dn}/${MISSIONS.length} ${TT('tapos', 'done')}</b><span class="pill ${dn === MISSIONS.length ? 'ok' : ''}">${Math.round(100 * dn / MISSIONS.length)}%</span></div><div class="bar ${dn === MISSIONS.length ? 'ok' : ''}"><i style="width:${100 * dn / MISSIONS.length}%"></i></div><p class="tiny muted">${TT('100 mission mula Basic hanggang Advanced: LAN, DHCP, Wi-Fi, server, Internet, firewall, VLAN, maraming switch, campus fiber, load balancer at buong network.', '100 missions from Basic to Advanced: LAN, DHCP, Wi-Fi, servers, Internet, firewall, VLANs, several switches, campus fiber, load balancers and whole networks.')}</p></div>`;
+      html = prog + html + `<div class="stack" style="gap:8px"><h4>${m ? TT((__EN?"Other missions":'Iba pang mission'), 'Other missions') : TT((__EN?"Choose a mission":'Pumili ng mission'), 'Pick a mission')}</h4><p class="tiny muted">${TT('Bawat mission ay gagawa ng bagong design na may mga device na nakalagay na. Ikaw ang magka-cable at magko-configure.', 'Each mission makes a new design with the devices already placed. You do the cabling and the config.')}</p>
+        <div class="dz-mf" role="group" aria-label="Filter">${[['all', TT('Lahat', 'All')], ['Basic', 'Basic'], ['Intermediate', 'Intermediate'], ['Advanced', 'Advanced'], ['todo', TT('Hindi pa tapos', 'Not done')]].map(([k, n]) => `<button type="button" class="dz-mfb ${fl === k ? 'on' : ''}" data-mf="${k}" aria-pressed="${fl === k}">${n} <span>${cnt(k)}</span></button>`).join('')}</div>
+        <div class="dz-ml">${lst.map(([x, i]) => `<button class="dz-mi ${x.id === D.mission ? 'cur' : ''}" data-m="${x.id}"><span class="dz-mn">${i + 1}</span><span class="dz-mt"><b>${esc(x.t)}</b><span class="tiny muted">${x.lvl}${x.fam && MFAM[x.fam] ? ' · ' + MFAM[x.fam] : ''} · ${esc(x.d)}</span></span>${S.missions[x.id] ? `<span class="pill ok">${TT('Tapos', 'Done')}</span>` : ''}</button>`).join('') || `<p class="tiny muted">${TT('Tapos na lahat dito. Galing!', 'All done here. Great job!')}</p>`}</div></div>`;
       panel.innerHTML = html;
+      panel.querySelectorAll('[data-mf]').forEach(b => b.onclick = () => { mFilt = b.dataset.mf; panelMission(); });
       panel.querySelectorAll('[data-m]').forEach(b => b.onclick = () => startMission(b.dataset.m));
       const rc = panel.querySelector('[data-act=recheck]'); if (rc) rc.onclick = () => { rebuild(); drawAll(); };
     }
@@ -15234,7 +15713,7 @@ interface g0/0.10
     const onKey = e => {
       if (!page.isConnected) return;
       if (e.key === 'Escape') {
-        if (ctxm) closeCtx(); else if (openCat || panMenu || ioMenu) { openCat = null; panMenu = false; ioMenu = false; } else if (placing || pending) { placing = null; pending = null; placedN = 0; } else if (msel.size) { msel.clear(); } else if (sideOpen && !typing(e)) closeSide(); else if (full) toggleFull(false);
+        if (ctxm) closeCtx(); else if (panMenu || ioMenu) { panMenu = false; ioMenu = false; } else if (placing || pending) { placing = null; pending = null; placedN = 0; } else if (msel.size) { msel.clear(); } else if (sideOpen && !typing(e)) closeSide(); else if (full) toggleFull(false);
         drawPal(); drawTools(); drawCanvas(); return;
       }
       if (typing(e)) return;
@@ -15243,7 +15722,7 @@ interface g0/0.10
       if (mod && (e.key === 'y' || e.key === 'Y')) { e.preventDefault(); doRedo(); return; }
       if (mod && (e.key === 'p' || e.key === 'P')) { e.preventDefault(); printPreview(); return; }
       if ((e.key === 'Delete' || e.key === 'Backspace') && msel.size > 1 && !mod) {
-        e.preventDefault(); closeCtx(); const ids = [...msel].filter(x => D.devs[x]); msel.clear();
+        e.preventDefault(); closeCtx(); const ids = [...msel].filter(x => D.devs[x] && !isLocked(x)); msel.clear();
         ids.forEach(id => { delete D.devs[id]; delete terms[id]; }); D.links = D.links.filter(l => !ids.includes(l.a) && !ids.includes(l.b)); D.log = D.log.filter(x => !ids.includes(x.d));
         Object.values(D.devs).forEach(x => { if (x.cfg && x.cfg.backends) x.cfg.backends = x.cfg.backends.filter(b => !ids.includes(b)); });
         if (sel && ids.includes(sel.id)) sel = null; if (ids.includes(pending)) pending = null;
@@ -16398,6 +16877,7 @@ Mask ${bits(q.mask)}
       <label class="check"><input type="checkbox" id="ex-shuffle" checked><span>I-shuffle ang mga tanong</span></label>
       <div class="row"><button class="btn primary" data-n="0">${icon('play')}Buong exam (${EXAM.length})</button><button class="btn" data-n="30">Mini exam (30)</button></div></div>`));
     page.appendChild(opt);
+    { const mb = opt.querySelector('[data-n="30"]'); if (mb && PRM && !PRM.isPremium()) { mb.dataset.n = PRM.LIMITS.mini; mb.textContent = `Mini exam (${PRM.LIMITS.mini})`; } }
     const start = (n) => {
       if (!n && PRM && !PRM.allowFullExam()) { main.innerHTML = ''; main.appendChild(PRM.lockCard('exam')); return; }
       const mode = (opt.querySelector('input[name=exmode]:checked') || {}).value || 'real';

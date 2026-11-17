@@ -1,23 +1,23 @@
 {
- "version": "2.10.0",
+ "version": "2.11.0",
  "date": "2026-11-17",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
-   "Network Designer: Screenshot (PNG) ng nakikita sa screen o ng buong design",
-   "Network Designer: I-download ang plan bilang CCNA Lab (.json), GNS3 (.gns3), draw.io (.drawio) o mga config (.txt) para sa Packet Tracer; at i-upload ang .json, .gns3 o .drawio",
-   "Auto-design: inaayos na rin ang puwesto ng mga device (Internet → firewall → router → core → switch → mga end device)",
-   "Lahat ng floor plan ay pwede nang walang hanggan (lumalaki habang nagdidisenyo), may sukat ng workspace at ng bawat shape, at bagong Custom shape na nababago ang mga kanto",
-   "Premium: maayos na ang layout ng bayad, at may sariling QR ang GCash, Maya at GoTyme",
-   "Download: wala nang link box; sa loob na ng app nagda-download ang Full installer"
+   "Network Designer: ang Health, Missions, Auto-design at Mga design ay mga tab na sa kanan ng workspace (isang click lang); ang zoom % ay nasa workspace na rin",
+   "Network Designer: nananatiling bukas ang dropdown ng End devices, Switching, Wireless at iba pa hanggang i-click ulit, at naaalala kung saan ka huminto",
+   "Network Designer: puwede nang i-lock ang shape (right-click → I-lock) para hindi magalaw, mapalaki o mabura nang hindi sinasadya",
+   "Network Designer: 100 mission na, mula Basic hanggang Advanced, may progress at filter",
+   "Auto-design: nagtatanong tungkol sa mga department (IT, HR, Accounting at iba pa) at kung sino ang puwedeng mag-access sa kanino; gumagawa ng VLAN at ACL bawat department, naka-lock na zone sa floor plan, tag sa bawat device, at inilalagay ang server sa server room",
+   "Free plan: 10 Basic lab, 5 lab challenge, Mini exam na 20 tanong, 1 sariling design na may 10 device, at 10 subnetting na tanong bawat araw; makikita ang limit at gamit mo sa Premium at Bayad"
   ],
   "en": [
-   "Network Designer: a screenshot (PNG) of what is on screen or of the whole design",
-   "Network Designer: download the plan as CCNA Lab (.json), GNS3 (.gns3), draw.io (.drawio) or configs (.txt) for Packet Tracer; and upload a .json, .gns3 or .drawio",
-   "Auto-design now also arranges where the devices go (Internet → firewall → router → core → switches → end devices)",
-   "Every floor plan can now be unlimited (grows as you design), with the size of the workspace and of every shape shown, and a new Custom shape with editable corners",
-   "Premium: a tidier payment layout, and GCash, Maya and GoTyme each have their own QR",
-   "Download: no more link box; the Full installer downloads inside the app"
+   "Network Designer: Health, Missions, Auto-design and Designs are now tabs on the right of the workspace (one click); the zoom % sits on the workspace too",
+   "Network Designer: the End devices, Switching, Wireless and other dropdowns stay open until you click them again, and remember where you left off",
+   "Network Designer: shapes can be locked (right-click → Lock) so they are not moved, resized or deleted by accident",
+   "Network Designer: 100 missions now, from Basic to Advanced, with progress and filters",
+   "Auto-design asks about departments (IT, HR, Accounting and more) and who may reach whom; it builds a VLAN and ACL per department, locked zones on the floor plan, a tag on every device, and puts the servers in the server room",
+   "Free plan: 10 Basic labs, 5 lab challenges, a 20-question Mini exam, 1 design of your own with 10 devices, and 10 subnetting questions a day; the limits and your use show in Premium & Payments"
   ]
  }
 }
