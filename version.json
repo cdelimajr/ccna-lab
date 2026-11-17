@@ -1,19 +1,17 @@
 {
- "version": "2.8.0",
+ "version": "2.9.0",
  "date": "2026-11-17",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
-   "Network Designer: mahigit 110 bagong device mula Cisco, Fortinet, Sophos, MikroTik, Ubiquiti, Aruba, Juniper at iba pa (router, switch, wireless, security)",
-   "I-double-click ang device: lalabas ang sarili nitong window (Config, CLI, Subukan) sa ibabaw ng floor plan, at kusa nang nase-save ang bawat binago",
-   "Premium: may 1 Taon na plan na, mas tipid kaysa buwanan",
-   "Libreng download link na laging pinakabagong version, at bilang ng install sa Admin"
+   "Iisa na lang ang download: ang Full installer. Ang mga gumagamit ng Lite o Offline ay makakapaglipat ng lahat ng account at progress sa Full app gamit ang transfer file",
+   "Premium: promo / sale na may % bawas, petsa ng pagtatapos, at opsyonal na promo code",
+   "Bayad sa GoTyme at PayPal, bukod sa GCash at Maya (may PayPal button na may tamang halaga)"
   ],
   "en": [
-   "Network Designer: over 110 new devices from Cisco, Fortinet, Sophos, MikroTik, Ubiquiti, Aruba, Juniper and more (routers, switches, wireless, security)",
-   "Double-click a device: its own window (Config, CLI, Test) opens over the floor plan, and every change saves by itself",
-   "Premium: a new 1 Year plan that costs less than paying monthly",
-   "A free download link that always gives the newest version, and an install count for the Admin"
+   "One download for everyone: the Full installer. Lite and Offline users can move every account and all progress into the Full app with a transfer file",
+   "Premium: promos / sales with a % discount, an end date, and an optional promo code",
+   "Pay with GoTyme and PayPal, besides GCash and Maya (with a PayPal button that fills in the amount)"
   ]
  }
 }

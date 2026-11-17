@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.8.0";/*CCNA_APP_VERSION="2.8.0"*/
+<script>window.APP_VERSION="2.9.0";/*CCNA_APP_VERSION="2.9.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1158,6 +1158,31 @@ form.dz-autof [data-auto] { display: none; }
 .inst-sub { display: flex; gap: 18px; flex-wrap: wrap; }
 .inst-sub > div { display: grid; }
 .inst-sub b { font-size: 1.15rem; }
+
+/* v2.9 Premium promo and payment methods */
+.prem-sale { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 14px; border-radius: 14px; border: 1px solid #e5a83a; background: color-mix(in srgb, #e5a83a 12%, var(--panel)); }
+.prem-sale-ic { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #c27a12; color: #fff; font-family: var(--f-display); font-weight: 700; font-size: 1.1rem; }
+.prem-sale-t { flex: 1 1 220px; display: grid; gap: 2px; min-width: 0; }
+.prem-sale-t b { color: #9a5c08; }
+.prem-pc { display: flex; gap: 6px; align-items: center; }
+.prem-pc input { width: 150px; padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 9px; background: var(--panel); color: var(--fg); font: inherit; text-transform: uppercase; }
+.prem-was { font-size: .95rem; color: var(--fg-3); font-weight: 500; margin-right: 6px; }
+.prem-pay { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
+.prem-qrf { margin: 0; display: grid; gap: 4px; justify-items: center; }
+.prem-ms { display: grid; gap: 6px; }
+.prem-m { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border: 1px solid var(--line-2); border-radius: 10px; cursor: pointer; min-width: 0; flex-wrap: wrap; }
+.prem-m input { margin: 0; accent-color: var(--accent); }
+.prem-m b { overflow-wrap: anywhere; }
+.prem-m:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.prem-m-gotyme .pill { background: color-mix(in srgb, #00b3a4 16%, var(--panel)); color: #007f74; }
+.prem-m-paypal .pill { background: color-mix(in srgb, #0070e0 14%, var(--panel)); color: #0058b0; }
+.prem-pp { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* v2.9: one main download + moving accounts in */
+.dl-main h3 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0; }
+.dl-main h3 svg { width: 20px; height: 20px; color: var(--accent); }
+.dl-main .btn.primary { font-weight: 700; }
+.dl-move .code-box { width: 100%; }
 
 </style>
 </head>
@@ -11550,7 +11575,7 @@ interface g0/0.10
   const EN = typeof __EN !== 'undefined' && __EN, t = (f, e) => EN ? e : f;
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const h = html => { const x = document.createElement('template'); x.innerHTML = html.trim(); return x.content.firstElementChild; };
-  const KINDS = [['ccna-full', t('Full installer', 'Full installer')], ['ccna-lite', 'Lite installer']];
+  const KINDS = [['ccna-full', t('Full installer (main)', 'Full installer (main)')], ['ccna-lite', t('Lite installer (luma)', 'Lite installer (old)')]];
   const CACHE = 'ccna.installs.last';
   const within = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error('timeout')), ms))]);
 
@@ -11931,6 +11956,36 @@ interface g0/0.10
     const f = c.querySelector('form'); f.onsubmit = e => { e.preventDefault(); const r = createUser({ name: f.name.value, user: f.user.value, pin: f.pin.value, role: f.role ? f.role.value : roles[0] }); const err = f.querySelector('.err'); if (typeof r === 'string') { err.hidden = false; err.textContent = r; return; } ctx.toast((__EN?`Created the account of ${r.name}.`:`Nagawa ang account ni ${r.name}.`)); ctx.route(); };
     return c;
   }
+  // ----- backup / transfer (Admin backup, and moving from the Lite or Offline version into the Full app) -----
+  function backupCode() { const data = { v: 1, users: db().users, prog: {}, imports: get(IK, {}) }; db().users.forEach(x => { data.prog[x.id] = get(keyOf(x), null); }); return 'CCNABK:' + btoa(unescape(encodeURIComponent(JSON.stringify(data)))); }
+  // same username on both sides = same person: progress is combined, nothing already done here is lost
+  function mergeProg(a, b) {
+    if (!a) return b; if (!b) return a;
+    const o = Object.assign({}, b, a);
+    for (const k of ['done', 'quiz', 'labs', 'plan', 'designs', 'missions', 'widgets']) if ((a[k] && typeof a[k] === 'object') || (b[k] && typeof b[k] === 'object')) o[k] = Object.assign({}, b[k] || {}, a[k] || {});
+    const ea = a.exam || {}, eb = b.exam || {}, seen = new Set(), runs = [];
+    for (const r of [].concat(eb.runs || [], ea.runs || [])) { const j = JSON.stringify(r); if (!seen.has(j)) { seen.add(j); runs.push(r); } }
+    o.exam = Object.assign({}, eb, ea, { best: ea.best == null ? (eb.best == null ? null : eb.best) : eb.best == null ? ea.best : Math.max(ea.best, eb.best), runs });
+    const sa = a.sn || {}, sb = b.sn || {}; o.sn = (sb.total || 0) > (sa.total || 0) ? sb : sa;
+    return o;
+  }
+  function restoreCode(text) {
+    const t = String(text || '').replace(/\s+/g, ''); if (!t.startsWith('CCNABK:')) throw new Error('code');
+    const data = JSON.parse(decodeURIComponent(escape(atob(t.slice(7))))); if (!data || !Array.isArray(data.users)) throw new Error('code');
+    let added = 0, merged = 0;
+    for (const x of data.users) {
+      const y = db().users.find(z => z.user === x.user), p = (data.prog || {})[x.id];
+      if (y) { if (p) { put(keyOf(y), mergeProg(get(keyOf(y), null), p)); merged++; } continue; }
+      db().users.push(x); if (p) put(keyOf(x), p); added++;
+    }
+    const all = get(IK, {}); Object.assign(all, data.imports || {}); put(IK, all); saveDb();
+    return { added, merged, total: data.users.length };
+  }
+  function fileBtn(ta) {
+    const b = h(`<label class="btn sm ghost" style="cursor:pointer">${__EN ? 'Open file…' : 'Buksan ang file…'}<input type="file" accept=".txt,text/plain" hidden></label>`);
+    b.querySelector('input').onchange = e => { const f = e.target.files[0]; if (!f) return; f.text().then(v => { ta.value = v.trim(); ta.dispatchEvent(new Event('input')); }); };
+    return b;
+  }
   function viewAdmin(main, ctx) {
     const u = me(); if (!u || u.role !== 'admin') { main.appendChild(h((__EN?`<div class="page"><p class="muted">This page is for Admins only.</p></div>`:`<div class="page"><p class="muted">Para lang sa Admin ang page na ito.</p></div>`))); return; }
     if (ON.on) { main.appendChild(h((__EN?`<div class="page"><div class="lesson-head"><h1>Admin: Users</h1><p class="muted">Online mode: the users are the people you gave access to this app.</p></div><div class="card stack"><h3>Roles</h3><div class="tbl-wrap"><table><thead><tr><th>Access in the Share menu</th><th>Role in the app</th><th>Can do</th></tr></thead><tbody><tr><td>You (owner)</td><td>Admin</td><td>Everything</td></tr><tr><td>Editor</td><td>Trainor</td><td>Trainor Dashboard: progress of every trainee</td></tr><tr><td>Contributor</td><td>Trainee</td><td>Study; their own progress syncs</td></tr><tr><td>Viewer</td><td>Trainee (view-only)</td><td>Can study but progress is not saved online</td></tr></tbody></table></div><p class="small">To add or remove a user, or change a role: press <b>Share</b> at the top of the app.</p><p class="tiny muted">The offline version (HTML file and Windows installer) still uses local accounts with a PIN.</p></div></div>`:`<div class="page"><div class="lesson-head"><h1>Admin: Mga user</h1><p class="muted">Online mode: ang mga user ay ang mga taong binigyan mo ng access sa app na ito.</p></div><div class="card stack"><h3>Mga role</h3><div class="tbl-wrap"><table><thead><tr><th>Access sa Share menu</th><th>Role sa app</th><th>Kaya</th></tr></thead><tbody><tr><td>Ikaw (may-ari)</td><td>Admin</td><td>Lahat</td></tr><tr><td>Editor</td><td>Trainor</td><td>Trainor Dashboard: progress ng lahat ng trainee</td></tr><tr><td>Contributor</td><td>Trainee</td><td>Mag-aral; naka-sync ang sariling progress</td></tr><tr><td>Viewer</td><td>Trainee (view-only)</td><td>Makakapag-aral pero hindi masi-save online</td></tr></tbody></table></div><p class="small">Para magdagdag o magtanggal ng user, o magpalit ng role: pindutin ang <b>Share</b> sa itaas ng app.</p><p class="tiny muted">Ang offline na bersyon (HTML file at Windows installer) ay gumagamit pa rin ng local accounts na may PIN.</p></div></div>`))); if (window.INSTALLS) main.lastElementChild.appendChild(INSTALLS.card(ctx)); return; }
@@ -11953,9 +12008,10 @@ interface g0/0.10
     // backup / restore
     const bk = h((__EN?`<div class="card stack"><h3>Backup and restore</h3><p class="small muted">Copy the full backup (every account and all progress on this device) to move it to another PC or browser. Paste it on the other device to restore.</p></div>`:`<div class="card stack"><h3>Backup at restore</h3><p class="small muted">Kopyahin ang buong backup (lahat ng account at progress sa device na ito) para ilipat sa ibang PC o browser. I-paste sa kabilang device para i-restore.</p></div>`));
     const btn = h((__EN?`<div class="row"><button class="btn sm">Create a backup code</button></div>`:`<div class="row"><button class="btn sm">Gumawa ng backup code</button></div>`)); bk.appendChild(btn);
-    btn.firstChild.onclick = () => { const data = { v: 1, users: db().users, prog: {}, imports: get(IK, {}) }; db().users.forEach(x => { data.prog[x.id] = get(keyOf(x), null); }); btn.replaceWith(copyBox('CCNABK:' + btoa(unescape(encodeURIComponent(JSON.stringify(data)))), 'backup')); };
+    btn.firstChild.onclick = () => { btn.replaceWith(copyBox(backupCode(), 'backup')); };
     const rs = h((__EN?`<div class="stack" style="gap:8px"><textarea class="code-box" rows="3" placeholder="CCNABK:..."></textarea><div class="row"><button class="btn sm">Restore</button><span class="tiny"></span></div></div>`:`<div class="stack" style="gap:8px"><textarea class="code-box" rows="3" placeholder="CCNABK:..."></textarea><div class="row"><button class="btn sm">I-restore</button><span class="tiny"></span></div></div>`));
-    rs.querySelector('button').onclick = () => { const m = rs.querySelector('.tiny'); try { const t = rs.querySelector('textarea').value.trim(); if (!t.startsWith('CCNABK:')) throw 0; const data = JSON.parse(decodeURIComponent(escape(atob(t.slice(7))))); let n = 0; for (const x of data.users) { if (db().users.some(y => y.user === x.user)) continue; db().users.push(x); if (data.prog[x.id]) put(keyOf(x), data.prog[x.id]); n++; } const all = get(IK, {}); Object.assign(all, data.imports || {}); put(IK, all); saveDb(); ctx.toast((__EN?`Restored ${n} account(s).`:`Na-restore ang ${n} account.`)); ctx.route(); } catch (e) { m.textContent = (__EN?"Invalid backup code.":'Hindi valid ang backup code.'); m.style.color = 'var(--bad)'; } };
+    rs.querySelector('button').onclick = () => { const m = rs.querySelector('.tiny'); try { const r = restoreCode(rs.querySelector('textarea').value), n = r.added + r.merged; ctx.toast((__EN?`Restored ${n} account(s).`:`Na-restore ang ${n} account.`)); if (r.merged) setTimeout(() => location.reload(), 900); else ctx.route(); } catch (e) { m.textContent = (__EN?"Invalid backup code.":'Hindi valid ang backup code.'); m.style.color = 'var(--bad)'; } };
+    rs.querySelector('.row').appendChild(fileBtn(rs.querySelector('textarea')));
     bk.appendChild(rs); page.appendChild(bk);
     if (window.ACC) ACC([uf, bk], { key: 'admin', open: -1, icons: ['uplus', 'db'] });
     if (window.INSTALLS) page.insertBefore(INSTALLS.card(ctx), page.children[1] || null);
@@ -11986,7 +12042,7 @@ interface g0/0.10
   }
 
   function toastMsg(m) { const t = h(`<div class="toast" role="status"></div>`); t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 6000); }
-  window.AUTH = { online: () => ON.on, onlineInfo: () => ({ on: ON.on, ro: ON.ro, why: ON.why }), sync, setRemote: fn => { ON.onRemote = fn; }, me, key: () => { const u = me(); return u ? keyOf(u) : OLD; }, logout, ROLES, initials, avColor, avHtml, photoOf, keyOf, localUsers: () => db().users.slice(), viewProfile, viewTrainor, viewAdmin, summaryFor, encode, decode, boot };
+  window.AUTH = { backupCode, restoreCode, fileBtn, online: () => ON.on, onlineInfo: () => ({ on: ON.on, ro: ON.ro, why: ON.why }), sync, setRemote: fn => { ON.onRemote = fn; }, me, key: () => { const u = me(); return u ? keyOf(u) : OLD; }, logout, ROLES, initials, avColor, avHtml, photoOf, keyOf, localUsers: () => db().users.slice(), viewProfile, viewTrainor, viewAdmin, summaryFor, encode, decode, boot };
 })();
 
 ;
@@ -12005,24 +12061,44 @@ interface g0/0.10
   const CK = 'ccna.prem.cfg', DAY = 864e5, HOUR = 36e5;
   const cfg = () => {
     const raw = get(CK, {}) || {};
-    const c = Object.assign({ gcash: '', maya: '', name: '', price: '149', priceYear: '1190', period: 'month', contact: '', qr: '', trialDays: 0, promoUntil: 0, promoNote: '' }, raw);
+    const c = Object.assign({ gcash: '', maya: '', gotyme: '', paypal: '', name: '', price: '149', priceYear: '1190', period: 'month', contact: '', qr: '', trialDays: 0, promoUntil: 0, promoNote: '', sale: null }, raw);
     // settings saved before v2.8 had one price "per month" or "per year": a yearly one becomes the 1-year plan
     if (raw.priceYear === undefined && raw.period === 'year') { c.priceYear = c.price; c.price = ''; }
     return c;
   };
   // the plans the Admin offers: monthly and/or 1 year (a blank price hides that plan)
   const peso = v => '₱' + Number(v).toLocaleString('en-PH', { maximumFractionDigits: 2 });
+  // promo / sale: a discount (%) until a date, for one or both plans, optionally only with a promo code
+  function sale(c) {
+    c = c || cfg(); const s = c.sale; if (!s || !(+s.pct > 0) || !(s.until > Date.now())) return null;
+    const typed = String((S().promoCode) || '').trim().toUpperCase();
+    return Object.assign({}, s, { locked: !!s.code && typed !== String(s.code).trim().toUpperCase() });
+  }
+  const off = (v, pct) => Math.max(1, Math.round(v * (100 - pct) / 100));
   function plans(c) {
-    c = c || cfg(); const out = [];
-    if (+c.price > 0) out.push({ id: 'm', name: t('Buwanan', 'Monthly'), price: +c.price, per: t('buwan', 'month'), days: 30 });
+    c = c || cfg(); const out = [], sl = sale(c), on = id => sl && !sl.locked && (sl.plans || 'both') !== (id === 'm' ? 'y' : 'm');
+    const m = +c.price > 0 ? (on('m') ? off(+c.price, +sl.pct) : +c.price) : 0;
+    if (+c.price > 0) out.push({ id: 'm', name: t('Buwanan', 'Monthly'), price: m, was: on('m') ? +c.price : 0, per: t('buwan', 'month'), days: 30 });
     if (+c.priceYear > 0) {
-      const p = { id: 'y', name: t('1 Taon', '1 Year'), price: +c.priceYear, per: t('taon', 'year'), days: 365 };
-      if (+c.price > 0) { const full = 12 * c.price, save = full - c.priceYear; if (save > 0) { p.save = save; p.pct = Math.round(100 * save / full); p.month = c.priceYear / 12; } }
+      const y = on('y') ? off(+c.priceYear, +sl.pct) : +c.priceYear;
+      const p = { id: 'y', name: t('1 Taon', '1 Year'), price: y, was: on('y') ? +c.priceYear : 0, per: t('taon', 'year'), days: 365 };
+      if (m > 0) { const full = 12 * m, save = full - y; if (save > 0) { p.save = save; p.pct = Math.round(100 * save / full); p.month = y / 12; } }
       out.push(p);
     }
     return out;
   }
-  const priceTxt = c => plans(c).map(p => `<b>${peso(p.price)}</b>/${p.per}`).join(t(' o ', ' or '));
+  // where trainees can pay: GCash, Maya, GoTyme (QR Ph works for all three) and PayPal
+  function methods(c) {
+    c = c || cfg(); const out = [];
+    if (c.gcash) out.push({ id: 'gcash', n: 'GCash', v: c.gcash });
+    if (c.maya) out.push({ id: 'maya', n: 'Maya', v: c.maya });
+    if (c.gotyme) out.push({ id: 'gotyme', n: 'GoTyme', v: c.gotyme });
+    if (c.paypal) out.push({ id: 'paypal', n: 'PayPal', v: c.paypal });
+    return out;
+  }
+  // PayPal: an email, a paypal.me link or a paypal.me name; a paypal.me name gets a pay button with the amount filled in
+  function ppMe(v) { const m = /^(?:https?:\/\/)?(?:www\.)?paypal\.me\/([A-Za-z0-9_.-]+)/i.exec(String(v).trim()) || (/@/.test(v) ? null : /^@?([A-Za-z0-9_.-]{3,})$/.exec(String(v).trim())); return m ? m[1] : null; }
+  const priceTxt = c => plans(c).map(p => `${p.was ? `<s class="muted">${peso(p.was)}</s> ` : ''}<b>${peso(p.price)}</b>/${p.per}`).join(t(' o ', ' or '));
   const saveCfg = c => put(CK, c);
   const S = () => (window.__ccnaS ? window.__ccnaS() : null) || {};
   const SAVE = () => { if (window.__ccnaSave) window.__ccnaSave(); };
@@ -12161,30 +12237,44 @@ interface g0/0.10
   // ---------- Upgrade page (trainees) ----------
   function viewUpgrade(main, ctx) {
     const st = status(), c = cfg(), u = me();
-    const page = h(`<div class="page"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payment')}</h1><p class="muted" style="max-width:70ch">${t('Bayaran ang Admin o Trainor mo gamit ang GCash o Maya, ipadala ang reference number, at bibigyan ka nila ng access code.', 'Pay your Admin or Trainor through GCash or Maya, send the reference number, and they will give you an access code.')}</p></div></div>`);
+    const page = h(`<div class="page"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payment')}</h1><p class="muted" style="max-width:70ch">${t('Bayaran ang Admin o Trainor mo gamit ang GCash, Maya, GoTyme o PayPal, ipadala ang reference number, at bibigyan ka nila ng access code.', 'Pay your Admin or Trainor through GCash, Maya, GoTyme or PayPal, send the reference number, and they will give you an access code.')}</p></div></div>`);
+    const sl = sale(c);
+    if (sl && st.src !== 'staff') {
+      const sb = h(`<div class="prem-sale" role="note"><div class="prem-sale-ic" aria-hidden="true">%</div><div class="prem-sale-t"><b>${esc(sl.label || t('Promo', 'Promo'))}: ${+sl.pct}% ${t('bawas', 'off')}${(sl.plans || 'both') === 'both' ? '' : sl.plans === 'y' ? t(' sa 1 Taon', ' on 1 Year') : t(' sa Buwanan', ' on Monthly')}</b><span class="small">${t('Hanggang', 'Until')} ${fmt(sl.until)} · ${t('natitira', 'left')}: ${left(sl.until - Date.now())}</span></div>${sl.code ? (sl.locked ? `<form class="prem-pc" autocomplete="off"><input name="pc" maxlength="24" autocapitalize="characters" spellcheck="false" placeholder="${t('Promo code', 'Promo code')}" aria-label="Promo code"><button class="btn sm primary" type="submit">${t('Gamitin', 'Apply')}</button></form>` : `<span class="pill ok">${t('Promo code', 'Promo code')}: ${esc(String(sl.code).toUpperCase())} ✓</span>`) : ''}</div>`);
+      const pf = sb.querySelector('form');
+      if (pf) pf.onsubmit = e => { e.preventDefault(); const v = pf.pc.value.trim(); if (v.toUpperCase() === String(sl.code).trim().toUpperCase()) { S().promoCode = v.toUpperCase(); SAVE(); ctx.toast(t(`Nagamit ang promo: ${sl.pct}% bawas.`, `Promo applied: ${sl.pct}% off.`)); try { window.SFX && SFX.play('ok'); } catch (x) { } ctx.route(); } else { ctx.toast(t('Mali ang promo code.', 'That promo code is not valid.')); try { window.SFX && SFX.play('err'); } catch (x) { } } };
+      page.appendChild(sb);
+    }
     page.appendChild(h(`<div class="card stack prem-status"><div class="row between"><h3>${t('Ang plan mo', 'Your plan')}</h3>${badge(st)}</div><p class="small">${statusLine(st)}</p></div>`));
     page.appendChild(h(`<div class="prem-plans">
       <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Lahat ng Basic labs', 'All Basic labs')} (${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length})</li><li>${t('Lab challenges', 'Lab challenges')}: ${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length} ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam (30)</li><li>${t(`Network Designer: hanggang ${LIMITS.designs} design at ${LIMITS.devices} device bawat design, walang Auto-design`, `Network Designer: up to ${LIMITS.designs} designs and ${LIMITS.devices} devices each, no Auto-design`)}</li><li>${t(`Subnetting Trainer: ${LIMITS.subnetDay} tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: ${LIMITS.subnetDay} questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
-      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3>${plans(c).length ? `<div class="prem-opts" role="radiogroup" aria-label="${t('Piliin ang plan', 'Choose a plan')}">${plans(c).map((p, i, a) => `<label class="prem-opt ${p.id === 'y' ? 'best' : ''}"><input type="radio" name="prem-plan" value="${p.id}" ${(a.length > 1 ? p.id === 'y' : i === 0) ? 'checked' : ''}><span class="prem-opt-n">${p.name}${p.id === 'y' && p.save ? `<i class="prem-tag">${t('Pinakasulit', 'Best value')}</i>` : ''}</span><span class="prem-price">${peso(p.price)}<small>/${p.per}</small></span>${p.save ? `<span class="tiny prem-save">${t(`Makatipid ng ${peso(p.save)} (${p.pct}%) · ${peso(p.month)} lang bawat buwan`, `Save ${peso(p.save)} (${p.pct}%) · just ${peso(p.month)} a month`)}</span>` : p.id === 'm' ? `<span class="tiny muted">${t('Bayaran bawat buwan', 'Pay every month')}</span>` : `<span class="tiny muted">${t('Isang bayad para sa buong taon', 'One payment for the whole year')}</span>`}</label>`).join('')}</div>` : `<p class="prem-price">${t('Tanungin ang Admin', 'Ask the Admin')}</p>`}<ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
+      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3>${plans(c).length ? `<div class="prem-opts" role="radiogroup" aria-label="${t('Piliin ang plan', 'Choose a plan')}">${plans(c).map((p, i, a) => `<label class="prem-opt ${p.id === 'y' ? 'best' : ''}"><input type="radio" name="prem-plan" value="${p.id}" ${(a.length > 1 ? p.id === 'y' : i === 0) ? 'checked' : ''}><span class="prem-opt-n">${p.name}${p.id === 'y' && p.save ? `<i class="prem-tag">${t('Pinakasulit', 'Best value')}</i>` : ''}</span><span class="prem-price">${p.was ? `<s class="prem-was">${peso(p.was)}</s>` : ''}${peso(p.price)}<small>/${p.per}</small></span>${p.save ? `<span class="tiny prem-save">${t(`Makatipid ng ${peso(p.save)} (${p.pct}%) · ${peso(p.month)} lang bawat buwan`, `Save ${peso(p.save)} (${p.pct}%) · just ${peso(p.month)} a month`)}</span>` : p.id === 'm' ? `<span class="tiny muted">${t('Bayaran bawat buwan', 'Pay every month')}</span>` : `<span class="tiny muted">${t('Isang bayad para sa buong taon', 'One payment for the whole year')}</span>`}</label>`).join('')}</div>` : `<p class="prem-price">${t('Tanungin ang Admin', 'Ask the Admin')}</p>`}<ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
-      const has = c.gcash || c.maya;
-      pay.appendChild(h(has ? `<div class="prem-pay">${c.qr ? `<img class="prem-qr" src="${esc(c.qr)}" alt="${t('QR code para sa bayad', 'Payment QR code')}">` : ''}<div class="stack" style="gap:6px">${c.gcash ? `<div><span class="pill">GCash</span> <b class="mono">${esc(c.gcash)}</b></div>` : ''}${c.maya ? `<div><span class="pill">Maya</span> <b class="mono">${esc(c.maya)}</b></div>` : ''}${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}</div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang GCash/Maya number sa device na ito. Makipag-ugnayan sa Admin o Trainor mo para sa detalye ng bayad.', 'The Admin has not added a GCash/Maya number on this device yet. Contact your Admin or Trainor for payment details.')}</p>`));
-      const steps = h(`<ol class="small prem-steps"><li>${t('Magbayad sa GCash o Maya.', 'Pay with GCash or Maya.')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
+      const ms = methods(c), has = ms.length > 0;
+      pay.appendChild(h(has ? `<div class="prem-pay">${c.qr ? `<figure class="prem-qrf"><img class="prem-qr" src="${esc(c.qr)}" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted">QR Ph · GCash, Maya, GoTyme</figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${m.n}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b></label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, GoTyme o PayPal) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, GoTyme or PayPal) on this device yet. Contact your Admin or Trainor.')}</p>`));
+      const steps = h(`<ol class="small prem-steps"><li>${t('Pumili ng paraan sa itaas at magbayad (GCash, Maya, GoTyme o PayPal).', 'Pick a method above and pay (GCash, Maya, GoTyme or PayPal).')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
       pay.appendChild(steps);
       const chosen = () => { const v = (page.querySelector('[name=prem-plan]:checked') || {}).value; return plans(c).find(p => p.id === v) || plans(c)[0] || null; };
-      const showAmt = () => { const p = chosen(), el = pay.querySelector('.prem-amt'); if (el && p) el.innerHTML = `<b>${peso(p.price)}</b> · Premium ${esc(p.name)}`; };
-      page.querySelectorAll('[name=prem-plan]').forEach(r => r.onchange = showAmt); showAmt();
-      const ref = h(`<div class="row prem-ref"><label class="fld" style="flex:1;min-width:180px">${t('Reference number', 'Reference number')}<input type="text" inputmode="numeric" maxlength="20" placeholder="1234 567 890123"></label><button class="btn" type="button">${t('Kopyahin ang mensahe', 'Copy message')}</button></div>`);
+      const method = () => { const v = (pay.querySelector('[name=prem-m]:checked') || {}).value; return ms.find(m => m.id === v) || ms[0] || null; };
+      const showAmt = () => {
+        const p = chosen(), m = method(), el = pay.querySelector('.prem-amt'); if (el && p) el.innerHTML = `${p.was ? `<s class="muted">${peso(p.was)}</s> ` : ''}<b>${peso(p.price)}</b> · Premium ${esc(p.name)}${p.was && sl ? ` · ${esc(sl.label || t('Promo', 'Promo'))}` : ''}`;
+        const pp = pay.querySelector('.prem-pp'); if (!pp) return;
+        if (m && m.id === 'paypal') { const me_ = ppMe(m.v); pp.hidden = false; pp.innerHTML = me_ ? `<a class="btn sm primary" href="https://www.paypal.me/${encodeURIComponent(me_)}${p ? '/' + p.price + 'PHP' : ''}" target="_blank" rel="noopener">${t('Magbayad sa PayPal', 'Pay with PayPal')}${p ? ' · ' + peso(p.price) : ''}</a><span class="tiny muted">${t('Bubukas ang PayPal sa browser. Kopyahin ang Transaction ID pagkatapos magbayad.', 'PayPal opens in your browser. Copy the Transaction ID after you pay.')}</span>` : `<span class="tiny muted">${t('Ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.')}</span>`; }
+        else { pp.hidden = true; pp.innerHTML = ''; }
+        const rl = ref.querySelector('.prem-refl'); if (rl) rl.textContent = m && m.id === 'paypal' ? 'Transaction ID' : t('Reference number', 'Reference number');
+      };
+      const ref = h(`<div class="row prem-ref"><label class="fld" style="flex:1;min-width:180px"><span class="prem-refl">${t('Reference number', 'Reference number')}</span><input type="text" maxlength="24" placeholder="1234 567 890123"></label><button class="btn" type="button">${t('Kopyahin ang mensahe', 'Copy message')}</button></div>`);
       ref.querySelector('button').onclick = () => {
         const r = ref.querySelector('input').value.trim(); if (!r) { ctx.toast(t('Ilagay muna ang reference number.', 'Enter the reference number first.')); return; }
-        const p = chosen(), pl = p ? `${p.name}, ${peso(p.price)}` : '?';
-        const msg = t(`CCNA Lab Premium (${pl}): nagbayad ako via GCash/Maya. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`, `CCNA Lab Premium (${pl}): I paid via GCash/Maya. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`);
+        const p = chosen(), m = method(), pl = p ? `${p.name}, ${peso(p.price)}${p.was && sl ? `, ${sl.label || 'promo'} ${sl.pct}%${sl.code ? ' ' + String(sl.code).toUpperCase() : ''}` : ''}` : '?', via = m ? m.n : 'GCash/Maya';
+        const msg = t(`CCNA Lab Premium (${pl}): nagbayad ako via ${via}. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`, `CCNA Lab Premium (${pl}): I paid via ${via}. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`);
         const done = () => ctx.toast(t('Nakopya. I-paste sa chat sa Admin.', 'Copied. Paste it in your chat with the Admin.'));
         (navigator.clipboard ? navigator.clipboard.writeText(msg).then(done, () => prompt('', msg)) : (prompt('', msg), 0));
-        S().payRef = { ref: r, at: Date.now(), plan: p ? p.id : '' }; SAVE();
+        S().payRef = { ref: r, at: Date.now(), plan: p ? p.id : '', via: m ? m.id : '', price: p ? p.price : 0 }; SAVE();
       };
       pay.appendChild(ref);
+      page.querySelectorAll('[name=prem-plan]').forEach(x => x.onchange = showAmt); pay.querySelectorAll('[name=prem-m]').forEach(x => x.onchange = showAmt); showAmt();
       page.appendChild(pay);
     }
     const rd = h(`<div class="card stack"><h3>${t('Ilagay ang access code', 'Enter an access code')}</h3><p class="small muted">${t('Para sa Premium, free trial, o promo code mula sa Admin.', 'For Premium, a free trial, or a promo code from the Admin.')}</p><form class="row" style="gap:8px;align-items:flex-end"><label class="fld" style="flex:1;min-width:220px">Code<input type="text" name="code" autocapitalize="characters" spellcheck="false" placeholder="CCNA-..."></label><button class="btn primary" type="submit">${t('I-redeem', 'Redeem')}</button></form><div class="err" hidden></div></div>`);
@@ -12202,22 +12292,24 @@ interface g0/0.10
   function viewAdmin(main, ctx) {
     const u = me(); if (!u || u.role === 'trainee') { main.appendChild(h(`<div class="page"><p class="muted">${t('Para lang sa Admin at Trainor.', 'Admin and Trainor only.')}</p></div>`)); return; }
     const admin = u.role === 'admin'; let c = cfg();
-    const page = h(`<div class="page wide"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payments')}</h1><p class="muted" style="max-width:76ch">${t('Ikaw ang tumatanggap ng bayad (GCash/Maya). Pagkatapos makita ang bayad, bigyan ng Premium ang trainee dito o gumawa ng access code.', 'You receive payments (GCash/Maya). Once you see the payment, give the trainee Premium here or make an access code.')}</p></div></div>`);
+    const page = h(`<div class="page wide"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payments')}</h1><p class="muted" style="max-width:76ch">${t('Ikaw ang tumatanggap ng bayad (GCash, Maya, GoTyme o PayPal). Pagkatapos makita ang bayad, bigyan ng Premium ang trainee dito o gumawa ng access code.', 'You receive payments (GCash, Maya, GoTyme or PayPal). Once you see the payment, give the trainee Premium here or make an access code.')}</p></div></div>`);
     // payment details
     if (admin) {
       const pd = h(`<div class="card stack"><h3>${t('Detalye ng bayad', 'Payment details')}</h3><p class="small muted">${t('Makikita ito ng mga trainee sa "Mag-upgrade" page sa device na ito.', 'Trainees see this on the "Upgrade" page on this device.')}</p>
         <form class="grid c2 prem-form" autocomplete="off">
           <label class="fld">GCash number<input name="gcash" inputmode="tel" maxlength="20" value="${esc(c.gcash)}" placeholder="09XX XXX XXXX"></label>
           <label class="fld">Maya number<input name="maya" inputmode="tel" maxlength="20" value="${esc(c.maya)}" placeholder="09XX XXX XXXX"></label>
+          <label class="fld">GoTyme ${t('account number', 'account number')}<input name="gotyme" inputmode="tel" maxlength="24" value="${esc(c.gotyme)}" placeholder="0123 4567 8901"></label>
+          <label class="fld">PayPal<input name="paypal" maxlength="80" value="${esc(c.paypal)}" placeholder="${t('email o paypal.me/pangalan', 'email or paypal.me/yourname')}"><span class="tiny muted">${t('Kapag paypal.me link, may "Magbayad sa PayPal" button na may halaga na.', 'With a paypal.me link, trainees get a "Pay with PayPal" button with the amount filled in.')}</span></label>
           <label class="fld">${t('Pangalan sa account', 'Account name')}<input name="name" maxlength="40" value="${esc(c.name)}" placeholder="J. Dela Cruz"></label>
           <label class="fld">${t('Saan ipapadala ang ref no.', 'Where to send the ref no.')}<input name="contact" maxlength="60" value="${esc(c.contact)}" placeholder="Messenger: ..."></label>
           <label class="fld">${t('Presyo bawat buwan (₱)', 'Price per month (₱)')}<input name="price" inputmode="numeric" maxlength="6" value="${esc(c.price)}" placeholder="${t('blangko = walang buwanan', 'blank = no monthly plan')}"></label>
           <label class="fld">${t('Presyo ng 1 taon (₱)', 'Price for 1 year (₱)')}<input name="priceYear" inputmode="numeric" maxlength="7" value="${esc(c.priceYear)}" placeholder="${t('blangko = walang 1 taon', 'blank = no 1-year plan')}"><span class="tiny muted prem-yhint"></span></label>
           <label class="fld">${t('Libreng trial sa bagong trainee (araw)', 'Free trial for new trainees (days)')}<input name="trialDays" inputmode="numeric" maxlength="3" value="${esc(c.trialDays)}"></label>
-          <div class="fld"><span>${t('GCash/Maya QR (opsyonal)', 'GCash/Maya QR (optional)')}</span><div class="row" style="gap:8px">${c.qr ? `<img class="prem-qr sm" src="${esc(c.qr)}" alt="QR">` : ''}<button type="button" class="btn sm" data-a="qr">${c.qr ? t('Palitan', 'Change') : t('Mag-upload', 'Upload')}</button>${c.qr ? `<button type="button" class="btn sm ghost" data-a="qrx">${t('Alisin', 'Remove')}</button>` : ''}<input type="file" accept="image/*" hidden></div></div>
+          <div class="fld"><span>${t('QR Ph para sa GCash, Maya, GoTyme (opsyonal)', 'QR Ph for GCash, Maya, GoTyme (optional)')}</span><div class="row" style="gap:8px">${c.qr ? `<img class="prem-qr sm" src="${esc(c.qr)}" alt="QR">` : ''}<button type="button" class="btn sm" data-a="qr">${c.qr ? t('Palitan', 'Change') : t('Mag-upload', 'Upload')}</button>${c.qr ? `<button type="button" class="btn sm ghost" data-a="qrx">${t('Alisin', 'Remove')}</button>` : ''}<input type="file" accept="image/*" hidden></div></div>
           <div class="row"><button class="btn primary" type="submit">${t('I-save', 'Save')}</button></div></form></div>`);
       const f = pd.querySelector('form');
-      f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), priceYear: f.priceYear.value.replace(/[^\d.]/g, ''), period: 'month', trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
+      f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), gotyme: f.gotyme.value.trim(), paypal: f.paypal.value.trim(), name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), priceYear: f.priceYear.value.replace(/[^\d.]/g, ''), period: 'month', trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
       const yh = () => { const m = +f.price.value.replace(/[^\d.]/g, ''), y = +f.priceYear.value.replace(/[^\d.]/g, ''), el = pd.querySelector('.prem-yhint'); el.textContent = m > 0 && y > 0 ? (12 * m > y ? t(`Makakatipid ang trainee ng ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) kumpara sa 12 buwan.`, `Trainees save ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) compared with 12 months.`) : t('Mas mahal ito kaysa 12 buwan na buwanan.', 'This costs more than 12 monthly payments.')) : ''; };
       f.price.oninput = f.priceYear.oninput = yh; yh();
       const fi = pd.querySelector('input[type=file]');
@@ -12225,6 +12317,32 @@ interface g0/0.10
       fi.onchange = () => { const file = fi.files[0]; if (!file) return; const img = new Image(); const url = URL.createObjectURL(file); img.onload = () => { const N = 360, k = Math.min(1, N / Math.max(img.naturalWidth, img.naturalHeight)); const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); saveCfg(Object.assign(cfg(), { qr: cv.toDataURL('image/png') })); ctx.route(); }; img.onerror = () => ctx.toast(t('Hindi mabasa ang larawan.', 'Could not read that image.')); img.src = url; };
       const qx = pd.querySelector('[data-a=qrx]'); if (qx) qx.onclick = () => { saveCfg(Object.assign(cfg(), { qr: '' })); ctx.route(); };
       page.appendChild(pd);
+      // promo / sale (discount)
+      const so = c.sale && c.sale.until > Date.now() && +c.sale.pct > 0 ? c.sale : null, s0 = c.sale || {};
+      const toLocal = ts => { const d = new Date(ts - new Date().getTimezoneOffset() * 6e4); return d.toISOString().slice(0, 16); };
+      const sp = h(`<div class="card stack"><h3>${t('Promo / sale (bawas sa presyo)', 'Promo / sale (price discount)')}</h3><p class="small ${so ? '' : 'muted'}">${so ? `${t('Naka-on', 'On')}: <b>${esc(so.label || 'Promo')}</b>, ${+so.pct}% ${t('bawas hanggang', 'off until')} <b>${fmt(so.until)}</b> (${left(so.until - Date.now())})${so.code ? ` · ${t('kailangan ng code', 'needs code')} <b class="mono">${esc(String(so.code).toUpperCase())}</b>` : ` · ${t('para sa lahat', 'for everyone')}`}` : t('Naka-off. Magbigay ng bawas sa presyo hanggang sa isang petsa, para sa lahat o para lang sa may promo code.', 'Off. Give a price discount until a date, for everyone or only for people with a promo code.')}</p>
+        <form class="grid c2 prem-form" autocomplete="off">
+          <label class="fld">${t('Pangalan ng promo', 'Promo name')}<input name="label" maxlength="40" value="${esc(s0.label || '')}" placeholder="${t('hal. Pasko Sale', 'e.g. Christmas Sale')}"></label>
+          <label class="fld">${t('Bawas (%)', 'Discount (%)')}<input name="pct" inputmode="numeric" maxlength="2" value="${esc(s0.pct || 20)}"></label>
+          <label class="fld">${t('Para sa', 'Applies to')}<select name="plans"><option value="both" ${(s0.plans || 'both') === 'both' ? 'selected' : ''}>${t('Buwanan at 1 Taon', 'Monthly and 1 Year')}</option><option value="m" ${s0.plans === 'm' ? 'selected' : ''}>${t('Buwanan lang', 'Monthly only')}</option><option value="y" ${s0.plans === 'y' ? 'selected' : ''}>${t('1 Taon lang', '1 Year only')}</option></select></label>
+          <label class="fld">${t('Promo code (opsyonal)', 'Promo code (optional)')}<input name="code" maxlength="24" autocapitalize="characters" spellcheck="false" value="${esc(s0.code || '')}" placeholder="${t('blangko = para sa lahat', 'blank = for everyone')}"></label>
+          <label class="fld">${t('Hanggang', 'Until')}<input type="datetime-local" name="until" value="${s0.until > Date.now() ? toLocal(s0.until) : ''}"></label>
+          <div class="fld"><span>${t('O mabilis', 'Or quickly')}</span><div class="row" style="gap:6px;flex-wrap:wrap">${[[3, t('3 araw', '3 days')], [7, t('1 linggo', '1 week')], [30, t('30 araw', '30 days')]].map(([d, l]) => `<button type="button" class="btn sm" data-sd="${d}">${l}</button>`).join('')}</div></div>
+          <p class="tiny muted prem-sprev" style="grid-column:1/-1"></p>
+          <div class="row" style="grid-column:1/-1"><button class="btn primary" type="submit">${so ? t('I-update ang promo', 'Update promo') : t('Simulan ang promo', 'Start promo')}</button>${so ? `<button class="btn ghost" type="button" data-a="soff">${t('Itigil ngayon', 'Stop now')}</button>` : ''}</div></form></div>`);
+      const sf = sp.querySelector('form');
+      const prev = () => { const pct = Math.max(0, Math.min(90, parseInt(sf.pct.value, 10) || 0)), w = sf.plans.value, cc = cfg(), out = []; if (+cc.price > 0 && w !== 'y') out.push(`${t('Buwanan', 'Monthly')} ${peso(cc.price)} → <b>${peso(off(+cc.price, pct))}</b>`); if (+cc.priceYear > 0 && w !== 'm') out.push(`${t('1 Taon', '1 Year')} ${peso(cc.priceYear)} → <b>${peso(off(+cc.priceYear, pct))}</b>`); sp.querySelector('.prem-sprev').innerHTML = pct ? out.join(' · ') : ''; };
+      sf.pct.oninput = sf.plans.onchange = prev; prev();
+      sp.querySelectorAll('[data-sd]').forEach(b => b.onclick = () => { sf.until.value = toLocal(Date.now() + (+b.dataset.sd) * DAY); });
+      sf.onsubmit = e => {
+        e.preventDefault(); const pct = parseInt(sf.pct.value, 10) || 0, until = sf.until.value ? new Date(sf.until.value).getTime() : 0;
+        if (!(pct >= 1 && pct <= 90)) { ctx.toast(t('Ang bawas ay 1 hanggang 90%.', 'The discount must be 1 to 90%.')); return; }
+        if (!(until > Date.now())) { ctx.toast(t('Pumili kung hanggang kailan (petsa sa hinaharap).', 'Pick when it ends (a future date).')); return; }
+        saveCfg(Object.assign(cfg(), { sale: { pct, until, plans: sf.plans.value, label: sf.label.value.trim(), code: sf.code.value.trim().replace(/\s+/g, '').toUpperCase() } }));
+        ctx.toast(t('Naka-on ang promo.', 'Promo is on.')); ctx.route();
+      };
+      const so_ = sp.querySelector('[data-a=soff]'); if (so_) so_.onclick = () => { saveCfg(Object.assign(cfg(), { sale: Object.assign({}, cfg().sale, { until: 0 }) })); ctx.toast(t('Itinigil ang promo.', 'Promo stopped.')); ctx.route(); };
+      page.appendChild(sp);
       // promo for everyone
       const pr = h(`<div class="card stack"><h3>${t('Libreng Premium para sa lahat', 'Free Premium for everyone')}</h3><p class="small">${c.promoUntil > Date.now() ? `${t('Naka-on hanggang', 'On until')} <b>${fmt(c.promoUntil)}</b> (${left(c.promoUntil - Date.now())})` : t('Naka-off. Lahat ng trainee sa device na ito ay magiging Premium hanggang sa oras na pipiliin mo.', 'Off. Every trainee on this device becomes Premium until the time you choose.')}</p>
         <div class="row" style="gap:8px;flex-wrap:wrap">${[[1, t('1 oras', '1 hour')], [24, t('1 araw', '1 day')], [72, t('3 araw', '3 days')], [168, t('1 linggo', '1 week')], [720, t('30 araw', '30 days')]].map(([hh, l]) => `<button class="btn sm" data-promo="${hh}">${l}</button>`).join('')}<label class="fld" style="min-width:200px">${t('O hanggang', 'Or until')}<input type="datetime-local" name="till"></label><button class="btn sm" data-a="till">${t('Itakda', 'Set')}</button>${c.promoUntil > Date.now() ? `<button class="btn sm ghost" data-a="off">${t('Itigil ngayon', 'Stop now')}</button>` : ''}</div>
@@ -12233,7 +12351,7 @@ interface g0/0.10
       const setPromo = until => { saveCfg(Object.assign(cfg(), { promoUntil: until, promoNote: pr.querySelector('[name=note]').value.trim() })); ctx.toast(until ? t('Naka-on ang libreng Premium.', 'Free Premium is on.') : t('Itinigil ang promo.', 'Promo stopped.')); ctx.route(); };
       pr.querySelectorAll('[data-promo]').forEach(b => b.onclick = () => setPromo(Date.now() + (+b.dataset.promo) * HOUR));
       pr.querySelector('[data-a=till]').onclick = () => { const v = pr.querySelector('[name=till]').value; const ts = v ? new Date(v).getTime() : 0; if (!(ts > Date.now())) { ctx.toast(t('Pumili ng petsa sa hinaharap.', 'Pick a future date.')); return; } setPromo(ts); };
-      const off = pr.querySelector('[data-a=off]'); if (off) off.onclick = () => setPromo(0);
+      const offB = pr.querySelector('[data-a=off]'); if (offB) offB.onclick = () => setPromo(0);
       page.appendChild(pr);
     }
     // code generator
@@ -12266,12 +12384,12 @@ interface g0/0.10
       tb.appendChild(tr);
     });
     page.appendChild(ul);
-    if (window.ACC) { const cs = [...page.querySelectorAll(':scope > .card')]; ACC(cs, { key: 'prem', open: 0, icons: cs.length === 4 ? ['wallet', 'gift', 'ticket', 'users'] : ['ticket', 'users'] }); }
-    page.appendChild(h(`<p class="tiny muted" style="max-width:76ch">${t('Paalala: walang server ang app, kaya hindi ito tumatanggap o nagve-verify ng bayad mismo. Ikaw ang titingin sa GCash/Maya mo bago magbigay ng access. Ang mga code ay may check para sa typo at pandaraya ng karaniwang user, pero hindi ito kasing-higpit ng totoong online payment system.', 'Note: the app has no server, so it does not take or verify payments itself. You check your GCash/Maya before giving access. Codes are checked against typos and casual tampering, but this is not as strict as a real online payment system.')}</p>`));
+    if (window.ACC) { const cs = [...page.querySelectorAll(':scope > .card')]; ACC(cs, { key: 'prem', open: 0, icons: cs.length === 5 ? ['wallet', 'tag', 'gift', 'ticket', 'users'] : ['ticket', 'users'] }); }
+    page.appendChild(h(`<p class="tiny muted" style="max-width:76ch">${t('Paalala: walang server ang app, kaya hindi ito tumatanggap o nagve-verify ng bayad mismo. Ikaw ang titingin sa GCash, Maya, GoTyme o PayPal mo bago magbigay ng access. Ang mga code ay may check para sa typo at pandaraya ng karaniwang user, pero hindi ito kasing-higpit ng totoong online payment system.', 'Note: the app has no server, so it does not take or verify payments itself. You check your GCash, Maya, GoTyme or PayPal before giving access. Codes are checked against typos and casual tampering, but this is not as strict as a real online payment system.')}</p>`));
     main.appendChild(page);
   }
 
-  window.PREMIUM = { plans, status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
+  window.PREMIUM = { plans, sale, methods, status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
 })();
 
 ;
@@ -14758,6 +14876,7 @@ window.startApp = () => {
     share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
     lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
     wallet: '<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2M7 6V4h10v2"/>',
+    tag: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',
     gift: '<rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13M12 8S10.5 3 8 3.5 7 8 12 8zm0 0s1.5-5 4-4.5S17 8 12 8z"/>',
     ticket: '<path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2v-2a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2"/>',
     upload: '<path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>',
@@ -15149,6 +15268,11 @@ window.startApp = () => {
     const labsDone = Object.values(S.labs).filter(x => x.done).length;
     const next = S.last && lessonById(S.last) && !S.done[S.last] ? lessonById(S.last) : ALL.find(l => !S.done[l.id]) || ALL[0];
     const page = h(`<div class="page wide"></div>`);
+    if (location.protocol === 'file:' && !/Electron/.test(navigator.userAgent) && localStorage.getItem('ccna.mv.hide') !== '1') { // old Lite / Offline version: point to the one main app
+      const T = (f, e) => __EN ? e : f, bn = h(`<div class="note tip mv-ban"><b>${T('Iisa na lang ang CCNA Lab app: ang Full installer', 'CCNA Lab is now one app: the Full installer')}</b><span>${T('Lite / Offline ang gamit mo, kaya hiwalay ang accounts mo rito. I-install ang Full app at ilipat ang accounts at progress mo sa isang pindot.', 'You are on Lite / Offline, so your accounts here are kept apart. Install the Full app and move your accounts and progress in one step.')}</span><div class="row" style="gap:8px;margin-top:8px"><a class="btn sm primary" href="#download">${T('Paano lumipat', 'How to switch')}</a><button class="btn sm ghost" type="button">${T('Mamaya na', 'Later')}</button></div></div>`);
+      bn.querySelector('button').onclick = () => { try { localStorage.setItem('ccna.mv.hide', '1'); } catch (e) { } bn.remove(); };
+      page.appendChild(bn);
+    }
     page.appendChild(h((__EN?`<section class="hero">
       <div>
         <div class="eyebrow">Cisco Certified Network Associate · 200-301</div>
@@ -15210,7 +15334,7 @@ window.startApp = () => {
     }
     page.appendChild(chs);
     const tools = h((__EN?`<section class="stack"><h2>Practice and references</h2><div class="grid c3"></div></section>`:`<section class="stack"><h2>Practice at references</h2><div class="grid c3"></div></section>`));
-    const desc = { subnet: (__EN?"Random questions with step-by-step answers":'Random na tanong, may step-by-step na sagot'), challenges: (__EN?"Multi-device scenarios, no hints":'Multi-device na scenarios, walang hints'), exam: (__EN?"120 questions, Real Exam mode, drag-and-drop, score per domain":'120 tanong, Real Exam mode, drag-and-drop, score per domain'), designer: (__EN?"Drag devices onto a floor plan, cable, configure, ping":'I-drag ang devices sa floor plan, i-cable, i-configure, i-ping'), download: (__EN?"Windows installer, offline file and guide":'Windows installer, offline file, at gabay'), answers: (__EN?"Answers and explanations":'Mga sagot at paliwanag'), plan: (__EN?"Weekly checklist up to exam day":'Lingguhang checklist hanggang exam day'), tips: (__EN?"Advice for passing":'Mga payo para pumasa'), cheats: 'Commands, ports, tables', glossary: (__EN?"Terms you should know":'Mga terminong dapat alam mo'), labs: (__EN?"All hands-on CLI labs":'Lahat ng hands-on CLI labs') };
+    const desc = { subnet: (__EN?"Random questions with step-by-step answers":'Random na tanong, may step-by-step na sagot'), challenges: (__EN?"Multi-device scenarios, no hints":'Multi-device na scenarios, walang hints'), exam: (__EN?"120 questions, Real Exam mode, drag-and-drop, score per domain":'120 tanong, Real Exam mode, drag-and-drop, score per domain'), designer: (__EN?"Drag devices onto a floor plan, cable, configure, ping":'I-drag ang devices sa floor plan, i-cable, i-configure, i-ping'), download: __EN ? 'Full installer for Windows, and guide' : 'Full installer para sa Windows, at gabay', answers: (__EN?"Answers and explanations":'Mga sagot at paliwanag'), plan: (__EN?"Weekly checklist up to exam day":'Lingguhang checklist hanggang exam day'), tips: (__EN?"Advice for passing":'Mga payo para pumasa'), cheats: 'Commands, ports, tables', glossary: (__EN?"Terms you should know":'Mga terminong dapat alam mo'), labs: (__EN?"All hands-on CLI labs":'Lahat ng hands-on CLI labs') };
     for (const [r, ic, t] of EXTRAS) tools.querySelector('.grid').appendChild(h(`<a class="tool-card" href="#${r}">${icon(ic)}<div><b>${t}</b><span>${desc[r]}</span></div></a>`));
     page.appendChild(tools);
     main.appendChild(page);
@@ -15234,78 +15358,68 @@ window.startApp = () => {
 
   // ---------- Download / install ----------
   function viewDownload() {
-    const offline = location.protocol === 'file:' || /Electron/.test(navigator.userAgent);
-    const page = h((__EN?`<div class="page"><div class="lesson-head"><h1>Download and install</h1><p class="muted" style="max-width:76ch">Three ways to use CCNA Lab. Pick the easiest one for you.</p></div></div>`:`<div class="page"><div class="lesson-head"><h1>I-download at i-install</h1><p class="muted" style="max-width:76ch">Tatlong paraan para magamit ang CCNA Lab. Piliin ang pinakamadali para sa iyo.</p></div></div>`));
+    // One download for everyone: the Full installer. The Lite and Offline versions keep working and keep
+    // updating, but their accounts live in their own storage, so this page also moves them into the Full app.
+    const T = (f, e) => __EN ? e : f, L = window.DL_LINKS || {};
+    const electron = /Electron/.test(navigator.userAgent), offline = location.protocol === 'file:' || electron;
+    const legacy = !electron && location.protocol === 'file:', online = !!(window.AUTH && AUTH.online && AUTH.online());
+    const u = window.AUTH && AUTH.me ? AUTH.me() : null, admin = !!(u && u.role === 'admin');
+    const page = h(`<div class="page"><div class="lesson-head"><h1>${T('I-download at i-install', 'Download and install')}</h1><p class="muted" style="max-width:76ch">${T('Iisa na lang ang download: ang <b>Full installer</b>. Libre, para sa lahat ng Windows PC, at laging ang pinakabagong version.', 'There is now one download: the <b>Full installer</b>. Free, for every Windows PC, and always the newest version.')}</p></div></div>`);
     const step = a => `<ol class="dl-steps">${a.map(x => `<li>${x}</li>`).join('')}</ol>`;
-    page.appendChild(h((__EN?`<div class="stack">
-      <div class="card row between upd-row"><div><b>Version ${esc(window.APP_VERSION || '')}</b><div class="tiny muted">${offline ? (__EN?"Downloads updates automatically when online, then asks whether to restart.":'Awtomatikong nagda-download ng update kapag may Internet, tapos itatanong kung ire-restart.') : (__EN?"When a new version is out, a pop-up will ask whether to update.":'Kapag may bagong version, lalabas ang pop-up na magtatanong kung i-update na.')}</div></div><button class="btn sm" data-upd>⟳ Check for updates</button></div>
-      ${offline ? (__EN?`<div class="note tip"><b>This is the offline version</b>This app is installed or downloaded, so it works even without Internet. Your progress is saved on this computer.</div>`:`<div class="note tip"><b>Offline na bersyon ito</b>Naka-install o naka-download na ang app na ito, kaya gumagana kahit walang Internet. Naka-save ang progress sa computer na ito.</div>`) : ''}
-      <div class="card stack dl-card"><div class="row between"><h3>1. Windows installer (Lite) <span class="pill ok">Recommended</span></h3><span class="tiny muted">zip · about 0.3 MB</span></div>
-        <p class="small">A small installer: adds shortcuts to the Desktop and Start menu, and the app opens in its own window (using Microsoft Edge, which comes with Windows 10/11). No Internet needed after installing.</p>
-        ${step([(__EN?"Press <b>Download</b> below (or get <b>CCNA-Lab-Lite-Setup.zip</b> from the project files).":'Pindutin ang <b>I-download</b> sa ibaba (o kunin ang <b>CCNA-Lab-Lite-Setup.zip</b> sa project files).'), (__EN?"In the Downloads folder: right-click the zip → <b>Extract All</b> → Extract.":'Sa Downloads folder: i-right-click ang zip → <b>Extract All</b> → Extract.'), (__EN?"Double-click <b>CCNA-Lab-Lite-Setup.exe</b>.":'I-double-click ang <b>CCNA-Lab-Lite-Setup.exe</b>.'), (__EN?"If the blue <b>\"Windows protected your PC\"</b> screen appears: press <b>More info</b> → <b>Run anyway</b>. (It shows for every new app without a paid code-signing certificate.)":'Kung lumabas ang asul na <b>"Windows protected your PC"</b>: pindutin ang <b>More info</b> → <b>Run anyway</b>. (Lumalabas ito sa lahat ng bagong app na walang bayad na code-signing certificate.)'), (__EN?"<b>Next</b> → <b>Finish</b>. Open <b>CCNA Lab 200-301</b> from the Desktop.":'<b>Next</b> → <b>Finish</b>. Buksan ang <b>CCNA Lab 200-301</b> sa Desktop.')])}
-        <div class="row">${offline ? '' : (__EN?"<button class=\"btn primary\" data-dl=\"lite\">⬇ Download the Lite installer (.zip)</button>":'<button class="btn primary" data-dl="lite">⬇ I-download ang Lite installer (.zip)</button>')}<span class="tiny dl-msg"></span></div></div>
-      <div class="card stack dl-card"><div class="row between"><h3>2. Offline file (no install)</h3><span class="tiny muted">html · about 1 MB</span></div>
-        <p class="small">Just one file. Double-click it to open in your browser. Works on Windows, Mac, Linux and even from a flash drive.</p>
-        ${step([(__EN?"Press <b>Download</b> (or get <b>CCNA-Lab-200-301.html</b> from the project files).":'Pindutin ang <b>I-download</b> (o kunin ang <b>CCNA-Lab-200-301.html</b> sa project files).'), (__EN?"Double-click the file. It opens in Chrome or Edge.":'I-double-click ang file. Bubukas sa Chrome o Edge.'), (__EN?"Tip: bookmark or pin the tab. Progress is saved in that browser.":'Tip: i-bookmark o i-pin ang tab. Naka-save ang progress sa browser na iyon.')])}
-        <div class="row">${offline ? '' : (__EN?"<button class=\"btn\" data-dl=\"html\">⬇ Download the offline file (.html)</button>":'<button class="btn" data-dl="html">⬇ I-download ang offline file (.html)</button>')}<span class="tiny dl-msg"></span></div></div>
-      <div class="card stack dl-card"><div class="row between"><h3>3. Full installer (standalone app)</h3><span class="tiny muted">zip · about 80 MB</span></div>
-        <p class="small">A complete desktop app (no browser needed). The file is large, so it is in the project files: <b>CCNA-Lab-200-301-Setup.zip</b>. Same steps: Extract All → double-click Setup.exe → More info → Run anyway if needed.</p></div>
-      <div class="card stack dl-card"><h3>Online (no download)</h3><p class="small">Just open the app link on any device (PC, tablet, phone). When you are signed in to Claude, your progress syncs across all your devices.${window.AUTH && AUTH.online && AUTH.online() ? (__EN?" <span class=\"pill ok\">You are online now</span>":' <span class="pill ok">Naka-online ka ngayon</span>') : ''}</p></div>
-      <details class="card"><summary><b>Download won't start? Try this</b></summary>${step([(__EN?"Use the <b>zip</b> or <b>html</b>: browsers and email often block plain .exe files.":'Gamitin ang <b>zip</b> o <b>html</b>: madalas hinaharang ng browser at email ang direktang .exe na file.'), (__EN?"In Chrome/Edge, press <b>Ctrl+J</b>. If it says \"blocked\" or \"not commonly downloaded\": press <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.":'Sa Chrome/Edge, pindutin ang <b>Ctrl+J</b>. Kung may "blocked" o "not commonly downloaded": pindutin ang <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.'), (__EN?"If your antivirus deleted it: allow the file, or use the offline .html, which has no .exe.":'Kung binura ng antivirus: i-allow ang file, o gamitin ang offline .html na walang .exe.'), (__EN?"On a school or office PC where installing is not allowed: use the offline .html or the online link.":'Sa school o office PC na bawal mag-install: gamitin ang offline .html o ang online na link.')])}</details>
-    </div>`:`<div class="stack">
-      <div class="card row between upd-row"><div><b>Version ${esc(window.APP_VERSION || '')}</b><div class="tiny muted">${offline ? (__EN?"Downloads updates automatically when online, then asks whether to restart.":'Awtomatikong nagda-download ng update kapag may Internet, tapos itatanong kung ire-restart.') : (__EN?"When a new version is out, a pop-up will ask whether to update.":'Kapag may bagong version, lalabas ang pop-up na magtatanong kung i-update na.')}</div></div><button class="btn sm" data-upd>⟳ Tingnan kung may update</button></div>
-      ${offline ? (__EN?`<div class="note tip"><b>This is the offline version</b>This app is installed or downloaded, so it works even without Internet. Your progress is saved on this computer.</div>`:`<div class="note tip"><b>Offline na bersyon ito</b>Naka-install o naka-download na ang app na ito, kaya gumagana kahit walang Internet. Naka-save ang progress sa computer na ito.</div>`) : ''}
-      <div class="card stack dl-card"><div class="row between"><h3>1. Windows installer (Lite) <span class="pill ok">Inirerekomenda</span></h3><span class="tiny muted">zip · mga 0.3 MB</span></div>
-        <p class="small">Maliit na installer: may shortcut sa Desktop at Start menu, at bumubukas ang app sa sarili nitong window (gamit ang Microsoft Edge na kasama na sa Windows 10/11). Walang Internet na kailangan pagka-install.</p>
-        ${step([(__EN?"Press <b>Download</b> below (or get <b>CCNA-Lab-Lite-Setup.zip</b> from the project files).":'Pindutin ang <b>I-download</b> sa ibaba (o kunin ang <b>CCNA-Lab-Lite-Setup.zip</b> sa project files).'), (__EN?"In the Downloads folder: right-click the zip → <b>Extract All</b> → Extract.":'Sa Downloads folder: i-right-click ang zip → <b>Extract All</b> → Extract.'), (__EN?"Double-click <b>CCNA-Lab-Lite-Setup.exe</b>.":'I-double-click ang <b>CCNA-Lab-Lite-Setup.exe</b>.'), (__EN?"If the blue <b>\"Windows protected your PC\"</b> screen appears: press <b>More info</b> → <b>Run anyway</b>. (It shows for every new app without a paid code-signing certificate.)":'Kung lumabas ang asul na <b>"Windows protected your PC"</b>: pindutin ang <b>More info</b> → <b>Run anyway</b>. (Lumalabas ito sa lahat ng bagong app na walang bayad na code-signing certificate.)'), (__EN?"<b>Next</b> → <b>Finish</b>. Open <b>CCNA Lab 200-301</b> from the Desktop.":'<b>Next</b> → <b>Finish</b>. Buksan ang <b>CCNA Lab 200-301</b> sa Desktop.')])}
-        <div class="row">${offline ? '' : (__EN?"<button class=\"btn primary\" data-dl=\"lite\">⬇ Download the Lite installer (.zip)</button>":'<button class="btn primary" data-dl="lite">⬇ I-download ang Lite installer (.zip)</button>')}<span class="tiny dl-msg"></span></div></div>
-      <div class="card stack dl-card"><div class="row between"><h3>2. Offline file (walang install)</h3><span class="tiny muted">html · mga 1 MB</span></div>
-        <p class="small">Isang file lang. I-double-click para bumukas sa browser. Pwede sa Windows, Mac, Linux at kahit sa flash drive.</p>
-        ${step([(__EN?"Press <b>Download</b> (or get <b>CCNA-Lab-200-301.html</b> from the project files).":'Pindutin ang <b>I-download</b> (o kunin ang <b>CCNA-Lab-200-301.html</b> sa project files).'), (__EN?"Double-click the file. It opens in Chrome or Edge.":'I-double-click ang file. Bubukas sa Chrome o Edge.'), (__EN?"Tip: bookmark or pin the tab. Progress is saved in that browser.":'Tip: i-bookmark o i-pin ang tab. Naka-save ang progress sa browser na iyon.')])}
-        <div class="row">${offline ? '' : (__EN?"<button class=\"btn\" data-dl=\"html\">⬇ Download the offline file (.html)</button>":'<button class="btn" data-dl="html">⬇ I-download ang offline file (.html)</button>')}<span class="tiny dl-msg"></span></div></div>
-      <div class="card stack dl-card"><div class="row between"><h3>3. Full installer (sariling app)</h3><span class="tiny muted">zip · mga 80 MB</span></div>
-        <p class="small">Kumpletong desktop app (hindi na kailangan ng browser). Malaki ang file, kaya nasa project files ito: <b>CCNA-Lab-200-301-Setup.zip</b>. Pareho ang steps: Extract All → i-double-click ang Setup.exe → More info → Run anyway kung kailangan.</p></div>
-      <div class="card stack dl-card"><h3>Online (walang download)</h3><p class="small">Buksan lang ang link ng app sa kahit anong device (PC, tablet, phone). Kapag naka-login ka sa Claude, naka-sync ang progress mo sa lahat ng device.${window.AUTH && AUTH.online && AUTH.online() ? (__EN?" <span class=\"pill ok\">You are online now</span>":' <span class="pill ok">Naka-online ka ngayon</span>') : ''}</p></div>
-      <details class="card"><summary><b>Ayaw ma-download? Subukan ito</b></summary>${step([(__EN?"Use the <b>zip</b> or <b>html</b>: browsers and email often block plain .exe files.":'Gamitin ang <b>zip</b> o <b>html</b>: madalas hinaharang ng browser at email ang direktang .exe na file.'), (__EN?"In Chrome/Edge, press <b>Ctrl+J</b>. If it says \"blocked\" or \"not commonly downloaded\": press <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.":'Sa Chrome/Edge, pindutin ang <b>Ctrl+J</b>. Kung may "blocked" o "not commonly downloaded": pindutin ang <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.'), (__EN?"If your antivirus deleted it: allow the file, or use the offline .html, which has no .exe.":'Kung binura ng antivirus: i-allow ang file, o gamitin ang offline .html na walang .exe.'), (__EN?"On a school or office PC where installing is not allowed: use the offline .html or the online link.":'Sa school o office PC na bawal mag-install: gamitin ang offline .html o ang online na link.')])}</details>
-    </div>`)));
-    const ub = page.querySelector('[data-upd]'); if (ub) ub.onclick = () => window.UPDATER ? UPDATER.check() : null;
-    { // public link: copy / share, and show which version it gives right now
-      page.querySelector('.upd-row').after(h(`<div class="card stack dl-pub"><div class="row between" style="gap:8px;flex-wrap:wrap"><h3>${__EN ? 'Free download link' : 'Libreng download link'}</h3><span class="pill ok dl-latest">${__EN ? 'Always the latest version' : 'Laging pinakabagong version'}</span></div>
-        <p class="small">${__EN ? 'Share this link with anyone. It is free, needs no account, and always gives the newest version: when a new version comes out, the same link already has it.' : 'Ibahagi ang link na ito kahit kanino. Libre, walang account na kailangan, at laging ang pinakabagong version ang makukuha: kapag may bagong version, ito na agad ang nasa parehong link.'}</p>
-        <div class="dl-link"><input class="mono" readonly aria-label="Download link" value="${esc((window.DL_LINKS || {}).page || '')}"><button class="btn sm" type="button" data-pub="copy">${__EN ? 'Copy' : 'Kopyahin'}</button>${navigator.share ? `<button class="btn sm" type="button" data-pub="share">${__EN ? 'Share' : 'Ibahagi'}</button>` : ''}<a class="btn sm primary" href="${esc((window.DL_LINKS || {}).page || '#')}" target="_blank" rel="noopener">${__EN ? 'Open' : 'Buksan'}</a></div>
-        <div class="dl-direct small"><span class="muted">${__EN ? 'Direct downloads:' : 'Direktang download:'}</span> <a href="${esc((window.DL_LINKS || {}).lite || '#')}" target="_blank" rel="noopener">Lite installer (.zip)</a> · <a href="${esc((window.DL_LINKS || {}).offline || '#')}" target="_blank" rel="noopener">${__EN ? 'Offline file' : 'Offline file'} (.zip)</a> · <a href="${esc((window.DL_LINKS || {}).full || '#')}" target="_blank" rel="noopener">Full installer (.zip)</a></div>
-        <div class="tiny muted dl-ver">${__EN ? 'Checking the latest version…' : 'Tinitingnan ang pinakabagong version…'}</div></div>`));
-      { const p3 = page.querySelectorAll('.dl-card')[2]; const q = p3 && p3.querySelector('p.small'); if (q) q.innerHTML = __EN ? 'The complete desktop app (no browser needed). The file is big: get <b>CCNA-Lab-200-301-Setup.zip</b> from the free download link above. Same steps: Extract All → double-click Setup.exe → More info → Run anyway if needed.' : 'Kumpletong desktop app (hindi na kailangan ng browser). Malaki ang file: kunin ang <b>CCNA-Lab-200-301-Setup.zip</b> sa libreng download link sa itaas. Pareho ang steps: Extract All → i-double-click ang Setup.exe → More info → Run anyway kung kailangan.'; }
-      const L = window.DL_LINKS || {}, pub = page.querySelector('.dl-pub'), inp = pub.querySelector('input');
-      inp.onclick = () => inp.select();
-      pub.querySelector('[data-pub=copy]').onclick = () => { const ok = () => toast(__EN ? 'Link copied.' : 'Nakopya ang link.'); (navigator.clipboard ? navigator.clipboard.writeText(L.page).then(ok, () => { inp.select(); document.execCommand('copy'); ok(); }) : (inp.select(), document.execCommand('copy'), ok())); };
-      const sb = pub.querySelector('[data-pub=share]'); if (sb) sb.onclick = () => navigator.share({ title: 'CCNA Lab 200-301', text: __EN ? 'Free CCNA 200-301 trainer: lessons, CLI labs, exam and Network Designer.' : 'Libreng CCNA 200-301 trainer: lessons, CLI labs, exam at Network Designer.', url: L.page }).catch(() => { });
-      const vEl = pub.querySelector('.dl-ver');
-      if (L.version) fetch(L.version + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(j => {
-        const cmp = (a, b) => { a = String(a).split('.').map(Number); b = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) { const d = (a[i] || 0) - (b[i] || 0); if (d) return d; } return 0; };
-        const dt = j.date ? new Date(j.date + 'T00:00:00').toLocaleDateString(__EN ? 'en-PH' : 'fil-PH', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
-        const newer = cmp(j.version, window.APP_VERSION || '0') > 0;
-        vEl.innerHTML = (__EN ? `The link gives <b>version ${esc(j.version)}</b>${dt ? ' (' + esc(dt) + ')' : ''}.` : `Ang makukuha sa link: <b>version ${esc(j.version)}</b>${dt ? ' (' + esc(dt) + ')' : ''}.`) + (newer ? (__EN ? ' <b style="color:var(--warn)">Newer than yours.</b>' : ' <b style="color:var(--warn)">Mas bago kaysa sa iyo.</b>') : '');
-      }).catch(() => { vEl.textContent = __EN ? 'Could not check the latest version right now (no Internet?). The link still works.' : 'Hindi ma-check ngayon ang pinakabagong version (walang Internet?). Gumagana pa rin ang link.'; });
-    }
-    { const dc = [...page.querySelectorAll('.dl-card')]; const h4 = dc[3] && dc[3].querySelector('h3'); if (h4 && !/^4\./.test(h4.textContent)) h4.prepend('4. '); accordion(dc, { key: 'dl', open: 0, icons: ['win', 'file', 'box', 'globe'] }); }
-    page.querySelectorAll('[data-dl]').forEach(b => b.onclick = async () => {
-      const msg = b.parentElement.querySelector('.dl-msg'); const kind = b.dataset.dl;
-      const file = kind === 'lite' ? ['dl/CCNA-Lab-Lite-Setup.zip.b64.txt', 'CCNA-Lab-Lite-Setup.zip', 'application/zip', 1] : ['dl/CCNA-Lab-200-301.html', 'CCNA-Lab-200-301.html', 'text/html'];
-      b.disabled = true; msg.style.color = ''; msg.textContent = (__EN?"Preparing…":'Inihahanda…');
-      try {
-        const r = await fetch(new URL(file[0], location.href)); if (!r.ok) throw new Error('HTTP ' + r.status);
-        let bytes; if (file[3]) { const t = (await r.text()).replace(/\s+/g, ''); bytes = Uint8Array.from(atob(t), c => c.charCodeAt(0)); } else bytes = new Uint8Array(await r.arrayBuffer());
-        const blob = new Blob([bytes], { type: file[2] });
-        const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
-        if (dl) { await dl.save({ filename: file[1], data: blob }); msg.textContent = (__EN?"Saved! Check your Downloads folder.":'Na-save! Tingnan sa Downloads folder.'); msg.style.color = 'var(--ok)'; SND('ok'); }
-        else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file[1]; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); msg.textContent = (__EN?"Download started.":'Nagsimula ang download.'); msg.style.color = 'var(--ok)'; }
-      } catch (e) {
-        const c = e && e.code; msg.style.color = c === 'declined' ? '' : 'var(--bad)';
-        msg.textContent = c === 'declined' ? (__EN?"Cancelled.":'Kinansela.') : c === 'rate_limited' ? (__EN?"A download prompt is still open. Try again in a moment.":'May bukas pang download prompt. Subukan ulit maya-maya.') : (__EN?"Can't download here. Get the file from the project files.":'Hindi ma-download dito. Kunin ang file sa project files.');
+    const st = h(`<div class="stack"></div>`); page.appendChild(st);
+    st.appendChild(h(`<div class="card row between upd-row"><div><b>Version ${esc(window.APP_VERSION || '')}${electron ? ' · Full' : legacy ? ' · ' + T('Lite / Offline (luma)', 'Lite / Offline (old)') : ''}</b><div class="tiny muted">${offline ? T((__EN?"Downloads updates automatically when online, then asks whether to restart.":'Awtomatikong nagda-download ng update kapag may Internet, tapos itatanong kung ire-restart.'), 'Updates download by themselves when there is Internet, then the app asks to restart.') : T((__EN?"When a new version is out, a pop-up will ask whether to update.":'Kapag may bagong version, lalabas ang pop-up na magtatanong kung i-update na.'), 'When a new version is out, a pop-up asks if you want to update.')}</div></div><button class="btn sm" data-upd>⟳ ${T('Tingnan kung may update', 'Check for updates')}</button></div>`));
+    if (electron) st.appendChild(h(`<div class="note tip"><b>${T('Ito na ang main app (Full)', 'This is the main app (Full)')}</b>${T('Dito naka-save ang lahat ng account at progress sa PC na ito. Kung may ginamit kang Lite o Offline na bersyon dati, ilipat ang accounts nito sa ibaba.', 'Every account and all progress on this PC are saved here. If you used the Lite or Offline version before, move its accounts in below.')}</div>`));
+    if (legacy) st.appendChild(h(`<div class="note warn"><b>${T('Lumang Lite / Offline na bersyon ito', 'This is the old Lite / Offline version')}</b>${T('Hiwalay ang accounts at progress nito sa Full app, kaya hindi sila nagkikita. I-install ang Full app, tapos ilipat dito ang accounts mo gamit ang transfer file sa ibaba. Isang beses lang ito.', 'Its accounts and progress are kept apart from the Full app, so they do not see each other. Install the Full app, then move your accounts with the transfer file below. You only do this once.')}</div>`));
+    // main download
+    const main_ = h(`<div class="card stack dl-pub dl-main"><div class="row between" style="gap:8px;flex-wrap:wrap"><h3>${icon('box')} Full installer <span class="pill ok">${T('Main', 'Main')}</span></h3><span class="tiny muted">Windows 10/11 · zip · ${T('mga', 'about')} 80 MB</span></div>
+      <p class="small">${T('Ang kumpletong CCNA Lab app: sariling window, shortcut sa Desktop at Start menu, gumagana kahit walang Internet, at kusang nag-a-update.', 'The complete CCNA Lab app: its own window, shortcuts on the Desktop and Start menu, works without Internet, and updates by itself.')}</p>
+      ${step(T(['Pindutin ang <b>I-download ang Full installer</b>.', 'Sa Downloads folder: i-right-click ang zip → <b>Extract All</b> → <b>Extract</b>.', 'I-double-click ang <b>Setup.exe</b>. Kung lumabas ang asul na <b>"Windows protected your PC"</b>: <b>More info</b> → <b>Run anyway</b>.', (__EN?"<b>Next</b> → <b>Finish</b>. Open <b>CCNA Lab 200-301</b> from the Desktop.":'<b>Next</b> → <b>Finish</b>. Buksan ang <b>CCNA Lab 200-301</b> sa Desktop.')], ['Press <b>Download the Full installer</b>.', 'In your Downloads folder: right-click the zip → <b>Extract All</b> → <b>Extract</b>.', 'Double-click <b>Setup.exe</b>. If the blue <b>"Windows protected your PC"</b> shows: <b>More info</b> → <b>Run anyway</b>.', '<b>Next</b> → <b>Finish</b>. Open <b>CCNA Lab 200-301</b> on the Desktop.']))}
+      <div class="row" style="gap:8px;flex-wrap:wrap"><a class="btn primary" href="${esc(L.full || '#')}" target="_blank" rel="noopener">⬇ ${T('I-download ang Full installer', 'Download the Full installer')}</a><span class="tiny muted dl-ver">${T('Tinitingnan ang pinakabagong version…', 'Checking the latest version…')}</span></div>
+      <div class="stack" style="gap:6px"><span class="tiny muted">${T('Libreng link para i-share (walang account na kailangan, laging pinakabago):', 'Free link to share (no account needed, always the newest):')}</span>
+      <div class="dl-link"><input class="mono" readonly aria-label="Download link" value="${esc(L.page || '')}"><button class="btn sm" type="button" data-pub="copy">${T('Kopyahin', 'Copy')}</button>${navigator.share ? `<button class="btn sm" type="button" data-pub="share">${T('Ibahagi', 'Share')}</button>` : ''}<a class="btn sm" href="${esc(L.page || '#')}" target="_blank" rel="noopener">${T('Buksan', 'Open')}</a></div></div></div>`);
+    st.appendChild(main_);
+    const sec = [];
+    // move accounts from Lite / Offline into Full
+    if (!online && (legacy || electron)) {
+      const mv = h(`<div class="card stack dl-move"><h3>${T('Ilipat ang accounts sa Full app', 'Move accounts into the Full app')}</h3></div>`);
+      if (!admin) mv.appendChild(h(`<p class="small">${T('Ang Admin ng PC na ito ang maglilipat ng accounts. Ipaalam sa kanya.', 'The Admin of this PC moves the accounts. Let them know.')}</p>`));
+      else if (legacy) {
+        const n = AUTH.localUsers().length;
+        mv.appendChild(h(`<div class="stack" style="gap:10px"><p class="small">${T(`Kasama ang <b>${n}</b> account dito at lahat ng progress nila (lessons, labs, exam, designs). Walang mabubura dito.`, `This takes the <b>${n}</b> account(s) here with all their progress (lessons, labs, exam, designs). Nothing here is deleted.`)}</p>
+          ${step(T(['I-install muna ang Full app (nasa itaas).', 'Pindutin ang <b>I-save ang transfer file</b>. Mase-save ito sa Downloads.', 'Sa Full app: <b>Download</b> page (o Admin → Backup at restore) → <b>Buksan ang file…</b> → piliin ang transfer file → <b>Ilipat</b>.'], ['Install the Full app first (above).', 'Press <b>Save the transfer file</b>. It goes to your Downloads.', 'In the Full app: the <b>Download</b> page (or Admin → Backup and restore) → <b>Open file…</b> → pick the transfer file → <b>Move in</b>.']))}
+          <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" data-mv="save">⬇ ${T('I-save ang transfer file', 'Save the transfer file')}</button><button class="btn" type="button" data-mv="copy">${T('Kopyahin bilang code', 'Copy as code')}</button><span class="tiny dl-msg"></span></div></div>`));
+        const msg = mv.querySelector('.dl-msg'), ok = t => { msg.textContent = t; msg.style.color = 'var(--ok)'; };
+        mv.querySelector('[data-mv=save]').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([AUTH.backupCode() + '\n'], { type: 'text/plain' })); a.download = 'CCNA-Lab-transfer.txt'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); ok(T('Na-save: CCNA-Lab-transfer.txt sa Downloads.', 'Saved: CCNA-Lab-transfer.txt in Downloads.')); };
+        mv.querySelector('[data-mv=copy]').onclick = () => { const c = AUTH.backupCode(), done = () => ok(T('Nakopya. I-paste sa Full app.', 'Copied. Paste it in the Full app.')); navigator.clipboard ? navigator.clipboard.writeText(c).then(done, () => prompt('', c)) : prompt('', c); };
+      } else {
+        mv.appendChild(h(`<div class="stack" style="gap:10px"><p class="small">${T('Galing sa Lite o Offline na bersyon? Sa lumang app, buksan ang <b>Download</b> page at pindutin ang <b>I-save ang transfer file</b>. Tapos buksan dito ang file na iyon. Ang mga bagong account ay idadagdag; kapag pareho ang username, pagsasamahin ang progress at walang mawawala.', 'Coming from the Lite or Offline version? In the old app, open the <b>Download</b> page and press <b>Save the transfer file</b>. Then open that file here. New accounts are added; when a username is the same, the progress is combined and nothing is lost.')}</p>
+          <textarea class="code-box" rows="3" placeholder="CCNABK:..." aria-label="${T('Transfer code', 'Transfer code')}"></textarea>
+          <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" data-mv="in">${T('Ilipat', 'Move in')}</button><span class="tiny dl-msg"></span></div></div>`));
+        const ta = mv.querySelector('textarea'), msg = mv.querySelector('.dl-msg');
+        mv.querySelector('[data-mv=in]').before(AUTH.fileBtn(ta));
+        mv.querySelector('[data-mv=in]').onclick = () => {
+          try { const r = AUTH.restoreCode(ta.value); msg.style.color = 'var(--ok)'; msg.textContent = T(`Nailipat: ${r.added} bagong account, ${r.merged} pinagsama.`, `Moved: ${r.added} new account(s), ${r.merged} combined.`); SND('ok'); setTimeout(() => location.reload(), 1400); }
+          catch (e) { msg.style.color = 'var(--bad)'; msg.textContent = T('Hindi valid ang transfer file o code.', 'That transfer file or code is not valid.'); }
+        };
       }
-      b.disabled = false;
-    });
+      sec.push(mv);
+    }
+    sec.push(h(`<div class="card stack dl-card"><h3>${T('Online (walang download)', 'Online (no download)')}</h3><p class="small">${T('Para sa phone, tablet, Mac, o PC na bawal mag-install: buksan lang ang link ng app. Kapag naka-login ka sa Claude, naka-sync ang progress mo sa lahat ng device.', 'For phones, tablets, Macs, or PCs where installing is not allowed: just open the app link. When you are signed in to Claude, your progress syncs across devices.')}${online ? ` <span class="pill ok">${T('Naka-online ka ngayon', 'You are online now')}</span>` : ''}</p></div>`));
+    sec.push(h(`<div class="card stack"><h3>${T('Ayaw ma-download o ma-install?', 'Will not download or install?')}</h3>${step(T(['Sa Chrome/Edge, pindutin ang <b>Ctrl+J</b>. Kung may "blocked" o "not commonly downloaded": <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.', 'I-extract muna ang zip bago patakbuhin ang Setup.exe (huwag patakbuhin mula sa loob ng zip).', 'Kung binura ng antivirus: i-allow ang file, tapos i-download ulit.', 'Sa school o office PC na bawal mag-install: gamitin ang Online na link.'], ['In Chrome/Edge, press <b>Ctrl+J</b>. If it says "blocked" or "not commonly downloaded": <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.', 'Extract the zip first, then run Setup.exe (do not run it from inside the zip).', 'If your antivirus removed it: allow the file, then download it again.', 'On a school or office PC where installing is not allowed: use the Online link.']))}</div>`));
+    sec.forEach(c => st.appendChild(c));
+    accordion(sec, { key: 'dl2', open: sec[0].classList.contains('dl-move') && (legacy || electron) ? 0 : -1, icons: sec.length === 3 ? ['db', 'globe', 'bulb'] : ['globe', 'bulb'] });
+    const ub = page.querySelector('[data-upd]'); if (ub) ub.onclick = () => window.UPDATER ? UPDATER.check() : null;
+    const inp = main_.querySelector('input');
+    inp.onclick = () => inp.select();
+    main_.querySelector('[data-pub=copy]').onclick = () => { const ok = () => toast(T('Nakopya ang link.', 'Link copied.')); (navigator.clipboard ? navigator.clipboard.writeText(L.page).then(ok, () => { inp.select(); document.execCommand('copy'); ok(); }) : (inp.select(), document.execCommand('copy'), ok())); };
+    const sb = main_.querySelector('[data-pub=share]'); if (sb) sb.onclick = () => navigator.share({ title: 'CCNA Lab 200-301', text: T('Libreng CCNA 200-301 trainer: lessons, CLI labs, exam at Network Designer.', 'Free CCNA 200-301 trainer: lessons, CLI labs, exam and Network Designer.'), url: L.page }).catch(() => { });
+    const vEl = main_.querySelector('.dl-ver');
+    if (L.version) fetch(L.version + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(j => {
+      const cmp = (a, b) => { a = String(a).split('.').map(Number); b = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) { const d = (a[i] || 0) - (b[i] || 0); if (d) return d; } return 0; };
+      const dt = j.date ? new Date(j.date + 'T00:00:00').toLocaleDateString(__EN ? 'en-PH' : 'fil-PH', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+      const newer = cmp(j.version, window.APP_VERSION || '0') > 0;
+      vEl.innerHTML = T(`Laging pinakabago: <b>version ${esc(j.version)}</b>${dt ? ' (' + esc(dt) + ')' : ''}.`, `Always the newest: <b>version ${esc(j.version)}</b>${dt ? ' (' + esc(dt) + ')' : ''}.`) + (newer ? ' <b style="color:var(--warn)">' + T('Mas bago kaysa sa iyo.', 'Newer than yours.') + '</b>' : '');
+    }).catch(() => { vEl.textContent = T('Laging pinakabagong version ang nasa link.', 'The link always has the newest version.'); });
     main.appendChild(page);
   }
 

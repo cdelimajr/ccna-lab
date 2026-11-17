@@ -1,37 +1,43 @@
 # CCNA Lab 200-301: libreng download
 
-**Pinakabagong version: 2.8.0** (November 17, 2026)
+**Pinakabagong version: 2.9.0** (November 17, 2026)
 
 Libreng CCNA 200-301 trainer: lessons, CLI labs, 120-item practice exam at Network Designer. Gumagana kahit walang Internet.
-Laging ang pinakabagong version ang nasa mga link sa ibaba: kapag may bagong version, napapalitan agad ang mga file dito.
 
-| | I-download | Laki |
-|---|---|---|
-| **Windows installer (Lite)**, inirerekomenda | [CCNA-Lab-Lite-Setup.zip](https://github.com/cdelimajr/ccna-lab/raw/main/CCNA-Lab-Lite-Setup.zip) | 0.5 MB |
-| Offline file (walang install; Windows, Mac, Linux) | [CCNA-Lab-Offline.zip](https://github.com/cdelimajr/ccna-lab/raw/main/CCNA-Lab-Offline.zip) | 0.5 MB |
-| Full installer (sariling desktop app) | [CCNA-Lab-200-301-Setup.zip](https://github.com/cdelimajr/ccna-lab/raw/main/CCNA-Lab-200-301-Setup.zip) | 80.2 MB |
+## ⬇ [I-download ang Full installer (Windows 10/11)](https://github.com/cdelimajr/ccna-lab/raw/main/CCNA-Lab-200-301-Setup.zip)
+
+`CCNA-Lab-200-301-Setup.zip` · 80.2 MB · laging ang pinakabagong version ang nasa link na ito.
+
+Iisa na lang ang download: ang **Full installer** ang main app. Ang mga lumang link ng Lite at Offline ay nagbibigay na rin ng Full installer.
 
 ## Paano i-install
 
 1. I-download ang zip, i-right-click → **Extract All** → **Extract**.
-2. I-double-click ang **Setup.exe** (o ang **CCNA-Lab-200-301.html** para sa offline file).
+2. I-double-click ang **Setup.exe**.
 3. Kung lumabas ang asul na **"Windows protected your PC"**: **More info** → **Run anyway**.
 4. **Next** → **Finish**. Kusang nag-a-update ang app kapag may bagong version.
 
-## Bago sa 2.8.0
+## Galing sa Lite o Offline?
 
-- Network Designer: mahigit 110 bagong device mula Cisco, Fortinet, Sophos, MikroTik, Ubiquiti, Aruba, Juniper at iba pa (router, switch, wireless, security)
-- I-double-click ang device: lalabas ang sarili nitong window (Config, CLI, Subukan) sa ibabaw ng floor plan, at kusa nang nase-save ang bawat binago
-- Premium: may 1 Taon na plan na, mas tipid kaysa buwanan
-- Libreng download link na laging pinakabagong version, at bilang ng install sa Admin
+Hiwalay ang accounts at progress ng Lite/Offline sa Full app. Para ilipat sila (isang beses lang):
+
+1. Sa lumang app: **Download** page → **I-save ang transfer file**.
+2. I-install ang Full app, buksan ang **Download** page → **Buksan ang file…** → piliin ang transfer file → **Ilipat**.
+
+Idinadagdag ang mga bagong account; kapag pareho ang username, pinagsasama ang progress at walang nawawala.
+
+## Bago sa 2.9.0
+
+- Iisa na lang ang download: ang Full installer. Ang mga gumagamit ng Lite o Offline ay makakapaglipat ng lahat ng account at progress sa Full app gamit ang transfer file
+- Premium: promo / sale na may % bawas, petsa ng pagtatapos, at opsyonal na promo code
+- Bayad sa GoTyme at PayPal, bukod sa GCash at Maya (may PayPal button na may tamang halaga)
 
 ---
 
-**English:** Free CCNA 200-301 trainer. The links above always give the newest version (2.8.0). Download the zip, Extract All, run the Setup (or open the .html), and choose More info → Run anyway if Windows SmartScreen asks.
+**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.9.0 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Download → Save the transfer file, then in the Full app open Download → Open file… → Move in.
 
-- Network Designer: over 110 new devices from Cisco, Fortinet, Sophos, MikroTik, Ubiquiti, Aruba, Juniper and more (routers, switches, wireless, security)
-- Double-click a device: its own window (Config, CLI, Test) opens over the floor plan, and every change saves by itself
-- Premium: a new 1 Year plan that costs less than paying monthly
-- A free download link that always gives the newest version, and an install count for the Admin
+- One download for everyone: the Full installer. Lite and Offline users can move every account and all progress into the Full app with a transfer file
+- Premium: promos / sales with a % discount, an end date, and an optional promo code
+- Pay with GoTyme and PayPal, besides GCash and Maya (with a PayPal button that fills in the amount)
 
-<sub>Ang `version.json` at `CCNA-Lab-200-301.html` dito ay binabasa rin ng app para sa automatic update.</sub>
+<sub>Ang `version.json` at `CCNA-Lab-200-301.html` dito ay binabasa ng app para sa automatic update.</sub>
