@@ -1,3 +1,4 @@
-# Install counter for the Admin page.
-# Put the counter base URL on its own line below (for example https://api.counterapi.dev/v2/<workspace>/)
-# and, if the counter needs one, a line "key <token>". The installers add 1 on install and take 1 away on uninstall.
+# Install counter for the Admin page (CounterAPI, workspace conrado-delima-jrs-team-6267).
+# Counters: ccna-full (full installer) and ccna-lite (Lite installer).
+# The installers add 1 on install and take 1 away on uninstall.
+https://api.counterapi.dev/v2/conrado-delima-jrs-team-6267/
