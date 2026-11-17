@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.11.0";/*CCNA_APP_VERSION="2.11.0"*/
+<script>window.APP_VERSION="2.12.0";/*CCNA_APP_VERSION="2.12.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1295,6 +1295,67 @@ form.dz-autof [data-auto] { display: none; }
 .dz-zone-t .s { font-size: 9.5px; font-weight: 600; opacity: .9; }
 @media (max-width: 600px) { .dz-pal { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 168px; } .dz-pal .dz-pi { padding: 4px 6px; grid-template-columns: 30px minmax(0, 1fr); } .dz-pal .dz-pi svg { width: 30px; height: 26px; } .dz-pal .dz-pi b { font-size: .78rem; } }
 
+/* ---------- v2.12: one device at a time, 2-step, biometrics, PayPal QR ---------- */
+.kick { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 16px; background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+body.kicked > *:not(.kick):not(.toast) { pointer-events: none; user-select: none; }
+.kick-card { width: min(440px, 100%); background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 22px 22px 18px; display: grid; gap: 10px; text-align: center; justify-items: center; }
+.kick-card h2 { margin: 0; font-size: 1.15rem; }
+.kick-card p { margin: 0; }
+.kick-ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--warn-soft); color: var(--warn); }
+.kick-ic svg { width: 28px; height: 28px; }
+.kick-acts { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+.prof { position: relative; }
+.prof-sec { margin-left: auto; display: inline-flex; gap: 4px; color: var(--ok); }
+.prof-sec .ic, .auth-biob .ic, .sec-ic .ic, [data-a=otc] .ic { width: 16px; height: 16px; flex: none; }
+.auth-bio { display: grid; gap: 10px; }
+.auth-bio[hidden] { display: none; }
+.auth-or { display: flex; align-items: center; gap: 10px; color: var(--fg-3); font-size: .78rem; }
+.auth-or::before, .auth-or::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.auth-biob { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; }
+.auth-biob .ic { width: 20px; height: 20px; color: var(--accent); }
+.auth-alt { flex-wrap: wrap; gap: 4px; }
+.step2-who { cursor: default; }
+.otp-in { font-size: 1.25rem; letter-spacing: .18em; text-align: center; }
+[data-a=otc] { display: inline-flex; align-items: center; gap: 6px; }
+.otc-box { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: flex-start; margin-top: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); }
+.otc-code { font-size: 1.6rem; font-weight: 700; letter-spacing: .12em; color: var(--accent); user-select: all; }
+.sec-rows { display: grid; gap: 10px; }
+.sec-row { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); }
+.sec-ic { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.sec-ic .ic { width: 20px; height: 20px; }
+.sec-main { display: grid; gap: 6px; min-width: 0; }
+.sec-main > p { margin: 0; }
+.sec-t { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: space-between; }
+.sec-act { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sec-act:empty, .sec-more:empty { display: none; }
+.sec-more { display: grid; gap: 6px; }
+.sec-panel { padding: 12px; border: 1px dashed var(--line-2); border-radius: 10px; background: var(--panel); }
+.sec-setup { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.sec-qr { width: 168px; flex: none; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: #fff; }
+.sec-qr svg { display: block; width: 100%; height: auto; }
+.sec-steps { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+.sec-key { font-family: var(--f-mono); font-size: .8rem; word-break: break-all; background: var(--panel-2); padding: 1px 6px; border-radius: 6px; }
+.sec-vf { gap: 8px; flex-wrap: wrap; }
+.sec-vf .otp-in { width: 9.5em; }
+.bk-codes { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 6px; font-size: .95rem; }
+.bk-codes span { padding: 6px 8px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--line); text-align: center; user-select: all; }
+.sec-dev { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 0; border-top: 1px solid var(--line); }
+.sec-dev > .small { flex: 1; min-width: 0; }
+.sec-why { margin: 0; color: var(--fg-2); }
+.prem-qauto { position: relative; display: inline-flex; }
+.prem-qauto[hidden] { display: none; }
+.prem-qauto i { position: absolute; right: -6px; bottom: -6px; font-style: normal; font-size: .6rem; font-weight: 700; padding: 1px 5px; border-radius: 99px; background: var(--accent); color: var(--accent-fg); }
+.prem-qr0[hidden] { display: none; }
+.prem-pph { grid-column: 1 / -1; margin: 0; }
+.prem-qrf.pp .prem-qr { image-rendering: pixelated; }
+@media (max-width: 640px) { .sec-row { grid-template-columns: 1fr; } .sec-ic { display: none; } .sec-qr { width: 150px; } }
+.sec-vf input { font: inherit; color: var(--fg); background: var(--panel-2); border: 1px solid var(--line-2); border-radius: 9px; padding: 8px 10px; min-height: 40px; }
+.sec-vf input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.prof > span:not(.av):not(.prof-sec) { display: grid; min-width: 0; }
+.prof > span.prof-sec { display: inline-flex; }
+.auth-alt { flex-direction: column; align-items: center; gap: 6px; }
+.sec-sbody { flex: 1 1 260px; min-width: 0; }
+
 </style>
 </head>
 <body>
@@ -1304,6 +1365,167 @@ form.dz-autof [data-auto] { display: none; }
 window.LANG = (() => { try { return localStorage.getItem('ccna.lang') === 'en' ? 'en' : 'fil'; } catch (e) { return 'fil'; } })();
 document.documentElement.lang = window.LANG === 'en' ? 'en' : 'fil';
 var __EN = window.LANG === "en";
+
+;
+/* QR Code Generator for JavaScript, Copyright (c) 2009 Kazuhiko Arase, MIT license (http://www.opensource.org/licenses/mit-license.php). "QR Code" is a registered trademark of DENSO WAVE INCORPORATED. Vendored from qrcode-generator 1.4.4. */
+!function(){var t=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,(function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1}))},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();t.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},window.QRGEN=t}();
+
+;
+/* =====================================================================
+   Login security helpers: authenticator-app codes (TOTP, RFC 6238),
+   QR codes, device labels, and biometrics / face sign-in (WebAuthn:
+   Windows Hello, Touch ID, Android fingerprint or face unlock).
+   Everything runs on this device; nothing is sent to a server.
+   ===================================================================== */
+(() => {
+  const EN = typeof __EN !== 'undefined' && __EN, t = (f, e) => EN ? e : f;
+  const rand = n => { const a = new Uint8Array(n); (window.crypto || window.msCrypto).getRandomValues(a); return a; };
+
+  // ---------- SHA-1 and HMAC-SHA1 (sync, so it also works where crypto.subtle is missing) ----------
+  function sha1(m) {
+    const l = m.length, w = new Uint32Array(80), nb = ((l + 8) >> 6) + 1, b = new Uint8Array(nb * 64);
+    b.set(m); b[l] = 0x80; const bits = l * 8; b[b.length - 4] = bits >>> 24; b[b.length - 3] = bits >>> 16; b[b.length - 2] = bits >>> 8; b[b.length - 1] = bits;
+    let h0 = 0x67452301, h1 = 0xefcdab89, h2 = 0x98badcfe, h3 = 0x10325476, h4 = 0xc3d2e1f0;
+    for (let o = 0; o < b.length; o += 64) {
+      for (let i = 0; i < 16; i++) w[i] = (b[o + 4 * i] << 24) | (b[o + 4 * i + 1] << 16) | (b[o + 4 * i + 2] << 8) | b[o + 4 * i + 3];
+      for (let i = 16; i < 80; i++) { const x = w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]; w[i] = (x << 1) | (x >>> 31); }
+      let a = h0, c = h1, d = h2, e = h3, f = h4;
+      for (let i = 0; i < 80; i++) {
+        const k = i < 20 ? ((c & d) | (~c & e)) + 0x5a827999 : i < 40 ? (c ^ d ^ e) + 0x6ed9eba1 : i < 60 ? ((c & d) | (c & e) | (d & e)) + 0x8f1bbcdc : (c ^ d ^ e) + 0xca62c1d6;
+        const tmp = (((a << 5) | (a >>> 27)) + k + f + w[i]) | 0; f = e; e = d; d = (c << 30) | (c >>> 2); c = a; a = tmp;
+      }
+      h0 = (h0 + a) | 0; h1 = (h1 + c) | 0; h2 = (h2 + d) | 0; h3 = (h3 + e) | 0; h4 = (h4 + f) | 0;
+    }
+    const out = new Uint8Array(20); [h0, h1, h2, h3, h4].forEach((v, i) => { out[4 * i] = v >>> 24; out[4 * i + 1] = v >>> 16; out[4 * i + 2] = v >>> 8; out[4 * i + 3] = v; });
+    return out;
+  }
+  function hmac(key, msg) {
+    if (key.length > 64) key = sha1(key);
+    const k = new Uint8Array(64); k.set(key);
+    const ip = new Uint8Array(64 + msg.length), op = new Uint8Array(84);
+    for (let i = 0; i < 64; i++) { ip[i] = k[i] ^ 0x36; op[i] = k[i] ^ 0x5c; }
+    ip.set(msg, 64); op.set(sha1(ip), 64); return sha1(op);
+  }
+
+  // ---------- base32 (authenticator secrets) and base64url (WebAuthn) ----------
+  const A32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  function b32enc(u) { let bits = 0, v = 0, s = ''; for (const x of u) { v = (v << 8) | x; bits += 8; while (bits >= 5) { s += A32[(v >>> (bits - 5)) & 31]; bits -= 5; } } if (bits) s += A32[(v << (5 - bits)) & 31]; return s; }
+  function b32dec(s) { s = String(s).toUpperCase().replace(/[^A-Z2-7]/g, ''); let bits = 0, v = 0; const o = []; for (const ch of s) { v = (v << 5) | A32.indexOf(ch); bits += 5; if (bits >= 8) { o.push((v >>> (bits - 8)) & 255); bits -= 8; } } return new Uint8Array(o); }
+  const b64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const unb64u = s => { s = String(s).replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return Uint8Array.from(atob(s), c => c.charCodeAt(0)); };
+
+  // ---------- one-time codes from an authenticator app (TOTP: 6 digits, 30 seconds, SHA-1) ----------
+  function hotp(key, counter) {
+    const m = new Uint8Array(8); let c = counter; for (let i = 7; i >= 0; i--) { m[i] = c & 255; c = Math.floor(c / 256); }
+    const hs = hmac(key, m), off = hs[19] & 15;
+    const n = ((hs[off] & 127) << 24) | (hs[off + 1] << 16) | (hs[off + 2] << 8) | hs[off + 3];
+    return String(n % 1e6).padStart(6, '0');
+  }
+  const totpNow = (secret, at) => hotp(b32dec(secret), Math.floor((at || Date.now()) / 30000));
+  // accepts the code for now and one step before or after (clock drift); a step already used cannot be used again
+  function totpCheck(secret, code, lastStep) {
+    code = String(code || '').replace(/\D/g, ''); if (code.length !== 6) return -1;
+    const key = b32dec(secret), now = Math.floor(Date.now() / 30000);
+    for (const w of [0, -1, 1]) { const s = now + w; if (s > (lastStep || 0) && hotp(key, s) === code) return s; }
+    return -1;
+  }
+  const newSecret = () => b32enc(rand(20));
+  const otpauth = (user, secret) => `otpauth://totp/${encodeURIComponent('CCNA Lab:' + user)}?secret=${secret}&issuer=${encodeURIComponent('CCNA Lab')}&algorithm=SHA1&digits=6&period=30`;
+  // short codes people type: no 0/O or 1/I/L
+  const C32 = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  const code = (n = 8) => { const r = rand(n); let s = ''; for (let i = 0; i < n; i++) s += C32[r[i] % C32.length]; return s.slice(0, 4) + (n > 4 ? '-' + s.slice(4) : ''); };
+  const normCode = s => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+  // ---------- QR codes (SVG, black on white so every scanner reads them) ----------
+  function qrSvg(text, opt) {
+    opt = opt || {}; if (!window.QRGEN) return '';
+    let q; try { q = window.QRGEN(0, opt.ecl || 'M'); q.addData(unescape(encodeURIComponent(String(text)))); q.make(); } catch (e) { return ''; }
+    const n = q.getModuleCount(), m = 4, N = n + 2 * m; let d = '';
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c + m} ${r + m}h1v1h-1z`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges" class="qr-svg" role="img" aria-label="${(opt.label || 'QR').replace(/"/g, '')}"><rect width="${N}" height="${N}" fill="#fff"/><path fill="#000" d="${d}"/></svg>`;
+  }
+  const qrUrl = (text, opt) => { const s = qrSvg(text, opt); return s ? 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s) : ''; };
+
+  // ---------- a short name for this device, shown when another device takes over the account ----------
+  function devLabel() {
+    const u = navigator.userAgent || '';
+    const os = /Android/i.test(u) ? 'Android' : /iPhone|iPod/i.test(u) ? 'iPhone' : /iPad/i.test(u) || (/Macintosh/i.test(u) && navigator.maxTouchPoints > 1) ? 'iPad' : /Windows/i.test(u) ? 'Windows' : /Mac OS X|Macintosh/i.test(u) ? 'Mac' : /CrOS/i.test(u) ? 'Chromebook' : /Linux/i.test(u) ? 'Linux' : t('device', 'device');
+    const br = /Electron/i.test(u) ? t('desktop app', 'desktop app') : /Edg\//i.test(u) ? 'Edge' : /OPR\//i.test(u) ? 'Opera' : /SamsungBrowser/i.test(u) ? 'Samsung Internet' : /Firefox|FxiOS/i.test(u) ? 'Firefox' : /Chrome|CriOS/i.test(u) ? 'Chrome' : /Safari/i.test(u) ? 'Safari' : '';
+    return os + (br ? ' · ' + br : '');
+  }
+
+  // ---------- biometrics / face (WebAuthn platform authenticator) ----------
+  // 'native': the Windows desktop app (Windows Hello through a small built-in window)
+  // 'web': a browser page on https or localhost
+  // '': not possible here (a file opened from the disk has no web address, so the browser refuses)
+  function bioKind() {
+    if (window.ccnaNative && typeof window.ccnaNative.hello === 'function') return 'native';
+    if (window.PublicKeyCredential && window.isSecureContext && /^https?:$/.test(location.protocol) && navigator.credentials) {
+      try { const fp = document.permissionsPolicy || document.featurePolicy; if (fp && fp.allowsFeature && !fp.allowsFeature('publickey-credentials-get')) return ''; } catch (e) { }
+      return 'web';
+    }
+    return '';
+  }
+  let availP = null;
+  function bioAvail() {
+    if (availP) return availP;
+    const k = bioKind();
+    const within = (p, ms) => Promise.race([Promise.resolve(p).catch(() => false), new Promise(r => setTimeout(() => r(false), ms))]);
+    availP = !k ? Promise.resolve(false)
+      : k === 'native' ? within(window.ccnaNative.hello('avail', {}).then(r => !!(r && r.ok)), 15000)
+        : within(PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(), 4000).then(Boolean);
+    return availP;
+  }
+  function bioName() {
+    const u = navigator.userAgent || '';
+    if (/Windows/i.test(u)) return 'Windows Hello';
+    if (/iPhone|iPad/i.test(u)) return 'Face ID / Touch ID';
+    if (/Mac OS X|Macintosh/i.test(u)) return 'Touch ID';
+    if (/Android/i.test(u)) return t('fingerprint o face unlock', 'fingerprint or face unlock');
+    return t('biometrics ng device', 'device biometrics');
+  }
+  function bioWhy(e) {
+    const n = (e && (e.name || e.code)) || '', m = (e && e.message) || '';
+    if (n === 'NotAllowedError' || /not allowed|cancel|timed out/i.test(m)) return t('Kinansela o nag-time out ang ' + bioName() + '. Subukan ulit, o gamitin ang PIN.', bioName() + ' was cancelled or timed out. Try again, or use your PIN.');
+    if (n === 'InvalidStateError') return t('Naka-register na ang device na ito.', 'This device is already registered.');
+    if (n === 'nomatch') return t('Hindi tugma ang naka-register na device. Gamitin ang PIN.', 'That is not a registered device. Use your PIN.');
+    return t('Hindi gumana ang ' + bioName() + ' dito', bioName() + ' did not work here') + (m ? ' (' + m.slice(0, 80) + ')' : '') + '.';
+  }
+  const checkCdj = (cdj, type, ch) => { try { const o = JSON.parse(new TextDecoder().decode(unb64u(cdj))); return o.type === type && o.challenge === ch; } catch (e) { return false; } };
+  // register this device for a user; returns the record kept on the account
+  async function bioCreate(u) {
+    const k = bioKind(); if (!k) throw { name: 'NotSupportedError' };
+    const ch = b64u(rand(32)), uidB = b64u(new TextEncoder().encode(String(u.id)).slice(0, 64));
+    let id, cdj;
+    if (k === 'native') {
+      const r = await window.ccnaNative.hello('create', { challenge: ch, userId: uidB, name: u.user || u.name, display: u.name, msg: t('Sundin ang ' + bioName() + ' para i-register ang device na ito…', 'Follow ' + bioName() + ' to register this device…') });
+      if (!r || r.err) throw { name: r && r.name, message: r && r.err }; id = r.id; cdj = r.cdj;
+    } else {
+      const cr = await navigator.credentials.create({ publicKey: { challenge: unb64u(ch), rp: { name: 'CCNA Lab 200-301' }, user: { id: unb64u(uidB), name: u.user || u.name, displayName: u.name }, pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }], authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'discouraged' }, timeout: 60000, attestation: 'none' } });
+      id = b64u(cr.rawId); cdj = b64u(cr.response.clientDataJSON);
+    }
+    if (!checkCdj(cdj, 'webauthn.create', ch)) throw { name: 'nomatch' };
+    return { id, kind: k, at: Date.now(), dev: devLabel(), host: k === 'web' ? location.host : '' };
+  }
+  // ask the device to confirm it is the owner; resolves with the matching credential id
+  async function bioGet(list) {
+    const k = bioKind(); const mine = (list || []).filter(x => x.kind === k && (k !== 'web' || x.host === location.host));
+    if (!mine.length) throw { name: 'nomatch' };
+    const ch = b64u(rand(32)); let id, cdj;
+    if (k === 'native') {
+      const r = await window.ccnaNative.hello('get', { challenge: ch, ids: mine.map(x => x.id), msg: t('Sundin ang ' + bioName() + ' para mag-login…', 'Follow ' + bioName() + ' to sign in…') });
+      if (!r || r.err) throw { name: r && r.name, message: r && r.err }; id = r.id; cdj = r.cdj;
+    } else {
+      const a = await navigator.credentials.get({ publicKey: { challenge: unb64u(ch), allowCredentials: mine.map(x => ({ type: 'public-key', id: unb64u(x.id), transports: ['internal'] })), userVerification: 'required', timeout: 60000 } });
+      id = b64u(a.rawId); cdj = b64u(a.response.clientDataJSON);
+    }
+    if (!mine.some(x => x.id === id) || !checkCdj(cdj, 'webauthn.get', ch)) throw { name: 'nomatch' };
+    return id;
+  }
+  const usable = list => { const k = bioKind(); return (list || []).filter(x => x.kind === k && (k !== 'web' || x.host === location.host)); };
+
+  window.SEC = { sha1, hmac, b32enc, b32dec, hotp, totpNow, totpCheck, newSecret, otpauth, code, normCode, qrSvg, qrUrl, devLabel, bioKind, bioAvail, bioName, bioWhy, bioCreate, bioGet, usable, rand };
+})();
 
 ;
 /* Public, free download links. The file names never change and every release replaces the files
@@ -11757,6 +11979,8 @@ interface g0/0.10
 (function () {
   const UK = 'ccna200301-users', IK = 'ccna200301-imports', OLD = 'ccna200301-v1';
   const ROLES = { trainee: 'Trainee', trainor: 'Trainor', admin: 'Admin' };
+  const FPI = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 11v4M8.5 8.6A5 5 0 0 1 17 12v2.5M7 12v1a12 12 0 0 0 1.4 5.6M12 21a16 16 0 0 1-2-6.5V12a2 2 0 0 1 4 0v1.5M16.6 18.5c.3-1 .4-2 .4-3M5.2 7.2A9 9 0 0 1 21 12v1M3 12a9 9 0 0 1 .5-3"/></svg>';
+  const SHI = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>';
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const h = html => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
   const get = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
@@ -11795,14 +12019,65 @@ interface g0/0.10
     if (!d.users.length) { const old = get(OLD, null); if (old) put(keyOf(u), old); const ex = get(OLD + '-exam', null); if (ex) put(keyOf(u) + '-exam', ex); }
     d.users.push(u); saveDb(); return u;
   }
-  function login(user, pin) { const d = db(); const u = d.users.find(x => x.user === user.trim().toLowerCase()); if (!u || u.pin !== hash(pin, u.salt)) return null; u.last = Date.now(); d.session = u.id; saveDb(); return u; }
-  function logout() { const d = db(); d.session = null; saveDb(); location.hash = ''; location.reload(); }
+  // ---------- sign-in checks: PIN, wrong-try lockout, one session at a time ----------
+  const T = (f, e) => (typeof __EN !== 'undefined' && __EN) ? e : f;
+  const SIDK = 'ccna200301-sid';
+  const tabSid = { get: () => { try { return sessionStorage.getItem(SIDK); } catch (e) { return null; } }, set: v => { try { if (v) sessionStorage.setItem(SIDK, v); else sessionStorage.removeItem(SIDK); } catch (e) { } } };
+  const devName = () => window.SEC ? SEC.devLabel() : '';
+  const hhmm = at => new Date(at).toLocaleTimeString(T('fil-PH', 'en-US'), { hour: 'numeric', minute: '2-digit' });
+  // this window becomes the one signed-in session; any other window or tab of this browser signs out
+  function claimLocal() { const d = db(); d.sid = uid(); d.sdev = devName(); d.sat = Date.now(); tabSid.set(d.sid); saveDb(); }
+  const findUser = name => db().users.find(x => x.user === String(name || '').trim().toLowerCase());
+  const lockMsg = u => T('Masyadong maraming maling subok. Subukan ulit pagkalipas ng ', 'Too many wrong tries. Try again in ') + Math.ceil((u.lockUntil - Date.now()) / 1000) + T(' segundo.', ' seconds.');
+  // 5 wrong tries lock the account for 30 s, then 1, 2, 4, 8 minutes
+  function failed(u) { if (!u) return; u.fails = (u.fails || 0) + 1; if (u.fails >= 5) u.lockUntil = Date.now() + 30000 * Math.pow(2, Math.min(4, u.fails - 5)); saveDb(); }
+  function checkPin(user, pin) {
+    const u = findUser(user);
+    if (u && (u.lockUntil || 0) > Date.now()) return { err: lockMsg(u) };
+    if (!u || u.pin !== hash(pin, u.salt)) { failed(u); return { err: u && (u.lockUntil || 0) > Date.now() ? lockMsg(u) : T((__EN?"Wrong username or PIN.":'Mali ang username o PIN.'), 'Wrong username or PIN.') }; }
+    return { u };
+  }
+  function finish(u) { try { sessionStorage.removeItem(SIDK + '-out'); } catch (e) { } const d = db(); u.fails = 0; u.lockUntil = 0; u.last = Date.now(); d.session = u.id; claimLocal(); return u; }
+  function login(user, pin) { const r = checkPin(user, pin); return r.u ? finish(r.u) : null; }
+  function logout() { const d = db(); d.session = null; d.sid = null; tabSid.set(null); saveDb(); location.hash = ''; location.reload(); }
+
+  // shown when this session was replaced by a newer one (another device online, another window or tab offline)
+  let started = false, kicked = false;
+  function kick(kind, info) {
+    if (kicked) return; kicked = true; window.__ccnaKicked = true;
+    const where = info && info.dev ? info.dev + (info.at ? ', ' + hhmm(info.at) : '') : '';
+    const ov = h(`<div class="kick" role="alertdialog" aria-modal="true" aria-labelledby="kick-h" aria-describedby="kick-p"><div class="kick-card">
+      <div class="kick-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="13" height="10" rx="1.5"/><path d="M7 18h5M9.5 14v4"/><rect x="15" y="9" width="6" height="11" rx="1.5"/><path d="M17.5 17.5h1"/></svg></div>
+      <h2 id="kick-h">${T('Naka-logout ka sa device na ito', 'You were signed out here')}</h2>
+      <p id="kick-p" class="small">${kind === 'tab' ? T('Binuksan ang app sa ibang window o tab ng browser na ito.', 'The app was opened in another window or tab of this browser.') : T('Nag-login ang account mo sa ibang device', 'Your account signed in on another device') + (where ? ` (<b>${esc(where)}</b>)` : '') + '.'} ${kind === 'tab' ? T('Isang window o tab lang ang puwedeng naka-login sa isang pagkakataon.', 'Only one window or tab can be signed in at a time.') : T('Isang device lang ang puwedeng naka-login sa isang pagkakataon.', 'Only one device can be signed in at a time.')}</p>
+      <p class="tiny muted">${kind === 'tab' ? T('Para hindi magpatungan ang progress, doon na sa bago tutuloy ang pag-save.', 'So progress does not get overwritten, saving continues in the newer one.') : T('Doon na sa bagong device tutuloy ang pag-save ng progress. Kung hindi ikaw iyon, palitan ang password ng Claude account mo.', 'Progress now saves from the newer device. If that was not you, change your Claude account password.')}</p>
+      <div class="kick-acts"><button class="btn primary" data-k="here">${T('Gamitin dito', 'Use it here')}</button>${kind === 'tab' ? `<button class="btn" data-k="out">${T('Mag-logout', 'Sign out')}</button>` : ''}</div>
+      <p class="tiny muted">${T('Kapag pinindot ang "Gamitin dito", ang kabilang device o window naman ang mala-logout.', 'Pressing "Use it here" signs out the other device or window instead.')}</p></div></div>`);
+    document.body.appendChild(ov); document.body.classList.add('kicked');
+    const here = ov.querySelector('[data-k=here]'); setTimeout(() => here.focus(), 30);
+    here.onclick = async () => {
+      if (kind === 'tab') { mem = null; claimLocal(); location.reload(); return; }
+      here.disabled = true; here.textContent = T('Sandali…', 'One moment…');
+      await claimOnline(true);
+      const r = await pull(); if (r && ON.onRemote && window.__ccnaS) ON.onRemote(merge(window.__ccnaS(), r));
+      kicked = false; window.__ccnaKicked = false; document.body.classList.remove('kicked'); ov.remove();
+    };
+    // sign out only this window: it shows the login screen while the other window stays signed in
+    const out = ov.querySelector('[data-k=out]'); if (out) out.onclick = () => { tabSid.set(null); try { sessionStorage.setItem(SIDK + '-out', '1'); } catch (e) { } location.hash = ''; location.reload(); };
+  }
+  window.addEventListener('storage', e => {
+    if (e.key !== UK || ON.on) return; mem = null;
+    if (!started || kicked) return;
+    const d = db();
+    if (!d.session) { location.hash = ''; location.reload(); return; }   // signed out in another tab
+    if (d.sid && d.sid !== tabSid.get()) kick('tab', { dev: d.sdev, at: d.sat });
+  });
 
   // ---------- ONLINE accounts (when opened as a Claude artifact) ----------
   // Login = the viewer's Claude account. Owner = Admin, Editor = Trainor, Contributor = Trainee.
   // Each person's progress lives in their private db subtree, so it follows them on every device.
   // A summary goes to progress/<id> so Trainors (Editors) can see everyone.
-  const ON = { on: false, ro: false, why: '', db: null, user: null, uid: null, me: null, known: {}, t: null, busy: false, again: null, onRemote: null, lastPull: 0 };
+  const ON = { on: false, ro: false, why: '', db: null, user: null, uid: null, me: null, known: {}, t: null, busy: false, again: null, onRemote: null, lastPull: 0, sid: null, claimed: false, kicked: false, unsub: null, poll: null };
   const within = (p, ms) => Promise.race([Promise.resolve(p).catch(() => null), new Promise(r => setTimeout(() => r(null), ms))]);
   const col = () => ON.db.collection('data/users/' + ON.uid);
   async function initOnline() {
@@ -11839,7 +12114,7 @@ interface g0/0.10
     out.designs = ds; return out;
   }
   async function push(S) {
-    if (!ON.on || ON.ro) return;
+    if (!ON.on || ON.ro || ON.kicked) return;
     if (ON.busy) { ON.again = S; return; }
     ON.busy = true; setSync('saving');
     try {
@@ -11862,7 +12137,7 @@ interface g0/0.10
     ON.busy = false;
     if (ON.again) { const n = ON.again; ON.again = null; push(n); }
   }
-  function sync(S) { if (!ON.on || ON.ro) return; clearTimeout(ON.t); setSync('pending'); ON.t = setTimeout(() => push(S), 1200); }
+  function sync(S) { if (!ON.on || ON.ro || ON.kicked) return; clearTimeout(ON.t); setSync('pending'); ON.t = setTimeout(() => push(S), 1200); }
   let syncState = 'ok';
   function setSync(s, code) {
     syncState = s;
@@ -11880,6 +12155,27 @@ interface g0/0.10
     const cur = window.__ccnaS ? window.__ccnaS() : null;
     if (cur && (r.S._upd || 0) > (cur._upd || 0) + 1000) ON.onRemote(merge(cur, r));
   });
+  // one device at a time online: each sign-in writes a new session id to the person's private db;
+  // a device that sees a different id there was replaced and stops saving
+  function sessSeen(s) {
+    if (!s || !ON.claimed || ON.kicked) return;
+    if (s.metadata && (s.metadata.fromCache || s.metadata.hasPendingWrites)) return;
+    const x = s.data ? s.data() : null; if (!x || !x.sid || x.sid === ON.sid) return;
+    ON.kicked = true; clearTimeout(ON.t); kick('online', x);
+  }
+  async function claimOnline(force) {
+    if (!ON.on || ON.ro || (ON.claimed && !force)) return;
+    ON.claimed = false; ON.kicked = false; ON.sid = uid(); clearTimeout(ON.claimT);
+    const ref = col().doc('sess');
+    const ok = await within(ref.set({ sid: ON.sid, dev: devName(), at: Date.now() }).then(() => true), 9000);
+    if (!ok) { ON.claimT = setTimeout(() => claimOnline(true), 30000); return; }
+    ON.claimed = true; ON.sat = Date.now();
+    if (!ON.unsub && typeof ref.onSnapshot === 'function') { try { ON.unsub = ref.onSnapshot(sessSeen, () => { ON.unsub = null; }); } catch (e) { ON.unsub = null; } }
+    if (!ON.poll) {
+      const check = async () => { if (!ON.claimed || ON.kicked || document.visibilityState !== 'visible') return; const s = await within(ref.get(), 8000); if (s) sessSeen(s); };
+      ON.poll = setInterval(check, 40000); document.addEventListener('visibilitychange', check);
+    }
+  }
   async function trainorRowsOnline() {
     const snap = await within(ON.db.collection('progress').get(), 9000); if (!snap) return null;
     const rows = []; for (const d of snap.docs) { try { const s = JSON.parse((d.data() || {}).json); s._uid = d.id; rows.push(s); } catch (e) { } }
@@ -11927,10 +12223,77 @@ interface g0/0.10
         <form class="stack" autocomplete="off"><label class="fld">Username<input type="text" name="user" autocapitalize="none" spellcheck="false" value="${esc(pre || '')}"></label><label class="fld">PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><div class="err" hidden></div><button class="btn primary" type="submit">Mag-login</button></form>
         <div class="auth-alt"><button class="btn ghost sm" data-go="reg">Bagong trainee? Gumawa ng account</button></div>`);
       const f = body.querySelector('form'); const err = body.querySelector('.err');
-      body.querySelectorAll('.prof').forEach(b => b.onclick = () => { f.user.value = b.dataset.u; f.pin.focus(); body.querySelectorAll('.prof').forEach(x => x.classList.toggle('on', x === b)); });
-      f.onsubmit = e => { e.preventDefault(); const u = login(f.user.value, f.pin.value); if (!u) { showErr(err, (__EN?"Wrong username or PIN.":'Mali ang username o PIN.')); f.pin.value = ''; return; } onIn(u); };
+      // small marks on accounts that use 2-step or biometrics
+      body.querySelectorAll('.prof').forEach(b => { const u = findUser(b.dataset.u); if (!u) return; const m = [u.mfa && u.mfa.totp ? `<span title="${T('May 2-step verification', 'Uses 2-step verification')}">${SHI}</span>` : '', u.bio && u.bio.length ? `<span title="${esc(T('May biometrics', 'Uses biometrics'))}">${FPI}</span>` : ''].join(''); if (m) b.appendChild(h(`<span class="prof-sec">${m}</span>`)); });
+      // biometrics / face: shown when the chosen account registered this device
+      const bio = h(`<div class="auth-bio" hidden><div class="auth-or"><span>${T('o kaya', 'or')}</span></div><button class="btn auth-biob" type="button">${FPI}<span>${esc(T('Mag-login gamit ang ', 'Sign in with ') + (window.SEC ? SEC.bioName() : ''))}</span></button></div>`);
+      f.appendChild(bio);
+      const bioUser = () => { const u = findUser(f.user.value); return u && window.SEC && SEC.usable(u.bio).length ? u : null; };
+      const updBio = async () => { const u = bioUser(); bio.hidden = !(u && await SEC.bioAvail()); };
+      bio.querySelector('button').onclick = async () => {
+        const u = bioUser(); if (!u) return; const b = bio.querySelector('button'); showErr(err, '');
+        if ((u.lockUntil || 0) > Date.now()) return showErr(err, lockMsg(u));
+        b.disabled = true; try { await SEC.bioGet(u.bio); onIn(finish(u)); } catch (e) { showErr(err, SEC.bioWhy(e)); } b.disabled = false;
+      };
+      f.user.addEventListener('input', updBio);
+      body.querySelectorAll('.prof').forEach(b => b.onclick = () => { f.user.value = b.dataset.u; f.pin.focus(); body.querySelectorAll('.prof').forEach(x => x.classList.toggle('on', x === b)); showErr(err, ''); updBio(); });
+      f.onsubmit = e => { e.preventDefault(); const r = checkPin(f.user.value, f.pin.value); if (!r.u) { showErr(err, r.err); f.pin.value = ''; return; } if (r.u.mfa && r.u.mfa.totp) return step2(r.u); onIn(finish(r.u)); };
       body.querySelector('[data-go=reg]').onclick = () => register(false);
+      const alt = body.querySelector('.auth-alt'); alt.appendChild(h(`<button class="btn ghost sm" data-go="otc">${T('May one-time code mula sa Admin?', 'Have a one-time code from your Admin?')}</button>`));
+      alt.querySelector('[data-go=otc]').onclick = () => oneTime(f.user.value);
+      updBio();
       (pre ? f.pin : f.user).focus();
+    }
+    // step 2: a code from an authenticator app, or one of the backup codes
+    function step2(u) {
+      let backup = false;
+      const draw = () => {
+        body.innerHTML = `<h1>${T('2-step verification', '2-step verification')}</h1>
+          <p class="muted small">${backup ? T('I-type ang isa sa mga backup code na itinabi mo noong in-on mo ang 2-step. Isang beses lang magagamit ang bawat code.', 'Type one of the backup codes you saved when you turned on 2-step. Each code works once.') : T('Buksan ang authenticator app sa phone mo (hal. Google Authenticator o Microsoft Authenticator) at i-type ang 6-digit code para sa <b>CCNA Lab</b>.', 'Open the authenticator app on your phone (for example Google Authenticator or Microsoft Authenticator) and type the 6-digit code for <b>CCNA Lab</b>.')}</p>
+          <div class="prof on step2-who">${avHtml(u, '')}<span><b>${esc(u.name)}</b><span class="tiny muted">@${esc(u.user)}</span></span></div>
+          <form class="stack" autocomplete="off"><label class="fld">${backup ? T('Backup code', 'Backup code') : T('6-digit code', '6-digit code')}<input type="text" name="code" class="mono otp-in" ${backup ? 'maxlength="9" autocapitalize="characters" placeholder="XXXX-XXXX"' : 'inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456"'} spellcheck="false"></label><div class="err" hidden></div><button class="btn primary" type="submit">${T('I-verify', 'Verify')}</button></form>
+          <div class="auth-alt"><button class="btn ghost sm" data-go="bk">${backup ? T('Gamitin ang authenticator app', 'Use the authenticator app') : T('Gumamit ng backup code', 'Use a backup code')}</button><button class="btn ghost sm" data-go="in">${T('Bumalik', 'Back')}</button></div>`;
+        const f = body.querySelector('form'), err = body.querySelector('.err');
+        f.onsubmit = e => {
+          e.preventDefault();
+          if ((u.lockUntil || 0) > Date.now()) return showErr(err, lockMsg(u));
+          const v = f.code.value; let ok = false, left = -1;
+          if (backup) { const hv = hash(SEC.normCode(v), u.salt), i = (u.mfa.backup || []).indexOf(hv); if (i > -1) { u.mfa.backup.splice(i, 1); ok = true; left = u.mfa.backup.length; } }
+          else { const st = SEC.totpCheck(u.mfa.totp, v, u.mfa.step || 0); if (st > -1) { u.mfa.step = st; ok = true; } }
+          if (!ok) { failed(u); f.code.value = ''; f.code.focus(); return showErr(err, (u.lockUntil || 0) > Date.now() ? lockMsg(u) : backup ? T('Hindi tama o nagamit na ang backup code na iyan.', 'That backup code is wrong or was already used.') : T('Mali o expired na ang code. Hintayin ang bagong code sa app at subukan ulit.', 'Wrong or expired code. Wait for the next code in the app and try again.')); }
+          onIn(finish(u));
+          if (left > -1) setTimeout(() => toastMsg(T('Nagamit ang isang backup code. ' + left + ' na lang ang natitira.', 'A backup code was used. ' + left + ' left.')), 700);
+        };
+        f.code.addEventListener('input', () => { if (!backup && /^\d{6}$/.test(f.code.value)) f.requestSubmit ? f.requestSubmit() : f.onsubmit(new Event('submit')); });
+        body.querySelector('[data-go=bk]').onclick = () => { backup = !backup; draw(); };
+        body.querySelector('[data-go=in]').onclick = () => signIn(u.user);
+        f.code.focus();
+      };
+      draw();
+    }
+    // a one-time sign-in code made by the Admin (forgot the PIN, or lost the phone with the authenticator app)
+    function oneTime(pre) {
+      body.innerHTML = `<h1>${T('One-time code', 'One-time code')}</h1>
+        <p class="muted small">${T('Kapag nakalimutan mo ang PIN o nawala ang phone na may authenticator app, humingi sa Admin ng one-time code. Isang beses lang ito gumagana, sa loob ng 30 minuto, at gagawa ka ng bagong PIN pagkatapos.', 'If you forgot your PIN or lost the phone with your authenticator app, ask your Admin for a one-time code. It works once, within 30 minutes, and then you set a new PIN.')}</p>
+        <form class="stack" autocomplete="off"><label class="fld">Username<input type="text" name="user" autocapitalize="none" spellcheck="false" value="${esc(pre || '')}"></label><label class="fld">${T('One-time code', 'One-time code')}<input type="text" name="code" class="mono otp-in" maxlength="9" autocapitalize="characters" spellcheck="false" placeholder="XXXX-XXXX"></label><div class="err" hidden></div><button class="btn primary" type="submit">${T('Magpatuloy', 'Continue')}</button></form>
+        <div class="auth-alt"><button class="btn ghost sm" data-go="in">${T('Bumalik sa login', 'Back to sign in')}</button></div>`;
+      const f = body.querySelector('form'), err = body.querySelector('.err');
+      f.onsubmit = e => {
+        e.preventDefault(); const u = findUser(f.user.value);
+        if (u && (u.lockUntil || 0) > Date.now()) return showErr(err, lockMsg(u));
+        const ok = u && u.otc && u.otc.exp > Date.now() && u.otc.h === hash(SEC.normCode(f.code.value), u.salt);
+        if (!ok) { failed(u); return showErr(err, u && (u.lockUntil || 0) > Date.now() ? lockMsg(u) : T('Mali, nagamit na, o expired na ang code. Humingi ng bago sa Admin.', 'The code is wrong, used, or expired. Ask your Admin for a new one.')); }
+        delete u.otc; saveDb(); newPin(u);
+      };
+      body.querySelector('[data-go=in]').onclick = () => signIn(f.user.value);
+      (pre ? f.code : f.user).focus();
+    }
+    function newPin(u) {
+      body.innerHTML = `<h1>${T('Gumawa ng bagong PIN', 'Set a new PIN')}</h1><p class="muted small">${T('Para kay', 'For')} <b>${esc(u.name)}</b> (@${esc(u.user)}).</p>
+        <form class="stack" autocomplete="off"><div class="grid c2" style="gap:10px"><label class="fld">${T('Bagong PIN (4-8 numero)', 'New PIN (4-8 digits)')}<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><label class="fld">${T('Ulitin ang PIN', 'Repeat the PIN')}<input type="password" name="pin2" inputmode="numeric" maxlength="8"></label></div><div class="err" hidden></div><button class="btn primary" type="submit">${T('I-save at mag-login', 'Save and sign in')}</button></form>`;
+      const f = body.querySelector('form'), err = body.querySelector('.err');
+      f.onsubmit = e => { e.preventDefault(); if (!/^\d{4,8}$/.test(f.pin.value)) return showErr(err, T((__EN?"The PIN must be 4 to 8 digits.":'Ang PIN ay 4 hanggang 8 na numero.'), 'The PIN is 4 to 8 digits.')); if (f.pin.value !== f.pin2.value) return showErr(err, T((__EN?"The PINs don't match.":'Hindi magkapareho ang PIN.'), 'The PINs do not match.')); u.pin = hash(f.pin.value, u.salt); onIn(finish(u)); };
+      f.pin.focus();
     }
     function register(isFirst) {
       body.innerHTML = (__EN?`<h1>${isFirst ? (__EN?"Welcome!":'Maligayang pagdating!') : (__EN?"Create an account":'Gumawa ng account')}</h1><p class="muted small">${isFirst ? (__EN?"First, create the first account. It will be the <b>Admin</b>: it can create Trainor and Trainee accounts. If you are the only user, this is also the account you will study with.":'Gumawa muna ng unang account. Ito ang magiging <b>Admin</b>: makakagawa ito ng Trainor at Trainee accounts. Kung ikaw lang ang gagamit, ito na rin ang gagamitin mo sa pag-aaral.') : (__EN?"This is for trainees. Trainor and Admin accounts are created by the Admin.":'Para ito sa mga trainee. Ang Trainor at Admin accounts ay ginagawa ng Admin.')}</p>
@@ -11998,7 +12361,8 @@ interface g0/0.10
     const pin = h((__EN?`<div class="card stack"><h3>Change PIN</h3><form class="grid c2" style="gap:10px;align-items:end" autocomplete="off"><label class="fld">Current PIN<input type="password" name="old" inputmode="numeric" maxlength="8"></label><label class="fld">New PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><div class="err" hidden></div><button class="btn" type="submit">Save the new PIN</button></form></div>`:`<div class="card stack"><h3>Palitan ang PIN</h3><form class="grid c2" style="gap:10px;align-items:end" autocomplete="off"><label class="fld">Kasalukuyang PIN<input type="password" name="old" inputmode="numeric" maxlength="8"></label><label class="fld">Bagong PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><div class="err" hidden></div><button class="btn" type="submit">I-save ang bagong PIN</button></form></div>`));
     const f = pin.querySelector('form'); f.onsubmit = e => { e.preventDefault(); const err = f.querySelector('.err'); if (u.pin !== hash(f.old.value, u.salt)) { err.hidden = false; err.textContent = (__EN?"The current PIN is wrong.":'Mali ang kasalukuyang PIN.'); return; } if (!/^\d{4,8}$/.test(f.pin.value)) { err.hidden = false; err.textContent = (__EN?"The PIN must be 4 to 8 digits.":'Ang PIN ay 4 hanggang 8 na numero.'); return; } u.pin = hash(f.pin.value, u.salt); saveDb(); f.reset(); err.hidden = true; ctx.toast((__EN?"PIN changed.":'Napalitan na ang PIN.')); };
     if (!u.online) accBox.appendChild(pin);
-    if (window.ACC) ACC([...accBox.children], { key: 'profile', open: 0, icons: [...dcards.map((c, i) => ['chart', 'hist', 'target'][i]), 'gear', 'share', 'key'] });
+    accBox.appendChild(secCard(u, ctx));
+    if (window.ACC) ACC([...accBox.children], { key: 'profile', open: 0, icons: [...dcards.map((c, i) => ['chart', 'hist', 'target'][i]), 'gear', 'share', ...(u.online ? [] : ['key']), 'shield'] });
     if (!u.online) { const out = h((__EN?`<div class="row"><button class="btn">Log out</button></div>`:`<div class="row"><button class="btn">Mag-logout</button></div>`)); out.firstChild.onclick = logout; page.appendChild(out); }
     main.appendChild(page);
   }
@@ -12062,6 +12426,84 @@ interface g0/0.10
     f.onsubmit = e => { e.preventDefault(); const v = f.querySelector('input').value; const m = f.querySelector('.tiny'); if (!/^\d{4,8}$/.test(v)) { m.textContent = (__EN?"4-8 digits.":'4-8 na numero.'); return; } u.pin = hash(v, u.salt); saveDb(); m.textContent = (__EN?"Saved. Give the new PIN to the user.":'Na-save. Ibigay ang bagong PIN sa user.'); m.style.color = 'var(--ok)'; };
     host.appendChild(f); f.querySelector('input').focus();
   }
+  function loginCode(id, host, ctx) {
+    const u = db().users.find(x => x.id === id); if (!u || !window.SEC) return;
+    const c = SEC.code(8), exp = Date.now() + 30 * 60000; u.otc = { h: hash(SEC.normCode(c), u.salt), exp }; saveDb();
+    const has2 = !!(u.mfa && u.mfa.totp), nb = (u.bio || []).length;
+    const box = h(`<div class="otc-box"><div class="stack" style="gap:6px;flex:1;min-width:220px"><p class="small" style="margin:0">${T('One-time login code para kay', 'One-time sign-in code for')} <b>${esc(u.name)}</b> (@${esc(u.user)})</p><div class="otc-code mono" aria-label="${c.split('').join(' ')}">${c}</div><p class="tiny muted" style="margin:0">${T('Ibigay ito sa kanya. Sa login screen, pipindutin niya ang "May one-time code mula sa Admin?" at gagawa siya ng bagong PIN. Isang beses lang gagana, hanggang ', 'Give it to them. On the sign-in screen they press "Have a one-time code from your Admin?" and set a new PIN. It works once, until ') + hhmm(exp)}.</p></div>
+      <div class="stack" style="gap:6px;min-width:200px"><p class="tiny muted" style="margin:0">${T('Seguridad ng account', 'Account security')}: ${has2 ? '<span class="pill ok">2-step</span>' : '<span class="pill">' + T('walang 2-step', 'no 2-step') + '</span>'} ${nb ? '<span class="pill ok">' + T('biometrics', 'biometrics') + ' · ' + nb + '</span>' : ''}</p>${has2 || nb ? `<button class="btn sm" data-a="mfaoff">${T('I-off ang 2-step at biometrics niya', 'Turn off their 2-step and biometrics')}</button><span class="tiny muted">${T('Gamitin kapag nawala ang phone o napalitan ang PC niya.', 'Use this when they lost the phone or changed PCs.')}</span>` : ''}</div></div>`);
+    const off = box.querySelector('[data-a=mfaoff]');
+    if (off) off.onclick = () => { if (!off.dataset.c) { off.dataset.c = 1; off.textContent = T((__EN?"Sure? Tap again":'Sigurado? I-tap ulit'), 'Sure? Tap again'); return; } delete u.mfa; delete u.bio; saveDb(); ctx.toast(T('Na-off ang 2-step at biometrics ni ' + u.name + '.', u.name + ': 2-step and biometrics are off.')); host.innerHTML = ''; loginCode(id, host, ctx); };
+    host.appendChild(box);
+  }
+
+  // ---------- Profile: sign-in security (one device, 2-step with an authenticator app, biometrics / face) ----------
+  function secCard(u, ctx) {
+    const c = h(`<div class="card stack sec-card"><h3>${T('Seguridad ng login', 'Sign-in security')}</h3><div class="sec-rows"></div><p class="tiny muted sec-note"></p></div>`);
+    const rows = c.querySelector('.sec-rows'), note = c.querySelector('.sec-note');
+    const row = (ic, title, pill, desc) => h(`<div class="sec-row"><div class="sec-ic" aria-hidden="true">${ic}</div><div class="sec-main"><div class="sec-t"><b>${title}</b>${pill || ''}</div><p class="small muted">${desc}</p><div class="sec-act"></div><div class="sec-more"></div></div></div>`);
+    const pillOn = on => on ? `<span class="pill ok">${T('Naka-on', 'On')}</span>` : `<span class="pill">${T('Naka-off', 'Off')}</span>`;
+    const DEV = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="13" height="10" rx="1.5"/><path d="M7 18h5M9.5 14v4"/><rect x="15" y="9" width="6" height="11" rx="1.5"/></svg>';
+    const PH = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 6h4M9 12h1.5M12 12h1.5M15 12h0"/></svg>';
+    // 1. one device at a time
+    const d0 = db(), sdev = u.online ? devName() : (d0.sdev || devName()), sat = u.online ? (ON.sat || Date.now()) : (d0.sat || Date.now());
+    rows.appendChild(row(DEV, T('Isang device lang', 'One device at a time'), pillOn(true),
+      (u.online ? T('Kapag binuksan ang account mo sa ibang device o tab, awtomatikong mala-logout dito at doon na tutuloy.', 'When your account opens on another device or tab, this one signs out automatically and the work continues there.') : T('Kapag nag-login ka sa ibang window o tab ng browser na ito, awtomatikong mala-logout ang luma.', 'When you sign in from another window or tab of this browser, the older one signs out automatically.')) + `<br><span class="tiny">${T('Session na ito', 'This session')}: <b>${esc(sdev)}</b>, ${T('mula', 'since')} ${hhmm(sat)}</span>`));
+    if (u.online) {
+      rows.appendChild(row(SHI, T('Password, 2-step at passkey', 'Password, 2-step and passkeys'), '', T('Online, ang Claude account mo ang login. Doon naka-set ang password, 2-step verification at passkey (biometrics) mo, sa claude.ai settings.', 'Online, your Claude account is the sign-in. Its password, 2-step verification and passkeys (biometrics) are set in your claude.ai settings.')));
+      note.textContent = T('Ang bantay sa isang device ay nasa online account mo kaya gumagana ito sa lahat ng device.', 'The one-device rule lives in your online account, so it works across all your devices.');
+      return c;
+    }
+    // 2. 2-step with an authenticator app
+    const has2 = !!(u.mfa && u.mfa.totp);
+    const r2 = row(PH, T('2-step verification (authenticator app)', '2-step verification (authenticator app)'), pillOn(has2), T('Pagkatapos ng PIN, hihingi ng 6-digit code mula sa phone mo (Google Authenticator, Microsoft Authenticator o katulad). Gumagana kahit walang internet.', 'After the PIN, the app asks for a 6-digit code from your phone (Google Authenticator, Microsoft Authenticator or similar). Works without internet.'));
+    rows.appendChild(r2);
+    const a2 = r2.querySelector('.sec-act'), m2 = r2.querySelector('.sec-more');
+    const showBackup = codes => {
+      m2.innerHTML = `<div class="sec-panel stack"><b class="small">${T('Mga backup code', 'Backup codes')}</b><p class="tiny muted" style="margin:0">${T('Itabi ang mga ito (i-print, isulat, o i-save sa ligtas na lugar). Kapag wala ang phone mo, isa sa mga ito ang gagamitin. Isang beses lang magagamit ang bawat isa, at hindi na ito ipapakita ulit.', 'Keep these somewhere safe (print, write down, or save them). Use one when your phone is not with you. Each works once, and they will not be shown again.')}</p><div class="bk-codes mono">${codes.map(x => `<span>${x}</span>`).join('')}</div><div class="row"><button class="btn sm" data-b="copy">${T('Kopyahin', 'Copy')}</button><button class="btn sm primary" data-b="done">${T('Naitabi ko na', 'I saved them')}</button></div></div>`;
+      m2.querySelector('[data-b=copy]').onclick = async e => { try { await navigator.clipboard.writeText('CCNA Lab backup codes (@' + u.user + ')\n' + codes.join('\n')); e.target.textContent = T('Nakopya na', 'Copied'); } catch (x) { e.target.textContent = T('I-select at kopyahin', 'Select and copy'); } };
+      m2.querySelector('[data-b=done]').onclick = () => ctx.route();
+    };
+    const newBackup = () => { const codes = Array.from({ length: 8 }, () => SEC.code(8)); u.mfa.backup = codes.map(x => hash(SEC.normCode(x), u.salt)); saveDb(); return codes; };
+    if (!window.SEC) a2.textContent = '';
+    else if (!has2) {
+      const sb = a2.appendChild(h(`<button class="btn sm primary" data-s="on">${T('I-set up', 'Set up')}</button>`)); sb.onclick = () => {
+        sb.style.display = 'none'; const sec = SEC.newSecret(), uri = SEC.otpauth(u.user, sec);
+        m2.innerHTML = `<div class="sec-panel sec-setup"><div class="sec-qr">${SEC.qrSvg(uri, { label: T('QR para sa authenticator app', 'QR for the authenticator app') })}</div><div class="stack sec-sbody" style="gap:8px"><ol class="small sec-steps"><li>${T('Mag-install ng authenticator app sa phone (Google Authenticator, Microsoft Authenticator, o katulad).', 'Install an authenticator app on your phone (Google Authenticator, Microsoft Authenticator, or similar).')}</li><li>${T('Sa app, pindutin ang + at i-scan ang QR na ito. Kung hindi ma-scan, i-type ang key:', 'In the app, press + and scan this QR. If you cannot scan, type the key:')} <code class="sec-key">${sec.replace(/(.{4})/g, '$1 ').trim()}</code></li><li>${T('I-type sa ibaba ang 6-digit code na lalabas sa app.', 'Type the 6-digit code the app shows below.')}</li></ol><form class="row sec-vf" autocomplete="off"><input class="mono otp-in" name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456" aria-label="${T('6-digit code', '6-digit code')}"><button class="btn sm primary" type="submit">${T('I-verify at i-on', 'Verify and turn on')}</button><button class="btn sm ghost" type="button" data-s="x">${T('Kanselahin', 'Cancel')}</button></form><div class="err" hidden></div></div></div>`;
+        const f = m2.querySelector('form'), err = m2.querySelector('.err');
+        f.onsubmit = e => { e.preventDefault(); const st = SEC.totpCheck(sec, f.code.value, 0); if (st < 0) { err.hidden = false; err.textContent = T('Hindi tugma ang code. Siguraduhing tama ang oras ng phone at subukan ang bagong code.', 'The code does not match. Check that the phone clock is right and try the next code.'); return; } u.mfa = { totp: sec, step: st, at: Date.now() }; const codes = newBackup(); ctx.toast(T('Naka-on na ang 2-step verification.', '2-step verification is on.')); r2.querySelector('.sec-t .pill').outerHTML = pillOn(true); a2.innerHTML = ''; showBackup(codes); };
+        m2.querySelector('[data-s=x]').onclick = () => { m2.innerHTML = ''; sb.style.display = ''; };
+        f.code.focus();
+      };
+    } else {
+      const left = (u.mfa.backup || []).length;
+      a2.appendChild(h(`<span class="tiny muted">${T('Natitirang backup code', 'Backup codes left')}: ${left}</span>`));
+      a2.appendChild(h(`<button class="btn sm">${T('Bagong backup codes', 'New backup codes')}</button>`)).onclick = () => showBackup(newBackup());
+      a2.appendChild(h(`<button class="btn sm">${T('I-off', 'Turn off')}</button>`)).onclick = () => {
+        m2.innerHTML = `<form class="sec-panel row" autocomplete="off"><label class="fld" style="max-width:200px">${T('PIN mo para kumpirmahin', 'Your PIN to confirm')}<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><button class="btn sm" type="submit">${T('I-off ang 2-step', 'Turn off 2-step')}</button><div class="err" hidden></div></form>`;
+        const f = m2.querySelector('form'); f.onsubmit = e => { e.preventDefault(); if (u.pin !== hash(f.pin.value, u.salt)) { const er = f.querySelector('.err'); er.hidden = false; er.textContent = T('Mali ang PIN.', 'Wrong PIN.'); return; } delete u.mfa; saveDb(); ctx.toast(T('Naka-off na ang 2-step verification.', '2-step verification is off.')); ctx.route(); };
+        f.pin.focus();
+      };
+    }
+    // 3. biometrics / face
+    const k = window.SEC ? SEC.bioKind() : '', mine = window.SEC ? SEC.usable(u.bio) : [];
+    const FP = FPI;
+    const r3 = row(FP, T('Biometrics o face', 'Biometrics or face') + (k ? ' · ' + esc(SEC.bioName()) : ''), pillOn(mine.length > 0), T('Mag-login gamit ang fingerprint, mukha (face) o PIN ng device mismo, sa halip na i-type ang PIN ng app.', 'Sign in with your fingerprint, face or the device PIN instead of typing the app PIN.'));
+    rows.appendChild(r3);
+    const a3 = r3.querySelector('.sec-act'), m3 = r3.querySelector('.sec-more');
+    const list = () => { m3.innerHTML = ''; (u.bio || []).forEach((b, i) => { const here = mine.includes(b); const it = h(`<div class="sec-dev"><span class="small">${esc(b.dev || T('device', 'device'))}${here ? ' <span class="pill acc">' + T('ito', 'this one') + '</span>' : ''}</span><span class="tiny muted">${new Date(b.at).toLocaleDateString()}</span><button class="btn sm ghost">${T('Alisin', 'Remove')}</button></div>`); it.querySelector('button').onclick = () => { u.bio.splice(i, 1); if (!u.bio.length) delete u.bio; saveDb(); ctx.route(); }; m3.appendChild(it); }); };
+    if (!k) a3.appendChild(h(`<p class="tiny sec-why">${/Electron/.test(navigator.userAgent) ? T('I-install ang pinakabagong desktop app (v2.12.0 pataas) para magamit ang Windows Hello.', 'Install the latest desktop app (v2.12.0 or newer) to use Windows Hello.') : window.SEC && /^file:$/.test(location.protocol) ? T('Hindi ito gumagana sa HTML file na binuksan mula sa disk, dahil kailangan ng browser ng web address para sa biometrics. Gamitin ang Windows desktop app (Windows Hello) o ang online app.', 'This does not work in an HTML file opened from the disk, because the browser needs a web address for biometrics. Use the Windows desktop app (Windows Hello) or the online app.') : T('Hindi sinusuportahan ng browser o view na ito ang biometrics.', 'This browser or view does not support biometrics.')}</p>`));
+    else {
+      const btn = h(`<button class="btn sm ${mine.length ? '' : 'primary'}" disabled>${T('Idagdag ang device na ito', 'Add this device')}</button>`); a3.appendChild(btn);
+      const why = h(`<span class="tiny muted"></span>`); a3.appendChild(why);
+      SEC.bioAvail().then(ok => { if (!ok) { btn.remove(); why.textContent = T('Walang ' + SEC.bioName() + ' na naka-set up sa device na ito. I-set up muna ito sa Settings ng device (hal. Windows Settings > Accounts > Sign-in options).', 'No ' + SEC.bioName() + ' is set up on this device. Set it up first in the device settings (for example Windows Settings > Accounts > Sign-in options).'); return; } btn.disabled = !!mine.length; if (mine.length) why.textContent = T('Naka-register na ang device na ito.', 'This device is registered.'); });
+      btn.onclick = async () => { btn.disabled = true; why.textContent = T('Sundin ang prompt ng ', 'Follow the prompt from ') + SEC.bioName() + '…'; try { const rec = await SEC.bioCreate(u); u.bio = (u.bio || []).concat(rec); saveDb(); ctx.toast(T('Puwede ka nang mag-login gamit ang ', 'You can now sign in with ') + SEC.bioName() + '.'); ctx.route(); } catch (e) { why.textContent = SEC.bioWhy(e); btn.disabled = false; } };
+    }
+    list();
+    note.textContent = T('Ang 2-step at biometrics ay dagdag na harang laban sa taong nakakaalam o nakahula ng PIN mo, at 5 maling subok ay nagla-lock ng account nang ilang sandali. Walang server ang offline app at nasa device na ito ang data, kaya hindi nito napipigilan ang taong may access sa mismong files ng PC.', '2-step and biometrics add a barrier against someone who knows or guesses your PIN, and 5 wrong tries lock the account for a while. The offline app has no server and its data lives on this device, so they cannot stop someone who can open the PC\'s files directly.');
+    return c;
+  }
+
   function userForm(ctx, roles, title) {
     const c = h((__EN?`<div class="card stack"><h3>${title}</h3><form class="grid c2" style="gap:10px;align-items:end" autocomplete="off"><label class="fld">Full name<input type="text" name="name" maxlength="40"></label><label class="fld">Username<input type="text" name="user" maxlength="24" autocapitalize="none"></label><label class="fld">Initial PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label>${roles.length > 1 ? `<label class="fld">Role<select name="role">${roles.map(r => `<option value="${r}">${ROLES[r]}</option>`).join('')}</select></label>` : ''}<div class="err" hidden></div><button class="btn primary" type="submit">Create</button></form></div>`:`<div class="card stack"><h3>${title}</h3><form class="grid c2" style="gap:10px;align-items:end" autocomplete="off"><label class="fld">Buong pangalan<input type="text" name="name" maxlength="40"></label><label class="fld">Username<input type="text" name="user" maxlength="24" autocapitalize="none"></label><label class="fld">Paunang PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label>${roles.length > 1 ? `<label class="fld">Role<select name="role">${roles.map(r => `<option value="${r}">${ROLES[r]}</option>`).join('')}</select></label>` : ''}<div class="err" hidden></div><button class="btn primary" type="submit">Gumawa</button></form></div>`));
     const f = c.querySelector('form'); f.onsubmit = e => { e.preventDefault(); const r = createUser({ name: f.name.value, user: f.user.value, pin: f.pin.value, role: f.role ? f.role.value : roles[0] }); const err = f.querySelector('.err'); if (typeof r === 'string') { err.hidden = false; err.textContent = r; return; } ctx.toast((__EN?`Created the account of ${r.name}.`:`Nagawa ang account ni ${r.name}.`)); ctx.route(); };
@@ -12110,6 +12552,8 @@ interface g0/0.10
       const tr = h(`<tr><td>${avHtml(x, 'sm', x.id === u.id ? ctx.S : null)} <b>${esc(x.name)}</b>${x.id === u.id ? (__EN?" <span class=\"pill acc\">you</span>":' <span class="pill acc">ikaw</span>') : ''}</td><td class="mono small">@${esc(x.user)}</td><td><select ${lockRole ? (__EN?"disabled title=\"At least one Admin is required\"":'disabled title="Kailangan ng kahit isang Admin"') : ''}>${Object.entries(ROLES).map(([k, v]) => `<option value="${k}" ${k === x.role ? 'selected' : ''}>${v}</option>`).join('')}</select></td><td class="tiny">${ago(x.last)}</td><td><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn sm" data-a="pin">Reset PIN</button>${x.id === u.id ? '' : (__EN?"<button class=\"btn sm\" data-a=\"del\">Delete</button>":'<button class="btn sm" data-a="del">Burahin</button>')}</div></td></tr>`);
       tr.querySelector('select').onchange = e => { x.role = e.target.value; saveDb(); ctx.toast(`${x.name}: ${ROLES[x.role]} na.`); ctx.route(); };
       tr.querySelector('[data-a=pin]').onclick = () => { const host = tbl.querySelector('.pin-host'); host.innerHTML = ''; resetPin(x.id, host); };
+      const ob = h(`<button class="btn sm" data-a="otc" title="${T('One-time login code at 2-step', 'One-time sign-in code and 2-step')}">${SHI}<span>${T('Login code', 'Login code')}</span></button>`); tr.querySelector('[data-a=pin]').after(ob);
+      ob.onclick = () => { const host = tbl.querySelector('.pin-host'); host.innerHTML = ''; loginCode(x.id, host, ctx); };
       const del = tr.querySelector('[data-a=del]');
       if (del) del.onclick = () => { if (!del.dataset.c) { del.dataset.c = 1; del.textContent = (__EN?"Sure? Tap again":'Sigurado? I-tap ulit'); setTimeout(() => { if (del.isConnected) { delete del.dataset.c; del.textContent = (__EN?"Delete":'Burahin'); } }, 3500); return; } if (x.role === 'admin' && admins === 1) return; d.users = d.users.filter(y => y.id !== x.id); saveDb(); try { localStorage.removeItem(keyOf(x)); localStorage.removeItem(keyOf(x) + '-exam'); } catch (e) { } ctx.toast((__EN?`Deleted the account of ${x.name}.`:`Nabura ang account ni ${x.name}.`)); ctx.route(); };
       tb.appendChild(tr);
@@ -12139,7 +12583,7 @@ interface g0/0.10
         if (!local) { const d = db(); const lu = d.users.find(u => u.id === d.session); local = (lu && get(keyOf(lu), null)) || get(OLD, null); }
         const remote = await pull(); ON.pulled = !!remote;
         const S = merge(local, remote); put(key, S);
-        document.body.classList.remove('auth-mode'); window.startApp();
+        document.body.classList.remove('auth-mode'); window.startApp(); started = true; claimOnline();
         if (ON.ro) setTimeout(() => toastMsg(ON.why), 600);
         else if (!remote || !remote.S || (S._upd || 0) > (remote.S._upd || 0) || Object.keys(S.designs || {}).some(id => !remote.designs[id])) push(S);
         return;
@@ -12147,13 +12591,14 @@ interface g0/0.10
       document.body.classList.remove('auth-mode');
     }
     const u = me();
-    if (u) { window.startApp(); return; }
+    let outHere = false; try { outHere = sessionStorage.getItem(SIDK + '-out') === '1'; } catch (e) { }
+    if (u && !outHere) { if (db().sid !== tabSid.get() || !db().sid) claimLocal(); started = true; window.startApp(); return; }
     document.body.classList.add('auth-mode');
-    loginScreen(root, () => { document.body.classList.remove('auth-mode'); location.hash = '#home'; window.startApp(); });
+    loginScreen(root, () => { document.body.classList.remove('auth-mode'); location.hash = '#home'; started = true; window.startApp(); });
   }
 
   function toastMsg(m) { const t = h(`<div class="toast" role="status"></div>`); t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 6000); }
-  window.AUTH = { backupCode, restoreCode, fileBtn, online: () => ON.on, onlineInfo: () => ({ on: ON.on, ro: ON.ro, why: ON.why }), sync, setRemote: fn => { ON.onRemote = fn; }, me, key: () => { const u = me(); return u ? keyOf(u) : OLD; }, logout, ROLES, initials, avColor, avHtml, photoOf, keyOf, localUsers: () => db().users.slice(), viewProfile, viewTrainor, viewAdmin, summaryFor, encode, decode, boot };
+  window.AUTH = { kicked: () => kicked, backupCode, restoreCode, fileBtn, online: () => ON.on, onlineInfo: () => ({ on: ON.on, ro: ON.ro, why: ON.why }), sync, setRemote: fn => { ON.onRemote = fn; }, me, key: () => { const u = me(); return u ? keyOf(u) : OLD; }, logout, ROLES, initials, avColor, avHtml, photoOf, keyOf, localUsers: () => db().users.slice(), viewProfile, viewTrainor, viewAdmin, summaryFor, encode, decode, boot };
 })();
 
 ;
@@ -12200,8 +12645,16 @@ interface g0/0.10
   }
   // where trainees can pay: GCash, Maya, GoTyme (QR Ph works for all three) and PayPal
   // QR per method; the old single QR (c.qr) counts for GCash, and is the fallback for Maya and GoTyme (QR Ph works in all three)
-  const QRK = { gcash: 'qrGcash', maya: 'qrMaya', gotyme: 'qrGotyme' };
-  const qrOf = (c, id) => !QRK[id] ? '' : c[QRK[id]] || (c.qr && (id === 'gcash' || !c.qrGcash) ? c.qr : '');
+  const QRK = { gcash: 'qrGcash', maya: 'qrMaya', gotyme: 'qrGotyme', paypal: 'qrPaypal' };
+  const QRN = { gcash: 'GCash', maya: 'Maya', gotyme: 'GoTyme', paypal: 'PayPal' };
+  const qrOf = (c, id) => !QRK[id] ? '' : id === 'paypal' ? c.qrPaypal || '' : c[QRK[id]] || (c.qr && (id === 'gcash' || !c.qrGcash) ? c.qr : '');
+  // PayPal QR: the uploaded one (from the PayPal app), or one made here from the paypal.me link, with the amount filled in
+  const ppUrl = (me, p) => `https://www.paypal.me/${encodeURIComponent(me)}${p ? '/' + p.price + 'PHP' : ''}`;
+  function qrSrc(c, m, p) {
+    const up = qrOf(c, m.id); if (up) return { src: up, auto: false };
+    const me = m.id === 'paypal' && ppMe(m.v); const src = me && window.SEC ? SEC.qrUrl(ppUrl(me, p), { label: 'PayPal QR' }) : '';
+    return src ? { src, auto: true } : null;
+  }
   function methods(c) {
     c = c || cfg(); const out = [];
     if (c.gcash) out.push({ id: 'gcash', n: 'GCash', v: c.gcash });
@@ -12379,16 +12832,16 @@ interface g0/0.10
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
       const ms = methods(c), has = ms.length > 0;
-      pay.appendChild(h(has ? `<div class="prem-pay">${ms.some(m => qrOf(c, m.id)) ? `<figure class="prem-qrf" hidden><img class="prem-qr" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted"></figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${m.n}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b></label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, GoTyme o PayPal) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, GoTyme or PayPal) on this device yet. Contact your Admin or Trainor.')}</p>`));
+      pay.appendChild(h(has ? `<div class="prem-pay">${ms.some(m => qrSrc(c, m)) ? `<figure class="prem-qrf" hidden><img class="prem-qr" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted"></figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${m.n}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b></label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, GoTyme o PayPal) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, GoTyme or PayPal) on this device yet. Contact your Admin or Trainor.')}</p>`));
       const steps = h(`<ol class="small prem-steps"><li>${t('Pumili ng paraan sa itaas at magbayad (GCash, Maya, GoTyme o PayPal).', 'Pick a method above and pay (GCash, Maya, GoTyme or PayPal).')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
       pay.appendChild(steps);
       const chosen = () => { const v = (page.querySelector('[name=prem-plan]:checked') || {}).value; return plans(c).find(p => p.id === v) || plans(c)[0] || null; };
       const method = () => { const v = (pay.querySelector('[name=prem-m]:checked') || {}).value; return ms.find(m => m.id === v) || ms[0] || null; };
       const showAmt = () => {
         const p = chosen(), m = method(), el = pay.querySelector('.prem-amt'); if (el && p) el.innerHTML = `${p.was ? `<s class="muted">${peso(p.was)}</s> ` : ''}<b>${peso(p.price)}</b> · Premium ${esc(p.name)}${p.was && sl ? ` · ${esc(sl.label || t('Promo', 'Promo'))}` : ''}`;
-        const qf = pay.querySelector('.prem-qrf'); if (qf) { const q = m ? qrOf(c, m.id) : ''; qf.hidden = !q; if (q) { qf.querySelector('img').src = q; qf.querySelector('figcaption').textContent = 'QR · ' + m.n; } }
+        const qf = pay.querySelector('.prem-qrf'); if (qf) { const q = m ? qrSrc(c, m, p) : null; qf.hidden = !q; qf.classList.toggle('pp', !!(m && m.id === 'paypal')); if (q) { qf.querySelector('img').src = q.src; qf.querySelector('figcaption').textContent = 'QR · ' + m.n + (q.auto && p ? ' · ' + peso(p.price) : ''); qf.title = q.auto ? t('Ginawa mula sa paypal.me link. I-scan gamit ang camera ng phone o ang PayPal app.', 'Made from the paypal.me link. Scan it with your phone camera or the PayPal app.') : ''; } }
         const pp = pay.querySelector('.prem-pp'); if (!pp) return;
-        if (m && m.id === 'paypal') { const me_ = ppMe(m.v); pp.hidden = false; pp.innerHTML = me_ ? `<a class="btn sm primary" href="https://www.paypal.me/${encodeURIComponent(me_)}${p ? '/' + p.price + 'PHP' : ''}" target="_blank" rel="noopener">${t('Magbayad sa PayPal', 'Pay with PayPal')}${p ? ' · ' + peso(p.price) : ''}</a><span class="tiny muted">${t('Bubukas ang PayPal sa browser. Kopyahin ang Transaction ID pagkatapos magbayad.', 'PayPal opens in your browser. Copy the Transaction ID after you pay.')}</span>` : `<span class="tiny muted">${t('Ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.')}</span>`; }
+        if (m && m.id === 'paypal') { const me_ = ppMe(m.v); pp.hidden = false; pp.innerHTML = me_ ? `<a class="btn sm primary" href="${ppUrl(me_, p)}" target="_blank" rel="noopener">${t('Magbayad sa PayPal', 'Pay with PayPal')}${p ? ' · ' + peso(p.price) : ''}</a><span class="tiny muted">${t('Bubukas ang PayPal sa browser, o i-scan ang QR gamit ang phone. Kopyahin ang Transaction ID pagkatapos magbayad.', 'PayPal opens in your browser, or scan the QR with your phone. Copy the Transaction ID after you pay.')}</span>` : `<span class="tiny muted">${qrOf(c, 'paypal') ? t('I-scan ang QR gamit ang PayPal app, o ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Scan the QR with the PayPal app, or send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.') : t('Ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.')}</span>`; }
         else { pp.hidden = true; pp.innerHTML = ''; }
         const rl = ref.querySelector('.prem-refl'); if (rl) rl.textContent = m && m.id === 'paypal' ? 'Transaction ID' : t('Reference number', 'Reference number');
       };
@@ -12426,7 +12879,7 @@ interface g0/0.10
       const pd = h(`<div class="card stack"><h3>${t('Detalye ng bayad', 'Payment details')}</h3><p class="small muted">${t('Makikita ito ng mga trainee sa "Mag-upgrade" page sa device na ito.', 'Trainees see this on the "Upgrade" page on this device.')}</p>
         <form class="prem-form prem-pf" autocomplete="off">
           <div class="prem-pf-h">${t('Mga paraan ng bayad', 'Payment methods')}<span class="tiny muted">${t('Iwanang blangko ang hindi ginagamit. Bawat isa ay may sariling QR.', 'Leave unused ones blank. Each one has its own QR.')}</span></div>
-          <div class="prem-mrows">${[['gcash', 'GCash', t('GCash number', 'GCash number'), '09XX XXX XXXX', 20], ['maya', 'Maya', t('Maya number', 'Maya number'), '09XX XXX XXXX', 20], ['gotyme', 'GoTyme', t('GoTyme account number', 'GoTyme account number'), '0123 4567 8901', 24], ['paypal', 'PayPal', t('PayPal email o paypal.me link', 'PayPal email or paypal.me link'), t('email o paypal.me/pangalan', 'email or paypal.me/yourname'), 80]].map(([id, n, lab, ph, mx]) => { const q = qrOf(c, id); return `<div class="prem-mrow" data-m="${id}"><span class="pill prem-m-${id}">${n}</span><label class="fld"><span class="sr-only">${lab}</span><input name="${id}" ${id === 'paypal' ? '' : 'inputmode="tel"'} maxlength="${mx}" value="${esc(c[id] || '')}" placeholder="${esc(ph)}" aria-label="${esc(lab)}"></label>${QRK[id] ? `<div class="prem-mqr">${q ? `<img class="prem-qr sm" src="${esc(q)}" alt="QR ${n}">` : `<span class="prem-qr0" aria-hidden="true">QR</span>`}<button type="button" class="btn sm" data-qr="${id}">${q ? t('Palitan', 'Change') : t('QR', 'QR')}</button>${q ? `<button type="button" class="btn sm ghost" data-qrx="${id}" aria-label="${t('Alisin ang QR', 'Remove QR')} ${n}">✕</button>` : ''}</div>` : `<div class="prem-mqr tiny muted">${t('May "Magbayad sa PayPal" button kapag paypal.me link.', 'A paypal.me link gives a "Pay with PayPal" button.')}</div>`}</div>`; }).join('')}</div>
+          <div class="prem-mrows">${[['gcash', 'GCash', t('GCash number', 'GCash number'), '09XX XXX XXXX', 20], ['maya', 'Maya', t('Maya number', 'Maya number'), '09XX XXX XXXX', 20], ['gotyme', 'GoTyme', t('GoTyme account number', 'GoTyme account number'), '0123 4567 8901', 24], ['paypal', 'PayPal', t('PayPal email o paypal.me link', 'PayPal email or paypal.me link'), t('email o paypal.me/pangalan', 'email or paypal.me/yourname'), 80]].map(([id, n, lab, ph, mx]) => { const q = qrOf(c, id); return `<div class="prem-mrow" data-m="${id}"><span class="pill prem-m-${id}">${n}</span><label class="fld"><span class="sr-only">${lab}</span><input name="${id}" ${id === 'paypal' ? '' : 'inputmode="tel"'} maxlength="${mx}" value="${esc(c[id] || '')}" placeholder="${esc(ph)}" aria-label="${esc(lab)}"></label><div class="prem-mqr">${q ? `<img class="prem-qr sm" src="${esc(q)}" alt="QR ${n}">` : id === 'paypal' ? `<span class="prem-qauto" hidden><img class="prem-qr sm" alt="${t('Auto QR ng PayPal', 'Automatic PayPal QR')}"><i>Auto</i></span><span class="prem-qr0" aria-hidden="true">QR</span>` : `<span class="prem-qr0" aria-hidden="true">QR</span>`}<button type="button" class="btn sm" data-qr="${id}">${q ? t('Palitan', 'Change') : id === 'paypal' ? t('Upload', 'Upload') : t('QR', 'QR')}</button>${q ? `<button type="button" class="btn sm ghost" data-qrx="${id}" aria-label="${t('Alisin ang QR', 'Remove QR')} ${n}">✕</button>` : ''}</div>${id === 'paypal' ? `<p class="tiny muted prem-pph">${q ? t('Ito ang QR na makikita ng trainee. Alisin ito para gamitin ang awtomatikong QR mula sa paypal.me link.', 'Trainees see this QR. Remove it to use the automatic QR from the paypal.me link.') : t('Kapag paypal.me link ang inilagay, awtomatikong gagawa ng QR (kasama ang halaga) at "Magbayad sa PayPal" button. Puwede ring i-upload ang QR mula sa PayPal app (Receive / QR code).', 'With a paypal.me link, a QR (with the amount) and a "Pay with PayPal" button are made automatically. You can also upload the QR from the PayPal app (Receive / QR code).')}</p>` : ''}</div>`; }).join('')}</div>
           <input type="file" accept="image/*" hidden data-qrfile>
           <div class="prem-pf-h">${t('Account', 'Account')}</div>
           <div class="grid c2 prem-pf-g">
@@ -12449,7 +12902,11 @@ interface g0/0.10
       // keep what was typed when a QR is changed (the page re-renders)
       const keepTyped = () => Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), gotyme: f.gotyme.value.trim(), paypal: f.paypal.value.trim() });
       pd.querySelectorAll('[data-qr]').forEach(b => b.onclick = () => { qrFor = b.dataset.qr; fi.value = ''; fi.click(); });
-      fi.onchange = () => { const file = fi.files[0]; if (!file) return; const img = new Image(); const url = URL.createObjectURL(file); img.onload = () => { const N = 360, k = Math.min(1, N / Math.max(img.naturalWidth, img.naturalHeight)); const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); const nc = keepTyped(); if (nc.qr && !nc.qrGcash) nc.qrGcash = nc.qr; nc.qr = ''; nc[QRK[qrFor]] = cv.toDataURL('image/png'); saveCfg(nc); ctx.toast(t(`Na-save ang QR ng ${qrFor === 'gcash' ? 'GCash' : qrFor === 'maya' ? 'Maya' : 'GoTyme'}.`, `Saved the ${qrFor === 'gcash' ? 'GCash' : qrFor === 'maya' ? 'Maya' : 'GoTyme'} QR.`)); ctx.route(); }; img.onerror = () => ctx.toast(t('Hindi mabasa ang larawan.', 'Could not read that image.')); img.src = url; };
+      // live preview of the automatic PayPal QR while the link is typed
+      const qa = pd.querySelector('.prem-qauto');
+      const ppPrev = () => { if (!qa) return; const me = ppMe(f.paypal.value), src = me && window.SEC ? SEC.qrUrl(ppUrl(me, null), { label: 'PayPal QR' }) : ''; qa.hidden = !src; qa.nextElementSibling.hidden = !!src; if (src) qa.querySelector('img').src = src; };
+      f.paypal.addEventListener('input', ppPrev); ppPrev();
+      fi.onchange = () => { const file = fi.files[0]; if (!file) return; const img = new Image(); const url = URL.createObjectURL(file); img.onload = () => { const N = 360, k = Math.min(1, N / Math.max(img.naturalWidth, img.naturalHeight)); const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); const nc = keepTyped(); if (nc.qr && !nc.qrGcash) nc.qrGcash = nc.qr; nc.qr = ''; nc[QRK[qrFor]] = cv.toDataURL('image/png'); saveCfg(nc); ctx.toast(t(`Na-save ang QR ng ${QRN[qrFor]}.`, `Saved the ${QRN[qrFor]} QR.`)); ctx.route(); }; img.onerror = () => ctx.toast(t('Hindi mabasa ang larawan.', 'Could not read that image.')); img.src = url; };
       pd.querySelectorAll('[data-qrx]').forEach(b => b.onclick = () => { const id = b.dataset.qrx, nc = keepTyped(); if (nc.qr && !nc.qrGcash) nc.qrGcash = nc.qr; nc.qr = ''; nc[QRK[id]] = ''; saveCfg(nc); ctx.route(); });
       page.appendChild(pd);
       // promo / sale (discount)
@@ -15810,7 +16267,7 @@ window.startApp = () => {
   const ME = window.AUTH ? AUTH.me() : null;
   let S = { done: {}, quiz: {}, labs: {}, exam: { best: null, runs: [] }, plan: {}, theme: null, last: null, widgets: {}, sn: { right: 0, total: 0 }, designs: {}, missions: {} };
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) { }
-  const save = () => { S._upd = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } if (window.AUTH && AUTH.sync) AUTH.sync(S); };
+  const save = () => { if (window.__ccnaKicked) return; S._upd = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } if (window.AUTH && AUTH.sync) AUTH.sync(S); };
   window.__ccnaS = () => S; window.__ccnaSave = save;
   const PRM = window.PREMIUM || null;
   if (PRM) { try { PRM.init(); } catch (e) { } }
@@ -16889,7 +17346,7 @@ Mask ${bits(q.mask)}
     $$('[data-n]', opt).forEach(b => b.onclick = () => start(+b.dataset.n));
     if (S.exam.runs.length) page.appendChild(h((__EN?`<div class="card stack"><h3>Past attempts</h3>${S.exam.runs.slice(-6).reverse().map(r => `<div class="row between small"><span>${new Date(r.at).toLocaleString()}${r.mode ? ` · ${r.mode === 'real' ? 'Real' : r.mode === 'study' ? 'Study' : 'Practice'}` : ''}</span><span class="pill ${r.pct >= 85 ? 'ok' : r.pct >= 70 ? 'warn' : 'bad'}">${r.right}/${r.n} · ${r.pct}%</span></div>`).join('')}</div>`:`<div class="card stack"><h3>Mga nakaraang attempt</h3>${S.exam.runs.slice(-6).reverse().map(r => `<div class="row between small"><span>${new Date(r.at).toLocaleString()}${r.mode ? ` · ${r.mode === 'real' ? 'Real' : r.mode === 'study' ? 'Study' : 'Practice'}` : ''}</span><span class="pill ${r.pct >= 85 ? 'ok' : r.pct >= 70 ? 'warn' : 'bad'}">${r.right}/${r.n} · ${r.pct}%</span></div>`).join('')}</div>`)));
   }
-  const saveEx = () => { try { localStorage.setItem(KEY + '-exam', JSON.stringify(EX)); } catch (e) { } };
+  const saveEx = () => { if (window.__ccnaKicked) return; try { localStorage.setItem(KEY + '-exam', JSON.stringify(EX)); } catch (e) { } };
   function examRun(page) {
     const real = EX.mode === 'real';
     const top = h((__EN?`<div class="exam-top"><span class="timer" id="exTimer"></span><span class="small muted" id="exCount"></span><span style="flex:1"></span>${real ? '<span class="pill warn">Real Exam mode</span>' : '<button class="btn sm" id="exMap">Question map</button>'}<button class="btn sm primary" id="exEnd">Finish</button></div>`:`<div class="exam-top"><span class="timer" id="exTimer"></span><span class="small muted" id="exCount"></span><span style="flex:1"></span>${real ? '<span class="pill warn">Real Exam mode</span>' : '<button class="btn sm" id="exMap">Question map</button>'}<button class="btn sm primary" id="exEnd">Tapusin</button></div>`));
