@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.12.0";/*CCNA_APP_VERSION="2.12.0"*/
+<script>window.APP_VERSION="2.13.0";/*CCNA_APP_VERSION="2.13.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1355,6 +1355,58 @@ body.kicked > *:not(.kick):not(.toast) { pointer-events: none; user-select: none
 .prof > span.prof-sec { display: inline-flex; }
 .auth-alt { flex-direction: column; align-items: center; gap: 6px; }
 .sec-sbody { flex: 1 1 260px; min-width: 0; }
+
+/* ===== v2.13.0 ===== */
+/* Free Premium for everyone / promo / codes: quick choices and inputs share one height (44px) */
+.prem-fp-st { display: flex; align-items: center; gap: 8px 12px; flex-wrap: wrap; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-2); }
+.prem-fp-st .small { flex: 1 1 240px; min-width: 0; }
+.prem-fp-st.on { border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); background: color-mix(in srgb, var(--ok) 7%, var(--panel)); }
+.prem-fp-g { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 12px 16px; align-items: start; }
+@media (max-width: 760px) { .prem-fp-g { grid-template-columns: 1fr; } }
+.prem-chips { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.prem-chips.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 480px) { .prem-chips:not(.c3) { grid-template-columns: repeat(6, minmax(0, 1fr)); } .prem-chips:not(.c3) .btn { grid-column: span 2; } .prem-chips:not(.c3) .btn:nth-child(n+4) { grid-column: span 3; } }
+.prem-chips .btn, .prem-inb .btn { min-height: 44px; padding: 8px 10px; font-size: .86rem; font-weight: 600; }
+.prem-chips .btn { width: 100%; }
+.prem-inb { display: flex; gap: 6px; align-items: stretch; min-width: 0; }
+.prem-inb input { flex: 1 1 auto; min-width: 0; width: auto; }
+.prem-inb .btn { flex: none; }
+/* payment methods: bank row has the bank name and the account number */
+.prem-mrow { grid-template-columns: 96px minmax(0, 1fr) minmax(170px, auto); }
+@media (max-width: 640px) { .prem-mrow { grid-template-columns: 1fr; } }
+.prem-bank { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: 8px; }
+.prem-m-bank .pill, .pill.prem-m-bank { background: color-mix(in srgb, #3b5b7a 14%, var(--panel)); color: #2f4a66; }
+.prem-m-shopeepay .pill, .pill.prem-m-shopeepay { background: color-mix(in srgb, #ee4d2d 13%, var(--panel)); color: #c43a1d; }
+.prem-m-grabpay .pill, .pill.prem-m-grabpay { background: color-mix(in srgb, #00b14f 14%, var(--panel)); color: #007a37; }
+.prem-m-coins .pill, .pill.prem-m-coins { background: color-mix(in srgb, #1f6feb 13%, var(--panel)); color: #1856bd; }
+.prem-m-maya .pill, .pill.prem-m-maya, .prem-m-gotyme .pill, .pill.prem-m-gotyme, .prem-m-gcash .pill, .prem-m-paypal .pill { border-color: transparent; }
+/* Log out: centered and easy to find at the end of the profile */
+.logout-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 28px auto 6px; padding-top: 22px; border-top: 1px solid var(--line); text-align: center; }
+.logout-btn { min-width: min(280px, 100%); min-height: 50px; font-size: 1rem; font-weight: 700; border-radius: 12px; color: var(--bad); border: 1.5px solid color-mix(in srgb, var(--bad) 55%, var(--line)); background: color-mix(in srgb, var(--bad) 7%, var(--panel)); }
+.logout-btn:hover, .logout-btn:focus-visible { background: var(--bad); border-color: var(--bad); color: var(--panel); }
+.logout-btn svg { width: 19px; height: 19px; }
+/* maker credit */
+.nav-by { display: block; margin-top: 2px; font-size: .68rem; letter-spacing: .02em; color: var(--fg-3); }
+.nav-by b { font-family: inherit; color: var(--accent); font-weight: 700; letter-spacing: .06em; }
+.auth-by { margin: 0; text-align: center; font-size: .74rem; letter-spacing: .03em; color: var(--fg-3); }
+.auth-by b { color: var(--accent); letter-spacing: .08em; }
+.by-name { color: var(--accent); letter-spacing: .06em; }
+/* after sign-up */
+.auth-ok { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--ok-soft); color: var(--ok); margin-bottom: 6px; }
+.auth-ok svg { width: 26px; height: 26px; }
+.signup-code { margin: 4px 0 12px; }
+.send-box .code-box { font-size: .74rem; }
+/* Designer missions locked on the Free plan */
+.dz-mi.is-locked { opacity: .78; }
+.dz-mi.is-locked .dz-mn { color: #b06d0c; background: color-mix(in srgb, #f6c453 22%, var(--panel)); border-color: color-mix(in srgb, #e59a2f 40%, var(--line)); }
+.dz-mi.is-locked:hover { opacity: 1; border-color: #e59a2f; }
+.dz-ml + .prem-note, .prem-note + .dz-mf { margin-top: 2px; }
+/* payment pills stay readable on the dark palette */
+:root[data-theme="dark"] .prem-mrow .pill, :root[data-theme="dark"] .prem-m .pill { color: var(--fg); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]):not([data-theme="warm"]) .prem-mrow .pill, :root:not([data-theme="light"]):not([data-theme="warm"]) .prem-m .pill { color: var(--fg); } }
+.prem-qrf[hidden], .dl-prog[hidden] { display: none; }
+.prem-form.grid { align-items: start; }
+@media (max-width: 640px) { .prem-bank { grid-template-columns: 1fr; } }
 
 </style>
 </head>
@@ -12034,6 +12086,7 @@ interface g0/0.10
   function checkPin(user, pin) {
     const u = findUser(user);
     if (u && (u.lockUntil || 0) > Date.now()) return { err: lockMsg(u) };
+    if (u && !u.pin) return { err: T('Ginawa ang account na ito sa ibang device, kaya wala pa itong PIN dito. Humingi sa Admin ng one-time code, tapos pindutin ang "May one-time code mula sa Admin?" sa ibaba.', 'This account was made on another device, so it has no PIN here yet. Ask the Admin for a one-time code, then press "Have a one-time code from your Admin?" below.') };
     if (!u || u.pin !== hash(pin, u.salt)) { failed(u); return { err: u && (u.lockUntil || 0) > Date.now() ? lockMsg(u) : T((__EN?"Wrong username or PIN.":'Mali ang username o PIN.'), 'Wrong username or PIN.') }; }
     return { u };
   }
@@ -12194,7 +12247,7 @@ interface g0/0.10
     const runs = ((S.exam && S.exam.runs) || []).slice(-10);
     const designs = Object.values(S.designs || {}).length;
     const ch = window.CURRICULUM.map(c => Math.round(100 * c.lessons.filter(l => S.done && S.done[l.id]).length / c.lessons.length));
-    return { v: 1, id: u.id, name: u.name, user: u.user, role: u.role, at: Date.now(), last: u.last, lessons: done, lessonsTotal: ALL.length, ch, quizAvg, quizN: quizVals.length, labs: labsDone, labsTotal: Object.keys(window.LABS).length, runs, best: S.exam ? S.exam.best : null, sn: S.sn || null, designs, missions: Object.keys(S.missions || {}).filter(k => S.missions[k]).length };
+    return { v: 1, id: u.id, name: u.name, user: u.user, role: u.role, at: Date.now(), last: u.last, lessons: done, lessonsTotal: ALL.length, ch, quizAvg, quizN: quizVals.length, labs: labsDone, labsTotal: Object.keys(window.LABS).length, runs, best: S.exam ? S.exam.best : null, sn: S.sn || null, designs, missions: Object.keys(S.missions || {}).filter(k => S.missions[k]).length, created: u.created || null, dev: devName() };
   }
   const encode = s => 'CCNA1:' + btoa(unescape(encodeURIComponent(JSON.stringify(s))));
   const decode = t => { t = String(t).trim(); if (!t.startsWith('CCNA1:')) throw new Error('bad'); const o = JSON.parse(decodeURIComponent(escape(atob(t.slice(6))))); if (!o || !o.name || o.v !== 1) throw new Error('bad'); return o; };
@@ -12206,10 +12259,12 @@ interface g0/0.10
     const wrap = h((__EN?`<div class="auth-wrap"><div class="auth-card">
       <div class="auth-brand"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="var(--accent)"/><g stroke="var(--accent-fg)" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="16" cy="16" r="3.2"/><path d="M16 5.5v6.3M16 20.2v6.3M5.5 16h6.3M20.2 16h6.3"/></g><g fill="var(--accent-fg)"><circle cx="16" cy="5.5" r="2"/><circle cx="16" cy="26.5" r="2"/><circle cx="5.5" cy="16" r="2"/><circle cx="26.5" cy="16" r="2"/></g></svg><div><b>CCNA Lab</b><span>200-301 Trainer</span></div></div>
       <div class="auth-body"></div></div>
-      <p class="tiny muted auth-foot">${ON.why ? esc(ON.why) + ' ' : ''}Accounts and progress are saved on this device only. Use a progress code to show your progress to a Trainor on another device.</p></div>`:`<div class="auth-wrap"><div class="auth-card">
+      <p class="tiny muted auth-foot">${ON.why ? esc(ON.why) + ' ' : ''}Accounts and progress are saved on this device only. Use a progress code to show your progress to a Trainor on another device.</p>
+      <p class="auth-by">${T('Gawa ni', 'Created by')}: <b>CODJ</b></p></div>`:`<div class="auth-wrap"><div class="auth-card">
       <div class="auth-brand"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="8" fill="var(--accent)"/><g stroke="var(--accent-fg)" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="16" cy="16" r="3.2"/><path d="M16 5.5v6.3M16 20.2v6.3M5.5 16h6.3M20.2 16h6.3"/></g><g fill="var(--accent-fg)"><circle cx="16" cy="5.5" r="2"/><circle cx="16" cy="26.5" r="2"/><circle cx="5.5" cy="16" r="2"/><circle cx="26.5" cy="16" r="2"/></g></svg><div><b>CCNA Lab</b><span>200-301 Trainer</span></div></div>
       <div class="auth-body"></div></div>
-      <p class="tiny muted auth-foot">${ON.why ? esc(ON.why) + ' ' : ''}Naka-save ang accounts at progress sa device na ito lang. Gumamit ng progress code para ipakita ang progress sa Trainor sa ibang device.</p></div>`));
+      <p class="tiny muted auth-foot">${ON.why ? esc(ON.why) + ' ' : ''}Naka-save ang accounts at progress sa device na ito lang. Gumamit ng progress code para ipakita ang progress sa Trainor sa ibang device.</p>
+      <p class="auth-by">${T('Gawa ni', 'Created by')}: <b>CODJ</b></p></div>`));
     root.appendChild(wrap);
     const body = wrap.querySelector('.auth-body');
     const showErr = (el, m) => { el.textContent = m; el.hidden = !m; };
@@ -12302,16 +12357,54 @@ interface g0/0.10
         <form class="stack" autocomplete="off"><label class="fld">Buong pangalan<input type="text" name="name" maxlength="40"></label><label class="fld">Username<input type="text" name="user" autocapitalize="none" spellcheck="false" maxlength="24" placeholder="hal. juan.dc"></label><div class="grid c2" style="gap:10px"><label class="fld">PIN (4-8 numero)<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><label class="fld">Ulitin ang PIN<input type="password" name="pin2" inputmode="numeric" maxlength="8"></label></div><div class="err" hidden></div><button class="btn primary" type="submit">Gumawa ng account</button></form>
         ${isFirst ? '' : (__EN?"<div class=\"auth-alt\"><button class=\"btn ghost sm\" data-go=\"in\">Already have an account? Log in</button></div>":'<div class="auth-alt"><button class="btn ghost sm" data-go="in">May account na? Mag-login</button></div>')}`);
       const f = body.querySelector('form'); const err = body.querySelector('.err');
-      f.onsubmit = e => { e.preventDefault(); if (f.pin.value !== f.pin2.value) return showErr(err, (__EN?"The PINs don't match.":'Hindi magkapareho ang PIN.')); const r = createUser({ name: f.name.value, user: f.user.value, role: isFirst ? 'admin' : 'trainee', pin: f.pin.value }); if (typeof r === 'string') return showErr(err, r); const u = login(r.user, f.pin.value); onIn(u); };
+      f.onsubmit = e => { e.preventDefault(); if (f.pin.value !== f.pin2.value) return showErr(err, (__EN?"The PINs don't match.":'Hindi magkapareho ang PIN.')); const r = createUser({ name: f.name.value, user: f.user.value, role: isFirst ? 'admin' : 'trainee', pin: f.pin.value }); if (typeof r === 'string') return showErr(err, r); const u = login(r.user, f.pin.value); welcome(u); };
       const b = body.querySelector('[data-go=in]'); if (b) b.onclick = () => signIn();
       f.name.focus();
+    }
+    // after sign-up: the sign-up code, so an Admin on another device can add this account to their list
+    function welcome(u) {
+      body.innerHTML = `<div class="auth-ok" aria-hidden="true">${SHI}</div><h1>${T('Handa na ang account mo!', 'Your account is ready!')}</h1>
+        <p class="muted small">${T('Kung nasa <b>ibang device</b> ang Admin o Trainor mo, ipadala sa kanila ang <b>sign-up code</b> na ito (chat, email o text). Idadagdag ka nila sa listahan nila at makikita nila ang progress mo.', 'If your Admin or Trainor is on <b>another device</b>, send them this <b>sign-up code</b> (chat, email or text). They add you to their list and can see your progress.')}</p>
+        <div class="signup-code"></div>
+        <button class="btn primary" type="button" data-go="go">${T('Magpatuloy', 'Continue')}</button>
+        <p class="tiny muted">${T('Makukuha mo ulit ito anumang oras sa <b>Aking Profile</b> → <b>Ipadala sa Admin o Trainor</b>. Kung sa device na ito rin ang Admin mo, hindi na kailangan.', 'You can get it again any time in <b>My Profile</b> → <b>Send to your Admin or Trainor</b>. If your Admin uses this same device, you can skip it.')}</p>`;
+      body.querySelector('.signup-code').appendChild(sendBox(summaryFor(u)));
+      body.querySelector('[data-go=go]').onclick = () => onIn(u);
     }
     first ? register(true) : signIn();
   }
 
   // ---------- shared UI bits ----------
   const pctBar = (p, ok) => `<div class="bar ${ok ? 'ok' : ''}"><i style="width:${Math.max(0, Math.min(100, p || 0))}%"></i></div>`;
-  const ago = t => { if (!t) return (__EN?"not yet":'hindi pa'); const m = Math.round((Date.now() - t) / 60000); if (m < 1) return (__EN?"just now":'ngayon lang'); if (m < 60) return m + ' min na'; const hr = Math.round(m / 60); if (hr < 24) return hr + (__EN?" hours ago":' oras na'); return Math.round(hr / 24) + (__EN?" days ago":' araw na'); };
+  const ago = t => { if (!t) return T((__EN?"not yet":'hindi pa'), 'never'); const m = Math.round((Date.now() - t) / 60000); if (m < 1) return T((__EN?"just now":'ngayon lang'), 'just now'); if (m < 60) return m + T(' min na', ' min ago'); const hr = Math.round(m / 60); if (hr < 24) return hr + T((__EN?" hours ago":' oras na'), hr === 1 ? ' hour ago' : ' hours ago'); const dd = Math.round(hr / 24); return dd + T((__EN?" days ago":' araw na'), dd === 1 ? ' day ago' : ' days ago'); };
+  // the sign-up / progress code with Copy and Save-as-file, for sending to an Admin or Trainor on another device
+  function sendBox(s) {
+    const code = encode(s), box = h(`<div class="stack send-box" style="gap:8px"><textarea class="code-box" readonly rows="3" aria-label="${T('Sign-up code', 'Sign-up code')}"></textarea><div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm primary" type="button" data-a="copy">${T('Kopyahin ang code', 'Copy the code')}</button><button class="btn sm" type="button" data-a="file">${T('I-save bilang file', 'Save as file')}</button><span class="tiny muted" role="status"></span></div></div>`);
+    const ta = box.querySelector('textarea'), msg = box.querySelector('[role=status]'); ta.value = code;
+    box.querySelector('[data-a=copy]').onclick = async () => { ta.select(); try { await navigator.clipboard.writeText(code); msg.textContent = T((__EN?"Copied.":'Nakopya na.'), 'Copied.'); } catch (e) { try { document.execCommand('copy'); msg.textContent = T((__EN?"Copied.":'Nakopya na.'), 'Copied.'); } catch (e2) { msg.textContent = T((__EN?"Select it and copy manually.":'I-select at kopyahin nang mano-mano.'), 'Select it and copy it by hand.'); } } };
+    box.querySelector('[data-a=file]').onclick = () => { const n = 'CCNA-Lab-signup-' + String(s.user || 'trainee').replace(/[^a-z0-9._-]/gi, '') + '.txt'; saveFile(n, code); msg.textContent = T(`Na-save: ${n} sa Downloads.`, `Saved: ${n} in Downloads.`); };
+    return box;
+  }
+  function saveFile(name, text) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text + '\n'], { type: 'text/plain' })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); }
+  // Admin: add accounts that signed up on other devices (from sign-up / progress codes, one or many, pasted or from files).
+  // The account is added without a PIN; the person signs in here with a one-time code from the Admin and sets a PIN.
+  function joinCodes(text) {
+    const codes = String(text || '').replace(/\s+/g, '').match(/CCNA1:[A-Za-z0-9+/=]+/g) || []; if (!codes.length) throw new Error('code');
+    const d = db(), imp = get(IK, {}); const r = { added: [], updated: [], clash: [], bad: 0 };
+    for (const c of codes) {
+      let s; try { s = decode(c); } catch (e) { r.bad++; continue; }
+      const user = String(s.user || '').trim().toLowerCase();
+      if (!s.id || !/^[a-z0-9._-]{3,24}$/.test(user)) { r.bad++; continue; }
+      const old = imp[s.id]; if (!old || (s.at || 0) >= (old.at || 0)) imp[s.id] = s;
+      const y = d.users.find(z => z.id === s.id);
+      if (y) { if (y.remote) { y.name = String(s.name).slice(0, 40); y.last = s.last || y.last; y.dev = s.dev || y.dev; } r.updated.push(s.name); continue; }
+      if (d.users.some(z => z.user === user)) { r.clash.push('@' + user); continue; }
+      d.users.push({ id: s.id, name: String(s.name).trim().slice(0, 40) || user, user, role: 'trainee', salt: uid(), pin: null, remote: true, dev: s.dev || '', created: s.created || s.at || Date.now(), joined: Date.now(), last: s.last || null });
+      r.added.push(s.name);
+    }
+    if (!r.added.length && !r.updated.length && !r.clash.length) throw new Error('code');
+    put(IK, imp); saveDb(); return r;
+  }
   function copyBox(text, label) {
     const box = h((__EN?`<div class="stack" style="gap:8px"><textarea class="code-box" readonly rows="4"></textarea><div class="row"><button class="btn sm primary">Copy the ${label}</button><span class="tiny muted"></span></div></div>`:`<div class="stack" style="gap:8px"><textarea class="code-box" readonly rows="4"></textarea><div class="row"><button class="btn sm primary">Kopyahin ang ${label}</button><span class="tiny muted"></span></div></div>`));
     const ta = box.querySelector('textarea'); ta.value = text;
@@ -12356,20 +12449,22 @@ interface g0/0.10
     (dcards[0] || dstk.lastElementChild).before(accBox); dcards.forEach(c => accBox.appendChild(c));
     const setC = ctx.settingsCard ? ctx.settingsCard() : null; if (setC) accBox.appendChild(setC);
     if (u.online) page.appendChild(h((__EN?`<div class="card stack"><h3>Online account</h3><p class="small">You are signed in with your Claude account${ON.ro ? '' : (__EN?", so your progress, exam results and network designs sync to every device that opens this app":', kaya naka-sync ang progress, exam results at network designs mo sa lahat ng device na magbubukas ng app na ito')}.</p>${ON.ro ? `<p class="small" style="color:var(--warn)">${esc(ON.why)}</p>` : (__EN?`<p class="tiny muted"><span class="sync-dot" data-sync="${syncState}"></span> Status: saved online automatically a few seconds after every change.</p>`:`<p class="tiny muted"><span class="sync-dot" data-sync="${syncState}"></span> Status: awtomatikong sine-save online ilang segundo pagkatapos ng bawat pagbabago.</p>`)}<p class="tiny muted">Role: ${ROLES[u.role]} (${u.role === 'admin' ? (__EN?"owner of the app":'may-ari ng app') : u.role === 'trainor' ? 'Editor access' : 'Contributor access'}).</p></div>`:`<div class="card stack"><h3>Online account</h3><p class="small">Naka-login ka gamit ang Claude account mo${ON.ro ? '' : (__EN?", so your progress, exam results and network designs sync to every device that opens this app":', kaya naka-sync ang progress, exam results at network designs mo sa lahat ng device na magbubukas ng app na ito')}.</p>${ON.ro ? `<p class="small" style="color:var(--warn)">${esc(ON.why)}</p>` : (__EN?`<p class="tiny muted"><span class="sync-dot" data-sync="${syncState}"></span> Status: saved online automatically a few seconds after every change.</p>`:`<p class="tiny muted"><span class="sync-dot" data-sync="${syncState}"></span> Status: awtomatikong sine-save online ilang segundo pagkatapos ng bawat pagbabago.</p>`)}<p class="tiny muted">Role: ${ROLES[u.role]} (${u.role === 'admin' ? (__EN?"owner of the app":'may-ari ng app') : u.role === 'trainor' ? 'Editor access' : 'Contributor access'}).</p></div>`)));
-    const share = h((__EN?`<div class="card stack"><h3>Share your progress with a Trainor</h3><p class="small muted">Copy this code and send it to your Trainor (chat, email or text). They paste it into the Trainor Dashboard. Make a new code whenever you want to update your progress.</p></div>`:`<div class="card stack"><h3>Ibahagi ang progress sa Trainor</h3><p class="small muted">Kopyahin ang code na ito at ipadala sa Trainor mo (chat, email, o text). I-paste niya ito sa Trainor Dashboard. Gumawa ng bagong code tuwing gusto mong i-update ang progress mo.</p></div>`));
-    share.appendChild(copyBox(encode(s), 'progress code')); accBox.appendChild(share);
+    const share = h(`<div class="card stack"><h3>${T('Ipadala sa Admin o Trainor', 'Send to your Admin or Trainor')}</h3><p class="small muted">${T('Para sa Admin o Trainor sa <b>ibang device</b>: ipadala ang code o file na ito (chat, email o text). Sa <b>Admin → Mga account mula sa ibang device</b>, maidadagdag ka sa listahan nila; sa Trainor Dashboard, makikita ang progress mo. Ipadala ulit kapag gusto mong i-update ang progress.', 'For an Admin or Trainor on <b>another device</b>: send this code or file (chat, email or text). In <b>Admin → Accounts from other devices</b> you are added to their list; in the Trainor Dashboard they see your progress. Send it again to update your progress.')}</p></div>`);
+    share.appendChild(sendBox(s)); accBox.appendChild(share);
     const pin = h((__EN?`<div class="card stack"><h3>Change PIN</h3><form class="grid c2" style="gap:10px;align-items:end" autocomplete="off"><label class="fld">Current PIN<input type="password" name="old" inputmode="numeric" maxlength="8"></label><label class="fld">New PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><div class="err" hidden></div><button class="btn" type="submit">Save the new PIN</button></form></div>`:`<div class="card stack"><h3>Palitan ang PIN</h3><form class="grid c2" style="gap:10px;align-items:end" autocomplete="off"><label class="fld">Kasalukuyang PIN<input type="password" name="old" inputmode="numeric" maxlength="8"></label><label class="fld">Bagong PIN<input type="password" name="pin" inputmode="numeric" maxlength="8"></label><div class="err" hidden></div><button class="btn" type="submit">I-save ang bagong PIN</button></form></div>`));
     const f = pin.querySelector('form'); f.onsubmit = e => { e.preventDefault(); const err = f.querySelector('.err'); if (u.pin !== hash(f.old.value, u.salt)) { err.hidden = false; err.textContent = (__EN?"The current PIN is wrong.":'Mali ang kasalukuyang PIN.'); return; } if (!/^\d{4,8}$/.test(f.pin.value)) { err.hidden = false; err.textContent = (__EN?"The PIN must be 4 to 8 digits.":'Ang PIN ay 4 hanggang 8 na numero.'); return; } u.pin = hash(f.pin.value, u.salt); saveDb(); f.reset(); err.hidden = true; ctx.toast((__EN?"PIN changed.":'Napalitan na ang PIN.')); };
     if (!u.online) accBox.appendChild(pin);
     accBox.appendChild(secCard(u, ctx));
     if (window.ACC) ACC([...accBox.children], { key: 'profile', open: 0, icons: [...dcards.map((c, i) => ['chart', 'hist', 'target'][i]), 'gear', 'share', ...(u.online ? [] : ['key']), 'shield'] });
-    if (!u.online) { const out = h((__EN?`<div class="row"><button class="btn">Log out</button></div>`:`<div class="row"><button class="btn">Mag-logout</button></div>`)); out.firstChild.onclick = logout; page.appendChild(out); }
+    if (!u.online) {
+      const out = h(`<div class="logout-wrap"><button class="btn logout-btn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l-5-5 5-5M5 12h11"/></svg><span>${T('Mag-log out', 'Log out')}</span></button><span class="tiny muted">${T('Naka-login bilang', 'Signed in as')} <b>${esc(u.name)}</b> (@${esc(u.user)})</span></div>`);
+      out.querySelector('button').onclick = logout; page.appendChild(out);
+    }
     main.appendChild(page);
   }
 
   function traineeRows() {
-    const d = db(); const local = d.users.filter(u => u.role === 'trainee').map(u => ({ src: 'local', s: summaryFor(u) }));
-    const imp = get(IK, {}); const ids = new Set(d.users.map(u => u.id)); const imported = Object.values(imp).filter(s => !ids.has(s.id)).map(s => ({ src: 'code', s }));
+    const d = db(), imp = get(IK, {}); const local = d.users.filter(u => u.role === 'trainee').map(u => u.remote && imp[u.id] && !get(keyOf(u), null) ? { src: 'remote', s: imp[u.id] } : { src: 'local', s: summaryFor(u) }); const ids = new Set(d.users.map(u => u.id)); const imported = Object.values(imp).filter(s => !ids.has(s.id)).map(s => ({ src: 'code', s }));
     return [...local, ...imported];
   }
   function viewTrainor(main, ctx, rowsIn) {
@@ -12396,7 +12491,7 @@ interface g0/0.10
       list.forEach(r => {
         const s = r.s; const lp = Math.round(100 * s.lessons / s.lessonsTotal); const last = s.runs && s.runs[s.runs.length - 1];
         let weak = '—'; if (last && last.dom) { let mi = -1, mv = 101; last.dom.forEach((v, i) => { if (v != null && v < mv) { mv = v; mi = i; } }); if (mi > -1) weak = `${DOM[mi].name} (${mv}%)`; }
-        const tr = h((__EN?`<tr><td><b>${esc(s.name)}</b><div class="tiny muted">${r.src === 'local' ? '@' + esc(s.user) + (__EN?" · on this device":' · sa device na ito') : r.src === 'online' ? 'online · ' + ROLES[s.role || 'trainee'] : 'progress code'}</div></td><td style="min-width:120px">${pctBar(lp, lp === 100)}<span class="tiny mono">${s.lessons}/${s.lessonsTotal}</span></td><td>${s.quizAvg != null ? s.quizAvg + '%' : '—'}</td><td>${s.labs.length}/${s.labsTotal}</td><td>${s.best != null ? `<span class="pill ${s.best >= 85 ? 'ok' : s.best >= 70 ? 'warn' : 'bad'}">${s.best}%</span>` : '—'}</td><td class="small">${weak}</td><td class="tiny">${ago(r.src === 'local' ? s.last : s.at)}</td><td><button class="btn sm">Details</button></td></tr>`:`<tr><td><b>${esc(s.name)}</b><div class="tiny muted">${r.src === 'local' ? '@' + esc(s.user) + (__EN?" · on this device":' · sa device na ito') : r.src === 'online' ? 'online · ' + ROLES[s.role || 'trainee'] : 'progress code'}</div></td><td style="min-width:120px">${pctBar(lp, lp === 100)}<span class="tiny mono">${s.lessons}/${s.lessonsTotal}</span></td><td>${s.quizAvg != null ? s.quizAvg + '%' : '—'}</td><td>${s.labs.length}/${s.labsTotal}</td><td>${s.best != null ? `<span class="pill ${s.best >= 85 ? 'ok' : s.best >= 70 ? 'warn' : 'bad'}">${s.best}%</span>` : '—'}</td><td class="small">${weak}</td><td class="tiny">${ago(r.src === 'local' ? s.last : s.at)}</td><td><button class="btn sm">Detalye</button></td></tr>`));
+        const tr = h((__EN?`<tr><td><b>${esc(s.name)}</b><div class="tiny muted">${r.src === 'local' ? '@' + esc(s.user) + (__EN?" · on this device":' · sa device na ito') : r.src === 'remote' ? '@' + esc(s.user) + ' · ' + T('ibang device', 'another device') : r.src === 'online' ? 'online · ' + ROLES[s.role || 'trainee'] : 'progress code'}</div></td><td style="min-width:120px">${pctBar(lp, lp === 100)}<span class="tiny mono">${s.lessons}/${s.lessonsTotal}</span></td><td>${s.quizAvg != null ? s.quizAvg + '%' : '—'}</td><td>${s.labs.length}/${s.labsTotal}</td><td>${s.best != null ? `<span class="pill ${s.best >= 85 ? 'ok' : s.best >= 70 ? 'warn' : 'bad'}">${s.best}%</span>` : '—'}</td><td class="small">${weak}</td><td class="tiny">${ago(r.src === 'local' ? s.last : s.at)}</td><td><button class="btn sm">Details</button></td></tr>`:`<tr><td><b>${esc(s.name)}</b><div class="tiny muted">${r.src === 'local' ? '@' + esc(s.user) + (__EN?" · on this device":' · sa device na ito') : r.src === 'remote' ? '@' + esc(s.user) + ' · ' + T('ibang device', 'another device') : r.src === 'online' ? 'online · ' + ROLES[s.role || 'trainee'] : 'progress code'}</div></td><td style="min-width:120px">${pctBar(lp, lp === 100)}<span class="tiny mono">${s.lessons}/${s.lessonsTotal}</span></td><td>${s.quizAvg != null ? s.quizAvg + '%' : '—'}</td><td>${s.labs.length}/${s.labsTotal}</td><td>${s.best != null ? `<span class="pill ${s.best >= 85 ? 'ok' : s.best >= 70 ? 'warn' : 'bad'}">${s.best}%</span>` : '—'}</td><td class="small">${weak}</td><td class="tiny">${ago(r.src === 'local' ? s.last : s.at)}</td><td><button class="btn sm">Detalye</button></td></tr>`));
         tr.querySelector('button').onclick = () => openDetail(r);
         tb.appendChild(tr);
       });
@@ -12549,7 +12644,7 @@ interface g0/0.10
     const tb = tbl.querySelector('tbody');
     d.users.forEach(x => {
       const lockRole = x.role === 'admin' && admins === 1;
-      const tr = h(`<tr><td>${avHtml(x, 'sm', x.id === u.id ? ctx.S : null)} <b>${esc(x.name)}</b>${x.id === u.id ? (__EN?" <span class=\"pill acc\">you</span>":' <span class="pill acc">ikaw</span>') : ''}</td><td class="mono small">@${esc(x.user)}</td><td><select ${lockRole ? (__EN?"disabled title=\"At least one Admin is required\"":'disabled title="Kailangan ng kahit isang Admin"') : ''}>${Object.entries(ROLES).map(([k, v]) => `<option value="${k}" ${k === x.role ? 'selected' : ''}>${v}</option>`).join('')}</select></td><td class="tiny">${ago(x.last)}</td><td><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn sm" data-a="pin">Reset PIN</button>${x.id === u.id ? '' : (__EN?"<button class=\"btn sm\" data-a=\"del\">Delete</button>":'<button class="btn sm" data-a="del">Burahin</button>')}</div></td></tr>`);
+      const tr = h(`<tr><td>${avHtml(x, 'sm', x.id === u.id ? ctx.S : null)} <b>${esc(x.name)}</b>${x.id === u.id ? (__EN?" <span class=\"pill acc\">you</span>":' <span class="pill acc">ikaw</span>') : ''}${x.remote ? ` <span class="pill" title="${esc(x.dev || '')}">${T('ibang device', 'other device')}</span>${x.pin ? '' : `<div class="tiny muted">${T('Wala pang PIN dito: bigyan ng Login code', 'No PIN here yet: give a Login code')}</div>`}` : ''}</td><td class="mono small">@${esc(x.user)}</td><td><select ${lockRole ? (__EN?"disabled title=\"At least one Admin is required\"":'disabled title="Kailangan ng kahit isang Admin"') : ''}>${Object.entries(ROLES).map(([k, v]) => `<option value="${k}" ${k === x.role ? 'selected' : ''}>${v}</option>`).join('')}</select></td><td class="tiny">${x.remote && !x.pin ? T('sumali', 'joined') + ' ' + ago(x.joined) : ago(x.last)}</td><td><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="btn sm" data-a="pin">Reset PIN</button>${x.id === u.id ? '' : (__EN?"<button class=\"btn sm\" data-a=\"del\">Delete</button>":'<button class="btn sm" data-a="del">Burahin</button>')}</div></td></tr>`);
       tr.querySelector('select').onchange = e => { x.role = e.target.value; saveDb(); ctx.toast(`${x.name}: ${ROLES[x.role]} na.`); ctx.route(); };
       tr.querySelector('[data-a=pin]').onclick = () => { const host = tbl.querySelector('.pin-host'); host.innerHTML = ''; resetPin(x.id, host); };
       const ob = h(`<button class="btn sm" data-a="otc" title="${T('One-time login code at 2-step', 'One-time sign-in code and 2-step')}">${SHI}<span>${T('Login code', 'Login code')}</span></button>`); tr.querySelector('[data-a=pin]').after(ob);
@@ -12560,15 +12655,38 @@ interface g0/0.10
     });
     page.appendChild(tbl);
     const uf = userForm(ctx, ['trainee', 'trainor', 'admin'], (__EN?"Add a user":'Magdagdag ng user')); page.appendChild(uf);
+    // sign-ups on other devices: no server, so they arrive here as a sign-up code or file
+    const rem = d.users.filter(x => x.remote).length;
+    const jc = h(`<div class="card stack"><h3>${T('Mga account mula sa ibang device', 'Accounts from other devices')}${rem ? ` <span class="pill">${rem}</span>` : ''}</h3>
+      <p class="small muted">${T('Walang server ang app, kaya ang account na ginawa sa ibang PC o phone ay hindi kusang nakakarating dito. Pagka-sign up, may <b>sign-up code</b> ang trainee (nasa <b>Aking Profile → Ipadala sa Admin o Trainor</b> din). I-paste dito ang code, o buksan ang file, kahit marami nang sabay.', 'The app has no server, so an account made on another PC or phone does not reach this device by itself. After signing up, the trainee gets a <b>sign-up code</b> (also in <b>My Profile → Send to your Admin or Trainor</b>). Paste the code here, or open the file, even many at once.')}</p>
+      <textarea class="code-box" rows="3" placeholder="CCNA1:..." aria-label="${T('Sign-up code', 'Sign-up code')}"></textarea>
+      <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary sm" type="button" data-a="join">${T('Idagdag sa listahan', 'Add to the list')}</button><span class="tiny" role="status"></span></div>
+      <p class="tiny muted">${T('Lalabas sila sa listahan ng user at sa Trainor Dashboard kasama ang progress nila. Para makapag-login sila sa device na ito, pindutin ang <b>Login code</b> sa tabi ng pangalan nila.', 'They show in the user list and in the Trainor Dashboard with their progress. For them to sign in on this device, press <b>Login code</b> next to their name.')}</p></div>`);
+    const jta = jc.querySelector('textarea'), jmsg = jc.querySelector('[role=status]');
+    const jfb = fileBtn(jta); jfb.querySelector('input').multiple = true;
+    jfb.querySelector('input').onchange = e => { const fs = [...e.target.files]; if (!fs.length) return; Promise.all(fs.map(f => f.text())).then(v => { jta.value = v.map(x => x.trim()).join('\n'); }); };
+    jc.querySelector('[data-a=join]').before(jfb);
+    jc.querySelector('[data-a=join]').onclick = () => {
+      try {
+        const r = joinCodes(jta.value), parts = [];
+        if (r.added.length) parts.push(T(`Naidagdag: ${r.added.join(', ')}`, `Added: ${r.added.join(', ')}`));
+        if (r.updated.length) parts.push(T(`Na-update ang progress: ${r.updated.join(', ')}`, `Progress updated: ${r.updated.join(', ')}`));
+        if (r.clash.length) parts.push(T(`May iba nang gumagamit ng ${r.clash.join(', ')} dito (nasa Trainor Dashboard ang progress)`, `${r.clash.join(', ')} is already used by someone else here (the progress is in the Trainor Dashboard)`));
+        ctx.toast(parts.join('. ') + '.'); window.SFX && SFX.play('ok'); ctx.route();
+      } catch (e) { jmsg.textContent = T('Hindi valid ang code. Siguraduhing buo ang nakopya (nagsisimula sa CCNA1:).', 'That code is not valid. Make sure all of it was copied (it starts with CCNA1:).'); jmsg.style.color = 'var(--bad)'; }
+    };
+    page.appendChild(jc);
     // backup / restore
     const bk = h((__EN?`<div class="card stack"><h3>Backup and restore</h3><p class="small muted">Copy the full backup (every account and all progress on this device) to move it to another PC or browser. Paste it on the other device to restore.</p></div>`:`<div class="card stack"><h3>Backup at restore</h3><p class="small muted">Kopyahin ang buong backup (lahat ng account at progress sa device na ito) para ilipat sa ibang PC o browser. I-paste sa kabilang device para i-restore.</p></div>`));
     const btn = h((__EN?`<div class="row"><button class="btn sm">Create a backup code</button></div>`:`<div class="row"><button class="btn sm">Gumawa ng backup code</button></div>`)); bk.appendChild(btn);
     btn.firstChild.onclick = () => { btn.replaceWith(copyBox(backupCode(), 'backup')); };
+    btn.appendChild(h(`<button class="btn sm ghost" type="button">${T('I-save bilang file', 'Save as file')}</button>`)); btn.style.gap = '8px';
+    btn.lastChild.onclick = () => { saveFile('CCNA-Lab-transfer.txt', backupCode()); ctx.toast(T('Na-save: CCNA-Lab-transfer.txt sa Downloads.', 'Saved: CCNA-Lab-transfer.txt in Downloads.')); };
     const rs = h((__EN?`<div class="stack" style="gap:8px"><textarea class="code-box" rows="3" placeholder="CCNABK:..."></textarea><div class="row"><button class="btn sm">Restore</button><span class="tiny"></span></div></div>`:`<div class="stack" style="gap:8px"><textarea class="code-box" rows="3" placeholder="CCNABK:..."></textarea><div class="row"><button class="btn sm">I-restore</button><span class="tiny"></span></div></div>`));
     rs.querySelector('button').onclick = () => { const m = rs.querySelector('.tiny'); try { const r = restoreCode(rs.querySelector('textarea').value), n = r.added + r.merged; ctx.toast((__EN?`Restored ${n} account(s).`:`Na-restore ang ${n} account.`)); if (r.merged) setTimeout(() => location.reload(), 900); else ctx.route(); } catch (e) { m.textContent = (__EN?"Invalid backup code.":'Hindi valid ang backup code.'); m.style.color = 'var(--bad)'; } };
     rs.querySelector('.row').appendChild(fileBtn(rs.querySelector('textarea')));
     bk.appendChild(rs); page.appendChild(bk);
-    if (window.ACC) ACC([uf, bk], { key: 'admin', open: -1, icons: ['uplus', 'db'] });
+    if (window.ACC) ACC([uf, jc, bk], { key: 'admin', open: -1, icons: ['uplus', 'users', 'db'] });
     if (window.INSTALLS) page.insertBefore(INSTALLS.card(ctx), page.children[1] || null);
   }
 
@@ -12603,8 +12721,9 @@ interface g0/0.10
 
 ;
 /* =====================================================================
-   Free vs Premium, manual GCash/Maya payments and access codes.
-   The app has no server: payment happens outside the app (GCash/Maya to the Admin),
+   Free vs Premium, manual payments (GCash, Maya, GoTyme, bank transfer, ShopeePay, GrabPay,
+   Coins.ph, PayPal) and access codes.
+   The app has no server: payment happens outside the app (straight to the Admin),
    and the Admin unlocks Premium by granting it to a local account or by giving an access code.
    Admin and Trainor accounts always have full access.
    ===================================================================== */
@@ -12617,7 +12736,7 @@ interface g0/0.10
   const CK = 'ccna.prem.cfg', DAY = 864e5, HOUR = 36e5;
   const cfg = () => {
     const raw = get(CK, {}) || {};
-    const c = Object.assign({ gcash: '', maya: '', gotyme: '', paypal: '', name: '', price: '149', priceYear: '1190', period: 'month', contact: '', qr: '', trialDays: 0, promoUntil: 0, promoNote: '', sale: null }, raw);
+    const c = Object.assign({ gcash: '', maya: '', gotyme: '', bank: '', bankName: '', shopeepay: '', grabpay: '', coins: '', paypal: '', name: '', price: '149', priceYear: '1190', period: 'month', contact: '', qr: '', trialDays: 0, promoUntil: 0, promoNote: '', sale: null }, raw);
     // settings saved before v2.8 had one price "per month" or "per year": a yearly one becomes the 1-year plan
     if (raw.priceYear === undefined && raw.period === 'year') { c.priceYear = c.price; c.price = ''; }
     return c;
@@ -12643,11 +12762,24 @@ interface g0/0.10
     }
     return out;
   }
-  // where trainees can pay: GCash, Maya, GoTyme (QR Ph works for all three) and PayPal
+  // where trainees can pay: e-wallets and banks in the Philippines (QR Ph works in all of them) and PayPal.
+  // [id, short name, field label, placeholder, max length]; the order here is the order trainees see.
+  const MDEF = [
+    ['gcash', 'GCash', t('GCash number', 'GCash number'), '09XX XXX XXXX', 20],
+    ['maya', 'Maya', t('Maya number', 'Maya number'), '09XX XXX XXXX', 20],
+    ['gotyme', 'GoTyme', t('GoTyme account number', 'GoTyme account number'), '0123 4567 8901', 24],
+    ['bank', t('Bangko', 'Bank'), t('Account number sa bangko', 'Bank account number'), t('account number', 'account number'), 30],
+    ['shopeepay', 'ShopeePay', t('ShopeePay number', 'ShopeePay number'), '09XX XXX XXXX', 20],
+    ['grabpay', 'GrabPay', t('GrabPay number', 'GrabPay number'), '09XX XXX XXXX', 20],
+    ['coins', 'Coins.ph', t('Coins.ph number', 'Coins.ph number'), '09XX XXX XXXX', 20],
+    ['paypal', 'PayPal', t('PayPal email o paypal.me link', 'PayPal email or paypal.me link'), t('email o paypal.me/pangalan', 'email or paypal.me/yourname'), 80]];
+  const BANKS = ['BDO', 'BPI', 'Metrobank', 'Landbank', 'UnionBank', 'Security Bank', 'RCBC', 'PNB', 'China Bank', 'EastWest', 'PSBank', 'SeaBank', 'MariBank', 'CIMB', 'Tonik', 'GoTyme Bank'];
   // QR per method; the old single QR (c.qr) counts for GCash, and is the fallback for Maya and GoTyme (QR Ph works in all three)
-  const QRK = { gcash: 'qrGcash', maya: 'qrMaya', gotyme: 'qrGotyme', paypal: 'qrPaypal' };
-  const QRN = { gcash: 'GCash', maya: 'Maya', gotyme: 'GoTyme', paypal: 'PayPal' };
-  const qrOf = (c, id) => !QRK[id] ? '' : id === 'paypal' ? c.qrPaypal || '' : c[QRK[id]] || (c.qr && (id === 'gcash' || !c.qrGcash) ? c.qr : '');
+  const QRK = { gcash: 'qrGcash', maya: 'qrMaya', gotyme: 'qrGotyme', bank: 'qrBank', shopeepay: 'qrShopeepay', grabpay: 'qrGrabpay', coins: 'qrCoins', paypal: 'qrPaypal' };
+  const QRN = Object.fromEntries(MDEF.map(m => [m[0], m[1]]));
+  const qrOf = (c, id) => !QRK[id] ? '' : c[QRK[id]] || (c.qr && (id === 'maya' || id === 'gotyme' ? !c.qrGcash : id === 'gcash') ? c.qr : '');
+  // "GCash, Maya o bangko": the methods this Admin set up, or the usual ones when none is set yet
+  const payList = c => { const n = methods(c).map(m => m.id === 'bank' ? t('bank transfer', 'bank transfer') : QRN[m.id]); if (!n.length) return t('GCash, Maya, bank transfer, ShopeePay, PayPal at iba pa', 'GCash, Maya, bank transfer, ShopeePay, PayPal and more'); return n.length === 1 ? n[0] : n.slice(0, -1).join(', ') + t(' o ', ' or ') + n[n.length - 1]; };
   // PayPal QR: the uploaded one (from the PayPal app), or one made here from the paypal.me link, with the amount filled in
   const ppUrl = (me, p) => `https://www.paypal.me/${encodeURIComponent(me)}${p ? '/' + p.price + 'PHP' : ''}`;
   function qrSrc(c, m, p) {
@@ -12657,10 +12789,11 @@ interface g0/0.10
   }
   function methods(c) {
     c = c || cfg(); const out = [];
-    if (c.gcash) out.push({ id: 'gcash', n: 'GCash', v: c.gcash });
-    if (c.maya) out.push({ id: 'maya', n: 'Maya', v: c.maya });
-    if (c.gotyme) out.push({ id: 'gotyme', n: 'GoTyme', v: c.gotyme });
-    if (c.paypal) out.push({ id: 'paypal', n: 'PayPal', v: c.paypal });
+    for (const [id, n] of MDEF) {
+      if (!String(c[id] || '').trim()) continue;
+      // a bank shows as "BDO" (its name) in the list and in the message to the Admin
+      out.push(id === 'bank' ? { id, n: String(c.bankName || '').trim() || n, v: c.bank, tag: n } : { id, n, v: c[id], tag: n });
+    }
     return out;
   }
   // PayPal: an email, a paypal.me link or a paypal.me name; a paypal.me name gets a pay button with the amount filled in
@@ -12671,7 +12804,7 @@ interface g0/0.10
   const SAVE = () => { if (window.__ccnaSave) window.__ccnaSave(); };
   const me = () => (window.AUTH && AUTH.me ? AUTH.me() : null);
   const fmt = ts => new Date(ts).toLocaleString(EN ? 'en-PH' : 'fil-PH', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-  const left = ms => { const d = Math.floor(ms / DAY), hh = Math.floor(ms % DAY / HOUR), m = Math.max(1, Math.round(ms % HOUR / 6e4)); return d ? `${d} ${t('araw', d === 1 ? 'day' : 'days')}${hh ? ` ${hh} ${t('oras', 'h')}` : ''}` : hh ? `${hh} ${t('oras', 'h')} ${m} ${t('min', 'min')}` : `${m} ${t('minuto', 'min')}`; };
+  const left = ms => { const d = Math.floor(ms / DAY), hh = Math.floor(ms % DAY / HOUR), m = Math.min(59, Math.max(1, Math.round(ms % HOUR / 6e4))); return d ? `${d} ${t('araw', d === 1 ? 'day' : 'days')}${hh ? ` ${hh} ${t('oras', 'h')}` : ''}` : hh ? `${hh} ${t('oras', 'h')} ${m} ${t('min', 'min')}` : `${m} ${t('minuto', 'min')}`; };
 
   // ---------- what Free users get ----------
   const FREE_CH = ['c1', 'c2'];
@@ -12689,7 +12822,10 @@ interface g0/0.10
   const labFree = id => { const l = (window.LABS || {})[id]; return !l || freeLabs().has(id); };
   const chapterFree = id => FREE_CH.includes(id);
   // Limits for Free users in Practice & References and Account (Premium removes all of them)
-  const LIMITS = { designs: 1, devices: 10, subnetDay: 10, planWeeks: 4, labs: 10, challenges: 5, mini: 20 };
+  const LIMITS = { designs: 1, devices: 10, subnetDay: 10, planWeeks: 4, labs: 10, challenges: 5, mini: 20, missions: 5 };
+  // Network Designer: Free users get the first 5 Basic missions of the list
+  const freeMissions = () => ((window.DESIGNER && DESIGNER.MISSIONS) || []).filter(m => m.lvl === 'Basic').slice(0, LIMITS.missions);
+  const missionFree = m => isPremium() || !m || freeMissions().some(x => x.id === (m.id || m));
   const PREM_PAL = ['warm'];
   const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
   // questions answered today in the Subnetting Trainer (counted from the running total, so the trainer code stays as it is)
@@ -12789,7 +12925,7 @@ interface g0/0.10
   function usage() {
     const s = S(), sn = subnetToday(), ds = Object.values(s.designs || {}).filter(x => !x.mission && !x.sample && !/^(Halimbawa|Sample):/.test(x.name || '')).length;
     const m = (n, used, max) => `<div class="prem-use"><span>${n}</span><div class="bar ${used >= max ? 'warn' : ''}"><i style="width:${Math.min(100, 100 * used / max)}%"></i></div><b>${Math.min(used, max)}/${max}</b></div>`;
-    return `<div class="prem-uses">${m(t('Subnetting ngayong araw', 'Subnetting today'), sn, LIMITS.subnetDay)}${m(t('Sariling design sa Designer', 'Own designs in the Designer'), ds, LIMITS.designs)}</div>`;
+    return `<div class="prem-uses">${m(t('Subnetting ngayong araw', 'Subnetting today'), sn, LIMITS.subnetDay)}${m(t('Sariling design sa Designer', 'Own designs in the Designer'), ds, LIMITS.designs)}${m(t('Designer mission na tapos', 'Designer missions done'), freeMissions().filter(x => (s.missions || {})[x.id]).length, LIMITS.missions)}</div>`;
   }
   function lockCard(kind) {
     const what = kind === 'challenge' ? t('Premium challenge ito', 'This is a Premium challenge') : kind === 'lab' ? t('Premium lab ito', 'This is a Premium lab') : kind === 'exam' ? t('Premium ang buong 120-question exam', 'The full 120-question exam is Premium') : t('Premium lesson ito', 'This is a Premium lesson');
@@ -12817,7 +12953,7 @@ interface g0/0.10
   // ---------- Upgrade page (trainees) ----------
   function viewUpgrade(main, ctx) {
     const st = status(), c = cfg(), u = me();
-    const page = h(`<div class="page"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payment')}</h1><p class="muted" style="max-width:70ch">${t('Bayaran ang Admin o Trainor mo gamit ang GCash, Maya, GoTyme o PayPal, ipadala ang reference number, at bibigyan ka nila ng access code.', 'Pay your Admin or Trainor through GCash, Maya, GoTyme or PayPal, send the reference number, and they will give you an access code.')}</p></div></div>`);
+    const page = h(`<div class="page"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payment')}</h1><p class="muted" style="max-width:70ch">${t(`Bayaran ang Admin o Trainor mo gamit ang ${payList(c)}, ipadala ang reference number, at bibigyan ka nila ng access code.`, `Pay your Admin or Trainor through ${payList(c)}, send the reference number, and they will give you an access code.`)}</p></div></div>`);
     const sl = sale(c);
     if (sl && st.src !== 'staff') {
       const sb = h(`<div class="prem-sale" role="note"><div class="prem-sale-ic" aria-hidden="true">%</div><div class="prem-sale-t"><b>${esc(sl.label || t('Promo', 'Promo'))}: ${+sl.pct}% ${t('bawas', 'off')}${(sl.plans || 'both') === 'both' ? '' : sl.plans === 'y' ? t(' sa 1 Taon', ' on 1 Year') : t(' sa Buwanan', ' on Monthly')}</b><span class="small">${t('Hanggang', 'Until')} ${fmt(sl.until)} · ${t('natitira', 'left')}: ${left(sl.until - Date.now())}</span></div>${sl.code ? (sl.locked ? `<form class="prem-pc" autocomplete="off"><input name="pc" maxlength="24" autocapitalize="characters" spellcheck="false" placeholder="${t('Promo code', 'Promo code')}" aria-label="Promo code"><button class="btn sm primary" type="submit">${t('Gamitin', 'Apply')}</button></form>` : `<span class="pill ok">${t('Promo code', 'Promo code')}: ${esc(String(sl.code).toUpperCase())} ✓</span>`) : ''}</div>`);
@@ -12827,13 +12963,13 @@ interface g0/0.10
     }
     page.appendChild(h(`<div class="card stack prem-status"><div class="row between"><h3>${t('Ang plan mo', 'Your plan')}</h3>${badge(st)}</div><p class="small">${statusLine(st)}</p>${st.tier === 'free' ? usage() : ''}</div>`));
     page.appendChild(h(`<div class="prem-plans">
-      <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Basic labs', 'Basic labs')}: <b>${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length}</b> ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => !l.challenge && (l.level || 'Basic') === 'Basic').length}</li><li>${t('Lab challenges', 'Lab challenges')}: <b>${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length}</b> ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam: <b>${LIMITS.mini}</b> ${t('tanong', 'questions')}</li><li>${t(`Network Designer: <b>${LIMITS.designs}</b> sariling design at <b>${LIMITS.devices}</b> device, walang Auto-design (bukas ang 100 mission)`, `Network Designer: <b>${LIMITS.designs}</b> design of your own and <b>${LIMITS.devices}</b> devices, no Auto-design (all 100 missions open)`)}</li><li>${t(`Subnetting Trainer: <b>${LIMITS.subnetDay}</b> tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: <b>${LIMITS.subnetDay}</b> questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
-      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3>${plans(c).length ? `<div class="prem-opts" role="radiogroup" aria-label="${t('Piliin ang plan', 'Choose a plan')}">${plans(c).map((p, i, a) => `<label class="prem-opt ${p.id === 'y' ? 'best' : ''}"><input type="radio" name="prem-plan" value="${p.id}" ${(a.length > 1 ? p.id === 'y' : i === 0) ? 'checked' : ''}><span class="prem-opt-n">${p.name}${p.id === 'y' && p.save ? `<i class="prem-tag">${t('Pinakasulit', 'Best value')}</i>` : ''}</span><span class="prem-price">${p.was ? `<s class="prem-was">${peso(p.was)}</s>` : ''}${peso(p.price)}<small>/${p.per}</small></span>${p.save ? `<span class="tiny prem-save">${t(`Makatipid ng ${peso(p.save)} (${p.pct}%) · ${peso(p.month)} lang bawat buwan`, `Save ${peso(p.save)} (${p.pct}%) · just ${peso(p.month)} a month`)}</span>` : p.id === 'm' ? `<span class="tiny muted">${t('Bayaran bawat buwan', 'Pay every month')}</span>` : `<span class="tiny muted">${t('Isang bayad para sa buong taon', 'One payment for the whole year')}</span>`}</label>`).join('')}</div>` : `<p class="prem-price">${t('Tanungin ang Admin', 'Ask the Admin')}</p>`}<ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
+      <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Basic labs', 'Basic labs')}: <b>${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length}</b> ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => !l.challenge && (l.level || 'Basic') === 'Basic').length}</li><li>${t('Lab challenges', 'Lab challenges')}: <b>${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length}</b> ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam: <b>${LIMITS.mini}</b> ${t('tanong', 'questions')}</li><li>${t(`Network Designer: <b>${LIMITS.designs}</b> sariling design, <b>${LIMITS.devices}</b> device at <b>${LIMITS.missions}</b> Basic mission, walang Auto-design`, `Network Designer: <b>${LIMITS.designs}</b> design of your own, <b>${LIMITS.devices}</b> devices and <b>${LIMITS.missions}</b> Basic missions, no Auto-design`)}</li><li>${t(`Subnetting Trainer: <b>${LIMITS.subnetDay}</b> tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: <b>${LIMITS.subnetDay}</b> questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
+      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3>${plans(c).length ? `<div class="prem-opts" role="radiogroup" aria-label="${t('Piliin ang plan', 'Choose a plan')}">${plans(c).map((p, i, a) => `<label class="prem-opt ${p.id === 'y' ? 'best' : ''}"><input type="radio" name="prem-plan" value="${p.id}" ${(a.length > 1 ? p.id === 'y' : i === 0) ? 'checked' : ''}><span class="prem-opt-n">${p.name}${p.id === 'y' && p.save ? `<i class="prem-tag">${t('Pinakasulit', 'Best value')}</i>` : ''}</span><span class="prem-price">${p.was ? `<s class="prem-was">${peso(p.was)}</s>` : ''}${peso(p.price)}<small>/${p.per}</small></span>${p.save ? `<span class="tiny prem-save">${t(`Makatipid ng ${peso(p.save)} (${p.pct}%) · ${peso(p.month)} lang bawat buwan`, `Save ${peso(p.save)} (${p.pct}%) · just ${peso(p.month)} a month`)}</span>` : p.id === 'm' ? `<span class="tiny muted">${t('Bayaran bawat buwan', 'Pay every month')}</span>` : `<span class="tiny muted">${t('Isang bayad para sa buong taon', 'One payment for the whole year')}</span>`}</label>`).join('')}</div>` : `<p class="prem-price">${t('Tanungin ang Admin', 'Ask the Admin')}</p>`}<ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t(`Walang limit na Network Designer, Auto-design at lahat ng ${(window.DESIGNER && DESIGNER.MISSIONS || []).length || 100} mission`, `Unlimited Network Designer, Auto-design and all ${(window.DESIGNER && DESIGNER.MISSIONS || []).length || 100} missions`)}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
       const ms = methods(c), has = ms.length > 0;
-      pay.appendChild(h(has ? `<div class="prem-pay">${ms.some(m => qrSrc(c, m)) ? `<figure class="prem-qrf" hidden><img class="prem-qr" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted"></figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${m.n}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b></label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, GoTyme o PayPal) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, GoTyme or PayPal) on this device yet. Contact your Admin or Trainor.')}</p>`));
-      const steps = h(`<ol class="small prem-steps"><li>${t('Pumili ng paraan sa itaas at magbayad (GCash, Maya, GoTyme o PayPal).', 'Pick a method above and pay (GCash, Maya, GoTyme or PayPal).')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
+      pay.appendChild(h(has ? `<div class="prem-pay">${ms.some(m => qrSrc(c, m)) ? `<figure class="prem-qrf" hidden><img class="prem-qr" alt="${t('QR code para sa bayad', 'Payment QR code')}"><figcaption class="tiny muted"></figcaption></figure>` : ''}<div class="stack" style="gap:8px;flex:1;min-width:0"><div class="prem-ms" role="radiogroup" aria-label="${t('Paraan ng bayad', 'Payment method')}">${ms.map((m, i) => `<label class="prem-m prem-m-${m.id}"><input type="radio" name="prem-m" value="${m.id}" ${i === 0 ? 'checked' : ''}><span class="pill">${esc(m.n)}</span><b class="mono">${esc(m.id === 'paypal' && ppMe(m.v) ? 'paypal.me/' + ppMe(m.v) : m.v)}</b>${m.id === 'bank' ? `<span class="tiny muted">InstaPay / PESONet</span>` : ''}</label>`).join('')}</div>${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}<div class="prem-pp" hidden></div></div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang detalye ng bayad (GCash, Maya, bangko, ShopeePay, PayPal at iba pa) sa device na ito. Makipag-ugnayan sa Admin o Trainor mo.', 'The Admin has not added payment details (GCash, Maya, bank, ShopeePay, PayPal and more) on this device yet. Contact your Admin or Trainor.')}</p>`));
+      const steps = h(`<ol class="small prem-steps"><li>${t('Pumili ng paraan sa itaas at magbayad.', 'Pick a method above and pay.')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
       pay.appendChild(steps);
       const chosen = () => { const v = (page.querySelector('[name=prem-plan]:checked') || {}).value; return plans(c).find(p => p.id === v) || plans(c)[0] || null; };
       const method = () => { const v = (pay.querySelector('[name=prem-m]:checked') || {}).value; return ms.find(m => m.id === v) || ms[0] || null; };
@@ -12842,13 +12978,15 @@ interface g0/0.10
         const qf = pay.querySelector('.prem-qrf'); if (qf) { const q = m ? qrSrc(c, m, p) : null; qf.hidden = !q; qf.classList.toggle('pp', !!(m && m.id === 'paypal')); if (q) { qf.querySelector('img').src = q.src; qf.querySelector('figcaption').textContent = 'QR · ' + m.n + (q.auto && p ? ' · ' + peso(p.price) : ''); qf.title = q.auto ? t('Ginawa mula sa paypal.me link. I-scan gamit ang camera ng phone o ang PayPal app.', 'Made from the paypal.me link. Scan it with your phone camera or the PayPal app.') : ''; } }
         const pp = pay.querySelector('.prem-pp'); if (!pp) return;
         if (m && m.id === 'paypal') { const me_ = ppMe(m.v); pp.hidden = false; pp.innerHTML = me_ ? `<a class="btn sm primary" href="${ppUrl(me_, p)}" target="_blank" rel="noopener">${t('Magbayad sa PayPal', 'Pay with PayPal')}${p ? ' · ' + peso(p.price) : ''}</a><span class="tiny muted">${t('Bubukas ang PayPal sa browser, o i-scan ang QR gamit ang phone. Kopyahin ang Transaction ID pagkatapos magbayad.', 'PayPal opens in your browser, or scan the QR with your phone. Copy the Transaction ID after you pay.')}</span>` : `<span class="tiny muted">${qrOf(c, 'paypal') ? t('I-scan ang QR gamit ang PayPal app, o ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Scan the QR with the PayPal app, or send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.') : t('Ipadala ang bayad sa PayPal email na ito (Send money). Kopyahin ang Transaction ID pagkatapos.', 'Send the payment to this PayPal email (Send money). Copy the Transaction ID afterwards.')}</span>`; }
+        else if (m && m.id === 'bank') { pp.hidden = false; pp.innerHTML = `<span class="tiny muted">${t(`Sa banking app mo: <b>Transfer</b> → <b>InstaPay</b> (agad dumarating) o <b>PESONet</b>. Bangko: <b>${esc(m.n)}</b>${c.name ? `, account name: <b>${esc(c.name)}</b>` : ''}. Puwede ring i-scan ang QR kung mayroon. Kopyahin ang reference number pagkatapos.`, `In your banking app: <b>Transfer</b> → <b>InstaPay</b> (arrives right away) or <b>PESONet</b>. Bank: <b>${esc(m.n)}</b>${c.name ? `, account name: <b>${esc(c.name)}</b>` : ''}. You can also scan the QR if there is one. Copy the reference number afterwards.`)}</span>`; }
+        else if (m) { pp.hidden = false; pp.innerHTML = `<span class="tiny muted">${t(`Sa ${esc(m.n)} app: <b>Send</b> sa number sa itaas, o <b>Scan QR</b> kung may QR. Kopyahin ang reference number pagkatapos.`, `In the ${esc(m.n)} app: <b>Send</b> to the number above, or <b>Scan QR</b> if there is a QR. Copy the reference number afterwards.`)}</span>`; }
         else { pp.hidden = true; pp.innerHTML = ''; }
         const rl = ref.querySelector('.prem-refl'); if (rl) rl.textContent = m && m.id === 'paypal' ? 'Transaction ID' : t('Reference number', 'Reference number');
       };
       const ref = h(`<div class="row prem-ref"><label class="fld" style="flex:1;min-width:180px"><span class="prem-refl">${t('Reference number', 'Reference number')}</span><input type="text" maxlength="24" placeholder="1234 567 890123"></label><button class="btn" type="button">${t('Kopyahin ang mensahe', 'Copy message')}</button></div>`);
       ref.querySelector('button').onclick = () => {
         const r = ref.querySelector('input').value.trim(); if (!r) { ctx.toast(t('Ilagay muna ang reference number.', 'Enter the reference number first.')); return; }
-        const p = chosen(), m = method(), pl = p ? `${p.name}, ${peso(p.price)}${p.was && sl ? `, ${sl.label || 'promo'} ${sl.pct}%${sl.code ? ' ' + String(sl.code).toUpperCase() : ''}` : ''}` : '?', via = m ? m.n : 'GCash/Maya';
+        const p = chosen(), m = method(), pl = p ? `${p.name}, ${peso(p.price)}${p.was && sl ? `, ${sl.label || 'promo'} ${sl.pct}%${sl.code ? ' ' + String(sl.code).toUpperCase() : ''}` : ''}` : '?', via = m ? (m.id === 'bank' ? m.n + ' (bank transfer)' : m.n) : 'GCash/Maya';
         const msg = t(`CCNA Lab Premium (${pl}): nagbayad ako via ${via}. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`, `CCNA Lab Premium (${pl}): I paid via ${via}. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`);
         const done = () => ctx.toast(t('Nakopya. I-paste sa chat sa Admin.', 'Copied. Paste it in your chat with the Admin.'));
         (navigator.clipboard ? navigator.clipboard.writeText(msg).then(done, () => prompt('', msg)) : (prompt('', msg), 0));
@@ -12873,13 +13011,13 @@ interface g0/0.10
   function viewAdmin(main, ctx) {
     const u = me(); if (!u || u.role === 'trainee') { main.appendChild(h(`<div class="page"><p class="muted">${t('Para lang sa Admin at Trainor.', 'Admin and Trainor only.')}</p></div>`)); return; }
     const admin = u.role === 'admin'; let c = cfg();
-    const page = h(`<div class="page wide"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payments')}</h1><p class="muted" style="max-width:76ch">${t('Ikaw ang tumatanggap ng bayad (GCash, Maya, GoTyme o PayPal). Pagkatapos makita ang bayad, bigyan ng Premium ang trainee dito o gumawa ng access code.', 'You receive payments (GCash, Maya, GoTyme or PayPal). Once you see the payment, give the trainee Premium here or make an access code.')}</p></div></div>`);
+    const page = h(`<div class="page wide"><div class="lesson-head"><h1>${t('Premium at bayad', 'Premium and payments')}</h1><p class="muted" style="max-width:76ch">${t(`Ikaw ang tumatanggap ng bayad (${payList(c)}). Pagkatapos makita ang bayad, bigyan ng Premium ang trainee dito o gumawa ng access code.`, `You receive payments (${payList(c)}). Once you see the payment, give the trainee Premium here or make an access code.`)}</p></div></div>`);
     // payment details
     if (admin) {
       const pd = h(`<div class="card stack"><h3>${t('Detalye ng bayad', 'Payment details')}</h3><p class="small muted">${t('Makikita ito ng mga trainee sa "Mag-upgrade" page sa device na ito.', 'Trainees see this on the "Upgrade" page on this device.')}</p>
         <form class="prem-form prem-pf" autocomplete="off">
-          <div class="prem-pf-h">${t('Mga paraan ng bayad', 'Payment methods')}<span class="tiny muted">${t('Iwanang blangko ang hindi ginagamit. Bawat isa ay may sariling QR.', 'Leave unused ones blank. Each one has its own QR.')}</span></div>
-          <div class="prem-mrows">${[['gcash', 'GCash', t('GCash number', 'GCash number'), '09XX XXX XXXX', 20], ['maya', 'Maya', t('Maya number', 'Maya number'), '09XX XXX XXXX', 20], ['gotyme', 'GoTyme', t('GoTyme account number', 'GoTyme account number'), '0123 4567 8901', 24], ['paypal', 'PayPal', t('PayPal email o paypal.me link', 'PayPal email or paypal.me link'), t('email o paypal.me/pangalan', 'email or paypal.me/yourname'), 80]].map(([id, n, lab, ph, mx]) => { const q = qrOf(c, id); return `<div class="prem-mrow" data-m="${id}"><span class="pill prem-m-${id}">${n}</span><label class="fld"><span class="sr-only">${lab}</span><input name="${id}" ${id === 'paypal' ? '' : 'inputmode="tel"'} maxlength="${mx}" value="${esc(c[id] || '')}" placeholder="${esc(ph)}" aria-label="${esc(lab)}"></label><div class="prem-mqr">${q ? `<img class="prem-qr sm" src="${esc(q)}" alt="QR ${n}">` : id === 'paypal' ? `<span class="prem-qauto" hidden><img class="prem-qr sm" alt="${t('Auto QR ng PayPal', 'Automatic PayPal QR')}"><i>Auto</i></span><span class="prem-qr0" aria-hidden="true">QR</span>` : `<span class="prem-qr0" aria-hidden="true">QR</span>`}<button type="button" class="btn sm" data-qr="${id}">${q ? t('Palitan', 'Change') : id === 'paypal' ? t('Upload', 'Upload') : t('QR', 'QR')}</button>${q ? `<button type="button" class="btn sm ghost" data-qrx="${id}" aria-label="${t('Alisin ang QR', 'Remove QR')} ${n}">✕</button>` : ''}</div>${id === 'paypal' ? `<p class="tiny muted prem-pph">${q ? t('Ito ang QR na makikita ng trainee. Alisin ito para gamitin ang awtomatikong QR mula sa paypal.me link.', 'Trainees see this QR. Remove it to use the automatic QR from the paypal.me link.') : t('Kapag paypal.me link ang inilagay, awtomatikong gagawa ng QR (kasama ang halaga) at "Magbayad sa PayPal" button. Puwede ring i-upload ang QR mula sa PayPal app (Receive / QR code).', 'With a paypal.me link, a QR (with the amount) and a "Pay with PayPal" button are made automatically. You can also upload the QR from the PayPal app (Receive / QR code).')}</p>` : ''}</div>`; }).join('')}</div>
+          <div class="prem-pf-h">${t('Mga paraan ng bayad', 'Payment methods')}<span class="tiny muted">${t('Iwanang blangko ang hindi ginagamit. Bawat isa ay may sariling QR (QR Ph mula sa app ng e-wallet o bangko mo).', 'Leave unused ones blank. Each one has its own QR (the QR Ph from your e-wallet or bank app).')}</span></div>
+          <div class="prem-mrows">${MDEF.map(([id, n, lab, ph, mx]) => { const q = qrOf(c, id); return `<div class="prem-mrow" data-m="${id}"><span class="pill prem-m-${id}">${n}</span>${id === 'bank' ? `<div class="prem-bank"><label class="fld"><span class="sr-only">${t('Pangalan ng bangko', 'Bank name')}</span><input name="bankName" list="prem-banks" maxlength="30" value="${esc(c.bankName || '')}" placeholder="${t('Bangko (hal. BDO)', 'Bank (e.g. BDO)')}" aria-label="${t('Pangalan ng bangko', 'Bank name')}"></label><label class="fld"><span class="sr-only">${lab}</span><input name="bank" inputmode="numeric" maxlength="${mx}" value="${esc(c.bank || '')}" placeholder="${esc(ph)}" aria-label="${esc(lab)}"></label><datalist id="prem-banks">${BANKS.map(b => `<option value="${b}">`).join('')}</datalist></div>` : `<label class="fld"><span class="sr-only">${lab}</span><input name="${id}" ${id === 'paypal' ? '' : 'inputmode="tel"'} maxlength="${mx}" value="${esc(c[id] || '')}" placeholder="${esc(ph)}" aria-label="${esc(lab)}"></label>`}<div class="prem-mqr">${q ? `<img class="prem-qr sm" src="${esc(q)}" alt="QR ${n}">` : id === 'paypal' ? `<span class="prem-qauto" hidden><img class="prem-qr sm" alt="${t('Auto QR ng PayPal', 'Automatic PayPal QR')}"><i>Auto</i></span><span class="prem-qr0" aria-hidden="true">QR</span>` : `<span class="prem-qr0" aria-hidden="true">QR</span>`}<button type="button" class="btn sm" data-qr="${id}">${q ? t('Palitan', 'Change') : id === 'paypal' ? t('Upload', 'Upload') : t('QR', 'QR')}</button>${q ? `<button type="button" class="btn sm ghost" data-qrx="${id}" aria-label="${t('Alisin ang QR', 'Remove QR')} ${n}">✕</button>` : ''}</div>${id === 'paypal' ? `<p class="tiny muted prem-pph">${q ? t('Ito ang QR na makikita ng trainee. Alisin ito para gamitin ang awtomatikong QR mula sa paypal.me link.', 'Trainees see this QR. Remove it to use the automatic QR from the paypal.me link.') : t('Kapag paypal.me link ang inilagay, awtomatikong gagawa ng QR (kasama ang halaga) at "Magbayad sa PayPal" button. Puwede ring i-upload ang QR mula sa PayPal app (Receive / QR code).', 'With a paypal.me link, a QR (with the amount) and a "Pay with PayPal" button are made automatically. You can also upload the QR from the PayPal app (Receive / QR code).')}</p>` : ''}</div>`; }).join('')}</div>
           <input type="file" accept="image/*" hidden data-qrfile>
           <div class="prem-pf-h">${t('Account', 'Account')}</div>
           <div class="grid c2 prem-pf-g">
@@ -12895,12 +13033,13 @@ interface g0/0.10
           </div>
           <div class="row"><button class="btn primary" type="submit">${t('I-save', 'Save')}</button></div></form></div>`);
       const f = pd.querySelector('form');
-      f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), gotyme: f.gotyme.value.trim(), paypal: f.paypal.value.trim(), name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), priceYear: f.priceYear.value.replace(/[^\d.]/g, ''), period: 'month', trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
+      const typedM = () => { const o = { bankName: f.bankName.value.trim() }; MDEF.forEach(([id]) => { o[id] = f[id].value.trim(); }); return o; };
+      f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), typedM(), { name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), priceYear: f.priceYear.value.replace(/[^\d.]/g, ''), period: 'month', trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
       const yh = () => { const m = +f.price.value.replace(/[^\d.]/g, ''), y = +f.priceYear.value.replace(/[^\d.]/g, ''), el = pd.querySelector('.prem-yhint'); el.textContent = m > 0 && y > 0 ? (12 * m > y ? t(`Makakatipid ang trainee ng ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) kumpara sa 12 buwan.`, `Trainees save ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) compared with 12 months.`) : t('Mas mahal ito kaysa 12 buwan na buwanan.', 'This costs more than 12 monthly payments.')) : ''; };
       f.price.oninput = f.priceYear.oninput = yh; yh();
       const fi = pd.querySelector('[data-qrfile]'); let qrFor = 'gcash';
       // keep what was typed when a QR is changed (the page re-renders)
-      const keepTyped = () => Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), gotyme: f.gotyme.value.trim(), paypal: f.paypal.value.trim() });
+      const keepTyped = () => Object.assign(cfg(), typedM());
       pd.querySelectorAll('[data-qr]').forEach(b => b.onclick = () => { qrFor = b.dataset.qr; fi.value = ''; fi.click(); });
       // live preview of the automatic PayPal QR while the link is typed
       const qa = pd.querySelector('.prem-qauto');
@@ -12919,7 +13058,7 @@ interface g0/0.10
           <label class="fld">${t('Para sa', 'Applies to')}<select name="plans"><option value="both" ${(s0.plans || 'both') === 'both' ? 'selected' : ''}>${t('Buwanan at 1 Taon', 'Monthly and 1 Year')}</option><option value="m" ${s0.plans === 'm' ? 'selected' : ''}>${t('Buwanan lang', 'Monthly only')}</option><option value="y" ${s0.plans === 'y' ? 'selected' : ''}>${t('1 Taon lang', '1 Year only')}</option></select></label>
           <label class="fld">${t('Promo code (opsyonal)', 'Promo code (optional)')}<input name="code" maxlength="24" autocapitalize="characters" spellcheck="false" value="${esc(s0.code || '')}" placeholder="${t('blangko = para sa lahat', 'blank = for everyone')}"></label>
           <label class="fld">${t('Hanggang', 'Until')}<input type="datetime-local" name="until" value="${s0.until > Date.now() ? toLocal(s0.until) : ''}"></label>
-          <div class="fld"><span>${t('O mabilis', 'Or quickly')}</span><div class="row" style="gap:6px;flex-wrap:wrap">${[[3, t('3 araw', '3 days')], [7, t('1 linggo', '1 week')], [30, t('30 araw', '30 days')]].map(([d, l]) => `<button type="button" class="btn sm" data-sd="${d}">${l}</button>`).join('')}</div></div>
+          <div class="fld"><span>${t('O mabilis', 'Or quickly')}</span><div class="prem-chips c3">${[[3, t('3 araw', '3 days')], [7, t('1 linggo', '1 week')], [30, t('30 araw', '30 days')]].map(([d, l]) => `<button type="button" class="btn" data-sd="${d}">${l}</button>`).join('')}</div></div>
           <p class="tiny muted prem-sprev" style="grid-column:1/-1"></p>
           <div class="row" style="grid-column:1/-1"><button class="btn primary" type="submit">${so ? t('I-update ang promo', 'Update promo') : t('Simulan ang promo', 'Start promo')}</button>${so ? `<button class="btn ghost" type="button" data-a="soff">${t('Itigil ngayon', 'Stop now')}</button>` : ''}</div></form></div>`);
       const sf = sp.querySelector('form');
@@ -12936,10 +13075,16 @@ interface g0/0.10
       const so_ = sp.querySelector('[data-a=soff]'); if (so_) so_.onclick = () => { saveCfg(Object.assign(cfg(), { sale: Object.assign({}, cfg().sale, { until: 0 }) })); ctx.toast(t('Itinigil ang promo.', 'Promo stopped.')); ctx.route(); };
       page.appendChild(sp);
       // promo for everyone
-      const pr = h(`<div class="card stack"><h3>${t('Libreng Premium para sa lahat', 'Free Premium for everyone')}</h3><p class="small">${c.promoUntil > Date.now() ? `${t('Naka-on hanggang', 'On until')} <b>${fmt(c.promoUntil)}</b> (${left(c.promoUntil - Date.now())})` : t('Naka-off. Lahat ng trainee sa device na ito ay magiging Premium hanggang sa oras na pipiliin mo.', 'Off. Every trainee on this device becomes Premium until the time you choose.')}</p>
-        <div class="row" style="gap:8px;flex-wrap:wrap">${[[1, t('1 oras', '1 hour')], [24, t('1 araw', '1 day')], [72, t('3 araw', '3 days')], [168, t('1 linggo', '1 week')], [720, t('30 araw', '30 days')]].map(([hh, l]) => `<button class="btn sm" data-promo="${hh}">${l}</button>`).join('')}<label class="fld" style="min-width:200px">${t('O hanggang', 'Or until')}<input type="datetime-local" name="till"></label><button class="btn sm" data-a="till">${t('Itakda', 'Set')}</button>${c.promoUntil > Date.now() ? `<button class="btn sm ghost" data-a="off">${t('Itigil ngayon', 'Stop now')}</button>` : ''}</div>
-        <label class="fld">${t('Mensahe (opsyonal)', 'Message (optional)')}<input name="note" maxlength="60" value="${esc(c.promoNote)}" placeholder="${t('hal. Promo ngayong Pasko', 'e.g. Holiday promo')}"></label>
-        <p class="tiny muted">${t('Para sa trainees sa ibang device, gumawa ng code na "Kahit sino" sa ibaba.', 'For trainees on other devices, make an "Anyone" code below.')}</p></div>`);
+      // laid out like the promo above: status, then 1) message 2) how long (quick choices or a date), all controls one height
+      const pOn = c.promoUntil > Date.now();
+      const pr = h(`<div class="card stack prem-fp"><h3>${t('Libreng Premium para sa lahat', 'Free Premium for everyone')}</h3>
+        <div class="prem-fp-st ${pOn ? 'on' : ''}"><span class="pill ${pOn ? 'ok' : ''}">${pOn ? t('Naka-on', 'On') : t('Naka-off', 'Off')}</span><span class="small">${pOn ? `${t('Lahat ng trainee sa device na ito ay Premium hanggang', 'Every trainee on this device is Premium until')} <b>${fmt(c.promoUntil)}</b> · ${t('natitira', 'left')}: ${left(c.promoUntil - Date.now())}${c.promoNote ? ` · “${esc(c.promoNote)}”` : ''}` : t('Gawing Premium ang lahat ng trainee sa device na ito hanggang sa oras na pipiliin mo.', 'Make every trainee on this device Premium until the time you choose.')}</span>${pOn ? `<button class="btn sm ghost" type="button" data-a="off">${t('Itigil ngayon', 'Stop now')}</button>` : ''}</div>
+        <label class="fld">${t('Mensahe sa trainee (opsyonal)', 'Message to trainees (optional)')}<input name="note" maxlength="60" value="${esc(c.promoNote)}" placeholder="${t('hal. Promo ngayong Pasko', 'e.g. Holiday promo')}"></label>
+        <div class="prem-fp-g">
+          <div class="fld"><span>${pOn ? t('Palitan ang tagal (mula ngayon)', 'Change how long (from now)') : t('Gaano katagal (mula ngayon)', 'How long (from now)')}</span><div class="prem-chips">${[[1, t('1 oras', '1 hour')], [24, t('1 araw', '1 day')], [72, t('3 araw', '3 days')], [168, t('1 linggo', '1 week')], [720, t('30 araw', '30 days')]].map(([hh, l]) => `<button class="btn" type="button" data-promo="${hh}">${l}</button>`).join('')}</div></div>
+          <div class="fld"><span>${t('O hanggang sa petsa at oras na ito', 'Or until this date and time')}</span><div class="prem-inb"><input type="datetime-local" name="till" aria-label="${t('Hanggang kailan', 'Until when')}"><button class="btn primary" type="button" data-a="till">${t('Itakda', 'Set')}</button></div></div>
+        </div>
+        <p class="tiny muted">${t('Para sa trainees sa ibang device, gumawa ng access code na "Kahit sino" (*) sa ibaba.', 'For trainees on other devices, make an "Anyone" (*) access code below.')}</p></div>`);
       const setPromo = until => { saveCfg(Object.assign(cfg(), { promoUntil: until, promoNote: pr.querySelector('[name=note]').value.trim() })); ctx.toast(until ? t('Naka-on ang libreng Premium.', 'Free Premium is on.') : t('Itinigil ang promo.', 'Promo stopped.')); ctx.route(); };
       pr.querySelectorAll('[data-promo]').forEach(b => b.onclick = () => setPromo(Date.now() + (+b.dataset.promo) * HOUR));
       pr.querySelector('[data-a=till]').onclick = () => { const v = pr.querySelector('[name=till]').value; const ts = v ? new Date(v).getTime() : 0; if (!(ts > Date.now())) { ctx.toast(t('Pumili ng petsa sa hinaharap.', 'Pick a future date.')); return; } setPromo(ts); };
@@ -12950,7 +13095,7 @@ interface g0/0.10
     const cg = h(`<div class="card stack"><h3>${t('Gumawa ng access code', 'Make an access code')}</h3><p class="small muted">${t('Gumagana kahit sa ibang device at offline. Isang beses lang magagamit ng bawat trainee ang isang code.', 'Works on other devices and offline. Each trainee can use a code once.')}</p>
       <form class="grid c2 prem-form" autocomplete="off">
         <label class="fld">${t('Uri', 'Type')}<select name="kind"><option value="p">Premium (${t('araw', 'days')})</option><option value="t">${t('Free trial (oras)', 'Free trial (hours)')}</option></select></label>
-        <label class="fld">${t('Gaano katagal', 'How long')}<span class="row" style="gap:6px;flex-wrap:nowrap"><input name="amount" inputmode="numeric" maxlength="4" value="30" style="flex:1;min-width:60px"><button type="button" class="btn sm" data-days="30">${t('1 buwan', '1 month')}</button><button type="button" class="btn sm" data-days="365">${t('1 taon', '1 year')}</button></span></label>
+        <label class="fld">${t('Gaano katagal', 'How long')}<span class="prem-inb"><input name="amount" inputmode="numeric" maxlength="4" value="30"><button type="button" class="btn" data-days="30">${t('1 buwan', '1 month')}</button><button type="button" class="btn" data-days="365">${t('1 taon', '1 year')}</button></span></label>
         <label class="fld">${t('Para kanino', 'For whom')}<input name="user" maxlength="24" placeholder="${t('username, o * para sa kahit sino', 'username, or * for anyone')}" value="*"></label>
         <label class="fld">${t('Puwedeng i-redeem sa loob ng (araw)', 'Can be redeemed within (days)')}<input name="valid" inputmode="numeric" maxlength="3" value="7"></label>
         <div class="row"><button class="btn primary" type="submit">${t('Gumawa ng code', 'Make code')}</button></div></form><div class="prem-code-out"></div></div>`);
@@ -12977,11 +13122,11 @@ interface g0/0.10
     });
     page.appendChild(ul);
     if (window.ACC) { const cs = [...page.querySelectorAll(':scope > .card')]; ACC(cs, { key: 'prem', open: 0, icons: cs.length === 5 ? ['wallet', 'tag', 'gift', 'ticket', 'users'] : ['ticket', 'users'] }); }
-    page.appendChild(h(`<p class="tiny muted" style="max-width:76ch">${t('Paalala: walang server ang app, kaya hindi ito tumatanggap o nagve-verify ng bayad mismo. Ikaw ang titingin sa GCash, Maya, GoTyme o PayPal mo bago magbigay ng access. Ang mga code ay may check para sa typo at pandaraya ng karaniwang user, pero hindi ito kasing-higpit ng totoong online payment system.', 'Note: the app has no server, so it does not take or verify payments itself. You check your GCash, Maya, GoTyme or PayPal before giving access. Codes are checked against typos and casual tampering, but this is not as strict as a real online payment system.')}</p>`));
+    page.appendChild(h(`<p class="tiny muted" style="max-width:76ch">${t('Paalala: walang server ang app, kaya hindi ito tumatanggap o nagve-verify ng bayad mismo. Ikaw ang titingin sa e-wallet, bangko o PayPal mo bago magbigay ng access. Ang mga code ay may check para sa typo at pandaraya ng karaniwang user, pero hindi ito kasing-higpit ng totoong online payment system.', 'Note: the app has no server, so it does not take or verify payments itself. You check your e-wallet, bank or PayPal before giving access. Codes are checked against typos and casual tampering, but this is not as strict as a real online payment system.')}</p>`));
     main.appendChild(page);
   }
 
-  window.PREMIUM = { plans, sale, methods, status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
+  window.PREMIUM = { plans, sale, methods, missionFree, freeMissions, payList, status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
 })();
 
 ;
@@ -14481,6 +14626,8 @@ interface g0/0.10
     // Free plan: the user's own designs (samples and missions do not count)
     const ownDesigns = () => Object.values(S.designs).filter(x => !x.mission && !x.sample && !/^(Halimbawa|Sample):/.test(x.name || '')).length;
     const designLimit = () => { if (!freeDz() || ownDesigns() < PR.LIMITS.designs) return false; toast(TT(`Free plan: ${PR.LIMITS.designs} sariling design lang (hindi kasama ang mga halimbawa at mission). Burahin ito o mag-upgrade.`, `Free plan: ${PR.LIMITS.designs} design of your own (samples and missions don't count). Delete it or upgrade.`)); return true; };
+    const mLocked = i => freeDz() && !!PR.missionFree && !PR.missionFree(MISSIONS[i]);
+    const LOCK_I = '<svg class="ic" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
     const devLimit = (add = 1) => { if (!freeDz() || Object.values(D.devs).filter(d => !K[d.k].note && !K[d.k].shape).length + add <= PR.LIMITS.devices) return false; toast(TT(`Free plan: hanggang ${PR.LIMITS.devices} device bawat design. Mag-upgrade para walang limit.`, `Free plan: up to ${PR.LIMITS.devices} devices per design. Upgrade for no limit.`)); return true; };
     main.classList.add('dz-host');
 
@@ -15925,18 +16072,22 @@ interface g0/0.10
       }
       const dn = MISSIONS.filter(x => S.missions[x.id]).length, fl = mFilt;
       const cnt = k => MISSIONS.filter(x => k === 'all' || (k === 'todo' ? !S.missions[x.id] : x.lvl === k)).length;
-      const lst = MISSIONS.map((x, i) => [x, i]).filter(([x]) => fl === 'all' || (fl === 'todo' ? !S.missions[x.id] : x.lvl === fl));
+      // on the Free plan the open missions come first, then the locked ones
+      const lst = MISSIONS.map((x, i) => [x, i]).filter(([x]) => fl === 'all' || (fl === 'todo' ? !S.missions[x.id] : x.lvl === fl)).sort((a, b) => mLocked(a[1]) - mLocked(b[1]) || a[1] - b[1]);
       const prog = `<div class="card stack dz-mprog" style="gap:6px"><div class="row between"><b>${TT('Mga mission', 'Missions')}: ${dn}/${MISSIONS.length} ${TT('tapos', 'done')}</b><span class="pill ${dn === MISSIONS.length ? 'ok' : ''}">${Math.round(100 * dn / MISSIONS.length)}%</span></div><div class="bar ${dn === MISSIONS.length ? 'ok' : ''}"><i style="width:${100 * dn / MISSIONS.length}%"></i></div><p class="tiny muted">${TT('100 mission mula Basic hanggang Advanced: LAN, DHCP, Wi-Fi, server, Internet, firewall, VLAN, maraming switch, campus fiber, load balancer at buong network.', '100 missions from Basic to Advanced: LAN, DHCP, Wi-Fi, servers, Internet, firewall, VLANs, several switches, campus fiber, load balancers and whole networks.')}</p></div>`;
       html = prog + html + `<div class="stack" style="gap:8px"><h4>${m ? TT((__EN?"Other missions":'Iba pang mission'), 'Other missions') : TT((__EN?"Choose a mission":'Pumili ng mission'), 'Pick a mission')}</h4><p class="tiny muted">${TT('Bawat mission ay gagawa ng bagong design na may mga device na nakalagay na. Ikaw ang magka-cable at magko-configure.', 'Each mission makes a new design with the devices already placed. You do the cabling and the config.')}</p>
         <div class="dz-mf" role="group" aria-label="Filter">${[['all', TT('Lahat', 'All')], ['Basic', 'Basic'], ['Intermediate', 'Intermediate'], ['Advanced', 'Advanced'], ['todo', TT('Hindi pa tapos', 'Not done')]].map(([k, n]) => `<button type="button" class="dz-mfb ${fl === k ? 'on' : ''}" data-mf="${k}" aria-pressed="${fl === k}">${n} <span>${cnt(k)}</span></button>`).join('')}</div>
-        <div class="dz-ml">${lst.map(([x, i]) => `<button class="dz-mi ${x.id === D.mission ? 'cur' : ''}" data-m="${x.id}"><span class="dz-mn">${i + 1}</span><span class="dz-mt"><b>${esc(x.t)}</b><span class="tiny muted">${x.lvl}${x.fam && MFAM[x.fam] ? ' · ' + MFAM[x.fam] : ''} · ${esc(x.d)}</span></span>${S.missions[x.id] ? `<span class="pill ok">${TT('Tapos', 'Done')}</span>` : ''}</button>`).join('') || `<p class="tiny muted">${TT('Tapos na lahat dito. Galing!', 'All done here. Great job!')}</p>`}</div></div>`;
+        <div class="dz-ml">${lst.map(([x, i]) => `<button class="dz-mi ${x.id === D.mission ? 'cur' : ''} ${mLocked(i) ? 'is-locked' : ''}" data-m="${x.id}" ${mLocked(i) ? `aria-label="${esc(x.t)} (Premium)"` : ''}><span class="dz-mn">${mLocked(i) ? LOCK_I : i + 1}</span><span class="dz-mt"><b>${esc(x.t)}</b><span class="tiny muted">${x.lvl}${x.fam && MFAM[x.fam] ? ' · ' + MFAM[x.fam] : ''} · ${esc(x.d)}</span></span>${S.missions[x.id] ? `<span class="pill ok">${TT('Tapos', 'Done')}</span>` : mLocked(i) ? '<span class="prem-badge sm">Premium</span>' : ''}</button>`).join('') || `<p class="tiny muted">${TT('Tapos na lahat dito. Galing!', 'All done here. Great job!')}</p>`}</div></div>`;
       panel.innerHTML = html;
+      // Free plan: the first missions are open, the rest show a lock and an upgrade note
+      if (freeDz() && PR.lockNote) { const ml = panel.querySelector('.dz-mf'); if (ml) { const fd = PR.freeMissions().filter(x => S.missions[x.id]).length; ml.before(PR.lockNote(TT(`Bukas ang ${PR.LIMITS.missions} Basic mission (${fd}/${PR.LIMITS.missions} tapos). Mag-upgrade para mabuksan ang lahat ng ${MISSIONS.length}.`, `${PR.LIMITS.missions} Basic missions are open (${fd}/${PR.LIMITS.missions} done). Upgrade to open all ${MISSIONS.length}.`), { compact: true, title: TT(`Free plan: ${PR.LIMITS.missions} mission`, `Free plan: ${PR.LIMITS.missions} missions`) })); } }
       panel.querySelectorAll('[data-mf]').forEach(b => b.onclick = () => { mFilt = b.dataset.mf; panelMission(); });
       panel.querySelectorAll('[data-m]').forEach(b => b.onclick = () => startMission(b.dataset.m));
       const rc = panel.querySelector('[data-act=recheck]'); if (rc) rc.onclick = () => { rebuild(); drawAll(); };
     }
     function startMission(id) {
-      const m = MISSIONS.find(x => x.id === id); const nd = newDesign('Mission: ' + m.t, m.plan); nd.mission = id;
+      const m = MISSIONS.find(x => x.id === id);
+      if (mLocked(MISSIONS.indexOf(m))) { toast(TT(`Premium ang mission na ito. Sa Free plan, bukas ang ${PR.LIMITS.missions} Basic mission na nasa itaas ng listahan.`, `This mission is Premium. On the Free plan, the ${PR.LIMITS.missions} Basic missions at the top of the list are open.`)); try { SND('err'); } catch (e) { } return; } const nd = newDesign('Mission: ' + m.t, m.plan); nd.mission = id;
       for (const [k, x, y] of m.start) addDev(nd, k, x, y);
       S.designs[nd.id] = nd; switchTo(nd.id); tab = 'mission'; drawSide(); toast((__EN?`Started: ${m.t}`:`Nagsimula: ${m.t}`));
     }
@@ -16260,6 +16411,8 @@ window.startApp = () => {
     cam: '<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/>',
     design: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4a3 3 0 0 1 3 3V14"/>',
   };
+  // the maker's credit, shown under the version in the menu and on the More page
+  const BY = `<span class="nav-by">${__EN ? 'Created by' : 'Gawa ni'}: <b>CODJ</b></span>`;
   const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[n] || ''}</svg>`;
 
   // ---------- Store ----------
@@ -16447,7 +16600,7 @@ window.startApp = () => {
       if (ME.role === 'admin') html += `<a href="#admin" class="${active === 'admin' ? 'active' : ''}">${icon('shield')}Admin: Users</a>`;
       html += `</div></div></div>`;
     }
-    html += `<a class="nav-ver" href="#${ME ? 'settings' : 'download'}" title="${__EN ? 'App version' : 'Bersyon ng app'}">CCNA Lab <b>v${esc(window.APP_VERSION || '')}</b></a>`;
+    html += `<a class="nav-ver" href="#${ME ? 'settings' : 'download'}" title="${__EN ? 'App version' : 'Bersyon ng app'}">CCNA Lab <b>v${esc(window.APP_VERSION || '')}</b>${BY}</a>`;
     const sb = $('#sidebar'); const st = sb.scrollTop; sb.innerHTML = html; sb.scrollTop = st;
     $$('.nav-sec-h', sb).forEach(b => b.onclick = () => {
       const g = b.parentElement; const opening = !g.classList.contains('open');
@@ -16474,7 +16627,7 @@ window.startApp = () => {
       <div class="set-row col"><div class="set-l"><b>${t('Kulay ng app', 'Color palette')}</b><span class="tiny muted">${t('Naka-save sa account mo.', 'Saved to your account.')}</span></div><div class="pal-grid" role="radiogroup"></div></div>
       ${window.SFX ? `<div class="set-row"><div class="set-l"><b>${t('Tunog', 'Sound')}</b><span class="tiny muted">${t('Tunog kapag pumindot at kapag tama ang sagot.', 'Click sounds and correct-answer chimes.')}</span></div><button type="button" class="switch" role="switch" data-a="sfx" aria-label="${t('Tunog', 'Sound')}"><i></i></button></div>` : ''}
       ${PRM && ME ? `<div class="set-row"><div class="set-l"><b>Plan</b><span class="tiny muted">${PRM.statusLine()}</span></div><div class="row" style="gap:8px">${PRM.badge()}<a class="btn sm" href="#${ME.role === 'trainee' ? 'upgrade' : 'premium'}">${ME.role === 'trainee' ? t('Mag-upgrade / code', 'Upgrade / code') : t('Pamahalaan', 'Manage')}</a></div></div>` : ''}
-      <div class="set-row"><div class="set-l"><b>${t('Bersyon ng app', 'App version')}</b><span class="tiny muted">CCNA Lab 200-301 · <b class="mono">v${esc(window.APP_VERSION || '')}</b> · ${ALL.length} lessons · ${Object.keys(LABS).length} labs</span><span class="tiny ${navigator.onLine ? 'muted' : ''}" style="${navigator.onLine ? '' : 'color:var(--ok)'}">${navigator.onLine ? t('Gumagana rin offline: naka-save sa device ang progress, at nag-a-update kapag may Internet ulit.', 'Also works offline: progress is saved on this device, and updates arrive when the Internet is back.') : t('● Offline ka ngayon. Gumagana pa rin ang lahat ng lessons, labs, exam at designer.', '● You are offline. Every lesson, lab, exam and the designer still work.')}</span></div>
+      <div class="set-row"><div class="set-l"><b>${t('Bersyon ng app', 'App version')}</b><span class="tiny muted">CCNA Lab 200-301 · <b class="mono">v${esc(window.APP_VERSION || '')}</b> · ${ALL.length} lessons · ${Object.keys(LABS).length} labs</span><span class="tiny muted">${__EN ? 'Created by' : 'Gawa ni'}: <b class="by-name">CODJ</b></span><span class="tiny ${navigator.onLine ? 'muted' : ''}" style="${navigator.onLine ? '' : 'color:var(--ok)'}">${navigator.onLine ? t('Gumagana rin offline: naka-save sa device ang progress, at nag-a-update kapag may Internet ulit.', 'Also works offline: progress is saved on this device, and updates arrive when the Internet is back.') : t('● Offline ka ngayon. Gumagana pa rin ang lahat ng lessons, labs, exam at designer.', '● You are offline. Every lesson, lab, exam and the designer still work.')}</span></div>
         <div class="row" style="gap:8px">${window.UPDATER ? `<button type="button" class="btn sm" data-a="upd">${t('Mag-check ng update', 'Check for updates')}</button>` : ''}<a class="btn sm ghost" href="#download">${icon('dl')}Download</a></div></div>
     </div>`);
     const pg = c.querySelector('.pal-grid');
@@ -16691,7 +16844,7 @@ window.startApp = () => {
     const page = h((__EN?`<div class="page"><h1>More</h1><div class="grid c2"></div></div>`:`<div class="page"><h1>Iba pa</h1><div class="grid c2"></div></div>`));
     const acc = ME ? [['profile', 'user', (__EN?"My Profile":'Aking Profile')], ['settings', 'gear', 'Settings']].concat(PRM ? [ME.role === 'trainee' ? ['upgrade', 'star', __EN ? 'Upgrade to Premium' : 'Mag-upgrade sa Premium'] : ['premium', 'star', __EN ? 'Premium & payments' : 'Premium at bayad']] : []).concat(ME.role !== 'trainee' ? [['trainer', 'users', 'Trainor Dashboard']] : [], ME.role === 'admin' ? [['admin', 'shield', 'Admin: Users']] : []) : [];
     for (const [r, ic, t] of EXTRAS.concat(acc)) page.lastElementChild.appendChild(h(`<a class="tool-card" href="#${r}">${icon(ic)}<div><b>${t}</b></div></a>`));
-    page.appendChild(h(`<a class="nav-ver more-ver" href="#${ME ? 'settings' : 'download'}">CCNA Lab 200-301 <b>v${esc(window.APP_VERSION || '')}</b></a>`));
+    page.appendChild(h(`<a class="nav-ver more-ver" href="#${ME ? 'settings' : 'download'}">CCNA Lab 200-301 <b>v${esc(window.APP_VERSION || '')}</b>${BY}</a>`));
     main.appendChild(page);
   }
 
@@ -16738,18 +16891,16 @@ window.startApp = () => {
     btn.disabled = false;
   }
   function viewDownload() {
-    // One download for everyone: the Full installer. The Lite and Offline versions keep working and keep
-    // updating, but their accounts live in their own storage, so this page also moves them into the Full app.
+    // One download for everyone: the Full installer. Moving accounts from the old Lite / Offline
+    // versions is done in Admin → Backup and restore (save / open a transfer file).
     const T = (f, e) => __EN ? e : f, L = window.DL_LINKS || {};
     const electron = /Electron/.test(navigator.userAgent), offline = location.protocol === 'file:' || electron;
-    const legacy = !electron && location.protocol === 'file:', online = !!(window.AUTH && AUTH.online && AUTH.online());
-    const u = window.AUTH && AUTH.me ? AUTH.me() : null, admin = !!(u && u.role === 'admin');
-    const page = h(`<div class="page"><div class="lesson-head"><h1>${T('I-download at i-install', 'Download and install')}</h1><p class="muted" style="max-width:76ch">${T('Iisa na lang ang download: ang <b>Full installer</b>. Libre, para sa lahat ng Windows PC, at laging ang pinakabagong version.', 'There is now one download: the <b>Full installer</b>. Free, for every Windows PC, and always the newest version.')}</p></div></div>`);
+    const legacy = !electron && location.protocol === 'file:';
+    const page = h(`<div class="page"><div class="lesson-head"><h1>${T('I-download at i-install', 'Download and install')}</h1></div></div>`);
     const step = a => `<ol class="dl-steps">${a.map(x => `<li>${x}</li>`).join('')}</ol>`;
     const st = h(`<div class="stack"></div>`); page.appendChild(st);
     st.appendChild(h(`<div class="card row between upd-row"><div><b>Version ${esc(window.APP_VERSION || '')}${electron ? ' · Full' : legacy ? ' · ' + T('Lite / Offline (luma)', 'Lite / Offline (old)') : ''}</b><div class="tiny muted">${offline ? T((__EN?"Downloads updates automatically when online, then asks whether to restart.":'Awtomatikong nagda-download ng update kapag may Internet, tapos itatanong kung ire-restart.'), 'Updates download by themselves when there is Internet, then the app asks to restart.') : T((__EN?"When a new version is out, a pop-up will ask whether to update.":'Kapag may bagong version, lalabas ang pop-up na magtatanong kung i-update na.'), 'When a new version is out, a pop-up asks if you want to update.')}</div></div><button class="btn sm" data-upd>⟳ ${T('Tingnan kung may update', 'Check for updates')}</button></div>`));
-    if (electron) st.appendChild(h(`<div class="note tip"><b>${T('Ito na ang main app (Full)', 'This is the main app (Full)')}</b>${T('Dito naka-save ang lahat ng account at progress sa PC na ito. Kung may ginamit kang Lite o Offline na bersyon dati, ilipat ang accounts nito sa ibaba.', 'Every account and all progress on this PC are saved here. If you used the Lite or Offline version before, move its accounts in below.')}</div>`));
-    if (legacy) st.appendChild(h(`<div class="note warn"><b>${T('Lumang Lite / Offline na bersyon ito', 'This is the old Lite / Offline version')}</b>${T('Hiwalay ang accounts at progress nito sa Full app, kaya hindi sila nagkikita. I-install ang Full app, tapos ilipat dito ang accounts mo gamit ang transfer file sa ibaba. Isang beses lang ito.', 'Its accounts and progress are kept apart from the Full app, so they do not see each other. Install the Full app, then move your accounts with the transfer file below. You only do this once.')}</div>`));
+    if (legacy) st.appendChild(h(`<div class="note warn"><b>${T('Lumang Lite / Offline na bersyon ito', 'This is the old Lite / Offline version')}</b>${T('Hiwalay ang accounts at progress nito sa Full app. I-install ang Full app, tapos ilipat ang accounts: dito sa <b>Admin → Backup at restore</b> → <b>I-save bilang file</b>, at sa Full app ay <b>Buksan ang file…</b> → <b>I-restore</b>. Isang beses lang ito.', 'Its accounts and progress are kept apart from the Full app. Install the Full app, then move the accounts: here in <b>Admin → Backup and restore</b> → <b>Save as file</b>, and in the Full app <b>Open file…</b> → <b>Restore</b>. You only do this once.')}</div>`));
     // main download
     const main_ = h(`<div class="card stack dl-pub dl-main"><div class="row between" style="gap:8px;flex-wrap:wrap"><h3>${icon('box')} Full installer <span class="pill ok">${T('Main', 'Main')}</span></h3><span class="tiny muted">Windows 10/11 · zip · ${T('mga', 'about')} 80 MB</span></div>
       <p class="small">${T('Ang kumpletong CCNA Lab app: sariling window, shortcut sa Desktop at Start menu, gumagana kahit walang Internet, at kusang nag-a-update.', 'The complete CCNA Lab app: its own window, shortcuts on the Desktop and Start menu, works without Internet, and updates by itself.')}</p>
@@ -16757,36 +16908,6 @@ window.startApp = () => {
       <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center"><button class="btn primary" type="button" data-get="full">⬇ ${T('I-download ang Full installer', 'Download the Full installer')}</button><span class="tiny muted dl-ver">${T('Tinitingnan ang pinakabagong version…', 'Checking the latest version…')}</span></div>
       <div class="dl-prog" hidden><div class="bar"><i style="width:0%"></i></div><span class="tiny dl-msg" role="status" aria-live="polite"></span></div></div>`);
     st.appendChild(main_);
-    const sec = [];
-    // move accounts from Lite / Offline into Full
-    if (!online && (legacy || electron)) {
-      const mv = h(`<div class="card stack dl-move"><h3>${T('Ilipat ang accounts sa Full app', 'Move accounts into the Full app')}</h3></div>`);
-      if (!admin) mv.appendChild(h(`<p class="small">${T('Ang Admin ng PC na ito ang maglilipat ng accounts. Ipaalam sa kanya.', 'The Admin of this PC moves the accounts. Let them know.')}</p>`));
-      else if (legacy) {
-        const n = AUTH.localUsers().length;
-        mv.appendChild(h(`<div class="stack" style="gap:10px"><p class="small">${T(`Kasama ang <b>${n}</b> account dito at lahat ng progress nila (lessons, labs, exam, designs). Walang mabubura dito.`, `This takes the <b>${n}</b> account(s) here with all their progress (lessons, labs, exam, designs). Nothing here is deleted.`)}</p>
-          ${step(T(['I-install muna ang Full app (nasa itaas).', 'Pindutin ang <b>I-save ang transfer file</b>. Mase-save ito sa Downloads.', 'Sa Full app: <b>Download</b> page (o Admin → Backup at restore) → <b>Buksan ang file…</b> → piliin ang transfer file → <b>Ilipat</b>.'], ['Install the Full app first (above).', 'Press <b>Save the transfer file</b>. It goes to your Downloads.', 'In the Full app: the <b>Download</b> page (or Admin → Backup and restore) → <b>Open file…</b> → pick the transfer file → <b>Move in</b>.']))}
-          <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" data-mv="save">⬇ ${T('I-save ang transfer file', 'Save the transfer file')}</button><button class="btn" type="button" data-mv="copy">${T('Kopyahin bilang code', 'Copy as code')}</button><span class="tiny dl-msg"></span></div></div>`));
-        const msg = mv.querySelector('.dl-msg'), ok = t => { msg.textContent = t; msg.style.color = 'var(--ok)'; };
-        mv.querySelector('[data-mv=save]').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([AUTH.backupCode() + '\n'], { type: 'text/plain' })); a.download = 'CCNA-Lab-transfer.txt'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); ok(T('Na-save: CCNA-Lab-transfer.txt sa Downloads.', 'Saved: CCNA-Lab-transfer.txt in Downloads.')); };
-        mv.querySelector('[data-mv=copy]').onclick = () => { const c = AUTH.backupCode(), done = () => ok(T('Nakopya. I-paste sa Full app.', 'Copied. Paste it in the Full app.')); navigator.clipboard ? navigator.clipboard.writeText(c).then(done, () => prompt('', c)) : prompt('', c); };
-      } else {
-        mv.appendChild(h(`<div class="stack" style="gap:10px"><p class="small">${T('Galing sa Lite o Offline na bersyon? Sa lumang app, buksan ang <b>Download</b> page at pindutin ang <b>I-save ang transfer file</b>. Tapos buksan dito ang file na iyon. Ang mga bagong account ay idadagdag; kapag pareho ang username, pagsasamahin ang progress at walang mawawala.', 'Coming from the Lite or Offline version? In the old app, open the <b>Download</b> page and press <b>Save the transfer file</b>. Then open that file here. New accounts are added; when a username is the same, the progress is combined and nothing is lost.')}</p>
-          <textarea class="code-box" rows="3" placeholder="CCNABK:..." aria-label="${T('Transfer code', 'Transfer code')}"></textarea>
-          <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn primary" type="button" data-mv="in">${T('Ilipat', 'Move in')}</button><span class="tiny dl-msg"></span></div></div>`));
-        const ta = mv.querySelector('textarea'), msg = mv.querySelector('.dl-msg');
-        mv.querySelector('[data-mv=in]').before(AUTH.fileBtn(ta));
-        mv.querySelector('[data-mv=in]').onclick = () => {
-          try { const r = AUTH.restoreCode(ta.value); msg.style.color = 'var(--ok)'; msg.textContent = T(`Nailipat: ${r.added} bagong account, ${r.merged} pinagsama.`, `Moved: ${r.added} new account(s), ${r.merged} combined.`); SND('ok'); setTimeout(() => location.reload(), 1400); }
-          catch (e) { msg.style.color = 'var(--bad)'; msg.textContent = T('Hindi valid ang transfer file o code.', 'That transfer file or code is not valid.'); }
-        };
-      }
-      sec.push(mv);
-    }
-    sec.push(h(`<div class="card stack dl-card"><h3>${T('Online (walang download)', 'Online (no download)')}</h3><p class="small">${T('Para sa phone, tablet, Mac, o PC na bawal mag-install: buksan lang ang link ng app. Kapag naka-login ka sa Claude, naka-sync ang progress mo sa lahat ng device.', 'For phones, tablets, Macs, or PCs where installing is not allowed: just open the app link. When you are signed in to Claude, your progress syncs across devices.')}${online ? ` <span class="pill ok">${T('Naka-online ka ngayon', 'You are online now')}</span>` : ''}</p></div>`));
-    sec.push(h(`<div class="card stack"><h3>${T('Ayaw ma-download o ma-install?', 'Will not download or install?')}</h3>${step(T(['Sa Chrome/Edge, pindutin ang <b>Ctrl+J</b>. Kung may "blocked" o "not commonly downloaded": <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.', 'I-extract muna ang zip bago patakbuhin ang Setup.exe (huwag patakbuhin mula sa loob ng zip).', 'Kung binura ng antivirus: i-allow ang file, tapos i-download ulit.', 'Sa school o office PC na bawal mag-install: gamitin ang Online na link.'], ['In Chrome/Edge, press <b>Ctrl+J</b>. If it says "blocked" or "not commonly downloaded": <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.', 'Extract the zip first, then run Setup.exe (do not run it from inside the zip).', 'If your antivirus removed it: allow the file, then download it again.', 'On a school or office PC where installing is not allowed: use the Online link.']))}</div>`));
-    sec.forEach(c => st.appendChild(c));
-    accordion(sec, { key: 'dl2', open: sec[0].classList.contains('dl-move') && (legacy || electron) ? 0 : -1, icons: sec.length === 3 ? ['db', 'globe', 'bulb'] : ['globe', 'bulb'] });
     const ub = page.querySelector('[data-upd]'); if (ub) ub.onclick = () => window.UPDATER ? UPDATER.check() : null;
     main_.querySelector('[data-get=full]').onclick = e => getFull(e.currentTarget, main_.querySelector('.dl-prog'));
     const vEl = main_.querySelector('.dl-ver');

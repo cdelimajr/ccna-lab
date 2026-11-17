@@ -1,6 +1,6 @@
 # CCNA Lab 200-301: libreng download
 
-**Pinakabagong version: 2.12.0** (November 17, 2026)
+**Pinakabagong version: 2.13.0** (November 18, 2026)
 
 Libreng CCNA 200-301 trainer: lessons, CLI labs, 120-item practice exam at Network Designer. Gumagana kahit walang Internet.
 
@@ -21,27 +21,29 @@ Iisa na lang ang download: ang **Full installer** ang main app. Ang mga lumang l
 
 Hiwalay ang accounts at progress ng Lite/Offline sa Full app. Para ilipat sila (isang beses lang):
 
-1. Sa lumang app: **Download** page → **I-save ang transfer file**.
-2. I-install ang Full app, buksan ang **Download** page → **Buksan ang file…** → piliin ang transfer file → **Ilipat**.
+1. Sa lumang app: **Admin → Backup at restore** → **I-save bilang file**.
+2. I-install ang Full app, buksan ang **Admin → Backup at restore** → **Buksan ang file…** → piliin ang transfer file → **I-restore**.
 
 Idinadagdag ang mga bagong account; kapag pareho ang username, pinagsasama ang progress at walang nawawala.
 
-## Bago sa 2.12.0
+## Bago sa 2.13.0
 
-- Isang device lang: kapag nag-login ang account sa ibang device (online) o ibang window/tab (offline), awtomatikong mala-logout ang luma, may "Gamitin dito" para bawiin
-- 2-step verification gamit ang authenticator app (Google o Microsoft Authenticator): QR para i-set up, 8 backup code, gumagana kahit walang internet
-- Biometrics o face: mag-login gamit ang Windows Hello (fingerprint, mukha o PIN ng Windows) sa desktop app, o fingerprint/face sa browser na may web address
-- One-time login code mula sa Admin para sa nakalimot ng PIN o nawalan ng phone; 5 maling subok ay nagla-lock ng account nang ilang sandali
-- PayPal QR: awtomatikong QR mula sa paypal.me link (kasama ang halaga), o i-upload ang QR mula sa PayPal app
+- Mas maraming paraan ng bayad: bank transfer (InstaPay/PESONet, may pangalan ng bangko), ShopeePay, GrabPay at Coins.ph, bawat isa may sariling QR, bukod sa GCash, Maya, GoTyme at PayPal
+- Mga account mula sa ibang device: may sign-up code ang bagong trainee na idinadagdag ng Admin sa listahan niya (paste o file, marami nang sabay), kasama ang progress
+- Network Designer: sa Free plan, bukas ang unang 5 mission; Premium ang lahat ng 100
+- Mas maayos na "Libreng Premium para sa lahat": status, mensahe at tagal sa iisang taas at pantay na ayos; malaki at nasa gitna ang Mag-log out
+- Mas malinis na Download page, at "Gawa ni: CODJ" sa menu, login at Settings
 
 ---
 
-**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.12.0 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Download → Save the transfer file, then in the Full app open Download → Open file… → Move in.
+**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.13.0 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
 
-- One device at a time: when the account signs in on another device (online) or another window or tab (offline), the older one signs out, with "Use it here" to take it back
-- 2-step verification with an authenticator app (Google or Microsoft Authenticator): setup QR, 8 backup codes, works without internet
-- Biometrics or face: sign in with Windows Hello (fingerprint, face or Windows PIN) in the desktop app, or fingerprint/face in a browser with a web address
-- One-time sign-in code from the Admin for a forgotten PIN or a lost phone; 5 wrong tries lock the account for a while
-- PayPal QR: made automatically from the paypal.me link (with the amount), or upload the QR from the PayPal app
+- More ways to pay: bank transfer (InstaPay/PESONet, with the bank name), ShopeePay, GrabPay and Coins.ph, each with its own QR, besides GCash, Maya, GoTyme and PayPal
+- Accounts from other devices: a new trainee gets a sign-up code that the Admin adds to their list (paste or file, many at once), with the progress
+- Network Designer: the Free plan opens the first 5 missions; Premium opens all 100
+- Cleaner "Free Premium for everyone": status, message and duration lined up at one height; a large, centered Log out button
+- A cleaner Download page, and "Created by: CODJ" in the menu, sign-in screen and Settings
+
+Gawa ni / Created by: **CODJ**
 
 <sub>Ang `version.json` at `CCNA-Lab-200-301.html` dito ay binabasa ng app para sa automatic update.</sub>
