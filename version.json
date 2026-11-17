@@ -1,19 +1,19 @@
 {
- "version": "2.6.0",
- "date": "2026-11-16",
+ "version": "2.8.0",
+ "date": "2026-11-17",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
-   "Network Designer: malaking workspace na Pilipinas (Luzon, Visayas, Mindanao), alignment lines, mga shape at print preview",
-   "41 bagong device ng D-Link, TP-Link, MikroTik, Ubiquiti, Huawei, Aruba, Fortinet at iba pa",
-   "Back button sa kaliwa ng title, at bumabalik sa dating estado ng page",
-   "Mga dropdown sa Profile, Premium, Trainor, Admin at Download"
+   "Network Designer: mahigit 110 bagong device mula Cisco, Fortinet, Sophos, MikroTik, Ubiquiti, Aruba, Juniper at iba pa (router, switch, wireless, security)",
+   "I-double-click ang device: lalabas ang sarili nitong window (Config, CLI, Subukan) sa ibabaw ng floor plan, at kusa nang nase-save ang bawat binago",
+   "Premium: may 1 Taon na plan na, mas tipid kaysa buwanan",
+   "Libreng download link na laging pinakabagong version, at bilang ng install sa Admin"
   ],
   "en": [
-   "Network Designer: a huge Philippines workspace (Luzon, Visayas, Mindanao), alignment lines, shapes and print preview",
-   "41 new devices from D-Link, TP-Link, MikroTik, Ubiquiti, Huawei, Aruba, Fortinet and more",
-   "Back button at the left of the title, and it returns to the page as you left it",
-   "Drop-downs in Profile, Premium, Trainor, Admin and Download"
+   "Network Designer: over 110 new devices from Cisco, Fortinet, Sophos, MikroTik, Ubiquiti, Aruba, Juniper and more (routers, switches, wireless, security)",
+   "Double-click a device: its own window (Config, CLI, Test) opens over the floor plan, and every change saves by itself",
+   "Premium: a new 1 Year plan that costs less than paying monthly",
+   "A free download link that always gives the newest version, and an install count for the Admin"
   ]
  }
 }

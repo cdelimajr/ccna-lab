@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.6.0";/*CCNA_APP_VERSION="2.6.0"*/
+<script>window.APP_VERSION="2.8.0";/*CCNA_APP_VERSION="2.8.0"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -750,6 +750,12 @@ body.dz-fs .tabbar, body.dz-fs .topbar { visibility: hidden; }
 .dz-floor { fill: var(--panel); }
 .dz-floor-g { pointer-events: none; }
 .dz-grid { fill: none; stroke: var(--line); stroke-width: .6; }
+.dz-grid-m { fill: none; stroke: var(--line-2, var(--line)); stroke-width: 2.4; }
+.dz-svg.dz-z-far .dz-grid-m { stroke-width: 7; }
+.dz-grid-f { fill: none; stroke: var(--line); stroke-width: .35; opacity: .55; }
+.dz-g-fine { display: none; }
+.dz-svg.dz-z-near .dz-g-fine { display: inline; }
+.dz-svg.dz-z-far .dz-g-min { display: none; }
 .dz-foot { display: flex; gap: 6px 16px; align-items: center; flex-wrap: wrap; min-height: 18px; }
 .dz-foot .dz-hint { flex: 1 1 300px; min-height: 0; }
 .dz-legend { gap: 10px; font-size: .72rem; }
@@ -1098,6 +1104,61 @@ body.dz-pp-open { overflow: hidden; }
 @container dzp (min-width: 840px) { .dz-bar { flex-wrap: nowrap; } .dz-dsel { flex: 1 1 140px; min-width: 110px; } .dz-title { white-space: nowrap; } }
 @container (max-width: 620px) { .dz-bar .dz-ppb { order: 3; } }
 
+/* v2.8 device window (Packet Tracer style): floats over the floor plan, drag the title bar, resize from the corner */
+.dz-side.dz-win { right: auto; bottom: auto; resize: both; min-width: 320px; min-height: 260px; max-width: calc(100% - 8px); max-height: calc(100% - 8px); animation: dzWin .14s ease-out; }
+@keyframes dzWin { from { opacity: 0; transform: scale(.98) translateY(6px); } }
+.dz-side.dz-win .dz-sh { cursor: move; user-select: none; touch-action: none; background: color-mix(in srgb, var(--accent) 5%, var(--panel)); }
+.dz-side.dz-win .dz-sh .dz-st { cursor: move; }
+.dz-side.drag { box-shadow: 0 26px 60px rgba(0,0,0,.28), 0 2px 8px rgba(0,0,0,.1); }
+.dz-ssel[hidden], .dz-wtabs[hidden] { display: none; }
+.dz-wtabs { display: flex; gap: 2px; flex: none; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 2px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.dz-wtabs button { font: inherit; font-size: .84rem; font-weight: 600; color: var(--fg-2); background: none; border: 0; border-radius: 8px; padding: 5px 10px; min-height: 30px; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: background-color .12s, color .12s; }
+.dz-wtabs button i { font-style: normal; font-family: var(--f-mono); font-size: .76rem; color: var(--fg-3); }
+.dz-wtabs button:hover { color: var(--fg); }
+.dz-wtabs button.on { background: var(--panel); color: var(--fg); box-shadow: 0 1px 3px rgba(0,0,0,.14); }
+.dz-wtabs button.on i { color: var(--accent); }
+.dz-wtabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.dz-side.dz-devwin .dz-st { font-size: .9rem; color: var(--fg); }
+.dz-saved { flex: none; max-width: 42%; font-size: .74rem; font-weight: 600; color: var(--ok); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0; transition: opacity .25s; }
+.dz-saved.on { opacity: 1; }
+form.dz-autof [data-auto] { display: none; }
+.dz-panel.dz-clitab { display: flex; flex-direction: column; padding: 10px; }
+.dz-clitab .dz-cli { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.dz-clitab .dz-cli > .dz-sb { flex: 1; min-height: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.dz-clitab .dz-term { flex: 1; min-height: 0; }
+.dz-clitab .dz-term .term { flex: 1; height: auto; min-height: 160px; font-size: .8rem; }
+@media (max-width: 899px) { .dz-wtabs { flex: 1 1 auto; } .dz-wtabs button { flex: 1; justify-content: center; padding: 6px 8px; } .dz-side.dz-devwin .dz-st { display: none; } .dz-saved { position: absolute; right: 52px; top: 20px; } }
+@media (prefers-reduced-motion: reduce) { .dz-side.dz-win { animation: none; } }
+
+/* v2.8 Premium plan picker (monthly / 1 year) */
+.prem-opts { display: grid; gap: 8px; }
+.prem-opt { position: relative; display: grid; gap: 2px; padding: 10px 12px 10px 40px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--panel); cursor: pointer; transition: border-color .12s, box-shadow .12s, background-color .12s; }
+.prem-opt input { position: absolute; left: 14px; top: 14px; width: 16px; height: 16px; accent-color: #c27a12; margin: 0; }
+.prem-opt:hover { border-color: #e5a83a; }
+.prem-opt:has(input:checked) { border-color: #e5a83a; box-shadow: 0 0 0 1px #e5a83a inset; background: color-mix(in srgb, #e5a83a 8%, var(--panel)); }
+.prem-opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.prem-opt-n { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .92rem; }
+.prem-opt .prem-price { font-size: 1.35rem; }
+.prem-tag { font-style: normal; font-size: .68rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #fff; background: #c27a12; padding: 2px 8px; border-radius: 999px; }
+.prem-save { color: var(--ok); font-weight: 600; }
+.prem-yhint { display: block; margin-top: 4px; }
+
+/* v2.8 public download link */
+.dl-pub { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent) inset; }
+.dl-pub h3 { margin: 0; }
+.dl-link { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.dl-link input { flex: 1 1 260px; min-width: 0; font-size: .86rem; padding: 8px 10px; border: 1px solid var(--line-2); border-radius: 9px; background: var(--panel-2); color: var(--fg); }
+.dl-direct a { color: var(--accent); font-weight: 600; }
+
+/* v2.8 Admin: installs on PCs */
+.inst-card h3 { margin: 0; }
+.inst-grid { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.inst-big { display: grid; gap: 0; padding: 10px 18px; border-radius: 12px; background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); }
+.inst-n { font-family: var(--f-display); font-size: 2.2rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
+.inst-sub { display: flex; gap: 18px; flex-wrap: wrap; }
+.inst-sub > div { display: grid; }
+.inst-sub b { font-size: 1.15rem; }
+
 </style>
 </head>
 <body>
@@ -1107,6 +1168,14 @@ body.dz-pp-open { overflow: hidden; }
 window.LANG = (() => { try { return localStorage.getItem('ccna.lang') === 'en' ? 'en' : 'fil'; } catch (e) { return 'fil'; } })();
 document.documentElement.lang = window.LANG === 'en' ? 'en' : 'fil';
 var __EN = window.LANG === "en";
+
+;
+/* Public, free download links. The file names never change and every release replaces the files
+   in the public repo, so these links always give the newest version. */
+(function () {
+  var PAGE = 'https://github.com/cdelimajr/ccna-lab', RAW = PAGE + '/raw/main/', REMOTE = 'https://raw.githubusercontent.com/cdelimajr/ccna-lab/main/';
+  window.DL_LINKS = { page: PAGE, lite: RAW + 'CCNA-Lab-Lite-Setup.zip', offline: RAW + 'CCNA-Lab-Offline.zip', full: RAW + 'CCNA-Lab-200-301-Setup.zip', version: REMOTE + 'version.json', counter: REMOTE + 'counter.txt' };
+})();
 
 ;
 /* =====================================================================
@@ -11470,6 +11539,81 @@ interface g0/0.10
 
 ;
 /* =====================================================================
+   Install counter (Admin).
+   The Windows installers add 1 to an online counter when the app is installed on a PC,
+   and the uninstallers take 1 away, so "installed now" = installs - uninstalls.
+   Where the counter lives is set in counter.txt in the public update repo (one line:
+   the counter base URL, and optionally "key <token>"), so it can be switched on or moved
+   without rebuilding the installers. Counters: ccna-full (full installer), ccna-lite (Lite).
+   ===================================================================== */
+(() => {
+  const EN = typeof __EN !== 'undefined' && __EN, t = (f, e) => EN ? e : f;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const h = html => { const x = document.createElement('template'); x.innerHTML = html.trim(); return x.content.firstElementChild; };
+  const KINDS = [['ccna-full', t('Full installer', 'Full installer')], ['ccna-lite', 'Lite installer']];
+  const CACHE = 'ccna.installs.last';
+  const within = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error('timeout')), ms))]);
+
+  async function config() {
+    const url = (window.DL_LINKS || {}).counter; if (!url) return null;
+    const r = await within(fetch(url + '?t=' + Date.now(), { cache: 'no-store' }), 9000); if (r.status === 404) return null; if (!r.ok) throw new Error('HTTP ' + r.status);
+    const lines = (await r.text()).split(/\r?\n/).map(x => x.trim()).filter(x => x && !x.startsWith('#'));
+    const base = lines.find(x => /^https:\/\//.test(x)); const key = (lines.find(x => /^key\s+/i.test(x)) || '').replace(/^key\s+/i, '');
+    return base ? { base: base.replace(/\/+$/, '') + '/', key } : null;
+  }
+  // reads {data:{up_count, down_count}} (CounterAPI v2) or a plain {count}/{value}
+  function parse(j) {
+    const d = (j && (j.data || j)) || {};
+    const up = +(d.up_count ?? d.upCount ?? NaN), down = +(d.down_count ?? d.downCount ?? 0);
+    if (!isNaN(up)) return { up, down: down || 0, now: Math.max(0, up - (down || 0)) };
+    const v = +(d.value ?? d.count ?? NaN); return isNaN(v) ? null : { up: null, down: null, now: Math.max(0, v) };
+  }
+  async function read() {
+    const c = await config(); if (!c) return { off: true };
+    const res = {};
+    await Promise.all(KINDS.map(async ([k]) => {
+      try { const r = await within(fetch(c.base + k + '/', { cache: 'no-store', headers: c.key ? { Authorization: 'Bearer ' + c.key } : {} }), 9000); res[k] = r.status === 404 ? { up: 0, down: 0, now: 0 } : r.ok ? parse(await r.json()) : null; }
+      catch (e) { res[k] = null; }
+    }));
+    if (KINDS.every(([k]) => !res[k])) throw new Error('counter');
+    const tot = { now: 0, up: 0, down: 0 }; let exact = true;
+    for (const [k] of KINDS) { const x = res[k]; if (!x) { exact = false; continue; } tot.now += x.now; if (x.up == null) exact = false; else { tot.up += x.up; tot.down += x.down; } }
+    const out = { at: Date.now(), tot, by: res, exact };
+    try { localStorage.setItem(CACHE, JSON.stringify(out)); } catch (e) { }
+    return out;
+  }
+  const fmt = ts => new Date(ts).toLocaleString(EN ? 'en-PH' : 'fil-PH', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+
+  function card(ctx) {
+    const el = h(`<div class="card stack inst-card"><div class="row between" style="gap:8px;flex-wrap:wrap"><h3>${t('Mga install sa PC', 'Installs on PCs')}</h3><button class="btn sm" type="button" data-a="ref">⟳ ${t('I-refresh', 'Refresh')}</button></div><div class="inst-body"><p class="small muted">${t('Kinukuha ang bilang…', 'Getting the count…')}</p></div></div>`);
+    const body = el.querySelector('.inst-body');
+    const show = r => {
+      const by = r.by || {};
+      body.innerHTML = `<div class="inst-grid"><div class="inst-big"><span class="inst-n">${r.tot.now.toLocaleString()}</span><span class="small">${t('naka-install ngayon', 'installed right now')}</span></div>
+        <div class="inst-sub">${r.exact ? `<div><b>${r.tot.up.toLocaleString()}</b><span class="tiny muted">${t('kabuuang install', 'total installs')}</span></div><div><b>${r.tot.down.toLocaleString()}</b><span class="tiny muted">${t('na-uninstall', 'uninstalled')}</span></div>` : ''}${KINDS.map(([k, n]) => `<div><b>${by[k] ? by[k].now.toLocaleString() : '—'}</b><span class="tiny muted">${esc(n)}</span></div>`).join('')}</div></div>
+        <p class="tiny muted">${t('Nadadagdagan kapag na-install ang app sa isang PC, at nababawasan kapag na-uninstall. Huling tingin', 'Goes up when the app is installed on a PC and down when it is uninstalled. Last checked')}: ${fmt(r.at)}.</p>`;
+    };
+    const off = () => {
+      body.innerHTML = `<div class="note"><b>${t('Hindi pa naka-on ang online counter', 'The online counter is not switched on yet')}</b>${t('Handa na ang mga installer na magbilang: +1 kapag in-install, −1 kapag in-uninstall. Kailangan lang ng libreng online counter kung saan ito itatala. Kapag naitakda na ito sa update repo, kusa nang magbibilang ang lahat ng installer, kahit ang mga na-download na, nang hindi kailangan ng bagong version.', 'The installers are ready to count: +1 on install, −1 on uninstall. They only need a free online counter to record it. Once it is set in the update repo, every installer starts counting by itself, even ones already downloaded, with no new version needed.')}</div>`;
+    };
+    const load = async () => {
+      const b = el.querySelector('[data-a=ref]'); b.disabled = true;
+      let cached = null; try { cached = JSON.parse(localStorage.getItem(CACHE) || 'null'); } catch (e) { }
+      try { const r = await read(); if (r.off) off(); else show(r); }
+      catch (e) {
+        if (cached && cached.tot) { show(cached); body.insertAdjacentHTML('afterbegin', `<p class="tiny" style="color:var(--warn)">${t('Hindi makakonekta ngayon (walang Internet?). Ito ang huling nakuhang bilang.', 'Could not connect right now (no Internet?). This is the last count we got.')}</p>`); }
+        else body.innerHTML = `<p class="small" style="color:var(--warn)">${t('Hindi makuha ang bilang ngayon. Kailangan ng Internet para makita ito.', 'Could not get the count right now. Internet is needed to see it.')}</p>`;
+      }
+      b.disabled = false;
+    };
+    el.querySelector('[data-a=ref]').onclick = load; load();
+    return el;
+  }
+  window.INSTALLS = { card, read, parse };
+})();
+
+;
+/* =====================================================================
    AUTH: local accounts with roles (Trainee / Trainor / Admin)
    Data lives in this device's browser storage. Trainees on other
    devices share progress with a "progress code" that a Trainor imports.
@@ -11789,7 +11933,7 @@ interface g0/0.10
   }
   function viewAdmin(main, ctx) {
     const u = me(); if (!u || u.role !== 'admin') { main.appendChild(h((__EN?`<div class="page"><p class="muted">This page is for Admins only.</p></div>`:`<div class="page"><p class="muted">Para lang sa Admin ang page na ito.</p></div>`))); return; }
-    if (ON.on) { main.appendChild(h((__EN?`<div class="page"><div class="lesson-head"><h1>Admin: Users</h1><p class="muted">Online mode: the users are the people you gave access to this app.</p></div><div class="card stack"><h3>Roles</h3><div class="tbl-wrap"><table><thead><tr><th>Access in the Share menu</th><th>Role in the app</th><th>Can do</th></tr></thead><tbody><tr><td>You (owner)</td><td>Admin</td><td>Everything</td></tr><tr><td>Editor</td><td>Trainor</td><td>Trainor Dashboard: progress of every trainee</td></tr><tr><td>Contributor</td><td>Trainee</td><td>Study; their own progress syncs</td></tr><tr><td>Viewer</td><td>Trainee (view-only)</td><td>Can study but progress is not saved online</td></tr></tbody></table></div><p class="small">To add or remove a user, or change a role: press <b>Share</b> at the top of the app.</p><p class="tiny muted">The offline version (HTML file and Windows installer) still uses local accounts with a PIN.</p></div></div>`:`<div class="page"><div class="lesson-head"><h1>Admin: Mga user</h1><p class="muted">Online mode: ang mga user ay ang mga taong binigyan mo ng access sa app na ito.</p></div><div class="card stack"><h3>Mga role</h3><div class="tbl-wrap"><table><thead><tr><th>Access sa Share menu</th><th>Role sa app</th><th>Kaya</th></tr></thead><tbody><tr><td>Ikaw (may-ari)</td><td>Admin</td><td>Lahat</td></tr><tr><td>Editor</td><td>Trainor</td><td>Trainor Dashboard: progress ng lahat ng trainee</td></tr><tr><td>Contributor</td><td>Trainee</td><td>Mag-aral; naka-sync ang sariling progress</td></tr><tr><td>Viewer</td><td>Trainee (view-only)</td><td>Makakapag-aral pero hindi masi-save online</td></tr></tbody></table></div><p class="small">Para magdagdag o magtanggal ng user, o magpalit ng role: pindutin ang <b>Share</b> sa itaas ng app.</p><p class="tiny muted">Ang offline na bersyon (HTML file at Windows installer) ay gumagamit pa rin ng local accounts na may PIN.</p></div></div>`))); return; }
+    if (ON.on) { main.appendChild(h((__EN?`<div class="page"><div class="lesson-head"><h1>Admin: Users</h1><p class="muted">Online mode: the users are the people you gave access to this app.</p></div><div class="card stack"><h3>Roles</h3><div class="tbl-wrap"><table><thead><tr><th>Access in the Share menu</th><th>Role in the app</th><th>Can do</th></tr></thead><tbody><tr><td>You (owner)</td><td>Admin</td><td>Everything</td></tr><tr><td>Editor</td><td>Trainor</td><td>Trainor Dashboard: progress of every trainee</td></tr><tr><td>Contributor</td><td>Trainee</td><td>Study; their own progress syncs</td></tr><tr><td>Viewer</td><td>Trainee (view-only)</td><td>Can study but progress is not saved online</td></tr></tbody></table></div><p class="small">To add or remove a user, or change a role: press <b>Share</b> at the top of the app.</p><p class="tiny muted">The offline version (HTML file and Windows installer) still uses local accounts with a PIN.</p></div></div>`:`<div class="page"><div class="lesson-head"><h1>Admin: Mga user</h1><p class="muted">Online mode: ang mga user ay ang mga taong binigyan mo ng access sa app na ito.</p></div><div class="card stack"><h3>Mga role</h3><div class="tbl-wrap"><table><thead><tr><th>Access sa Share menu</th><th>Role sa app</th><th>Kaya</th></tr></thead><tbody><tr><td>Ikaw (may-ari)</td><td>Admin</td><td>Lahat</td></tr><tr><td>Editor</td><td>Trainor</td><td>Trainor Dashboard: progress ng lahat ng trainee</td></tr><tr><td>Contributor</td><td>Trainee</td><td>Mag-aral; naka-sync ang sariling progress</td></tr><tr><td>Viewer</td><td>Trainee (view-only)</td><td>Makakapag-aral pero hindi masi-save online</td></tr></tbody></table></div><p class="small">Para magdagdag o magtanggal ng user, o magpalit ng role: pindutin ang <b>Share</b> sa itaas ng app.</p><p class="tiny muted">Ang offline na bersyon (HTML file at Windows installer) ay gumagamit pa rin ng local accounts na may PIN.</p></div></div>`))); if (window.INSTALLS) main.lastElementChild.appendChild(INSTALLS.card(ctx)); return; }
     const page = h((__EN?`<div class="page wide"><div class="lesson-head"><h1>Admin: Users</h1><p class="muted">Create, change roles, reset PINs, or delete the accounts on this device.</p></div></div>`:`<div class="page wide"><div class="lesson-head"><h1>Admin: Mga user</h1><p class="muted">Gumawa, baguhin ang role, i-reset ang PIN, o burahin ang mga account sa device na ito.</p></div></div>`));
     main.appendChild(page);
     const d = db(); const admins = d.users.filter(x => x.role === 'admin').length;
@@ -11814,6 +11958,7 @@ interface g0/0.10
     rs.querySelector('button').onclick = () => { const m = rs.querySelector('.tiny'); try { const t = rs.querySelector('textarea').value.trim(); if (!t.startsWith('CCNABK:')) throw 0; const data = JSON.parse(decodeURIComponent(escape(atob(t.slice(7))))); let n = 0; for (const x of data.users) { if (db().users.some(y => y.user === x.user)) continue; db().users.push(x); if (data.prog[x.id]) put(keyOf(x), data.prog[x.id]); n++; } const all = get(IK, {}); Object.assign(all, data.imports || {}); put(IK, all); saveDb(); ctx.toast((__EN?`Restored ${n} account(s).`:`Na-restore ang ${n} account.`)); ctx.route(); } catch (e) { m.textContent = (__EN?"Invalid backup code.":'Hindi valid ang backup code.'); m.style.color = 'var(--bad)'; } };
     bk.appendChild(rs); page.appendChild(bk);
     if (window.ACC) ACC([uf, bk], { key: 'admin', open: -1, icons: ['uplus', 'db'] });
+    if (window.INSTALLS) page.insertBefore(INSTALLS.card(ctx), page.children[1] || null);
   }
 
   async function boot() {
@@ -11858,7 +12003,26 @@ interface g0/0.10
   const get = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
   const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } };
   const CK = 'ccna.prem.cfg', DAY = 864e5, HOUR = 36e5;
-  const cfg = () => Object.assign({ gcash: '', maya: '', name: '', price: '149', period: 'month', contact: '', qr: '', trialDays: 0, promoUntil: 0, promoNote: '' }, get(CK, {}));
+  const cfg = () => {
+    const raw = get(CK, {}) || {};
+    const c = Object.assign({ gcash: '', maya: '', name: '', price: '149', priceYear: '1190', period: 'month', contact: '', qr: '', trialDays: 0, promoUntil: 0, promoNote: '' }, raw);
+    // settings saved before v2.8 had one price "per month" or "per year": a yearly one becomes the 1-year plan
+    if (raw.priceYear === undefined && raw.period === 'year') { c.priceYear = c.price; c.price = ''; }
+    return c;
+  };
+  // the plans the Admin offers: monthly and/or 1 year (a blank price hides that plan)
+  const peso = v => '₱' + Number(v).toLocaleString('en-PH', { maximumFractionDigits: 2 });
+  function plans(c) {
+    c = c || cfg(); const out = [];
+    if (+c.price > 0) out.push({ id: 'm', name: t('Buwanan', 'Monthly'), price: +c.price, per: t('buwan', 'month'), days: 30 });
+    if (+c.priceYear > 0) {
+      const p = { id: 'y', name: t('1 Taon', '1 Year'), price: +c.priceYear, per: t('taon', 'year'), days: 365 };
+      if (+c.price > 0) { const full = 12 * c.price, save = full - c.priceYear; if (save > 0) { p.save = save; p.pct = Math.round(100 * save / full); p.month = c.priceYear / 12; } }
+      out.push(p);
+    }
+    return out;
+  }
+  const priceTxt = c => plans(c).map(p => `<b>${peso(p.price)}</b>/${p.per}`).join(t(' o ', ' or '));
   const saveCfg = c => put(CK, c);
   const S = () => (window.__ccnaS ? window.__ccnaS() : null) || {};
   const SAVE = () => { if (window.__ccnaSave) window.__ccnaSave(); };
@@ -11942,7 +12106,7 @@ interface g0/0.10
     s.prem = { until: base + dur, src: c.kind === 't' ? 'trial' : 'code' }; s.codes.push(c.id); SAVE();
     return { ok: true, until: s.prem.until, kind: c.kind };
   }
-  const durTxt = (kind, n) => kind === 't' ? `${n} ${t('oras', n === 1 ? 'hour' : 'hours')}` : `${n} ${t('araw', n === 1 ? 'day' : 'days')}`;
+  const durTxt = (kind, n) => kind === 't' ? `${n} ${t('oras', n === 1 ? 'hour' : 'hours')}` : n === 365 ? t('1 taon (365 araw)', '1 year (365 days)') : `${n} ${t('araw', n === 1 ? 'day' : 'days')}`;
 
   // ---------- grant to a local account (same device) ----------
   function grantLocal(user, ms) {
@@ -11976,7 +12140,7 @@ interface g0/0.10
     const c = cfg();
     return h(`<div class="page"><div class="card stack prem-lock"><div class="prem-lock-ic">${ICON}</div><h2>${what}</h2>
       <p class="muted">${t('Sa Free plan, bukas ang Chapter 1–2, ang unang lesson ng bawat chapter, ang lahat ng Basic labs, ang unang challenge ng bawat uri, ang Mini exam (30), at limitadong Network Designer at Subnetting Trainer.', 'On the Free plan you get Chapters 1–2, the first lesson of every chapter, all Basic labs, the first challenge of each kind, the Mini exam (30), and a limited Network Designer and Subnetting Trainer.')}</p>
-      <p>${t('I-unlock ang lahat', 'Unlock everything')}${c.price ? `: <b>₱${esc(c.price)}</b>/${c.period === 'year' ? t('taon', 'year') : t('buwan', 'month')}` : ''}.</p>
+      <p>${t('I-unlock ang lahat', 'Unlock everything')}${plans(c).length ? `: ${priceTxt(c)}` : ''}.</p>
       <div class="row"><a class="btn primary" href="#upgrade">${STAR}${t('Mag-upgrade sa Premium', 'Upgrade to Premium')}</a><a class="btn" href="#upgrade">${t('May access code ako', 'I have an access code')}</a></div></div></div>`);
   }
   // small inline lock used inside free pages (designer limits, subnet quota, answer key, plan, photo)
@@ -12001,20 +12165,24 @@ interface g0/0.10
     page.appendChild(h(`<div class="card stack prem-status"><div class="row between"><h3>${t('Ang plan mo', 'Your plan')}</h3>${badge(st)}</div><p class="small">${statusLine(st)}</p></div>`));
     page.appendChild(h(`<div class="prem-plans">
       <div class="card stack"><h3>Free</h3><p class="prem-price">₱0</p><ul class="small dz-ul"><li>${t('Chapter 1–2 at unang lesson ng bawat chapter', 'Chapters 1–2 and the first lesson of every chapter')}</li><li>${t('Lahat ng Basic labs', 'All Basic labs')} (${Object.keys(window.LABS || {}).filter(id => !window.LABS[id].challenge && labFree(id)).length})</li><li>${t('Lab challenges', 'Lab challenges')}: ${Object.keys(window.LABS || {}).filter(id => window.LABS[id].challenge && labFree(id)).length} ${t('sa', 'of')} ${Object.values(window.LABS || {}).filter(l => l.challenge).length}</li><li>Mini exam (30)</li><li>${t(`Network Designer: hanggang ${LIMITS.designs} design at ${LIMITS.devices} device bawat design, walang Auto-design`, `Network Designer: up to ${LIMITS.designs} designs and ${LIMITS.devices} devices each, no Auto-design`)}</li><li>${t(`Subnetting Trainer: ${LIMITS.subnetDay} tanong bawat araw (bukas ang Calculator at Reference)`, `Subnetting Trainer: ${LIMITS.subnetDay} questions a day (Calculator and Reference stay open)`)}</li><li>${t(`Answer Key ng mga libreng lesson at challenge; study plan Week 1–${LIMITS.planWeeks}`, `Answer Key for the free lessons and challenges; study plan Weeks 1–${LIMITS.planWeeks}`)}</li><li>Cheat sheets, Glossary, ${t('mga tip', 'tips')}</li></ul></div>
-      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3><p class="prem-price">${c.price ? `₱${esc(c.price)}<small>/${c.period === 'year' ? t('taon', 'year') : t('buwan', 'month')}</small>` : t('Tanungin ang Admin', 'Ask the Admin')}</p><ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
+      <div class="card stack prem-plan-p"><h3>${STAR}Premium</h3>${plans(c).length ? `<div class="prem-opts" role="radiogroup" aria-label="${t('Piliin ang plan', 'Choose a plan')}">${plans(c).map((p, i, a) => `<label class="prem-opt ${p.id === 'y' ? 'best' : ''}"><input type="radio" name="prem-plan" value="${p.id}" ${(a.length > 1 ? p.id === 'y' : i === 0) ? 'checked' : ''}><span class="prem-opt-n">${p.name}${p.id === 'y' && p.save ? `<i class="prem-tag">${t('Pinakasulit', 'Best value')}</i>` : ''}</span><span class="prem-price">${peso(p.price)}<small>/${p.per}</small></span>${p.save ? `<span class="tiny prem-save">${t(`Makatipid ng ${peso(p.save)} (${p.pct}%) · ${peso(p.month)} lang bawat buwan`, `Save ${peso(p.save)} (${p.pct}%) · just ${peso(p.month)} a month`)}</span>` : p.id === 'm' ? `<span class="tiny muted">${t('Bayaran bawat buwan', 'Pay every month')}</span>` : `<span class="tiny muted">${t('Isang bayad para sa buong taon', 'One payment for the whole year')}</span>`}</label>`).join('')}</div>` : `<p class="prem-price">${t('Tanungin ang Admin', 'Ask the Admin')}</p>`}<ul class="small dz-ul"><li>${t('Lahat ng', 'All')} ${(window.CURRICULUM || []).reduce((a, x) => a + x.lessons.length, 0)} lessons</li><li>${t('Lahat ng', 'All')} ${Object.keys(window.LABS || {}).length} labs ${t('at lab challenges', 'and lab challenges')}</li><li>${t('Buong 120-question exam (Real Exam mode)', 'Full 120-question exam (Real Exam mode)')}</li><li>${t('Walang limit na Network Designer at Auto-design', 'Unlimited Network Designer and Auto-design')}</li><li>${t('Walang limit na Subnetting practice', 'Unlimited Subnetting practice')}</li><li>${t('Buong Answer Key at 12-week study plan', 'Full Answer Key and 12-week study plan')}</li><li>${t('Larawan sa profile at lahat ng kulay ng app', 'Profile photo and every app color')}</li></ul></div></div>`));
     if (st.src !== 'staff') {
       const pay = h(`<div class="card stack"><h3>${t('Paano magbayad', 'How to pay')}</h3></div>`);
       const has = c.gcash || c.maya;
-      pay.appendChild(h(has ? `<div class="prem-pay">${c.qr ? `<img class="prem-qr" src="${esc(c.qr)}" alt="${t('QR code para sa bayad', 'Payment QR code')}">` : ''}<div class="stack" style="gap:6px">${c.gcash ? `<div><span class="pill">GCash</span> <b class="mono">${esc(c.gcash)}</b></div>` : ''}${c.maya ? `<div><span class="pill">Maya</span> <b class="mono">${esc(c.maya)}</b></div>` : ''}${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${c.price ? `<div class="small">${t('Halaga', 'Amount')}: <b>₱${esc(c.price)}</b> / ${c.period === 'year' ? t('taon', 'year') : t('buwan', 'month')}</div>` : ''}</div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang GCash/Maya number sa device na ito. Makipag-ugnayan sa Admin o Trainor mo para sa detalye ng bayad.', 'The Admin has not added a GCash/Maya number on this device yet. Contact your Admin or Trainor for payment details.')}</p>`));
+      pay.appendChild(h(has ? `<div class="prem-pay">${c.qr ? `<img class="prem-qr" src="${esc(c.qr)}" alt="${t('QR code para sa bayad', 'Payment QR code')}">` : ''}<div class="stack" style="gap:6px">${c.gcash ? `<div><span class="pill">GCash</span> <b class="mono">${esc(c.gcash)}</b></div>` : ''}${c.maya ? `<div><span class="pill">Maya</span> <b class="mono">${esc(c.maya)}</b></div>` : ''}${c.name ? `<div class="small">${t('Pangalan', 'Name')}: <b>${esc(c.name)}</b></div>` : ''}${plans(c).length ? `<div class="small">${t('Halaga', 'Amount')}: <span class="prem-amt"></span></div>` : ''}</div></div>` : `<p class="small muted">${t('Hindi pa nailalagay ng Admin ang GCash/Maya number sa device na ito. Makipag-ugnayan sa Admin o Trainor mo para sa detalye ng bayad.', 'The Admin has not added a GCash/Maya number on this device yet. Contact your Admin or Trainor for payment details.')}</p>`));
       const steps = h(`<ol class="small prem-steps"><li>${t('Magbayad sa GCash o Maya.', 'Pay with GCash or Maya.')}</li><li>${t('Ilagay ang reference number sa ibaba at pindutin ang "Kopyahin ang mensahe".', 'Type the reference number below and press "Copy message".')}</li><li>${t('Ipadala ang mensahe', 'Send the message')}${c.contact ? ` ${t('sa', 'to')} <b>${esc(c.contact)}</b>` : t(' sa Admin o Trainor mo', ' to your Admin or Trainor')}.</li><li>${t('I-paste dito ang access code na ibibigay nila.', 'Paste the access code they send you here.')}</li></ol>`);
       pay.appendChild(steps);
+      const chosen = () => { const v = (page.querySelector('[name=prem-plan]:checked') || {}).value; return plans(c).find(p => p.id === v) || plans(c)[0] || null; };
+      const showAmt = () => { const p = chosen(), el = pay.querySelector('.prem-amt'); if (el && p) el.innerHTML = `<b>${peso(p.price)}</b> · Premium ${esc(p.name)}`; };
+      page.querySelectorAll('[name=prem-plan]').forEach(r => r.onchange = showAmt); showAmt();
       const ref = h(`<div class="row prem-ref"><label class="fld" style="flex:1;min-width:180px">${t('Reference number', 'Reference number')}<input type="text" inputmode="numeric" maxlength="20" placeholder="1234 567 890123"></label><button class="btn" type="button">${t('Kopyahin ang mensahe', 'Copy message')}</button></div>`);
       ref.querySelector('button').onclick = () => {
         const r = ref.querySelector('input').value.trim(); if (!r) { ctx.toast(t('Ilagay muna ang reference number.', 'Enter the reference number first.')); return; }
-        const msg = t(`CCNA Lab Premium: nagbayad ako ng ₱${c.price || '?'} via GCash/Maya. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`, `CCNA Lab Premium: I paid ₱${c.price || '?'} via GCash/Maya. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`);
+        const p = chosen(), pl = p ? `${p.name}, ${peso(p.price)}` : '?';
+        const msg = t(`CCNA Lab Premium (${pl}): nagbayad ako via GCash/Maya. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`, `CCNA Lab Premium (${pl}): I paid via GCash/Maya. Ref no. ${r}. Username: @${u ? u.user : ''} (${u ? u.name : ''}).`);
         const done = () => ctx.toast(t('Nakopya. I-paste sa chat sa Admin.', 'Copied. Paste it in your chat with the Admin.'));
         (navigator.clipboard ? navigator.clipboard.writeText(msg).then(done, () => prompt('', msg)) : (prompt('', msg), 0));
-        S().payRef = { ref: r, at: Date.now() }; SAVE();
+        S().payRef = { ref: r, at: Date.now(), plan: p ? p.id : '' }; SAVE();
       };
       pay.appendChild(ref);
       page.appendChild(pay);
@@ -12043,13 +12211,15 @@ interface g0/0.10
           <label class="fld">Maya number<input name="maya" inputmode="tel" maxlength="20" value="${esc(c.maya)}" placeholder="09XX XXX XXXX"></label>
           <label class="fld">${t('Pangalan sa account', 'Account name')}<input name="name" maxlength="40" value="${esc(c.name)}" placeholder="J. Dela Cruz"></label>
           <label class="fld">${t('Saan ipapadala ang ref no.', 'Where to send the ref no.')}<input name="contact" maxlength="60" value="${esc(c.contact)}" placeholder="Messenger: ..."></label>
-          <label class="fld">${t('Presyo (₱)', 'Price (₱)')}<input name="price" inputmode="numeric" maxlength="6" value="${esc(c.price)}"></label>
-          <label class="fld">${t('Kada', 'Per')}<select name="period"><option value="month" ${c.period !== 'year' ? 'selected' : ''}>${t('buwan', 'month')}</option><option value="year" ${c.period === 'year' ? 'selected' : ''}>${t('taon', 'year')}</option></select></label>
+          <label class="fld">${t('Presyo bawat buwan (₱)', 'Price per month (₱)')}<input name="price" inputmode="numeric" maxlength="6" value="${esc(c.price)}" placeholder="${t('blangko = walang buwanan', 'blank = no monthly plan')}"></label>
+          <label class="fld">${t('Presyo ng 1 taon (₱)', 'Price for 1 year (₱)')}<input name="priceYear" inputmode="numeric" maxlength="7" value="${esc(c.priceYear)}" placeholder="${t('blangko = walang 1 taon', 'blank = no 1-year plan')}"><span class="tiny muted prem-yhint"></span></label>
           <label class="fld">${t('Libreng trial sa bagong trainee (araw)', 'Free trial for new trainees (days)')}<input name="trialDays" inputmode="numeric" maxlength="3" value="${esc(c.trialDays)}"></label>
           <div class="fld"><span>${t('GCash/Maya QR (opsyonal)', 'GCash/Maya QR (optional)')}</span><div class="row" style="gap:8px">${c.qr ? `<img class="prem-qr sm" src="${esc(c.qr)}" alt="QR">` : ''}<button type="button" class="btn sm" data-a="qr">${c.qr ? t('Palitan', 'Change') : t('Mag-upload', 'Upload')}</button>${c.qr ? `<button type="button" class="btn sm ghost" data-a="qrx">${t('Alisin', 'Remove')}</button>` : ''}<input type="file" accept="image/*" hidden></div></div>
           <div class="row"><button class="btn primary" type="submit">${t('I-save', 'Save')}</button></div></form></div>`);
       const f = pd.querySelector('form');
-      f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), period: f.period.value, trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
+      f.onsubmit = e => { e.preventDefault(); c = Object.assign(cfg(), { gcash: f.gcash.value.trim(), maya: f.maya.value.trim(), name: f.name.value.trim(), contact: f.contact.value.trim(), price: f.price.value.replace(/[^\d.]/g, ''), priceYear: f.priceYear.value.replace(/[^\d.]/g, ''), period: 'month', trialDays: Math.max(0, Math.min(365, parseInt(f.trialDays.value, 10) || 0)) }); saveCfg(c); ctx.toast(t('Na-save.', 'Saved.')); };
+      const yh = () => { const m = +f.price.value.replace(/[^\d.]/g, ''), y = +f.priceYear.value.replace(/[^\d.]/g, ''), el = pd.querySelector('.prem-yhint'); el.textContent = m > 0 && y > 0 ? (12 * m > y ? t(`Makakatipid ang trainee ng ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) kumpara sa 12 buwan.`, `Trainees save ${peso(12 * m - y)} (${Math.round(100 * (12 * m - y) / (12 * m))}%) compared with 12 months.`) : t('Mas mahal ito kaysa 12 buwan na buwanan.', 'This costs more than 12 monthly payments.')) : ''; };
+      f.price.oninput = f.priceYear.oninput = yh; yh();
       const fi = pd.querySelector('input[type=file]');
       pd.querySelector('[data-a=qr]').onclick = () => fi.click();
       fi.onchange = () => { const file = fi.files[0]; if (!file) return; const img = new Image(); const url = URL.createObjectURL(file); img.onload = () => { const N = 360, k = Math.min(1, N / Math.max(img.naturalWidth, img.naturalHeight)); const cv = document.createElement('canvas'); cv.width = Math.round(img.naturalWidth * k); cv.height = Math.round(img.naturalHeight * k); const x = cv.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(img, 0, 0, cv.width, cv.height); URL.revokeObjectURL(url); saveCfg(Object.assign(cfg(), { qr: cv.toDataURL('image/png') })); ctx.route(); }; img.onerror = () => ctx.toast(t('Hindi mabasa ang larawan.', 'Could not read that image.')); img.src = url; };
@@ -12070,12 +12240,13 @@ interface g0/0.10
     const cg = h(`<div class="card stack"><h3>${t('Gumawa ng access code', 'Make an access code')}</h3><p class="small muted">${t('Gumagana kahit sa ibang device at offline. Isang beses lang magagamit ng bawat trainee ang isang code.', 'Works on other devices and offline. Each trainee can use a code once.')}</p>
       <form class="grid c2 prem-form" autocomplete="off">
         <label class="fld">${t('Uri', 'Type')}<select name="kind"><option value="p">Premium (${t('araw', 'days')})</option><option value="t">${t('Free trial (oras)', 'Free trial (hours)')}</option></select></label>
-        <label class="fld">${t('Gaano katagal', 'How long')}<input name="amount" inputmode="numeric" maxlength="4" value="30"></label>
+        <label class="fld">${t('Gaano katagal', 'How long')}<span class="row" style="gap:6px;flex-wrap:nowrap"><input name="amount" inputmode="numeric" maxlength="4" value="30" style="flex:1;min-width:60px"><button type="button" class="btn sm" data-days="30">${t('1 buwan', '1 month')}</button><button type="button" class="btn sm" data-days="365">${t('1 taon', '1 year')}</button></span></label>
         <label class="fld">${t('Para kanino', 'For whom')}<input name="user" maxlength="24" placeholder="${t('username, o * para sa kahit sino', 'username, or * for anyone')}" value="*"></label>
         <label class="fld">${t('Puwedeng i-redeem sa loob ng (araw)', 'Can be redeemed within (days)')}<input name="valid" inputmode="numeric" maxlength="3" value="7"></label>
         <div class="row"><button class="btn primary" type="submit">${t('Gumawa ng code', 'Make code')}</button></div></form><div class="prem-code-out"></div></div>`);
     const cf = cg.querySelector('form');
-    cf.kind.onchange = () => { cf.amount.value = cf.kind.value === 't' ? '24' : '30'; };
+    cf.kind.onchange = () => { cf.amount.value = cf.kind.value === 't' ? '24' : '30'; cg.querySelectorAll('[data-days]').forEach(b => b.hidden = cf.kind.value === 't'); };
+    cg.querySelectorAll('[data-days]').forEach(b => b.onclick = () => { cf.kind.value = 'p'; cf.amount.value = b.dataset.days; });
     cf.onsubmit = e => {
       e.preventDefault(); const amount = Math.max(1, Math.min(3650, parseInt(cf.amount.value, 10) || 0)); const user = (cf.user.value.trim().replace(/^@/, '') || '*').toLowerCase();
       const code = makeCode({ kind: cf.kind.value, amount, user, valid: Math.max(1, Math.min(365, parseInt(cf.valid.value, 10) || 7)) });
@@ -12100,7 +12271,7 @@ interface g0/0.10
     main.appendChild(page);
   }
 
-  window.PREMIUM = { status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
+  window.PREMIUM = { plans, status, isPremium, allowLesson, allowLab, allowFullExam, lessonFree, labFree, chapterFree, LIMITS, can, subnetToday, lockNote, init, badge, statusLine, lockCard, decorate, viewUpgrade, viewAdmin, makeCode, readCode, redeem, cfg };
 })();
 
 ;
@@ -12181,9 +12352,23 @@ interface g0/0.10
     sp_xgs2100: { n: 'Sophos XGS 2100', b: 'firewall', brand: 'Sophos', d: E('Firewall na may zones at rules', 'Firewall with zones and rules') },
     pa_440: { n: 'Palo Alto PA-440', b: 'firewall', brand: 'Palo Alto', ports: 'g0/0-7', d: E('Next-gen firewall, 8 port', 'Next-gen firewall, 8 ports') },
     ng_4200: { n: 'Netgate pfSense+ 4200', b: 'firewall', brand: 'Netgate', ports: 'g0/0-3', d: E('pfSense firewall, 4 port', 'pfSense firewall, 4 ports') },
+    // SonicWall: TZ/NSa firewalls are also the router of the site (routing, NAT, DHCP, VPN); SWS switches and SonicWave APs are managed from the firewall
+    snw_tz270: { n: 'SonicWall TZ270', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-7', d: E('Firewall + router ng maliit na opisina, 8 port', 'Firewall + router for a small office, 8 ports') },
+    snw_tz370: { n: 'SonicWall TZ370', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-7', d: E('Branch firewall/router, 8 port, may VPN', 'Branch firewall/router, 8 ports, with VPN') },
+    snw_tz470: { n: 'SonicWall TZ470', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-9', d: E('8 GE + 2 x 2.5G: SD-WAN at VPN', '8 GE + 2 x 2.5G: SD-WAN and VPN') },
+    snw_tz570: { n: 'SonicWall TZ570', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-9', d: E('8 GE + 2 x 5G SFP+: katamtamang opisina', '8 GE + 2 x 5G SFP+: mid-size office') },
+    snw_tz670: { n: 'SonicWall TZ670', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-9', d: E('8 GE + 2 x 10G SFP+: malaking branch', '8 GE + 2 x 10G SFP+: large branch') },
+    snw_nsa2700: { n: 'SonicWall NSa 2700', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-15', d: E('Pang-enterprise na firewall, 16 GE + SFP+', 'Enterprise firewall, 16 GE + SFP+') },
+    snw_nsa4700: { n: 'SonicWall NSa 4700', b: 'firewall', brand: 'SonicWall', ports: 'g0/0-15', d: E('Data center / HQ firewall, 16 GE + 10G', 'Data center / HQ firewall, 16 GE + 10G') },
+    snw_sws12: { n: 'SonicWall SWS12-8POE', b: 'poe', brand: 'SonicWall', ports: 'g0/1-12', d: E('8 PoE+ + 2 GE + 2 SFP: para sa AP at camera', '8 PoE+ + 2 GE + 2 SFP: for APs and cameras') },
+    snw_sws12f: { n: 'SonicWall SWS12-10FPOE', b: 'poe', brand: 'SonicWall', ports: 'g0/1-12', d: E('10 full PoE+ + 2 SFP, kontrolado ng firewall', '10 full PoE+ + 2 SFP, managed by the firewall') },
+    snw_sws14_24: { n: 'SonicWall SWS14-24FPOE', b: 'poe', brand: 'SonicWall', ports: 'g0/1-28', d: E('24 PoE+ + 4 x 10G SFP+, pang-access layer', '24 PoE+ + 4 x 10G SFP+, access layer') },
+    snw_sws14_48: { n: 'SonicWall SWS14-48', b: 'managed', brand: 'SonicWall', ports: 'g0/1-52', d: E('48 Gigabit + 4 x 10G SFP+, managed', '48 Gigabit + 4 x 10G SFP+, managed') },
     isp_fiber: { n: 'PLDT / Converge Fiber', b: 'isp', brand: 'ISP', d: E('Internet sa fiber (FTTH)', 'Fiber Internet (FTTH)') },
     isp_lte: { n: 'Globe / Smart LTE-5G', b: 'isp', brand: 'ISP', d: E('Mobile data na Internet (backup)', 'Mobile data Internet (backup)') },
     isp_sat: { n: 'Starlink', b: 'isp', brand: 'ISP', d: E('Satellite Internet para sa malalayong lugar', 'Satellite Internet for remote sites') },
+    snw_tz370w: { n: 'SonicWall TZ370W', b: 'soho', brand: 'SonicWall', pre: 'SNW', d: E('Firewall na may Wi-Fi: WAN + LAN, DHCP at NAT', 'Firewall with built-in Wi-Fi: WAN + LAN, DHCP and NAT') },
+    snw_soho250w: { n: 'SonicWall SOHO 250W', b: 'soho', brand: 'SonicWall', pre: 'SNW', d: E('Wi-Fi firewall pang-bahay o maliit na opisina', 'Wi-Fi firewall for home or a small office') },
     tpl_c6: { n: 'TP-Link Archer C6', b: 'soho', brand: 'TP-Link', d: E('Wi-Fi 5 router: WAN + 4 LAN', 'Wi-Fi 5 router: WAN + 4 LAN') },
     dl_dir842: { n: 'D-Link DIR-842', b: 'soho', brand: 'D-Link', d: E('Wi-Fi router pang-bahay: WAN + 4 LAN', 'Home Wi-Fi router: WAN + 4 LAN') },
     td_ac10: { n: 'Tenda AC10', b: 'soho', brand: 'Tenda', d: E('Murang Wi-Fi router: WAN + 4 LAN', 'Budget Wi-Fi router: WAN + 4 LAN') },
@@ -12193,6 +12378,11 @@ interface g0/0.10
     aruba_ap22: { n: 'Aruba Instant On AP22', b: 'ap', brand: 'Aruba', d: E('Wi-Fi 6 AP pang-opisina', 'Office Wi-Fi 6 AP') },
     rj_rap2200: { n: 'Ruijie Reyee RAP2200', b: 'ap', brand: 'Ruijie', d: E('Ceiling AP, Reyee cloud', 'Ceiling AP, Reyee cloud') },
     mt_capax: { n: 'MikroTik cAP ax', b: 'ap', brand: 'MikroTik', d: E('Wi-Fi 6 AP sa kisame o pader', 'Wi-Fi 6 AP for ceiling or wall') },
+    snw_sw621: { n: 'SonicWall SonicWave 621', b: 'ap', brand: 'SonicWall', d: E('Wi-Fi 6 ceiling AP, PoE', 'Wi-Fi 6 ceiling AP, PoE') },
+    snw_sw641: { n: 'SonicWall SonicWave 641', b: 'ap', brand: 'SonicWall', d: E('Wi-Fi 6 AP, 2.5G uplink, mataong lugar', 'Wi-Fi 6 AP, 2.5G uplink, busy areas') },
+    snw_sw681: { n: 'SonicWall SonicWave 681', b: 'ap', brand: 'SonicWall', d: E('Wi-Fi 6 AP, 5G uplink, pinakamaraming user', 'Wi-Fi 6 AP, 5G uplink, highest user count') },
+    snw_sw231o: { n: 'SonicWall SonicWave 231o', b: 'apout', brand: 'SonicWall', d: E('Outdoor AP, 60 m', 'Outdoor AP, 60 m') },
+    snw_sw432o: { n: 'SonicWall SonicWave 432o', b: 'apout', brand: 'SonicWall', d: E('Outdoor Wi-Fi AP pang-parking o campus, 60 m', 'Outdoor Wi-Fi AP for parking or campus, 60 m') },
     ubnt_u6mesh: { n: 'Ubiquiti UniFi U6 Mesh', b: 'apout', brand: 'Ubiquiti', d: E('Outdoor/indoor mesh AP, 60 m', 'Outdoor/indoor mesh AP, 60 m') },
     tpl_eap610o: { n: 'TP-Link EAP610-Outdoor', b: 'apout', brand: 'TP-Link', d: E('Outdoor Wi-Fi 6 AP, 60 m', 'Outdoor Wi-Fi 6 AP, 60 m') },
     tpl_oc200: { n: 'TP-Link Omada OC200', b: 'wlc', brand: 'TP-Link', d: E('Hardware controller ng Omada AP', 'Hardware controller for Omada APs') },
@@ -12201,6 +12391,134 @@ interface g0/0.10
     hik_nvr: { n: 'Hikvision NVR', b: 'nas', brand: 'Hikvision', d: E('Recorder ng mga CCTV camera', 'Recorder for the CCTV cameras') },
     syn_ds224: { n: 'Synology DS224+', b: 'nas', brand: 'Synology', d: E('NAS: file server at backup', 'NAS: file server and backup') },
     yl_t31p: { n: 'Yealink T31P', b: 'phone', brand: 'Yealink', d: E('IP phone (VoIP), PoE', 'IP phone (VoIP), PoE') },
+    // ---- v2.8: fuller range per brand (routers, switches, wireless, security) ----
+    // Cisco
+    cs_cbs110: { n: 'Cisco CBS110-8T-D', b: 'unmanaged', brand: 'Cisco', ports: 'g0/1-8', d: E('8-port Gigabit, plug-and-play', '8-port Gigabit, plug-and-play') },
+    cs_cbs350: { n: 'Cisco CBS350-24T-4G', b: 'managed', brand: 'Cisco', ports: 'g0/1-28', d: E('Managed 24 + 4 SFP, may CLI', 'Managed 24 + 4 SFP, with CLI') },
+    cs_c2960x: { n: 'Cisco Catalyst 2960-X', b: 'managed', brand: 'Cisco', d: E('Klasikong access switch ng CCNA: 24 FE + 2 GE', 'The classic CCNA access switch: 24 FE + 2 GE') },
+    cs_c1000p: { n: 'Cisco Catalyst 1000-24P', b: 'poe', brand: 'Cisco', ports: 'g0/1-28', d: E('24 PoE+ + 4 SFP, para sa phone, AP at camera', '24 PoE+ + 4 SFP, for phones, APs and cameras') },
+    cs_c9200l: { n: 'Cisco Catalyst 9200L-24P', b: 'poe', brand: 'Cisco', ports: 'g0/1-28', d: E('Enterprise access, 24 PoE+ + 4 uplink', 'Enterprise access, 24 PoE+ + 4 uplinks') },
+    cs_ms120: { n: 'Cisco Meraki MS120-8LP', b: 'poe', brand: 'Cisco', ports: 'g0/1-10', d: E('Cloud-managed na 8 PoE + 2 SFP', 'Cloud-managed, 8 PoE + 2 SFP') },
+    cs_c3850: { n: 'Cisco Catalyst 3850-24T', b: 'l3', brand: 'Cisco', d: E('Layer 3 distribution: SVI, OSPF, inter-VLAN', 'Layer 3 distribution: SVIs, OSPF, inter-VLAN') },
+    cs_c9500: { n: 'Cisco Catalyst 9500-48Y4C', b: 'core', brand: 'Cisco', d: E('Core ng campus o data center', 'Campus or data center core') },
+    cs_isr1111: { n: 'Cisco ISR 1111-8P', b: 'router', brand: 'Cisco', ports: 'g0/0-9', d: E('Maliit na branch router: 2 WAN + 8 LAN', 'Small branch router: 2 WAN + 8 LAN') },
+    cs_c8200: { n: 'Cisco Catalyst 8200', b: 'router', brand: 'Cisco', d: E('SD-WAN branch router: 4 GE + 2 serial', 'SD-WAN branch router: 4 GE + 2 serial') },
+    cs_isr4451: { n: 'Cisco ISR 4451', b: 'router8', brand: 'Cisco', d: E('Malaking branch/HQ: 8 GE + 4 serial', 'Large branch/HQ: 8 GE + 4 serial') },
+    cs_rv340: { n: 'Cisco RV340', b: 'router', brand: 'Cisco', ports: 'g0/0-5', d: E('Dual-WAN VPN router pang-SMB', 'Dual-WAN VPN router for SMBs') },
+    cs_asa5506: { n: 'Cisco ASA 5506-X', b: 'firewall', brand: 'Cisco', ports: 'g0/0-7', d: E('Klasikong ASA firewall, 8 port', 'The classic ASA firewall, 8 ports') },
+    cs_fpr1010: { n: 'Cisco Firepower 1010', b: 'firewall', brand: 'Cisco', ports: 'g0/0-7', d: E('NGFW pang-maliit na opisina, 8 port', 'Small-office NGFW, 8 ports') },
+    cs_fpr2110: { n: 'Cisco Firepower 2110', b: 'firewall', brand: 'Cisco', ports: 'g0/0-11', d: E('NGFW pang-enterprise, 12 port', 'Enterprise NGFW, 12 ports') },
+    cs_mx68: { n: 'Cisco Meraki MX68', b: 'firewall', brand: 'Cisco', ports: 'g0/0-11', d: E('Cloud-managed firewall + SD-WAN', 'Cloud-managed firewall + SD-WAN') },
+    cs_rv260w: { n: 'Cisco RV260W', b: 'soho', brand: 'Cisco', pre: 'WR', d: E('VPN router na may Wi-Fi pang-maliit na opisina', 'VPN router with Wi-Fi for a small office') },
+    cs_c9120: { n: 'Cisco Catalyst 9120AXI', b: 'ap', brand: 'Cisco', d: E('Wi-Fi 6 ceiling AP, kontrolado ng WLC', 'Wi-Fi 6 ceiling AP, managed by a WLC') },
+    cs_mr36: { n: 'Cisco Meraki MR36', b: 'ap', brand: 'Cisco', d: E('Cloud-managed na Wi-Fi 6 AP', 'Cloud-managed Wi-Fi 6 AP') },
+    cs_cbw240: { n: 'Cisco Business 240AC', b: 'ap', brand: 'Cisco', d: E('Wi-Fi 5 AP pang-SMB, may mesh', 'Wi-Fi 5 AP for SMBs, with mesh') },
+    cs_iw9167: { n: 'Cisco Catalyst IW9167E', b: 'apout', brand: 'Cisco', d: E('Industrial outdoor AP, 60 m', 'Industrial outdoor AP, 60 m') },
+    cs_mr76: { n: 'Cisco Meraki MR76', b: 'apout', brand: 'Cisco', d: E('Outdoor Wi-Fi 6 AP, 60 m', 'Outdoor Wi-Fi 6 AP, 60 m') },
+    cs_9800cl: { n: 'Cisco Catalyst 9800-40', b: 'wlc', brand: 'Cisco', d: E('WLC ng campus: daan-daang AP', 'Campus WLC: hundreds of APs') },
+    cs_cp8841: { n: 'Cisco IP Phone 8841', b: 'phone', brand: 'Cisco', d: E('IP phone (VoIP), PoE, voice VLAN', 'IP phone (VoIP), PoE, voice VLAN') },
+    cs_ucs220: { n: 'Cisco UCS C220 M6', b: 'server', brand: 'Cisco', d: E('Rack server: web, DNS, SSH', 'Rack server: web, DNS, SSH') },
+    // Fortinet
+    ft_40f: { n: 'Fortinet FortiGate 40F', b: 'firewall', brand: 'Fortinet', ports: 'g0/0-4', d: E('Maliit na NGFW: 1 WAN + 3 LAN', 'Small NGFW: 1 WAN + 3 LAN') },
+    ft_100f: { n: 'Fortinet FortiGate 100F', b: 'firewall', brand: 'Fortinet', ports: 'g0/0-15', d: E('Katamtamang opisina, SD-WAN, 16 port', 'Mid-size office, SD-WAN, 16 ports') },
+    ft_200f: { n: 'Fortinet FortiGate 200F', b: 'firewall', brand: 'Fortinet', ports: 'g0/0-15', d: E('Campus/HQ firewall, 16 GE + 10G', 'Campus/HQ firewall, 16 GE + 10G') },
+    ft_600f: { n: 'Fortinet FortiGate 600F', b: 'firewall', brand: 'Fortinet', ports: 'g0/0-15', d: E('Data center firewall, mabilis na inspection', 'Data center firewall, fast inspection') },
+    ft_fwf40f: { n: 'Fortinet FortiWiFi 40F', b: 'soho', brand: 'Fortinet', pre: 'FWF', d: E('FortiGate na may Wi-Fi: WAN + LAN, DHCP at NAT', 'FortiGate with Wi-Fi: WAN + LAN, DHCP and NAT') },
+    ft_fsw108f: { n: 'Fortinet FortiSwitch 108F-POE', b: 'poe', brand: 'Fortinet', ports: 'g0/1-10', d: E('8 PoE + 2 SFP, kontrolado ng FortiGate', '8 PoE + 2 SFP, managed by the FortiGate') },
+    ft_fsw124f: { n: 'Fortinet FortiSwitch 124F-POE', b: 'poe', brand: 'Fortinet', ports: 'g0/1-28', d: E('24 PoE + 4 SFP+, access layer', '24 PoE + 4 SFP+, access layer') },
+    ft_fsw148f: { n: 'Fortinet FortiSwitch 148F', b: 'managed', brand: 'Fortinet', ports: 'g0/1-52', d: E('48 Gigabit + 4 SFP+, managed', '48 Gigabit + 4 SFP+, managed') },
+    ft_fsw424e: { n: 'Fortinet FortiSwitch 424E', b: 'l3', brand: 'Fortinet', d: E('Layer 3 switch: SVI at static routing', 'Layer 3 switch: SVIs and static routing') },
+    ft_fap231f: { n: 'Fortinet FortiAP 231F', b: 'ap', brand: 'Fortinet', d: E('Wi-Fi 6 AP, kontrolado ng FortiGate', 'Wi-Fi 6 AP, managed by the FortiGate') },
+    ft_fap431f: { n: 'Fortinet FortiAP 431F', b: 'ap', brand: 'Fortinet', d: E('Wi-Fi 6 AP pang-mataong lugar', 'Wi-Fi 6 AP for busy areas') },
+    ft_fap432f: { n: 'Fortinet FortiAP 432F', b: 'apout', brand: 'Fortinet', d: E('Outdoor Wi-Fi 6 AP, 60 m', 'Outdoor Wi-Fi 6 AP, 60 m') },
+    // Sophos
+    sp_xgs87: { n: 'Sophos XGS 87', b: 'firewall', brand: 'Sophos', ports: 'g0/0-4', d: E('Desktop firewall pang-maliit na opisina', 'Desktop firewall for a small office') },
+    sp_xgs107: { n: 'Sophos XGS 107', b: 'firewall', brand: 'Sophos', ports: 'g0/0-8', d: E('Branch firewall, 9 port, may VPN', 'Branch firewall, 9 ports, with VPN') },
+    sp_xgs3300: { n: 'Sophos XGS 3300', b: 'firewall', brand: 'Sophos', ports: 'g0/0-15', d: E('Rack firewall ng HQ, 16 port', 'HQ rack firewall, 16 ports') },
+    sp_xgs87w: { n: 'Sophos XGS 87w', b: 'soho', brand: 'Sophos', pre: 'XGW', d: E('Firewall na may Wi-Fi: WAN + LAN, DHCP at NAT', 'Firewall with Wi-Fi: WAN + LAN, DHCP and NAT') },
+    sp_red60: { n: 'Sophos RED 60', b: 'router', brand: 'Sophos', ports: 'g0/0-4', d: E('Remote branch device: tunnel papunta sa HQ', 'Remote branch device: tunnel to HQ') },
+    sp_cs101: { n: 'Sophos Switch CS101-8FP', b: 'poe', brand: 'Sophos', ports: 'g0/1-10', d: E('8 PoE+ + 2 SFP, Sophos Central', '8 PoE+ + 2 SFP, Sophos Central') },
+    sp_cs110: { n: 'Sophos Switch CS110-24FP', b: 'poe', brand: 'Sophos', ports: 'g0/1-28', d: E('24 PoE+ + 4 SFP, access layer', '24 PoE+ + 4 SFP, access layer') },
+    sp_cs210: { n: 'Sophos Switch CS210-48', b: 'managed', brand: 'Sophos', ports: 'g0/1-52', d: E('48 Gigabit + 4 SFP+, managed', '48 Gigabit + 4 SFP+, managed') },
+    sp_apx320: { n: 'Sophos APX 320', b: 'ap', brand: 'Sophos', d: E('Wi-Fi 5 ceiling AP, Sophos Central', 'Wi-Fi 5 ceiling AP, Sophos Central') },
+    sp_apx740: { n: 'Sophos APX 740', b: 'ap', brand: 'Sophos', d: E('High-density AP pang-conference/hall', 'High-density AP for conference rooms and halls') },
+    sp_apx320x: { n: 'Sophos APX 320X', b: 'apout', brand: 'Sophos', d: E('Outdoor AP, 60 m', 'Outdoor AP, 60 m') },
+    // MikroTik
+    mt_hapax2: { n: 'MikroTik hAP ax²', b: 'soho', brand: 'MikroTik', pre: 'HAP', d: E('Wi-Fi 6 router: WAN + 4 LAN, RouterOS', 'Wi-Fi 6 router: WAN + 4 LAN, RouterOS') },
+    mt_chateau: { n: 'MikroTik Chateau LTE12', b: 'soho', brand: 'MikroTik', pre: 'LTE', d: E('LTE + Wi-Fi router para sa walang fiber', 'LTE + Wi-Fi router where there is no fiber') },
+    mt_l009: { n: 'MikroTik L009UiGS', b: 'router', brand: 'MikroTik', ports: 'g0/0-8', d: E('8 Gigabit + SFP, murang branch router', '8 Gigabit + SFP, a budget branch router') },
+    mt_rb5009: { n: 'MikroTik RB5009UG+S+', b: 'router', brand: 'MikroTik', ports: 'g0/0-9', d: E('7 GE + 2.5G + SFP+, mabilis na router', '7 GE + 2.5G + SFP+, a fast router') },
+    mt_ccr2116: { n: 'MikroTik CCR2116-12G-4S+', b: 'router8', brand: 'MikroTik', ports: 'g0/0-15', d: E('Pang-ISP: 12 GE + 4 SFP+', 'ISP-grade: 12 GE + 4 SFP+') },
+    mt_css610: { n: 'MikroTik CSS610-8G-2S+', b: 'smart', brand: 'MikroTik', ports: 'g0/1-10', d: E('SwOS smart switch: VLAN sa web', 'SwOS smart switch: VLANs on the web') },
+    mt_crs112p: { n: 'MikroTik CRS112-8P-4S', b: 'poe', brand: 'MikroTik', ports: 'g0/1-12', d: E('8 PoE + 4 SFP', '8 PoE + 4 SFP') },
+    mt_crs328p: { n: 'MikroTik CRS328-24P-4S+', b: 'poe', brand: 'MikroTik', ports: 'g0/1-28', d: E('24 PoE + 4 SFP+', '24 PoE + 4 SFP+') },
+    mt_crs354: { n: 'MikroTik CRS354-48G-4S+2Q+', b: 'managed', brand: 'MikroTik', ports: 'g0/1-54', d: E('48 Gigabit + 4 SFP+ + 2 QSFP+', '48 Gigabit + 4 SFP+ + 2 QSFP+') },
+    mt_crs317: { n: 'MikroTik CRS317-1G-16S+', b: 'l3', brand: 'MikroTik', d: E('16 x 10G SFP+, L3 hardware routing', '16 x 10G SFP+, L3 hardware routing') },
+    mt_capac: { n: 'MikroTik cAP ac', b: 'ap', brand: 'MikroTik', d: E('Dual-band ceiling AP, PoE', 'Dual-band ceiling AP, PoE') },
+    mt_wapax: { n: 'MikroTik wAP ax', b: 'apout', brand: 'MikroTik', d: E('Weatherproof na Wi-Fi 6 AP, 60 m', 'Weatherproof Wi-Fi 6 AP, 60 m') },
+    // Ubiquiti
+    ubnt_udmpro: { n: 'Ubiquiti UniFi Dream Machine Pro', b: 'firewall', brand: 'Ubiquiti', ports: 'g0/0-9', d: E('Gateway + firewall + controller sa rack', 'Gateway + firewall + controller in a rack') },
+    ubnt_ucgultra: { n: 'Ubiquiti Cloud Gateway Ultra', b: 'router', brand: 'Ubiquiti', ports: 'g0/0-4', d: E('Maliit na UniFi gateway: 1 WAN + 4 LAN', 'Small UniFi gateway: 1 WAN + 4 LAN') },
+    ubnt_erx: { n: 'Ubiquiti EdgeRouter X', b: 'router', brand: 'Ubiquiti', ports: 'g0/0-4', d: E('Murang 5-port router, EdgeOS', 'Budget 5-port router, EdgeOS') },
+    ubnt_udr: { n: 'Ubiquiti UniFi Dream Router', b: 'soho', brand: 'Ubiquiti', pre: 'UDR', d: E('Wi-Fi 6 router + UniFi controller', 'Wi-Fi 6 router + UniFi controller') },
+    ubnt_ux: { n: 'Ubiquiti UniFi Express', b: 'soho', brand: 'Ubiquiti', pre: 'UX', d: E('Maliit na gateway + Wi-Fi 6', 'Compact gateway + Wi-Fi 6') },
+    ubnt_flexmini: { n: 'Ubiquiti USW Flex Mini', b: 'smart', brand: 'Ubiquiti', ports: 'g0/1-5', d: E('5-port na maliit na managed switch', 'Tiny 5-port managed switch') },
+    ubnt_lite8: { n: 'Ubiquiti USW-Lite-8-PoE', b: 'poe', brand: 'Ubiquiti', ports: 'g0/1-8', d: E('8 Gigabit, 4 PoE+', '8 Gigabit, 4 PoE+') },
+    ubnt_pro48: { n: 'Ubiquiti USW-Pro-48-PoE', b: 'l3', brand: 'Ubiquiti', d: E('48 PoE+, Layer 3 (SVI at routing)', '48 PoE+, Layer 3 (SVIs and routing)') },
+    ubnt_proagg: { n: 'Ubiquiti USW-Pro-Aggregation', b: 'core', brand: 'Ubiquiti', d: E('Core: 28 x 10G + 4 x 25G', 'Core: 28 x 10G + 4 x 25G') },
+    ubnt_u6pro: { n: 'Ubiquiti UniFi U6 Pro', b: 'ap', brand: 'Ubiquiti', d: E('Wi-Fi 6 AP pang-opisina', 'Office Wi-Fi 6 AP') },
+    ubnt_u7pro: { n: 'Ubiquiti UniFi U7 Pro', b: 'ap', brand: 'Ubiquiti', d: E('Wi-Fi 7 ceiling AP, 6 GHz', 'Wi-Fi 7 ceiling AP, 6 GHz') },
+    ubnt_u6ent: { n: 'Ubiquiti UniFi U6 Enterprise', b: 'ap', brand: 'Ubiquiti', d: E('Wi-Fi 6E AP, 2.5G uplink', 'Wi-Fi 6E AP, 2.5G uplink') },
+    ubnt_u7out: { n: 'Ubiquiti UniFi U7 Outdoor', b: 'apout', brand: 'Ubiquiti', d: E('Outdoor Wi-Fi 7 AP, 60 m', 'Outdoor Wi-Fi 7 AP, 60 m') },
+    ubnt_ck2: { n: 'Ubiquiti UniFi Cloud Key Gen2+', b: 'wlc', brand: 'Ubiquiti', d: E('Controller ng UniFi AP at switch', 'Controller for UniFi APs and switches') },
+    ubnt_g5: { n: 'Ubiquiti UniFi G5 Bullet', b: 'camera', brand: 'Ubiquiti', d: E('UniFi Protect camera, PoE', 'UniFi Protect camera, PoE') },
+    ubnt_unvr: { n: 'Ubiquiti UniFi NVR', b: 'nas', brand: 'Ubiquiti', d: E('Recorder ng UniFi Protect', 'UniFi Protect recorder') },
+    // Aruba (HPE)
+    aruba_1830: { n: 'Aruba Instant On 1830-8G', b: 'smart', brand: 'Aruba', ports: 'g0/1-10', d: E('8-port smart switch, web/app', '8-port smart switch, web/app') },
+    aruba_1930: { n: 'Aruba Instant On 1930-24G-PoE', b: 'poe', brand: 'Aruba', ports: 'g0/1-28', d: E('24 PoE+ + 4 SFP+', '24 PoE+ + 4 SFP+') },
+    aruba_6100: { n: 'Aruba CX 6100-48G', b: 'managed', brand: 'Aruba', ports: 'g0/1-52', d: E('48 Gigabit + 4 SFP+, AOS-CX', '48 Gigabit + 4 SFP+, AOS-CX') },
+    aruba_6300: { n: 'Aruba CX 6300M', b: 'core', brand: 'Aruba', d: E('Distribution/core L3, stackable', 'Distribution/core L3, stackable') },
+    aruba_8325: { n: 'Aruba CX 8325', b: 'core', brand: 'Aruba', d: E('Data center core, 25/100G', 'Data center core, 25/100G') },
+    aruba_9004: { n: 'Aruba 9004 Gateway', b: 'firewall', brand: 'Aruba', ports: 'g0/0-3', d: E('Branch gateway + firewall, SD-WAN', 'Branch gateway + firewall, SD-WAN') },
+    aruba_ap505: { n: 'Aruba AP-505', b: 'ap', brand: 'Aruba', d: E('Wi-Fi 6 AP pang-opisina', 'Office Wi-Fi 6 AP') },
+    aruba_ap535: { n: 'Aruba AP-535', b: 'ap', brand: 'Aruba', d: E('Wi-Fi 6 AP pang-mataong lugar', 'Wi-Fi 6 AP for busy areas') },
+    aruba_ap635: { n: 'Aruba AP-635', b: 'ap', brand: 'Aruba', d: E('Wi-Fi 6E AP, 6 GHz', 'Wi-Fi 6E AP, 6 GHz') },
+    aruba_ap575: { n: 'Aruba AP-575', b: 'apout', brand: 'Aruba', d: E('Outdoor Wi-Fi 6 AP, 60 m', 'Outdoor Wi-Fi 6 AP, 60 m') },
+    aruba_ap27: { n: 'Aruba Instant On AP27', b: 'apout', brand: 'Aruba', d: E('Outdoor AP pang-SMB, 60 m', 'Outdoor AP for SMBs, 60 m') },
+    aruba_7010: { n: 'Aruba 7010 Mobility Controller', b: 'wlc', brand: 'Aruba', d: E('Controller ng Aruba AP', 'Controller for Aruba APs') },
+    // Juniper
+    jn_ex2300: { n: 'Juniper EX2300-24P', b: 'poe', brand: 'Juniper', ports: 'g0/1-28', d: E('24 PoE+ + 4 SFP+, Junos', '24 PoE+ + 4 SFP+, Junos') },
+    jn_ex3400: { n: 'Juniper EX3400-48T', b: 'managed', brand: 'Juniper', ports: 'g0/1-52', d: E('48 Gigabit + 4 SFP+, Junos', '48 Gigabit + 4 SFP+, Junos') },
+    jn_ex4400: { n: 'Juniper EX4400-24T', b: 'l3', brand: 'Juniper', d: E('Layer 3 access/distribution', 'Layer 3 access/distribution') },
+    jn_srx300: { n: 'Juniper SRX300', b: 'firewall', brand: 'Juniper', ports: 'g0/0-7', d: E('Branch firewall + router, 8 port', 'Branch firewall + router, 8 ports') },
+    jn_srx345: { n: 'Juniper SRX345', b: 'firewall', brand: 'Juniper', ports: 'g0/0-15', d: E('Malaking branch firewall, 16 port', 'Large branch firewall, 16 ports') },
+    jn_mx204: { n: 'Juniper MX204', b: 'router8', brand: 'Juniper', d: E('Pang-ISP/WAN edge router', 'ISP/WAN edge router') },
+    jn_ap43: { n: 'Juniper Mist AP43', b: 'ap', brand: 'Juniper', d: E('Wi-Fi 6 AP na may AI (Mist)', 'Wi-Fi 6 AP with AI (Mist)') },
+    // Palo Alto, Check Point
+    pa_1410: { n: 'Palo Alto PA-1410', b: 'firewall', brand: 'Palo Alto', ports: 'g0/0-11', d: E('NGFW pang-katamtamang opisina, 12 port', 'Mid-size office NGFW, 12 ports') },
+    pa_3410: { n: 'Palo Alto PA-3410', b: 'firewall', brand: 'Palo Alto', ports: 'g0/0-15', d: E('Enterprise NGFW, 16 port', 'Enterprise NGFW, 16 ports') },
+    cp_1600: { n: 'Check Point Quantum Spark 1600', b: 'firewall', brand: 'Check Point', ports: 'g0/0-15', d: E('SMB firewall, 16 port', 'SMB firewall, 16 ports') },
+    cp_3600: { n: 'Check Point Quantum 3600', b: 'firewall', brand: 'Check Point', ports: 'g0/0-9', d: E('Branch security gateway, 10 port', 'Branch security gateway, 10 ports') },
+    // Netgear, Zyxel, Grandstream
+    nt_gs308: { n: 'Netgear GS308', b: 'unmanaged', brand: 'Netgear', ports: 'g0/1-8', d: E('8-port Gigabit, plug-and-play', '8-port Gigabit, plug-and-play') },
+    nt_gs724tp: { n: 'Netgear GS724TP', b: 'smart', brand: 'Netgear', ports: 'g0/1-26', d: E('Smart switch 24 PoE + 2 SFP', 'Smart switch 24 PoE + 2 SFP') },
+    nt_m4250: { n: 'Netgear M4250-26G4F', b: 'managed', brand: 'Netgear', ports: 'g0/1-30', d: E('Managed switch pang-AV at opisina', 'Managed switch for AV and offices') },
+    nt_rax50: { n: 'Netgear Nighthawk RAX50', b: 'soho', brand: 'Netgear', pre: 'WR', d: E('Wi-Fi 6 router pang-bahay', 'Home Wi-Fi 6 router') },
+    nt_wax620: { n: 'Netgear WAX620', b: 'ap', brand: 'Netgear', d: E('Wi-Fi 6 AP, Insight cloud', 'Wi-Fi 6 AP, Insight cloud') },
+    zy_usgflex100: { n: 'Zyxel USG FLEX 100', b: 'firewall', brand: 'Zyxel', ports: 'g0/0-6', d: E('SMB firewall, 7 port, may VPN', 'SMB firewall, 7 ports, with VPN') },
+    zy_gs1900: { n: 'Zyxel GS1900-24', b: 'smart', brand: 'Zyxel', ports: 'g0/1-26', d: E('Smart switch 24 + 2 SFP', 'Smart switch 24 + 2 SFP') },
+    zy_nwa210ax: { n: 'Zyxel NWA210AX', b: 'ap', brand: 'Zyxel', d: E('Wi-Fi 6 AP, Nebula cloud', 'Wi-Fi 6 AP, Nebula cloud') },
+    gs_gwn7003: { n: 'Grandstream GWN7003', b: 'router', brand: 'Grandstream', ports: 'g0/0-8', d: E('Multi-WAN VPN router, 9 port', 'Multi-WAN VPN router, 9 ports') },
+    gs_gwn7664: { n: 'Grandstream GWN7664', b: 'ap', brand: 'Grandstream', d: E('Wi-Fi 6 AP, walang bayad na controller', 'Wi-Fi 6 AP, free controller') },
+    // more TP-Link, Huawei, Ruijie
+    tpl_er7206: { n: 'TP-Link Omada ER7206', b: 'router', brand: 'TP-Link', ports: 'g0/0-5', d: E('Multi-WAN VPN router, 6 port', 'Multi-WAN VPN router, 6 ports') },
+    tpl_sg3428: { n: 'TP-Link Omada SG3428', b: 'managed', brand: 'TP-Link', ports: 'g0/1-28', d: E('L2+ managed 24 + 4 SFP', 'L2+ managed 24 + 4 SFP') },
+    tpl_eap670: { n: 'TP-Link Omada EAP670', b: 'ap', brand: 'TP-Link', d: E('Wi-Fi 6 AP, 2.5G uplink', 'Wi-Fi 6 AP, 2.5G uplink') },
+    tpl_deco: { n: 'TP-Link Deco X50', b: 'soho', brand: 'TP-Link', d: E('Mesh Wi-Fi 6 para sa buong bahay', 'Whole-home mesh Wi-Fi 6') },
+    hw_usg6510: { n: 'Huawei USG6510E', b: 'firewall', brand: 'Huawei', ports: 'g0/0-9', d: E('HiSecEngine firewall, 10 port', 'HiSecEngine firewall, 10 ports') },
+    hw_ap5761: { n: 'Huawei AirEngine 5761-11', b: 'ap', brand: 'Huawei', d: E('Wi-Fi 6 ceiling AP', 'Wi-Fi 6 ceiling AP') },
+    rj_eg105g: { n: 'Ruijie Reyee RG-EG105G', b: 'router', brand: 'Ruijie', ports: 'g0/0-4', d: E('Cloud-managed router, 5 port', 'Cloud-managed router, 5 ports') },
+    rj_rap6260: { n: 'Ruijie Reyee RAP6260(G)', b: 'apout', brand: 'Ruijie', d: E('Outdoor AP, 60 m', 'Outdoor AP, 60 m') },
   };
   // brand models take every behavior flag from their base kind
   for (const k of Object.values(K)) if (k.b) { const B0 = K[k.b]; for (const f of ['ic', 'ios', 'ports', 'l2', 'l3', 'cli', 'acc', 'host', 'wifi', 'srv', 'soho', 'ap', 'fw', 'isp', 'lb', 'range', 'pre', 'g']) if (k[f] === undefined && B0[f] !== undefined) k[f] = B0[f]; }
@@ -12218,6 +12536,7 @@ interface g0/0.10
     campus: { n: 'Campus: 2 building (160 x 64 m)', w: 1600, h: 640, rooms: [[20, 20, 520, 600, 'Building A', 1], [40, 60, 180, 160, 'Server Room'], [240, 60, 280, 540, 'Office A'], [40, 240, 180, 360, 'Lobby'], [1060, 20, 520, 600, 'Building B', 1], [1080, 60, 480, 300, 'Office B'], [1080, 380, 480, 220, 'Training Room']], notes: [[800, 330, (__EN?"Parking / open area\n(≈52 m between the buildings)":'Parking / open area\n(≈52 m sa pagitan ng building)')]] },
     blank: { n: (__EN?"Blank (grid only)":'Blangko (grid lang)'), w: 1000, h: 640, rooms: [] },
     big: { n: E('Malaking blangko (300 x 200 m)', 'Large blank (300 x 200 m)'), w: 3000, h: 2000, rooms: [] },
+    inf: { n: E('Walang hanggan: lumalaki habang nagdidisenyo', 'Unlimited: grows as you design'), w: 8000, h: 6000, grid: 50, inf: 1, rooms: [] },
     ph: { n: 'Pilipinas: Luzon, Visayas at Mindanao (WAN)', w: 4800, h: 6500, geo: 0.24, grid: 400, land: ['M1900 322L2176 276L2636 322L2682 874L2544 1380L2360 1610L2360 2024L2544 2346L2912 2300L3142 2438L3510 2852L3464 3036L3096 2852L2820 2714L2452 2484L2222 2576L1900 2346L2038 2116L1762 2024L1624 1748L1532 1334L1762 1196L1808 736Z', 'M1762 2622L2176 2668L2314 3036L2084 3220L1808 3036Z', 'M1348 3588L1486 4002L1026 4508L382 4968L336 4876L888 4278L1256 3680Z', 'M2498 3358L2958 3542L2820 4002L2544 4002L2498 3680Z', 'M2958 3772L3234 3956L3096 4508L2820 4646L2728 4278L2958 4002Z', 'M3464 3634L3510 3956L3280 4416L3188 4278L3372 3864Z', 'M3372 4186L3740 4186L3648 4416L3372 4416Z', 'M3602 3496L3924 3634L3970 4186L3786 4232L3648 3864Z', 'M3556 3036L4062 3128L4246 3726L3924 3726L3740 3496Z', 'M2498 5658L2636 5198L3004 4968L3326 4876L3556 5060L3832 4692L4154 4324L4476 4600L4660 5474L4476 5934L4108 6256L4016 6026L3556 6118L3464 5796L3280 5290L2912 5382Z'], regions: [[2130, 828, 'LUZON'], [3142, 3220, 'VISAYAS'], [3648, 5474, 'MINDANAO']], rooms: [[1864, 1956, 440, 320, 'Metro Manila (HQ)', 1], [1680, 1128, 440, 320, 'Baguio', 1], [2876, 2416, 440, 320, 'Naga', 1], [806, 4210, 440, 320, 'Puerto Princesa', 1], [2577, 3750, 440, 320, 'Iloilo', 1], [3198, 3934, 440, 320, 'Cebu', 1], [3704, 3520, 440, 320, 'Tacloban', 1], [3543, 4762, 440, 320, 'Cagayan de Oro', 1], [2370, 5498, 440, 320, 'Zamboanga', 1], [3980, 5406, 440, 320, 'Davao', 1]] }
   };
 
@@ -13080,7 +13399,9 @@ interface g0/0.10
   //   VIEW
   // =====================================================================
   function view(main, ctx) {
-    const { S, save, toast, h, esc, icon } = ctx;
+    const { S, save, toast: toast0, h, esc, icon } = ctx;
+    let autoSv = false;
+    const toast = (m, ...r) => { if (autoSv) { winSaved(m); return; } return toast0(m, ...r); };
     S.designs = S.designs || {}; S.missions = S.missions || {};
     let D = S.designs[S.designCur];
     if (!D) { const first = Object.values(S.designs)[0]; if (first) D = first; else { D = sampleDesign(); S.designs[D.id] = D; } S.designCur = D.id; save(); }
@@ -13100,7 +13421,7 @@ interface g0/0.10
       <div class="dz-top"><div class="dz-tb" role="toolbar" aria-label="Devices"><div class="dz-cats"></div><span class="sp"></span><div class="dz-pm"></div></div><div class="dz-pal" hidden aria-label="Devices"></div></div>
       <div class="dz-wrap">
         <div class="dz-canvas"><svg class="dz-svg" role="application" aria-label="Floor plan"></svg></div>
-        <aside class="dz-side" hidden aria-label="Panel"><div class="dz-sh"><span class="dz-sgrip" aria-hidden="true"></span><label class="dz-ssel"><select aria-label="Choose a panel"></select></label><span class="dz-st"></span><button class="dz-x-btn" data-act="close" aria-label="Close the panel" title="Close (Esc)">✕</button></div><div class="dz-panel"></div></aside>
+        <aside class="dz-side" hidden aria-label="Panel"><div class="dz-sh"><span class="dz-sgrip" aria-hidden="true"></span><label class="dz-ssel"><select aria-label="Choose a panel"></select></label><div class="dz-wtabs" role="tablist" hidden></div><span class="dz-st"></span><span class="dz-saved" role="status" aria-live="polite"></span><button class="dz-x-btn" data-act="close" aria-label="Close the panel" title="Close (Esc)">✕</button></div><div class="dz-panel"></div></aside>
         <div class="dz-ctx" hidden role="menu"></div>
       </div>
       <div class="dz-foot"><div class="dz-hint tiny"></div><p class="tiny muted dz-legend"><span><i class="lg ok"></i>up</span><span><i class="lg warn"></i>shutdown</span><span><i class="lg bad"></i>broken / &gt;100 m</span><span><i class="lg wifi"></i>Wi-Fi</span><span>Fiber = thick, Serial = zig-zag</span></p></div></div>`:`<div class="page wide dz">
@@ -13108,7 +13429,7 @@ interface g0/0.10
       <div class="dz-top"><div class="dz-tb" role="toolbar" aria-label="Devices"><div class="dz-cats"></div><span class="sp"></span><div class="dz-pm"></div></div><div class="dz-pal" hidden aria-label="Devices"></div></div>
       <div class="dz-wrap">
         <div class="dz-canvas"><svg class="dz-svg" role="application" aria-label="Floor plan"></svg></div>
-        <aside class="dz-side" hidden aria-label="Panel"><div class="dz-sh"><span class="dz-sgrip" aria-hidden="true"></span><label class="dz-ssel"><select aria-label="Piliin ang panel"></select></label><span class="dz-st"></span><button class="dz-x-btn" data-act="close" aria-label="Isara ang panel" title="Isara (Esc)">✕</button></div><div class="dz-panel"></div></aside>
+        <aside class="dz-side" hidden aria-label="Panel"><div class="dz-sh"><span class="dz-sgrip" aria-hidden="true"></span><label class="dz-ssel"><select aria-label="Piliin ang panel"></select></label><div class="dz-wtabs" role="tablist" hidden></div><span class="dz-st"></span><span class="dz-saved" role="status" aria-live="polite"></span><button class="dz-x-btn" data-act="close" aria-label="Isara ang panel" title="Isara (Esc)">✕</button></div><div class="dz-panel"></div></aside>
         <div class="dz-ctx" hidden role="menu"></div>
       </div>
       <div class="dz-foot"><div class="dz-hint tiny"></div><p class="tiny muted dz-legend"><span><i class="lg ok"></i>up</span><span><i class="lg warn"></i>shutdown</span><span><i class="lg bad"></i>sira / &gt;100 m</span><span><i class="lg wifi"></i>Wi-Fi</span><span>Fiber = makapal, Serial = zig-zag</span></p></div></div>`));
@@ -13123,7 +13444,7 @@ interface g0/0.10
     let snap = JSON.stringify(D), snapSig = sig(), hist = [], fwd = [];
     const resetHist = () => { snap = JSON.stringify(D); snapSig = sig(); hist = []; fwd = []; };
     const persist = () => {
-      D.updated = Date.now(); clearTimeout(dirtyT); dirtyT = setTimeout(save, 250);
+      growPlan(true); D.updated = Date.now(); clearTimeout(dirtyT); dirtyT = setTimeout(save, 250);
       const s2 = sig(); if (s2 !== snapSig) { hist.push(snap); if (hist.length > 60) hist.shift(); fwd = []; snap = JSON.stringify(D); snapSig = s2; }
     };
     function restore(json) {
@@ -13136,7 +13457,34 @@ interface g0/0.10
     function doRedo() { if (!fwd.length) { toast((__EN?"Nothing left to redo.":'Wala nang ma-redo.')); return; } hist.push(snap); restore(fwd.pop()); toast((__EN?"Redone.":'Na-redo.')); }
     const rebuild = () => { B = build(D); matrix = null; };
     const L = id => (D.devs[id] || {}).label || id;
-    const plan = () => PLANS[D.plan] || PLANS.office;
+    let infP = null;
+    const plan = () => { const P = PLANS[D.plan] || PLANS.office; if (!P.inf) return P; if (!(D.pw > 0) || !(D.ph > 0)) { D.pw = P.w; D.ph = P.h; } if (!infP || infP.w !== D.pw || infP.h !== D.ph) infP = { ...P, w: D.pw, h: D.ph }; return infP; };
+    // "Unlimited" workspace: the plan grows (and shifts) so there is always room on every side of the design
+    const INF = { pad: 1500, step: 1000, max: 100000 };
+    function growPlan(final) {
+      const P = plan(); if (!P.inf) return false; const ds = Object.values(D.devs); if (!ds.length) return false;
+      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+      ds.forEach(d => { const c = d.cfg || {}, r = K[d.k].shape ? Math.hypot(+c.w || 0, +c.h || 0) / 2 : 60; x0 = Math.min(x0, d.x - r); x1 = Math.max(x1, d.x + r); y0 = Math.min(y0, d.y - r); y1 = Math.max(y1, d.y + r); });
+      let sx = 0, sy = 0, ch = false;
+      if (final && x0 < INF.pad && D.pw < INF.max) sx = Math.min(INF.max - D.pw, Math.ceil((INF.pad - x0) / INF.step) * INF.step);
+      if (final && y0 < INF.pad && D.ph < INF.max) sy = Math.min(INF.max - D.ph, Math.ceil((INF.pad - y0) / INF.step) * INF.step);
+      if (sx || sy) { ds.forEach(d => { d.x += sx; d.y += sy; }); D.pw += sx; D.ph += sy; x1 += sx; y1 += sy; ch = true; }
+      const nw = Math.min(INF.max, Math.ceil((x1 + INF.pad) / INF.step) * INF.step), nh = Math.min(INF.max, Math.ceil((y1 + INF.pad) / INF.step) * INF.step);
+      if (nw > D.pw) { D.pw = nw; ch = true; } if (nh > D.ph) { D.ph = nh; ch = true; }
+      if (!ch) return false;
+      const hadZ = !!zoom, z = curZoom(); sizeSvg(); if (hadZ && sx) canvas.scrollLeft += sx * z; if (hadZ && sy) canvas.scrollTop += sy * z;
+      if (final) { clearTimeout(growT); growT = setTimeout(() => toast(TT(`Lumawak ang workspace: ${Math.round(D.pw / U)} x ${Math.round(D.ph / U)} m. Tuloy lang sa pagdagdag, walang hangganan.`, `Workspace expanded: ${Math.round(D.pw / U)} x ${Math.round(D.ph / U)} m. Keep adding, there is no edge.`)), 120); }
+      return true;
+    }
+    let growT = 0;
+    // fit for the unlimited workspace: frame the devices (or the middle of an empty plan), not the whole plan
+    function infFit() {
+      const P = plan(), ds = Object.values(D.devs); let x0, y0, x1, y1;
+      if (ds.length) { x0 = Math.min(...ds.map(d => d.x)) - 160; x1 = Math.max(...ds.map(d => d.x)) + 160; y0 = Math.min(...ds.map(d => d.y)) - 140; y1 = Math.max(...ds.map(d => d.y)) + 160; }
+      else { x0 = P.w / 2 - 550; x1 = P.w / 2 + 550; y0 = P.h / 2 - 350; y1 = P.h / 2 + 350; }
+      const bw = Math.max(1100, x1 - x0), bh = Math.max(700, y1 - y0), cw = (canvas.clientWidth || 800) - 2, chh = (canvas.clientHeight || 500) - 2;
+      return { z: Math.max(zMin(), Math.min(1, cw / bw, chh / bh)), x: (x0 + x1) / 2, y: (y0 + y1) / 2 };
+    }
 
     // ---------- palette ----------
     function drawPal() {
@@ -13196,7 +13544,7 @@ interface g0/0.10
             : TT('Click: piliin · I-drag sa bakante: piliin ang marami · Right-drag: igalaw ang view · Wheel: zoom · Double-click: config · Right-click: options · ⊕: cable · Delete: burahin', 'Click: select · Drag on empty space: select many · Right-drag: move the view · Wheel: zoom · Double-click: config · Right-click: options · ⊕: cable · Delete: delete');
       const fsb = page.querySelector('[data-act=fs]'); fsb.innerHTML = full ? '<svg class="fsi" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>' : '<svg class="fsi" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>'; fsb.setAttribute('aria-label', full ? (__EN ? 'Exit full screen' : 'Lumabas sa full screen') : 'Full screen'); fsb.title = full ? (__EN ? 'Exit full screen (Esc)' : (__EN?"Exit full screen (Esc)":'Lumabas sa full screen (Esc)')) : (__EN ? 'Open the designer in full screen' : 'Buksan ang designer sa full screen'); fsb.setAttribute('aria-pressed', full);
     }
-    const zMin = () => { const P = plan(); return P.w > 2500 || P.h > 2500 ? 0.04 : 0.25; };
+    const zMin = () => { const P = plan(); return P.inf ? 0.02 : P.w > 2500 || P.h > 2500 ? 0.04 : 0.25; };
     const setZoom = v => { zoom = v == null ? null : Math.max(zMin(), Math.min(3, v)); drawTools(); sizeSvg(); };
     const onTools = e => {
       const pm = e.target.closest('[data-pm]'), tb = e.target.closest('[data-tab]'), z = e.target.closest('[data-z]'), u = e.target.closest('[data-u]');
@@ -13232,21 +13580,26 @@ interface g0/0.10
       let hgt = Math.max(narrow() ? 300 : 360, Math.floor(innerHeight - top - foot - tbh - (full ? 10 : (parseFloat(getComputedStyle(main).paddingBottom) || 0) + 2)));
       // portrait screens: shrink the canvas to the floor plan so there is no empty band above/below it
       wrap.style.setProperty('--dz-avail', hgt + 'px');
-      if (!full && !zoom) { const P = plan(), w = (canvas.clientWidth || 800) - 2; const z = Math.max(zMin() < .25 ? zMin() : narrow() ? 0.62 : 0.25, Math.min(1.6, w / P.w, (hgt - 2) / P.h)); if (P.h * z + 4 < hgt) hgt = Math.ceil(P.h * z + 4); }
+      if (!full && !zoom && !plan().inf) { const P = plan(), w = (canvas.clientWidth || 800) - 2; const z = Math.max(zMin() < .25 ? zMin() : narrow() ? 0.62 : 0.25, Math.min(1.6, w / P.w, (hgt - 2) / P.h)); if (P.h * z + 4 < hgt) hgt = Math.ceil(P.h * z + 4); }
       wrap.style.setProperty('--dz-h', hgt + 'px');
     }
     function curZoom() {
-      if (zoom) return zoom; const P = plan();
+      if (zoom) return zoom; const P = plan(); if (P.inf) return infFit().z;
       const w = (canvas.clientWidth || 800) - 2, hh = (canvas.clientHeight || 500) - 2;
       return Math.max(zMin() < .25 ? zMin() : narrow() ? 0.62 : 0.25, Math.min(1.6, w / P.w, hh / P.h));
     }
     function sizeSvg() {
-      const P = plan(), z = curZoom();
+      const P = plan(); let fit = null;
+      if (P.inf && !zoom && canvas.clientWidth > 0) { fit = infFit(); zoom = fit.z; }
+      const z = curZoom();
       const cw = canvas.clientWidth || P.w * z, ch = canvas.clientHeight || P.h * z;
       const W = Math.max(P.w * z, cw), H = Math.max(P.h * z, ch);
       const vw = W / z, vh = H / z;
       svg.setAttribute('viewBox', `${((P.w - vw) / 2).toFixed(1)} ${((P.h - vh) / 2).toFixed(1)} ${vw.toFixed(1)} ${vh.toFixed(1)}`);
       svg.setAttribute('width', Math.floor(W)); svg.setAttribute('height', Math.floor(H));
+      // grid detail follows the zoom: 1 m lines up close, 5 m lines normally, 50 m lines always
+      svg.classList.toggle('dz-z-far', z < 0.22); svg.classList.toggle('dz-z-near', z >= 1.3);
+      if (fit) { canvas.scrollLeft = Math.max(0, (fit.x - (P.w - vw) / 2) * z - canvas.clientWidth / 2); canvas.scrollTop = Math.max(0, (fit.y - (P.h - vh) / 2) * z - canvas.clientHeight / 2); drawTools(); }
     }
     const relayout = () => { fitHeight(); drawTools(); sizeSvg(); };
     function toggleFull(v) {
@@ -13265,7 +13618,7 @@ interface g0/0.10
       const ov = h(`<div class="dz-pp" role="dialog" aria-modal="true" aria-label="Print preview">
         <div class="dz-pp-bar">
           <b class="dz-pp-t">Print preview</b>
-          <div class="seg" data-g="area" role="group" aria-label="${TT('Ipi-print', 'Print area')}"><button type="button" data-v="all">${TT('Buong plan', 'Whole plan')}</button><button type="button" data-v="view">${TT('Nakikita ngayon', 'Current view')}</button><button type="button" data-v="sel" ${selIds.length ? '' : `disabled title="${TT('Pumili muna ng device o shape (hal. isang parihaba sa paligid ng area)', 'Select a device or shape first (e.g. a rectangle around the area)')}"`}>${TT('Napili lang', 'Selection')}${selIds.length ? ` (${selIds.length})` : ''}</button></div>
+          <div class="seg" data-g="area" role="group" aria-label="${TT('Ipi-print', 'Print area')}"><button type="button" data-v="all">${P.inf ? TT('Buong design', 'Whole design') : TT('Buong plan', 'Whole plan')}</button><button type="button" data-v="view">${TT('Nakikita ngayon', 'Current view')}</button><button type="button" data-v="sel" ${selIds.length ? '' : `disabled title="${TT('Pumili muna ng device o shape (hal. isang parihaba sa paligid ng area)', 'Select a device or shape first (e.g. a rectangle around the area)')}"`}>${TT('Napili lang', 'Selection')}${selIds.length ? ` (${selIds.length})` : ''}</button></div>
           <div class="seg" data-g="or" role="group" aria-label="${TT('Oryentasyon', 'Orientation')}"><button type="button" data-v="l">Landscape</button><button type="button" data-v="p">Portrait</button></div>
           <label class="dz-pp-ck"><input type="checkbox" data-o="grid" checked> Grid</label>
           <label class="dz-pp-ck"><input type="checkbox" data-o="list"> ${TT('Listahan ng device', 'Device list')}</label>
@@ -13285,6 +13638,7 @@ interface g0/0.10
       const vbFor = () => {
         if (area === 'sel' && selIds.length) return bbox(selIds);
         if (area === 'view') { const r = canvas.getBoundingClientRect(), a = toPlan({ clientX: r.left, clientY: r.top }), b = toPlan({ clientX: r.right, clientY: r.bottom }); return [a.x, a.y, b.x - a.x, b.y - a.y]; }
+        if (P.inf && Object.keys(D.devs).length) return bbox(Object.keys(D.devs));
         return [-20, -20, P.w + 40, P.h + 40];
       };
       function render() {
@@ -13360,9 +13714,9 @@ interface g0/0.10
     }
     function drawCanvas() {
       const P = plan(); let s = '';
-      const gs = P.grid || 50;
-      s += `<defs><pattern id="dzg" width="${gs}" height="${gs}" patternUnits="userSpaceOnUse"><path d="M${gs} 0H0V${gs}" class="dz-grid"/></pattern></defs>`;
-      s += `<rect x="${-P.w * 4}" y="${-P.h * 4}" width="${P.w * 9}" height="${P.h * 9}" class="dz-void"/><rect x="0" y="0" width="${P.w}" height="${P.h}" class="dz-floor ${P.geo ? 'dz-sea' : ''}"/><rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzg)" class="dz-floor-g"/>`;
+      const gs = P.grid || 50, gm = P.geo ? 0 : gs * 10, gf = P.geo ? 0 : gs / 5;
+      s += `<defs><pattern id="dzg" width="${gs}" height="${gs}" patternUnits="userSpaceOnUse"><path d="M${gs} 0H0V${gs}" class="dz-grid"/></pattern>${gm ? `<pattern id="dzgm" width="${gm}" height="${gm}" patternUnits="userSpaceOnUse"><path d="M${gm} 0H0V${gm}" class="dz-grid-m"/></pattern><pattern id="dzgf" width="${gf}" height="${gf}" patternUnits="userSpaceOnUse"><path d="M${gf} 0H0V${gf}" class="dz-grid-f"/></pattern>` : ''}</defs>`;
+      s += `<rect x="${-P.w * 4}" y="${-P.h * 4}" width="${P.w * 9}" height="${P.h * 9}" class="dz-void"/><rect x="0" y="0" width="${P.w}" height="${P.h}" class="dz-floor ${P.geo ? 'dz-sea' : ''}"/>${gm ? `<rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzgf)" class="dz-floor-g dz-g-fine"/>` : ''}<rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzg)" class="dz-floor-g dz-g-min"/>${gm ? `<rect x="0" y="0" width="${P.w}" height="${P.h}" fill="url(#dzgm)" class="dz-floor-g dz-g-maj"/>` : ''}`;
       for (const ld of P.land || []) s += `<path d="${ld}" class="dz-land"/>`;
       for (const g of P.regions || []) s += `<text x="${g[0]}" y="${g[1]}" text-anchor="middle" class="dz-region-l">${g[2]}</text>`;
       for (const r of P.rooms) s += `<rect x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}" rx="6" class="${r[5] ? 'dz-bldg' : 'dz-room'}${P.geo ? ' dz-site' : ''}"/><text x="${r[0] + 10}" y="${r[1] + 20}" class="dz-rl ${r[5] ? 'b' : ''}">${esc(r[4])}</text>${P.geo ? `<text x="${r[0] + r[2] / 2}" y="${r[1] - 22}" text-anchor="middle" class="dz-site-l">${esc(r[4])}</text>` : ''}`;
@@ -13539,7 +13893,8 @@ interface g0/0.10
         d.x = Math.round(Math.max(30, Math.min(P.w - 30, p.x - drag.dx))); d.y = Math.round(Math.max(30, Math.min(P.h - 40, p.y - drag.dy)));
         guides = null; if (!e.altKey && !K[d.k].shape) { const sn = snapAlign(d.x, d.y, new Set([d.id])); d.x = Math.round(sn.x); d.y = Math.round(sn.y); if (sn.gx != null || sn.gy != null) guides = { gx: sn.gx, gy: sn.gy, pt: { x: d.x, y: d.y }, skip: [d.id] }; }
       }
-      if (!drag.raf) drag.raf = requestAnimationFrame(() => { if (drag) drag.raf = null; drawCanvas(); });
+      { const r = canvas.getBoundingClientRect(), m = 28, ax = e.clientX > r.right - m ? 20 : e.clientX < r.left + m ? -20 : 0, ay = e.clientY > r.bottom - m ? 20 : e.clientY < r.top + m ? -20 : 0; if (ax) canvas.scrollLeft += ax; if (ay) canvas.scrollTop += ay; }
+      if (!drag.raf) drag.raf = requestAnimationFrame(() => { if (drag) drag.raf = null; growPlan(false); drawCanvas(); });
     });
     const endPtr = e => {
       clearLp();
@@ -13620,6 +13975,7 @@ interface g0/0.10
         const d = D.devs[t.id]; if (!d) return; const k = K[d.k];
         items = [['cfg', '⚙', k.shape ? TT('I-edit ang shape', 'Edit shape') : k.note ? (__EN?"Edit note":'I-edit ang note') : (__EN?"Configure":'I-configure'), 'Double-click']];
         if (!k.note) items.push(['cab', '⊕', (__EN?"Connect a cable…":'Ikabit ang cable…'), '']);
+        if (k.cli || k.host) items.push(['cli', '>_', k.host ? TT('Buksan ang Command Prompt', 'Open Command Prompt') : TT('Buksan ang CLI', 'Open the CLI'), '']);
         if (k.host && bk(d.k) !== 'lb') items.push(['test', '▶', (__EN?"Test (ping) from here":'Subukan (ping) mula dito'), '']);
         items.push(['dup', '⧉', 'Duplicate', '']);
         if (!k.isp) items.push(['-']);
@@ -13642,9 +13998,10 @@ interface g0/0.10
     function closeCtx() { if (!ctxm) return; ctxm = null; cm.hidden = true; }
     cm.addEventListener('click', e => {
       const b = e.target.closest('[data-c]'); if (!b || !ctxm) return; const t = ctxm, a = b.dataset.c; closeCtx();
-      if (a === 'cfg') { sel = t; openSide('dev'); }
+      if (a === 'cfg') { sel = t; openSide('dev', 'cfg'); }
+      else if (a === 'cli') { sel = t; openSide('dev', 'cli'); }
       else if (a === 'cab') { pending = t.id; sel = t; drawTools(); drawCanvas(); }
-      else if (a === 'test') { sel = t; testRes = null; openSide('test'); }
+      else if (a === 'test') { sel = t; testRes = null; openSide('dev', 'test'); }
       else if (a === 'dup') dupDev(t.id);
       else if (a === 'del') t.t === 'dev' ? delDev(t.id) : delLink(t.id);
       else if (a.startsWith('t:')) setLinkType(t.id, a.slice(2));
@@ -13698,14 +14055,75 @@ interface g0/0.10
 
     // ---------- floating panel ----------
     // wide screens: the panel docks beside the canvas (floor plan re-fits); medium: floats; phones: bottom sheet
-    const dockable = () => innerWidth >= 1100;
+    const dockable = () => false;
     function setDock() { const d = sideOpen && dockable(); if (wrap.classList.contains('dock') !== d) wrap.classList.toggle('dock', d); relayout(); }
-    function openSide(t) { tab = t || tab; sideOpen = true; panMenu = false; closeCtx(); drawTools(); drawSide(); setDock(); if (narrow()) document.body.classList.add('dz-sheet'); }
-    function closeSide() { sideOpen = false; document.body.classList.remove('dz-sheet'); drawTools(); drawSide(); setDock(); }
+    function openSide(t, dt) { const was = sideOpen; tab = t || tab; if (dt) dtab = dt; sideOpen = true; panMenu = false; closeCtx(); drawTools(); drawSide(); setDock(); if (narrow()) document.body.classList.add('dz-sheet'); if (!was) placeWin(); if (dtab === 'cli' && tab === 'dev') setTimeout(() => { const i = panel.querySelector('.term-input input'); if (i) i.focus({ preventScroll: true }); }, 40); }
+    function closeSide() { flushAuto(); sideOpen = false; document.body.classList.remove('dz-sheet'); drawTools(); drawSide(); setDock(); }
+    // ---------- device window (Packet Tracer style): floats over the plan, drag by its title bar, resize from the corner ----------
+    let dtab = 'cfg', winPos = null;
+    try { winPos = JSON.parse(localStorage.getItem('ccna.dz.win') || 'null'); } catch (e) { }
+    const winSave = () => { try { localStorage.setItem('ccna.dz.win', JSON.stringify(winPos)); } catch (e) { } };
+    function clampWin() {
+      if (narrow() || side.hidden) return; const W = wrap.clientWidth, H = wrap.clientHeight; if (!W || !H) return;
+      const w = Math.min(side.offsetWidth, W - 8), hh = Math.min(side.offsetHeight, H - 8);
+      const x = Math.max(4, Math.min(W - w - 4, parseFloat(side.style.left) || 0)), y = Math.max(4, Math.min(H - Math.min(hh, 60) - 4, parseFloat(side.style.top) || 0));
+      side.style.left = x + 'px'; side.style.top = y + 'px';
+    }
+    function placeWin() {
+      side.classList.toggle('dz-win', !narrow());
+      if (narrow()) { side.style.left = side.style.top = side.style.width = side.style.height = ''; return; }
+      const W = wrap.clientWidth, H = wrap.clientHeight;
+      const w = Math.max(340, Math.min(winPos && winPos.w || 560, W - 16)), hh = Math.max(280, Math.min(winPos && winPos.h || H - 16, H - 16));
+      side.style.width = w + 'px'; side.style.height = hh + 'px';
+      let x, y;
+      if (winPos && winPos.x != null) { x = winPos.x; y = winPos.y; }
+      else {
+        // first time: open on the side away from the device, so the device stays visible
+        const d = sel && sel.t === 'dev' && D.devs[sel.id]; let right = true;
+        if (d) try { const m = svg.getScreenCTM(), r = wrap.getBoundingClientRect(); if (m) right = (d.x * m.a + m.e) < r.left + r.width / 2; } catch (e) { }
+        x = right ? W - w - 8 : 8; y = 8;
+      }
+      side.style.left = x + 'px'; side.style.top = y + 'px'; clampWin();
+    }
+    { // drag the window by its title bar
+      let dg = null; const bar = side.querySelector('.dz-sh');
+      bar.addEventListener('pointerdown', e => {
+        if (narrow() || e.button !== 0 || e.target.closest('button,select,input,label,a,[role=tab]')) return;
+        dg = { x: e.clientX, y: e.clientY, l: side.offsetLeft, t: side.offsetTop, id: e.pointerId }; bar.setPointerCapture(e.pointerId); side.classList.add('drag'); e.preventDefault();
+      });
+      bar.addEventListener('pointermove', e => { if (!dg || e.pointerId !== dg.id) return; side.style.left = (dg.l + e.clientX - dg.x) + 'px'; side.style.top = (dg.t + e.clientY - dg.y) + 'px'; clampWin(); });
+      const end = e => { if (!dg || e.pointerId !== dg.id) return; dg = null; side.classList.remove('drag'); winPos = { ...(winPos || {}), x: side.offsetLeft, y: side.offsetTop, w: side.offsetWidth, h: side.offsetHeight }; winSave(); };
+      bar.addEventListener('pointerup', end); bar.addEventListener('pointercancel', end);
+      bar.addEventListener('dblclick', e => { if (narrow() || e.target.closest('button,select,input,label,[role=tab]')) return; winPos = null; winSave(); placeWin(); });
+      // remember the size after the corner is dragged
+      if (window.ResizeObserver) { let rt = null; new ResizeObserver(() => { if (narrow() || side.hidden || !side.classList.contains('dz-win')) return; clearTimeout(rt); rt = setTimeout(() => { const w = side.offsetWidth, hh = side.offsetHeight; if (!w || !hh) return; if (winPos && Math.abs((winPos.w || 0) - w) < 2 && Math.abs((winPos.h || 0) - hh) < 2) return; winPos = { ...(winPos || {}), x: side.offsetLeft, y: side.offsetTop, w, h: hh }; winSave(); }, 300); }).observe(side); }
+    }
+    // ---------- auto-save: settings save as soon as a field changes (no Apply / Save buttons) ----------
+    let savedT = null;
+    function winSaved(m) {
+      const el = $('.dz-saved'); if (!el) return;
+      el.textContent = '✓ ' + (m && !/^(Na-apply\.?|Na-save\.?|Applied\.?|Saved\.?)$/i.test(m) ? m : TT('Naka-save', 'Saved'));
+      el.title = el.textContent; el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+      clearTimeout(savedT); savedT = setTimeout(() => el.classList.remove('on'), 4200);
+    }
+    function autoSubmit(f) { if (!f || !f.isConnected) return; autoSv = true; try { f.requestSubmit(); } finally { autoSv = false; } }
+    // save the field being typed in before the window closes or switches
+    function flushAuto() { const a = document.activeElement; if (a && panel.contains(a) && a.form && a.form.querySelector('[data-auto]') && a.dataset.v0 !== undefined && a.value !== a.dataset.v0) autoSubmit(a.form); }
+    function wireAuto() {
+      panel.querySelectorAll('form').forEach(f => {
+        if (!f.querySelector('[data-auto]')) return;
+        f.classList.add('dz-autof');
+        f.querySelectorAll('input,select,textarea').forEach(x => { x.dataset.v0 = x.type === 'checkbox' || x.type === 'radio' ? String(x.checked) : x.value; });
+        f.addEventListener('change', e => { if (e.target.closest('[data-noauto]')) return; autoSubmit(f); });
+        f.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('input:not([type=checkbox]):not([type=radio])')) { e.preventDefault(); autoSubmit(f); } });
+      });
+    }
     // swallow the ghost click that follows a double-tap when the sheet opens under the finger
     let sideGuard = null;
     side.addEventListener('click', e => { const g = sideGuard; sideGuard = null; if (g && performance.now() < g.t && Math.hypot(e.clientX - g.x, e.clientY - g.y) < 32) { e.preventDefault(); e.stopPropagation(); } }, true);
     $('[data-act=close]').onclick = closeSide;
+    $('.dz-wtabs').addEventListener('click', e => { const b = e.target.closest('[data-dt]'); if (!b || b.dataset.dt === dtab) return; flushAuto(); dtab = b.dataset.dt; if (dtab === 'test') testRes = null; drawSide(); if (dtab === 'cli') setTimeout(() => { const i = panel.querySelector('.term-input input'); if (i) i.focus({ preventScroll: true }); }, 30); });
+    $('.dz-wtabs').addEventListener('keydown', e => { if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return; const bs = [...$('.dz-wtabs').querySelectorAll('[data-dt]')], i = bs.indexOf(document.activeElement); if (i < 0) return; e.preventDefault(); const n = bs[(i + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length]; n.focus(); n.click(); });
     $('.dz-ssel select').addEventListener('change', e => openSide(e.target.value));
     function drawTabs() { drawTools(); }
     let lintCache = null;
@@ -13724,21 +14142,43 @@ interface g0/0.10
 
     function drawAll() { lintCache = null; drawPal(); drawTools(); drawCanvas(); drawBar(); drawSide(); }
     let sideKey = '';
+    let sideT = null;
     function drawSide() {
-      side.hidden = !sideOpen; if (!sideOpen) { panel.innerHTML = ''; return; }
+      // during an auto-save, redraw a moment later so a click on another field still lands there
+      if (autoSv && sideOpen) { clearTimeout(sideT); sideT = setTimeout(drawSide, 0); return; }
+      clearTimeout(sideT);
+      // a device window closes by itself when nothing is selected any more (click on empty floor)
+      if (sideOpen && tab === 'dev' && !sel && side.classList.contains('dz-devwin')) { sideOpen = false; document.body.classList.remove('dz-sheet'); drawTools(); }
+      side.hidden = !sideOpen; if (!sideOpen) { panel.innerHTML = ''; side.classList.remove('dz-devwin'); return; }
       const T = TABS.find(x => x[0] === tab) || TABS[0];
       let sub = '';
       if (tab === 'dev' && sel) { if (sel.t === 'link') sub = 'Cable'; else if (D.devs[sel.id]) sub = K[D.devs[sel.id].k].shape ? K[D.devs[sel.id].k].n : K[D.devs[sel.id].k].note ? 'Note' : D.devs[sel.id].label; }
       $('.dz-ssel select').innerHTML = TABS.map(([t, ic, n]) => `<option value="${t}" ${t === T[0] ? 'selected' : ''}>${ic}  ${n}</option>`).join('');
+      // a device (or cable) opens as its own window with tabs: Config, CLI / Command Prompt, Test
+      const dv = tab === 'dev' && sel && sel.t === 'dev' && D.devs[sel.id], kd = dv && K[dv.k];
+      const dts = dv ? [['cfg', '⚙', kd.shape || kd.note ? TT('I-edit', 'Edit') : 'Config'], ...(kd.cli || kd.host ? [['cli', '>_', kd.host ? 'Command Prompt' : 'CLI']] : []), ...(kd.shape || kd.note ? [] : [['test', '▶', TT((__EN?"Test":'Subukan'), 'Test')]])] : [];
+      if (!dts.some(x => x[0] === dtab)) dtab = 'cfg';
+      const devWin = tab === 'dev' && sel && (dv || sel.t === 'link');
+      side.classList.toggle('dz-devwin', !!devWin);
+      $('.dz-ssel').hidden = !!devWin; const wt = $('.dz-wtabs'); wt.hidden = !dv || dts.length < 2;
+      wt.innerHTML = dts.map(([t, ic, n]) => `<button type="button" role="tab" data-dt="${t}" aria-selected="${t === dtab}" tabindex="${t === dtab ? 0 : -1}" class="${t === dtab ? 'on' : ''}"><i aria-hidden="true">${ic}</i>${esc(n)}</button>`).join('');
+      side.setAttribute('aria-label', devWin ? (dv ? dv.label : 'Cable') : T[2]);
       $('.dz-st').textContent = sub;
-      const key = tab + ':' + (sel ? sel.t + sel.id : ''), keep = key === sideKey ? panel.scrollTop : 0; sideKey = key; panel.innerHTML = '';
-      if (tab === 'dev') panelDev(); else if (tab === 'test') panelTest(); else if (tab === 'health') panelHealth(); else if (tab === 'auto') panelAuto(); else if (tab === 'mission') panelMission(); else panelFile();
+      const key = tab + ':' + (devWin ? dtab : '') + ':' + (sel ? sel.t + sel.id : ''), same = key === sideKey, keep = same ? panel.scrollTop : 0; sideKey = key; if (!same && !autoSv) { const sv = $('.dz-saved'); sv.classList.remove('on'); sv.textContent = ''; }
+      // remember which field had focus, so saving one field does not throw the cursor out
+      const ae = document.activeElement, fl = [...panel.querySelectorAll('input,select,textarea,button')], fi = same && ae && panel.contains(ae) ? fl.indexOf(ae) : -1;
+      const fsel = fi >= 0 && ae.selectionStart != null && /^(text|search|url|tel|password|)$/.test(ae.type || '') ? [ae.selectionStart, ae.selectionEnd] : null;
+      panel.innerHTML = ''; panel.classList.toggle('dz-clitab', !!(dv && dtab === 'cli'));
+      if (tab === 'dev') { if (dv && dtab === 'test') panelTest(); else panelDev(); } else if (tab === 'test') panelTest(); else if (tab === 'health') panelHealth(); else if (tab === 'auto') panelAuto(); else if (tab === 'mission') panelMission(); else panelFile();
+      if (devWin && dtab === 'cfg' && panel.querySelector('form [data-auto]')) panel.insertAdjacentHTML('beforeend', `<p class="tiny muted dz-autonote">${TT('✓ Kusang nase-save ang bawat binago: pindutin ang Enter o lumipat sa ibang field.', '✓ Every change saves by itself: press Enter or move to another field.')}</p>`);
+      wireAuto();
       panel.scrollTop = keep;
+      if (fi >= 0) { const nx = [...panel.querySelectorAll('input,select,textarea,button')][fi]; if (nx && nx.tagName === ae.tagName) { nx.focus({ preventScroll: true }); if (fsel) try { nx.setSelectionRange(fsel[0], fsel[1]); } catch (e) { } } }
     }
 
     // ---------- apply helpers ----------
     function apply(id, cmds, msg) {
-      if (!cmds.length) { toast((__EN?"Nothing changed.":'Walang binago.')); return; }
+      if (!cmds.length) { if (!autoSv) toast((__EN?"Nothing changed.":'Walang binago.')); return; }
       D.log.push({ d: id, g: cmds }); if (D.log.length > 4000) D.log.shift();
       const errs = guiExec(B.net, B.net.devs[id], cmds);
       rebuild(); persist(); last = { id, cmds, errs };
@@ -13754,12 +14194,10 @@ interface g0/0.10
       if (sel.t === 'link') return panelLink();
       const d = D.devs[sel.id]; if (!d) { sel = null; return panelDev(); }
       const k = K[d.k];
-      const head = h((__EN?`<div class="dz-dh"><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(d.k)}</svg><div><input class="dz-name" value="${esc(d.label)}" maxlength="20" aria-label="Name"><div class="tiny muted">${k.n} · ${d.id}</div></div><button class="btn sm" data-act="del">Delete</button></div>`:`<div class="dz-dh"><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(d.k)}</svg><div><input class="dz-name" value="${esc(d.label)}" maxlength="20" aria-label="Pangalan"><div class="tiny muted">${k.n} · ${d.id}</div></div><button class="btn sm" data-act="del">Burahin</button></div>`));
+      const head = h(`<div class="dz-dh"><svg viewBox="-26 -22 52 44" aria-hidden="true">${iconSvg(d.k)}</svg><div><input class="dz-name" value="${esc(d.label)}" maxlength="20" aria-label="Pangalan"><div class="tiny muted">${k.n}${k.brand ? '' : ' · ' + d.id}</div></div></div>`);
       panel.appendChild(head);
-      head.querySelector('.dz-name').onchange = e => { const v = e.target.value.trim().slice(0, 20); if (v) { d.label = v; persist(); drawCanvas(); drawBar(); } };
-      const del = head.querySelector('[data-act=del]');
-      del.onclick = () => delDev(d.id);
-      del.onclick = () => { if (!del.dataset.c) { del.dataset.c = 1; del.textContent = (__EN?"Tap again":'I-tap ulit'); setTimeout(() => { if (del.isConnected) { delete del.dataset.c; del.textContent = (__EN?"Delete":'Burahin'); } }, 3000); return; } delete D.devs[d.id]; D.links = D.links.filter(l => l.a !== d.id && l.b !== d.id); D.log = D.log.filter(x => x.d !== d.id); Object.values(D.devs).forEach(x => { if (x.cfg.backends) x.cfg.backends = x.cfg.backends.filter(b => b !== d.id); }); delete terms[d.id]; sel = null; rebuild(); persist(); drawAll(); toast((__EN?"Deleted.":'Nabura.')); };
+      { const nm = head.querySelector('.dz-name'); let nt = null; const upd = () => { const v = nm.value.trim().slice(0, 20); if (v && v !== d.label) { d.label = v; drawCanvas(); $('.dz-st').textContent = v; clearTimeout(nt); nt = setTimeout(() => { persist(); drawBar(); winSaved(); }, 500); } }; nm.addEventListener('input', upd); nm.onchange = () => { upd(); if (!nm.value.trim()) nm.value = d.label; }; }
+      if (dtab === 'cli' && (k.cli || k.host)) { head.remove(); return termSection(d, !!k.host); }
       if (k.host) return hostPanel(d);
       if (bk(d.k) === 'isp') return ispPanel(d);
       if (bk(d.k) === 'unmanaged' || bk(d.k) === 'ips') return simplePanel(d);
@@ -13786,13 +14224,13 @@ interface g0/0.10
           <label class="fld">${bk(d.k) === 'lb' ? 'VIP (virtual IP)' : 'IP address'} / prefix<input name="ip" value="${esc(c.ip || '')}" placeholder="192.168.1.10/24" inputmode="decimal" autocomplete="off"></label>
           <label class="fld">Default gateway<input name="gw" value="${esc(c.gw || '')}" placeholder="192.168.1.1" inputmode="decimal" autocomplete="off"></label>
           <label class="fld">DNS server<input name="dns" value="${esc(c.dns || '')}" placeholder="8.8.8.8" inputmode="decimal" autocomplete="off"></label>
-          <div class="err" hidden></div><button class="btn primary sm" type="submit">Apply</button></form>`:`${stat}
+          <div class="err" hidden></div><button class="btn primary sm" type="submit" data-auto>Apply</button></form>`:`${stat}
         <form class="dz-form" data-f="ip">
           <div class="seg full"><label><input type="radio" name="mode" value="static" ${!c.dhcp ? 'checked' : ''}> Static</label><label><input type="radio" name="mode" value="dhcp" ${c.dhcp ? 'checked' : ''}> DHCP</label></div>
           <label class="fld">${bk(d.k) === 'lb' ? 'VIP (virtual IP)' : 'IP address'} / prefix<input name="ip" value="${esc(c.ip || '')}" placeholder="192.168.1.10/24" inputmode="decimal" autocomplete="off"></label>
           <label class="fld">Default gateway<input name="gw" value="${esc(c.gw || '')}" placeholder="192.168.1.1" inputmode="decimal" autocomplete="off"></label>
           <label class="fld">DNS server<input name="dns" value="${esc(c.dns || '')}" placeholder="8.8.8.8" inputmode="decimal" autocomplete="off"></label>
-          <div class="err" hidden></div><button class="btn primary sm" type="submit">I-apply</button></form>`), true);
+          <div class="err" hidden></div><button class="btn primary sm" type="submit" data-auto>I-apply</button></form>`), true);
       const f = ipf.querySelector('form');
       const sync = () => { const st = f.mode.value === 'static'; ['ip', 'gw', 'dns'].forEach(n => f[n].disabled = !st); };
       f.querySelectorAll('[name=mode]').forEach(r => r.onchange = sync); sync();
@@ -13803,7 +14241,7 @@ interface g0/0.10
         rebuild(); persist(); drawAll(); toast(dh ? (B.net.hosts[d.id].ip ? (__EN?`Got an IP: ${B.net.hosts[d.id].ip}`:`Nakakuha ng IP: ${B.net.hosts[d.id].ip}`) : (__EN?"Set to DHCP, but no DHCP server has answered yet.":'Naka-DHCP, pero wala pang sumasagot na DHCP server.')) : (__EN?"IP saved.":'Na-save ang IP.'));
       };
       if (k.wifi) {
-        const w = section('Wi-Fi', (__EN?`<form class="dz-form" data-f="wifi"><label class="fld">SSID<input name="ssid" value="${esc(c.ssid || '')}" autocomplete="off"></label><label class="fld">Password<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Connects to the nearest AP with the same SSID and password, up to ${WIFI_R / U} m. ${k.wifi === 1 ? (__EN?"When cabled, the cable is used.":'Kapag naka-cable, cable ang gagamitin.') : ''}</p><button class="btn sm" type="submit">Save Wi-Fi</button></form>`:`<form class="dz-form" data-f="wifi"><label class="fld">SSID<input name="ssid" value="${esc(c.ssid || '')}" autocomplete="off"></label><label class="fld">Password<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Kumokonekta sa pinakamalapit na AP na may parehong SSID at password, hanggang ${WIFI_R / U} m. ${k.wifi === 1 ? (__EN?"When cabled, the cable is used.":'Kapag naka-cable, cable ang gagamitin.') : ''}</p><button class="btn sm" type="submit">I-save ang Wi-Fi</button></form>`), !cabled);
+        const w = section('Wi-Fi', (__EN?`<form class="dz-form" data-f="wifi"><label class="fld">SSID<input name="ssid" value="${esc(c.ssid || '')}" autocomplete="off"></label><label class="fld">Password<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Connects to the nearest AP with the same SSID and password, up to ${WIFI_R / U} m. ${k.wifi === 1 ? (__EN?"When cabled, the cable is used.":'Kapag naka-cable, cable ang gagamitin.') : ''}</p><button class="btn sm" type="submit" data-auto>Save Wi-Fi</button></form>`:`<form class="dz-form" data-f="wifi"><label class="fld">SSID<input name="ssid" value="${esc(c.ssid || '')}" autocomplete="off"></label><label class="fld">Password<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Kumokonekta sa pinakamalapit na AP na may parehong SSID at password, hanggang ${WIFI_R / U} m. ${k.wifi === 1 ? (__EN?"When cabled, the cable is used.":'Kapag naka-cable, cable ang gagamitin.') : ''}</p><button class="btn sm" type="submit" data-auto>I-save ang Wi-Fi</button></form>`), !cabled);
         const wf = w.querySelector('form'); wf.onsubmit = e => { e.preventDefault(); c.ssid = wf.ssid.value.trim(); c.psk = wf.psk.value; rebuild(); persist(); drawAll(); const a2 = B.assoc[d.id]; toast(a2 && a2.ap ? (__EN?`Connected to ${L(a2.ap)}.`:`Nakakonekta sa ${L(a2.ap)}.`) : wifiWhy(a2) || (__EN?"Saved.":'Na-save.')); };
       }
       if (k.srv) {
@@ -13835,14 +14273,14 @@ interface g0/0.10
         <div class="dz-stat"><div><span>Internet (WAN)</span><b class="mono">${ap ? (__EN?"off (AP mode)":'naka-off (AP mode)') : wan ? wan.ip : (__EN?"no IP":'walang IP')}</b></div><div><span>LAN IP</span><b class="mono">${cidr(lan.ip, lan.mask)}</b></div><div><span>Wi-Fi</span><b>${esc(c.ssid)}${c.psk ? ' 🔒' : ' (open)'}</b></div><div><span>Clients</span><b>${wired.filter(([p]) => p !== 'GigabitEthernet0/0' || ap).length} cable · ${wifiCl.length} Wi-Fi</b></div>${!ap ? `<div><span>DHCP leases</span><b>${leases}</b></div>` : ''}</div>
         ${!ap && !wan ? `<p class="tiny" style="color:var(--warn)">${c.wan === 'static' ? (__EN?"The WAN Static IP settings are missing or wrong.":'Kulang o mali ang Static IP settings ng WAN.') : (__EN?"Dynamic IP: gets an Internet IP when the WAN port is cabled to the Internet (ISP). If it's connected to another router, use Static IP.":'Dynamic IP: makakakuha ng Internet IP kapag naka-cable ang WAN port sa Internet (ISP). Kung sa ibang router nakakabit, gamitin ang Static IP.')}</p>` : ''}
         <div class="dz-ports">${['GigabitEthernet0/0', 'FastEthernet0/1', 'FastEthernet0/2', 'FastEthernet0/3', 'FastEthernet0/4'].map(p => `<div><span class="mono">${portLabel(d, p)}</span><span>${esc(peerOf(d.id, p)) || (__EN?"<span class=\"muted\">free</span>":'<span class="muted">bakante</span>')}</span></div>`).join('')}</div></div>`, true);
-      const m = section('Operation mode', (__EN?`<form class="dz-form"><div class="seg full"><label><input type="radio" name="mode" value="router" ${!ap ? 'checked' : ''}> Wireless Router</label><label><input type="radio" name="mode" value="ap" ${ap ? 'checked' : ''}> Access Point</label></div><p class="tiny muted">Wireless Router: its own network, DHCP and NAT (for home). Access Point: Wi-Fi only; connect it to the office switch or router and devices get their IP there. The WAN port also becomes a LAN port.</p><button class="btn sm primary" type="submit">Save</button></form>`:`<form class="dz-form"><div class="seg full"><label><input type="radio" name="mode" value="router" ${!ap ? 'checked' : ''}> Wireless Router</label><label><input type="radio" name="mode" value="ap" ${ap ? 'checked' : ''}> Access Point</label></div><p class="tiny muted">Wireless Router: may sariling network, DHCP at NAT (pang-bahay). Access Point: Wi-Fi lang; ikabit sa switch o router ng opisina at doon kukuha ng IP ang mga device. Nagiging LAN port din ang WAN port.</p><button class="btn sm primary" type="submit">I-save</button></form>`), false);
+      const m = section('Operation mode', (__EN?`<form class="dz-form"><div class="seg full"><label><input type="radio" name="mode" value="router" ${!ap ? 'checked' : ''}> Wireless Router</label><label><input type="radio" name="mode" value="ap" ${ap ? 'checked' : ''}> Access Point</label></div><p class="tiny muted">Wireless Router: its own network, DHCP and NAT (for home). Access Point: Wi-Fi only; connect it to the office switch or router and devices get their IP there. The WAN port also becomes a LAN port.</p><button class="btn sm primary" type="submit" data-auto>Save</button></form>`:`<form class="dz-form"><div class="seg full"><label><input type="radio" name="mode" value="router" ${!ap ? 'checked' : ''}> Wireless Router</label><label><input type="radio" name="mode" value="ap" ${ap ? 'checked' : ''}> Access Point</label></div><p class="tiny muted">Wireless Router: may sariling network, DHCP at NAT (pang-bahay). Access Point: Wi-Fi lang; ikabit sa switch o router ng opisina at doon kukuha ng IP ang mga device. Nagiging LAN port din ang WAN port.</p><button class="btn sm primary" type="submit" data-auto>I-save</button></form>`), false);
       const mf = m.querySelector('form'); mf.onsubmit = e => { e.preventDefault(); c.mode = mf.mode.value; if (c.mode === 'ap') c.dhcp = false; else c.dhcp = true; rebuild(); persist(); drawAll(); toast(c.mode === 'ap' ? (__EN?"Now in Access Point mode. Set the LAN IP in the main router's subnet.":'Access Point mode na. Itakda ang LAN IP sa subnet ng main router.') : 'Wireless Router mode na.'); };
-      const w = section(ap ? 'Management IP' : 'Internet (WAN)', ap ? (__EN?`<form class="dz-form"><label class="fld">Default gateway (main router)<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="192.168.1.1" autocomplete="off"></label><button class="btn sm primary" type="submit">Save</button></form>`:`<form class="dz-form"><label class="fld">Default gateway (main router)<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="192.168.1.1" autocomplete="off"></label><button class="btn sm primary" type="submit">I-save</button></form>`) : (__EN?`<form class="dz-form"><label class="fld">Connection type<select name="wan"><option value="auto" ${c.wan !== 'static' ? 'selected' : ''}>Dynamic IP (from the ISP)</option><option value="static" ${c.wan === 'static' ? 'selected' : ''}>Static IP</option></select></label><label class="fld">WAN IP / prefix<input name="wanIp" value="${esc(c.wanIp || '')}" placeholder="203.0.113.2/30" autocomplete="off"></label><label class="fld">WAN gateway<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="203.0.113.1" autocomplete="off"></label><button class="btn sm primary" type="submit">Save</button></form>`:`<form class="dz-form"><label class="fld">Connection type<select name="wan"><option value="auto" ${c.wan !== 'static' ? 'selected' : ''}>Dynamic IP (galing sa ISP)</option><option value="static" ${c.wan === 'static' ? 'selected' : ''}>Static IP</option></select></label><label class="fld">WAN IP / prefix<input name="wanIp" value="${esc(c.wanIp || '')}" placeholder="203.0.113.2/30" autocomplete="off"></label><label class="fld">WAN gateway<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="203.0.113.1" autocomplete="off"></label><button class="btn sm primary" type="submit">I-save</button></form>`), !ap && !wan);
+      const w = section(ap ? 'Management IP' : 'Internet (WAN)', ap ? (__EN?`<form class="dz-form"><label class="fld">Default gateway (main router)<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="192.168.1.1" autocomplete="off"></label><button class="btn sm primary" type="submit" data-auto>Save</button></form>`:`<form class="dz-form"><label class="fld">Default gateway (main router)<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="192.168.1.1" autocomplete="off"></label><button class="btn sm primary" type="submit" data-auto>I-save</button></form>`) : (__EN?`<form class="dz-form"><label class="fld">Connection type<select name="wan"><option value="auto" ${c.wan !== 'static' ? 'selected' : ''}>Dynamic IP (from the ISP)</option><option value="static" ${c.wan === 'static' ? 'selected' : ''}>Static IP</option></select></label><label class="fld">WAN IP / prefix<input name="wanIp" value="${esc(c.wanIp || '')}" placeholder="203.0.113.2/30" autocomplete="off"></label><label class="fld">WAN gateway<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="203.0.113.1" autocomplete="off"></label><button class="btn sm primary" type="submit" data-auto>Save</button></form>`:`<form class="dz-form"><label class="fld">Connection type<select name="wan"><option value="auto" ${c.wan !== 'static' ? 'selected' : ''}>Dynamic IP (galing sa ISP)</option><option value="static" ${c.wan === 'static' ? 'selected' : ''}>Static IP</option></select></label><label class="fld">WAN IP / prefix<input name="wanIp" value="${esc(c.wanIp || '')}" placeholder="203.0.113.2/30" autocomplete="off"></label><label class="fld">WAN gateway<input name="wanGw" value="${esc(c.wanGw || '')}" placeholder="203.0.113.1" autocomplete="off"></label><button class="btn sm primary" type="submit" data-auto>I-save</button></form>`), !ap && !wan);
       const wf = w.querySelector('form'); const syncW = () => { if (wf.wan) ['wanIp', 'wanGw'].forEach(n => wf[n].disabled = wf.wan.value !== 'static'); }; if (wf.wan) wf.wan.onchange = syncW; syncW();
       wf.onsubmit = e => { e.preventDefault(); if (wf.wan) { c.wan = wf.wan.value; c.wanIp = wf.wanIp.value.trim(); } c.wanGw = wf.wanGw.value.trim(); rebuild(); persist(); drawAll(); toast((__EN?"Saved.":'Na-save.')); };
-      const l = section((__EN?"LAN and DHCP":'LAN at DHCP'), (__EN?`<form class="dz-form"><label class="fld">LAN IP / prefix<input name="lan" value="${esc(c.lan)}" placeholder="192.168.0.1/24" autocomplete="off"></label>${ap ? '' : (__EN?`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (automatic IPs for devices)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`:`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (awtomatikong IP sa mga device)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`)}<div class="err" hidden></div><button class="btn sm primary" type="submit">Save</button></form>`:`<form class="dz-form"><label class="fld">LAN IP / prefix<input name="lan" value="${esc(c.lan)}" placeholder="192.168.0.1/24" autocomplete="off"></label>${ap ? '' : (__EN?`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (automatic IPs for devices)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`:`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (awtomatikong IP sa mga device)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`)}<div class="err" hidden></div><button class="btn sm primary" type="submit">I-save</button></form>`), false);
+      const l = section((__EN?"LAN and DHCP":'LAN at DHCP'), (__EN?`<form class="dz-form"><label class="fld">LAN IP / prefix<input name="lan" value="${esc(c.lan)}" placeholder="192.168.0.1/24" autocomplete="off"></label>${ap ? '' : (__EN?`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (automatic IPs for devices)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`:`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (awtomatikong IP sa mga device)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`)}<div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>Save</button></form>`:`<form class="dz-form"><label class="fld">LAN IP / prefix<input name="lan" value="${esc(c.lan)}" placeholder="192.168.0.1/24" autocomplete="off"></label>${ap ? '' : (__EN?`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (automatic IPs for devices)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`:`<label class="check"><input type="checkbox" name="dhcp" ${c.dhcp ? 'checked' : ''}><span>DHCP server (awtomatikong IP sa mga device)</span></label><div class="dz-form row2" style="gap:8px"><label class="fld">Start (${pre}.x)<input name="from" type="number" min="2" max="254" value="${+c.from || 100}"></label><label class="fld">End (${pre}.x)<input name="to" type="number" min="2" max="254" value="${+c.to || 199}"></label></div>`)}<div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>I-save</button></form>`), false);
       const lf = l.querySelector('form'); lf.onsubmit = e => { e.preventDefault(); const p = parseCidr(lf.lan.value); const er = lf.querySelector('.err'); if (!p || !isUsable(p.ip, p.mask)) { er.hidden = false; er.textContent = 'Format: 192.168.0.1/24'; return; } c.lan = lf.lan.value.trim(); if (!ap) { c.dhcp = lf.dhcp.checked; const a = +lf.from.value, b = +lf.to.value; if (!(a >= 2 && b <= 254 && a <= b)) { er.hidden = false; er.textContent = (__EN?"The DHCP range is wrong.":'Mali ang DHCP range.'); return; } c.from = a; c.to = b; } rebuild(); persist(); drawAll(); toast((__EN?"LAN saved.":'Na-save ang LAN.')); };
-      const wl = section('Wireless', (__EN?`<form class="dz-form"><label class="fld">Wi-Fi name (SSID)<input name="ssid" value="${esc(c.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2; blank = open)<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Range: ${apRange(d) / U} m. Connected: ${wifiCl.length ? wifiCl.map(L).map(esc).join(', ') : (__EN?"none yet":'wala pa')}.</p><button class="btn sm primary" type="submit">Save</button></form>`:`<form class="dz-form"><label class="fld">Wi-Fi name (SSID)<input name="ssid" value="${esc(c.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2; blangko = open)<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Abot: ${apRange(d) / U} m. Mga nakakonekta: ${wifiCl.length ? wifiCl.map(L).map(esc).join(', ') : (__EN?"none yet":'wala pa')}.</p><button class="btn sm primary" type="submit">I-save</button></form>`), false);
+      const wl = section('Wireless', (__EN?`<form class="dz-form"><label class="fld">Wi-Fi name (SSID)<input name="ssid" value="${esc(c.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2; blank = open)<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Range: ${apRange(d) / U} m. Connected: ${wifiCl.length ? wifiCl.map(L).map(esc).join(', ') : (__EN?"none yet":'wala pa')}.</p><button class="btn sm primary" type="submit" data-auto>Save</button></form>`:`<form class="dz-form"><label class="fld">Wi-Fi name (SSID)<input name="ssid" value="${esc(c.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2; blangko = open)<input name="psk" value="${esc(c.psk || '')}" autocomplete="off"></label><p class="tiny muted">Abot: ${apRange(d) / U} m. Mga nakakonekta: ${wifiCl.length ? wifiCl.map(L).map(esc).join(', ') : (__EN?"none yet":'wala pa')}.</p><button class="btn sm primary" type="submit" data-auto>I-save</button></form>`), false);
       const wlf = wl.querySelector('form'); wlf.onsubmit = e => { e.preventDefault(); c.ssid = wlf.ssid.value.trim() || 'TP-Link_2.4G'; c.psk = wlf.psk.value; rebuild(); persist(); drawAll(); toast((__EN?"Wi-Fi saved.":'Na-save ang Wi-Fi.')); };
       section((__EN?"What is this?":'Ano ito?'), (__EN?`<p class="small">This is the common <b>TP-Link wireless router</b> for homes and small offices: router + 4-port switch + Wi-Fi + DHCP + NAT in one device. In CCNA terms: the LAN and Wi-Fi are one VLAN (Vlan1) with SVI ${esc(lan.ip)}, and the WAN is a routed port with PAT toward the ISP.</p>`:`<p class="small">Ito ang karaniwang <b>TP-Link wireless router</b> sa bahay at maliit na opisina: router + 4-port switch + Wi-Fi + DHCP + NAT sa iisang device. Sa CCNA terms: ang LAN at Wi-Fi ay iisang VLAN (Vlan1) na may SVI ${esc(lan.ip)}, at ang WAN ay routed port na may PAT papunta sa ISP.</p>`), false);
     }
@@ -13871,7 +14309,7 @@ interface g0/0.10
     }
     function apPanel(d) {
       const cl = Object.entries(B.assoc).filter(([, a]) => a.ap === d.id);
-      const s = section('Wi-Fi settings', (__EN?`<form class="dz-form"><label class="fld">SSID<input name="ssid" value="${esc(d.cfg.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2-PSK; blank = open)<input name="psk" value="${esc(d.cfg.psk || '')}" autocomplete="off"></label><button class="btn sm primary" type="submit">Save</button></form><p class="tiny muted">Range: ${WIFI_R / U} m (the circle on the floor plan). Autonomous AP: bridges Wi-Fi clients to the uplink port.</p><h4>Connected (${cl.length})</h4>${cl.length ? cl.map(([c, a]) => `<div class="small">${esc(L(c))} <span class="muted">· ${a.d} m</span></div>`).join('') : (__EN?"<p class=\"tiny muted\">None yet.</p>":'<p class="tiny muted">Wala pa.</p>')}<h4>Uplink</h4>${portsInfo(d)}`:`<form class="dz-form"><label class="fld">SSID<input name="ssid" value="${esc(d.cfg.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2-PSK; blangko = open)<input name="psk" value="${esc(d.cfg.psk || '')}" autocomplete="off"></label><button class="btn sm primary" type="submit">I-save</button></form><p class="tiny muted">Range: ${WIFI_R / U} m (ang bilog sa floor plan). Autonomous AP: bina-bridge ang Wi-Fi clients papunta sa uplink port.</p><h4>Mga nakakonekta (${cl.length})</h4>${cl.length ? cl.map(([c, a]) => `<div class="small">${esc(L(c))} <span class="muted">· ${a.d} m</span></div>`).join('') : (__EN?"<p class=\"tiny muted\">None yet.</p>":'<p class="tiny muted">Wala pa.</p>')}<h4>Uplink</h4>${portsInfo(d)}`), true);
+      const s = section('Wi-Fi settings', (__EN?`<form class="dz-form"><label class="fld">SSID<input name="ssid" value="${esc(d.cfg.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2-PSK; blank = open)<input name="psk" value="${esc(d.cfg.psk || '')}" autocomplete="off"></label><button class="btn sm primary" type="submit" data-auto>Save</button></form><p class="tiny muted">Range: ${WIFI_R / U} m (the circle on the floor plan). Autonomous AP: bridges Wi-Fi clients to the uplink port.</p><h4>Connected (${cl.length})</h4>${cl.length ? cl.map(([c, a]) => `<div class="small">${esc(L(c))} <span class="muted">· ${a.d} m</span></div>`).join('') : (__EN?"<p class=\"tiny muted\">None yet.</p>":'<p class="tiny muted">Wala pa.</p>')}<h4>Uplink</h4>${portsInfo(d)}`:`<form class="dz-form"><label class="fld">SSID<input name="ssid" value="${esc(d.cfg.ssid)}" autocomplete="off"></label><label class="fld">Password (WPA2-PSK; blangko = open)<input name="psk" value="${esc(d.cfg.psk || '')}" autocomplete="off"></label><button class="btn sm primary" type="submit" data-auto>I-save</button></form><p class="tiny muted">Range: ${WIFI_R / U} m (ang bilog sa floor plan). Autonomous AP: bina-bridge ang Wi-Fi clients papunta sa uplink port.</p><h4>Mga nakakonekta (${cl.length})</h4>${cl.length ? cl.map(([c, a]) => `<div class="small">${esc(L(c))} <span class="muted">· ${a.d} m</span></div>`).join('') : (__EN?"<p class=\"tiny muted\">None yet.</p>":'<p class="tiny muted">Wala pa.</p>')}<h4>Uplink</h4>${portsInfo(d)}`), true);
       const f = s.querySelector('form'); f.onsubmit = e => { e.preventDefault(); d.cfg.ssid = f.ssid.value.trim() || 'WiFi'; d.cfg.psk = f.psk.value; rebuild(); persist(); drawAll(); toast((__EN?"Wi-Fi saved.":'Na-save ang Wi-Fi.')); };
     }
 
@@ -13879,7 +14317,7 @@ interface g0/0.10
     function infraPanel(d) {
       const n = B.net.devs[d.id]; const k = K[d.k];
       const isR = bk(d.k) === 'router', isSw = k.l2, isL3 = !!k.l3;
-      const hn = section('Device', (__EN?`<form class="dz-form row2"><label class="fld">Hostname<input name="hn" value="${esc(n.hostname)}" autocomplete="off"></label><button class="btn sm" type="submit">Apply</button></form>${portsInfo(d)}`:`<form class="dz-form row2"><label class="fld">Hostname<input name="hn" value="${esc(n.hostname)}" autocomplete="off"></label><button class="btn sm" type="submit">I-apply</button></form>${portsInfo(d)}`), true);
+      const hn = section('Device', (__EN?`<form class="dz-form row2"><label class="fld">Hostname<input name="hn" value="${esc(n.hostname)}" autocomplete="off"></label><button class="btn sm" type="submit" data-auto>Apply</button></form>${portsInfo(d)}`:`<form class="dz-form row2"><label class="fld">Hostname<input name="hn" value="${esc(n.hostname)}" autocomplete="off"></label><button class="btn sm" type="submit" data-auto>I-apply</button></form>${portsInfo(d)}`), true);
       const hf = hn.querySelector('form'); hf.onsubmit = e => { e.preventDefault(); const v = hf.hn.value.trim().replace(/\s+/g, '-'); if (v && v !== n.hostname) apply(d.id, [`hostname ${v}`]); };
       if (isR) routerIfs(d, n);
       if (isSw) { vlanSec(d, n); swPorts(d, n); sviSec(d, n); }
@@ -13890,8 +14328,8 @@ interface g0/0.10
     }
     function routerIfs(d, n) {
       const ps = [...new Set([...conPorts(d.id), ...Object.keys(n.ifs).filter(p => n.ifs[p].ip && !/^Loop/.test(p))])].sort();
-      const sec = section('Interfaces', (__EN?`${ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit">Apply interfaces</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit">I-apply ang interfaces</button></form>`) : (__EN?"<p class=\"tiny muted\">Cable the router first.</p>":'<p class="tiny muted">I-cable muna ang router.</p>')}
-        <h4>Add a subinterface (router-on-a-stick)</h4><form class="dz-form row3" data-f="sub"><label class="fld">Port<select name="par">${conPorts(d.id).filter(p => !/^Serial/.test(p)).map(p => `<option>${p}</option>`).join('')}</select></label><label class="fld">VLAN<input name="vl" inputmode="numeric" placeholder="10"></label><label class="fld">IP/prefix<input name="ip" placeholder="192.168.10.1/24" autocomplete="off"></label><button class="btn sm" type="submit">Add</button></form>`:`${ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit">Apply interfaces</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit">I-apply ang interfaces</button></form>`) : (__EN?"<p class=\"tiny muted\">Cable the router first.</p>":'<p class="tiny muted">I-cable muna ang router.</p>')}
+      const sec = section('Interfaces', (__EN?`${ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>Apply interfaces</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>I-apply ang interfaces</button></form>`) : (__EN?"<p class=\"tiny muted\">Cable the router first.</p>":'<p class="tiny muted">I-cable muna ang router.</p>')}
+        <h4>Add a subinterface (router-on-a-stick)</h4><form class="dz-form row3" data-f="sub"><label class="fld">Port<select name="par">${conPorts(d.id).filter(p => !/^Serial/.test(p)).map(p => `<option>${p}</option>`).join('')}</select></label><label class="fld">VLAN<input name="vl" inputmode="numeric" placeholder="10"></label><label class="fld">IP/prefix<input name="ip" placeholder="192.168.10.1/24" autocomplete="off"></label><button class="btn sm" type="submit">Add</button></form>`:`${ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>Apply interfaces</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return (__EN?`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, e.g. 192.168.1.1/24" aria-label="IP of ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: none</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`:`<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p.split('.')[0]) || (p.includes('.') ? 'subinterface' : ''))}</span><label class="check sm"><input type="checkbox" name="en" ${!i.shutdown ? 'checked' : ''}><span>Enabled</span></label></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix, hal. 192.168.1.1/24" aria-label="IP ng ${sh(p)}" autocomplete="off">${p.includes('.') ? `<span class="tiny muted">VLAN ${i.encap || '?'}</span>` : ''}<select name="nat" aria-label="NAT"><option value="">NAT: wala</option><option value="in" ${i.natIn ? 'selected' : ''}>NAT inside</option><option value="out" ${i.natOut ? 'selected' : ''}>NAT outside</option></select></div></div>`); }).join('')}<div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>I-apply ang interfaces</button></form>`) : (__EN?"<p class=\"tiny muted\">Cable the router first.</p>":'<p class="tiny muted">I-cable muna ang router.</p>')}
         <h4>Magdagdag ng subinterface (router-on-a-stick)</h4><form class="dz-form row3" data-f="sub"><label class="fld">Port<select name="par">${conPorts(d.id).filter(p => !/^Serial/.test(p)).map(p => `<option>${p}</option>`).join('')}</select></label><label class="fld">VLAN<input name="vl" inputmode="numeric" placeholder="10"></label><label class="fld">IP/prefix<input name="ip" placeholder="192.168.10.1/24" autocomplete="off"></label><button class="btn sm" type="submit">Idagdag</button></form>`), true);
       const f = sec.querySelector('.dz-ifs');
       if (f) f.onsubmit = e => {
@@ -13921,7 +14359,7 @@ interface g0/0.10
     }
     function swPorts(d, n) {
       const isL3 = !!K[d.k].l3; const ps = conPorts(d.id).filter(p => !isAp(d));
-      const sec = section('Switch ports', ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; const m = !i.switchport ? 'routed' : i.mode === 'trunk' ? 'trunk' : i.mode === 'access' ? 'access' : 'auto'; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span><span class="tiny pill">${IOS.operMode(B.net, n, p)}</span></div><div class="dz-ifb"><select name="m" aria-label="Mode"><option value="access" ${m === 'access' || m === 'auto' ? 'selected' : ''}>Access</option><option value="trunk" ${m === 'trunk' ? 'selected' : ''}>Trunk</option>${isL3 ? `<option value="routed" ${m === 'routed' ? 'selected' : ''}>Routed (no switchport)</option>` : ''}</select><select name="v" aria-label="Access VLAN">${vlanOpts(n, i.accessVlan)}</select>${isL3 ? `<input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix (routed)" autocomplete="off">` : ''}</div></div>`; }).join('')}<p class="tiny muted">Access = one VLAN (for a PC, printer, AP). Trunk = many VLANs (switch-to-switch, switch-to-router).</p><button class="btn sm primary" type="submit">Apply ports</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; const m = !i.switchport ? 'routed' : i.mode === 'trunk' ? 'trunk' : i.mode === 'access' ? 'access' : 'auto'; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span><span class="tiny pill">${IOS.operMode(B.net, n, p)}</span></div><div class="dz-ifb"><select name="m" aria-label="Mode"><option value="access" ${m === 'access' || m === 'auto' ? 'selected' : ''}>Access</option><option value="trunk" ${m === 'trunk' ? 'selected' : ''}>Trunk</option>${isL3 ? `<option value="routed" ${m === 'routed' ? 'selected' : ''}>Routed (no switchport)</option>` : ''}</select><select name="v" aria-label="Access VLAN">${vlanOpts(n, i.accessVlan)}</select>${isL3 ? `<input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix (routed)" autocomplete="off">` : ''}</div></div>`; }).join('')}<p class="tiny muted">Access = isang VLAN (para sa PC, printer, AP). Trunk = maraming VLAN (switch-to-switch, switch-to-router).</p><button class="btn sm primary" type="submit">I-apply ang ports</button></form>`) : (__EN?"<p class=\"tiny muted\">No ports connected yet.</p>":'<p class="tiny muted">Wala pang nakakabit na port.</p>'), true);
+      const sec = section('Switch ports', ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; const m = !i.switchport ? 'routed' : i.mode === 'trunk' ? 'trunk' : i.mode === 'access' ? 'access' : 'auto'; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span><span class="tiny pill">${IOS.operMode(B.net, n, p)}</span></div><div class="dz-ifb"><select name="m" aria-label="Mode"><option value="access" ${m === 'access' || m === 'auto' ? 'selected' : ''}>Access</option><option value="trunk" ${m === 'trunk' ? 'selected' : ''}>Trunk</option>${isL3 ? `<option value="routed" ${m === 'routed' ? 'selected' : ''}>Routed (no switchport)</option>` : ''}</select><select name="v" aria-label="Access VLAN">${vlanOpts(n, i.accessVlan)}</select>${isL3 ? `<input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix (routed)" autocomplete="off">` : ''}</div></div>`; }).join('')}<p class="tiny muted">Access = one VLAN (for a PC, printer, AP). Trunk = many VLANs (switch-to-switch, switch-to-router).</p><button class="btn sm primary" type="submit" data-auto>Apply ports</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; const m = !i.switchport ? 'routed' : i.mode === 'trunk' ? 'trunk' : i.mode === 'access' ? 'access' : 'auto'; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span><span class="tiny pill">${IOS.operMode(B.net, n, p)}</span></div><div class="dz-ifb"><select name="m" aria-label="Mode"><option value="access" ${m === 'access' || m === 'auto' ? 'selected' : ''}>Access</option><option value="trunk" ${m === 'trunk' ? 'selected' : ''}>Trunk</option>${isL3 ? `<option value="routed" ${m === 'routed' ? 'selected' : ''}>Routed (no switchport)</option>` : ''}</select><select name="v" aria-label="Access VLAN">${vlanOpts(n, i.accessVlan)}</select>${isL3 ? `<input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix (routed)" autocomplete="off">` : ''}</div></div>`; }).join('')}<p class="tiny muted">Access = isang VLAN (para sa PC, printer, AP). Trunk = maraming VLAN (switch-to-switch, switch-to-router).</p><button class="btn sm primary" type="submit" data-auto>I-apply ang ports</button></form>`) : (__EN?"<p class=\"tiny muted\">No ports connected yet.</p>":'<p class="tiny muted">Wala pang nakakabit na port.</p>'), true);
       const f = sec.querySelector('form'); if (!f) return;
       const syncRow = row => { const m = row.querySelector('[name=m]').value; row.querySelector('[name=v]').hidden = m !== 'access'; const ip = row.querySelector('[name=ip]'); if (ip) ip.hidden = m !== 'routed'; };
       f.querySelectorAll('.dz-if').forEach(r => { syncRow(r); r.querySelector('[name=m]').onchange = () => syncRow(r); });
@@ -13944,9 +14382,9 @@ interface g0/0.10
       const isL3 = !!K[d.k].l3; const svis = Object.keys(n.ifs).filter(p => /^Vlan/.test(p));
       const sec = section(isL3 ? (__EN?"SVI / gateway and IP routing":'SVI / gateway at IP routing') : 'Management IP', (__EN?`${svis.filter(p => n.ifs[p].ip).map(p => `<div class="small mono">${p}: ${cidr(n.ifs[p].ip, n.ifs[p].mask)} <span class="pill ${IOS.ifUp(B.net, n, p) ? 'ok' : 'warn'}">${IOS.ifUp(B.net, n, p) ? 'up' : 'down'}</span></div>`).join('') || (__EN?"<p class=\"tiny muted\">No SVI with an IP yet.</p>":'<p class="tiny muted">Wala pang SVI na may IP.</p>')}
         <form class="dz-form row3"><label class="fld">VLAN<input name="v" inputmode="numeric" value="${isL3 ? '' : '1'}" placeholder="10"></label><label class="fld">IP/prefix<input name="ip" placeholder="${isL3 ? '192.168.10.1/24' : '192.168.1.2/24'}" autocomplete="off"></label><button class="btn sm" type="submit">Set</button></form>
-        ${isL3 ? (__EN?`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (to route between VLANs)</span></label>`:`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (para mag-route sa pagitan ng VLANs)</span></label>`) : (__EN?`<form class="dz-form row2" data-f="dg"><label class="fld">Switch default gateway<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit">Set</button></form>`:`<form class="dz-form row2" data-f="dg"><label class="fld">Default gateway ng switch<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit">I-set</button></form>`)}`:`${svis.filter(p => n.ifs[p].ip).map(p => `<div class="small mono">${p}: ${cidr(n.ifs[p].ip, n.ifs[p].mask)} <span class="pill ${IOS.ifUp(B.net, n, p) ? 'ok' : 'warn'}">${IOS.ifUp(B.net, n, p) ? 'up' : 'down'}</span></div>`).join('') || (__EN?"<p class=\"tiny muted\">No SVI with an IP yet.</p>":'<p class="tiny muted">Wala pang SVI na may IP.</p>')}
+        ${isL3 ? (__EN?`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (to route between VLANs)</span></label>`:`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (para mag-route sa pagitan ng VLANs)</span></label>`) : (__EN?`<form class="dz-form row2" data-f="dg"><label class="fld">Switch default gateway<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit" data-auto>Set</button></form>`:`<form class="dz-form row2" data-f="dg"><label class="fld">Default gateway ng switch<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit" data-auto>I-set</button></form>`)}`:`${svis.filter(p => n.ifs[p].ip).map(p => `<div class="small mono">${p}: ${cidr(n.ifs[p].ip, n.ifs[p].mask)} <span class="pill ${IOS.ifUp(B.net, n, p) ? 'ok' : 'warn'}">${IOS.ifUp(B.net, n, p) ? 'up' : 'down'}</span></div>`).join('') || (__EN?"<p class=\"tiny muted\">No SVI with an IP yet.</p>":'<p class="tiny muted">Wala pang SVI na may IP.</p>')}
         <form class="dz-form row3"><label class="fld">VLAN<input name="v" inputmode="numeric" value="${isL3 ? '' : '1'}" placeholder="10"></label><label class="fld">IP/prefix<input name="ip" placeholder="${isL3 ? '192.168.10.1/24' : '192.168.1.2/24'}" autocomplete="off"></label><button class="btn sm" type="submit">I-set</button></form>
-        ${isL3 ? (__EN?`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (to route between VLANs)</span></label>`:`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (para mag-route sa pagitan ng VLANs)</span></label>`) : (__EN?`<form class="dz-form row2" data-f="dg"><label class="fld">Switch default gateway<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit">Set</button></form>`:`<form class="dz-form row2" data-f="dg"><label class="fld">Default gateway ng switch<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit">I-set</button></form>`)}`), isL3);
+        ${isL3 ? (__EN?`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (to route between VLANs)</span></label>`:`<label class="check"><input type="checkbox" data-iprt ${n.ipRouting ? 'checked' : ''}><span>IP routing (para mag-route sa pagitan ng VLANs)</span></label>`) : (__EN?`<form class="dz-form row2" data-f="dg"><label class="fld">Switch default gateway<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit" data-auto>Set</button></form>`:`<form class="dz-form row2" data-f="dg"><label class="fld">Default gateway ng switch<input name="gw" value="${n.defaultGw || ''}" placeholder="192.168.1.1"></label><button class="btn sm" type="submit" data-auto>I-set</button></form>`)}`), isL3);
       const f = sec.querySelector('form'); f.onsubmit = e => { e.preventDefault(); const v = +f.v.value, c = parseCidr(f.ip.value); if (!(v >= 1 && v <= 4094)) return toast('VLAN 1-4094.'); if (!c) return toast('IP/prefix, hal. 192.168.10.1/24'); const cmds = []; if (!n.vlans[v]) cmds.push(`vlan ${v}`, 'exit'); cmds.push(`interface vlan ${v}`, `ip address ${c.ip} ${c.mask}`, 'no shutdown'); apply(d.id, cmds, (__EN?`Vlan${v} set.`:`Naka-set ang Vlan${v}.`)); };
       const r = sec.querySelector('[data-iprt]'); if (r) r.onchange = () => apply(d.id, [r.checked ? 'ip routing' : 'no ip routing']);
       const g = sec.querySelector('[data-f=dg]'); if (g) g.onsubmit = e => { e.preventDefault(); const v = g.gw.value.trim(); if (v && !isIp(v)) return toast((__EN?"Not valid.":'Hindi valid.')); apply(d.id, [v ? `ip default-gateway ${v}` : 'no ip default-gateway']); };
@@ -13981,7 +14419,7 @@ interface g0/0.10
     function natSec(d, n, isFw) {
       const rule = n.nat.rules.find(r => r.overload && r.iface);
       const ps = Object.keys(n.ifs).filter(p => n.ifs[p].ip && !/^Loop/.test(p));
-      const sec = section('NAT (PAT / overload)', (__EN?`<p class="tiny muted">So private IPs can reach the Internet: every inside host is translated to the outside interface's IP.</p>${rule ? (__EN?`<p class="small">On: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`:`<p class="small">Naka-on: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`) : ''}<form class="dz-form row2"><label class="fld">Outside interface<select name="o"><option value="">— off —</option>${ps.map(p => `<option value="${p}" ${rule && rule.iface === p ? 'selected' : ''}>${sh(p)} ${n.ifs[p].ip}</option>`).join('')}</select></label><button class="btn sm" type="submit">Apply</button></form>`:`<p class="tiny muted">Para makapag-Internet ang private IPs: lahat ng inside host ay isasalin sa IP ng outside interface.</p>${rule ? (__EN?`<p class="small">On: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`:`<p class="small">Naka-on: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`) : ''}<form class="dz-form row2"><label class="fld">Outside interface<select name="o"><option value="">— naka-off —</option>${ps.map(p => `<option value="${p}" ${rule && rule.iface === p ? 'selected' : ''}>${sh(p)} ${n.ifs[p].ip}</option>`).join('')}</select></label><button class="btn sm" type="submit">I-apply</button></form>`), !!isFw);
+      const sec = section('NAT (PAT / overload)', (__EN?`<p class="tiny muted">So private IPs can reach the Internet: every inside host is translated to the outside interface's IP.</p>${rule ? (__EN?`<p class="small">On: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`:`<p class="small">Naka-on: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`) : ''}<form class="dz-form row2"><label class="fld">Outside interface<select name="o"><option value="">— off —</option>${ps.map(p => `<option value="${p}" ${rule && rule.iface === p ? 'selected' : ''}>${sh(p)} ${n.ifs[p].ip}</option>`).join('')}</select></label><button class="btn sm" type="submit" data-auto>Apply</button></form>`:`<p class="tiny muted">Para makapag-Internet ang private IPs: lahat ng inside host ay isasalin sa IP ng outside interface.</p>${rule ? (__EN?`<p class="small">On: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`:`<p class="small">Naka-on: inside → <b class="mono">${sh(rule.iface)}</b> (overload)</p>`) : ''}<form class="dz-form row2"><label class="fld">Outside interface<select name="o"><option value="">— naka-off —</option>${ps.map(p => `<option value="${p}" ${rule && rule.iface === p ? 'selected' : ''}>${sh(p)} ${n.ifs[p].ip}</option>`).join('')}</select></label><button class="btn sm" type="submit" data-auto>I-apply</button></form>`), !!isFw);
       const f = sec.querySelector('form'); f.onsubmit = e => {
         e.preventDefault(); const o = f.o.value; const cmds = [];
         if (rule) cmds.push(`no ip nat inside source list ${rule.acl} interface ${rule.iface} overload`);
@@ -13992,7 +14430,7 @@ interface g0/0.10
     function fwPanel(d) {
       const n = B.net.devs[d.id]; const z = d.cfg.zones;
       const ps = [...new Set([...conPorts(d.id), ...Object.keys(n.ifs).filter(p => n.ifs[p].ip)])].sort();
-      const sec = section((__EN?"Interfaces and zones":'Interfaces at zones'), ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix" autocomplete="off" aria-label="IP"><select name="z" aria-label="Zone"><option value="">Zone…</option>${['inside', 'dmz', 'outside'].map(x => `<option value="${x}" ${z[p] === x ? 'selected' : ''}>${x} (${ZL[x]})</option>`).join('')}</select></div></div>`; }).join('')}<p class="tiny muted">Security level: inside 100, DMZ 50, outside 0. Default: traffic from higher to lower is allowed (stateful, so replies come back), the reverse is blocked.</p><div class="err" hidden></div><button class="btn sm primary" type="submit">Apply</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix" autocomplete="off" aria-label="IP"><select name="z" aria-label="Zone"><option value="">Zone…</option>${['inside', 'dmz', 'outside'].map(x => `<option value="${x}" ${z[p] === x ? 'selected' : ''}>${x} (${ZL[x]})</option>`).join('')}</select></div></div>`; }).join('')}<p class="tiny muted">Security level: inside 100, DMZ 50, outside 0. Default: pinapayagan mula mataas papuntang mababa (stateful, kaya pinapayagan ang balik), bawal ang kabaligtaran.</p><div class="err" hidden></div><button class="btn sm primary" type="submit">I-apply</button></form>`) : (__EN?"<p class=\"tiny muted\">Cable the firewall first.</p>":'<p class="tiny muted">I-cable muna ang firewall.</p>'), true);
+      const sec = section((__EN?"Interfaces and zones":'Interfaces at zones'), ps.length ? (__EN?`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix" autocomplete="off" aria-label="IP"><select name="z" aria-label="Zone"><option value="">Zone…</option>${['inside', 'dmz', 'outside'].map(x => `<option value="${x}" ${z[p] === x ? 'selected' : ''}>${x} (${ZL[x]})</option>`).join('')}</select></div></div>`; }).join('')}<p class="tiny muted">Security level: inside 100, DMZ 50, outside 0. Default: traffic from higher to lower is allowed (stateful, so replies come back), the reverse is blocked.</p><div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>Apply</button></form>`:`<form class="dz-ifs">${ps.map(p => { const i = n.ifs[p]; return `<div class="dz-if" data-p="${p}"><div class="dz-ifh"><b class="mono">${sh(p)}</b><span class="tiny muted">${esc(peerOf(d.id, p))}</span></div><div class="dz-ifb"><input name="ip" value="${cidr(i.ip, i.mask)}" placeholder="IP/prefix" autocomplete="off" aria-label="IP"><select name="z" aria-label="Zone"><option value="">Zone…</option>${['inside', 'dmz', 'outside'].map(x => `<option value="${x}" ${z[p] === x ? 'selected' : ''}>${x} (${ZL[x]})</option>`).join('')}</select></div></div>`; }).join('')}<p class="tiny muted">Security level: inside 100, DMZ 50, outside 0. Default: pinapayagan mula mataas papuntang mababa (stateful, kaya pinapayagan ang balik), bawal ang kabaligtaran.</p><div class="err" hidden></div><button class="btn sm primary" type="submit" data-auto>I-apply</button></form>`) : (__EN?"<p class=\"tiny muted\">Cable the firewall first.</p>":'<p class="tiny muted">I-cable muna ang firewall.</p>'), true);
       const f = sec.querySelector('form');
       if (f) f.onsubmit = e => {
         e.preventDefault(); const cmds = []; const err = f.querySelector('.err');
@@ -14020,15 +14458,14 @@ interface g0/0.10
       const l = D.links.find(x => x.id === sel.id); if (!l) { sel = null; return panelDev(); }
       const i = linkInfo(D, l), stt = linkStatus(l);
       const opts = (id, cur, t) => { const d = D.devs[id]; if (K[d.k].host) return `<option>eth0</option>`; const used = usedPorts(D, id); return portList(d).filter(p => !(K[d.k].soho && portLabel(d, p) === 'Wi-Fi')).filter(p => (p === cur || !used.has(p)) && (t === 'serial' ? /^Serial/.test(p) : !/^Serial/.test(p)) && (t !== 'fiber' || /^Gigabit/.test(p)) && !(bk(d.k) === 'ap' && p !== 'GigabitEthernet0/1')).map(p => `<option value="${p}" ${p === cur ? 'selected' : ''}>${sh(p)}</option>`).join(''); };
-      const s = h((__EN?`<div class="stack" style="gap:12px"><div class="dz-dh"><i class="cab ${l.t} big"></i><div><b>${l.t === 'copper' ? 'Copper (Cat6, straight-through)' : l.t === 'fiber' ? 'Fiber (multimode, SFP)' : 'Serial (WAN)'}</b><div class="tiny muted">${i.len} m · <span class="pill ${stt}">${stt === 'ok' ? 'up' : stt === 'warn' ? (__EN?"one end is shut down":'naka-shutdown ang isang dulo') : (__EN?"no link":'walang link')}</span></div></div><button class="btn sm" data-act="dl">Remove</button></div>
+      const s = h((__EN?`<div class="stack" style="gap:12px"><div class="dz-dh"><i class="cab ${l.t} big"></i><div><b>${l.t === 'copper' ? 'Copper (Cat6, straight-through)' : l.t === 'fiber' ? 'Fiber (multimode, SFP)' : 'Serial (WAN)'}</b><div class="tiny muted">${i.len} m · <span class="pill ${stt}">${stt === 'ok' ? 'up' : stt === 'warn' ? (__EN?"one end is shut down":'naka-shutdown ang isang dulo') : (__EN?"no link":'walang link')}</span></div></div></div>
         ${i.why === 'long' ? (__EN?`<div class="err">Copper Ethernet is over 100 m. Switch to fiber, or put a switch in between.</div>`:`<div class="err">Lampas sa 100 m ang copper Ethernet. Palitan ng fiber, o maglagay ng switch sa gitna.</div>`) : ''}
         <form class="dz-form"><label class="fld">${esc(L(l.a))} port<select name="ai">${opts(l.a, l.ai, l.t)}</select></label><label class="fld">${esc(L(l.b))} port<select name="bi">${opts(l.b, l.bi, l.t)}</select></label><label class="fld">Cable type<select name="t">${['copper', 'fiber', 'serial'].map(t => `<option ${t === l.t ? 'selected' : ''}>${t}</option>`).join('')}</select></label><button class="btn sm primary" type="submit">Save</button></form>
-        <p class="tiny muted">Copper: up to 100 m (auto-MDIX, so straight-through is fine even switch-to-switch). Fiber: 550 m+ (multimode) or km (singlemode). Serial: router-to-router WAN.</p></div>`:`<div class="stack" style="gap:12px"><div class="dz-dh"><i class="cab ${l.t} big"></i><div><b>${l.t === 'copper' ? 'Copper (Cat6, straight-through)' : l.t === 'fiber' ? 'Fiber (multimode, SFP)' : 'Serial (WAN)'}</b><div class="tiny muted">${i.len} m · <span class="pill ${stt}">${stt === 'ok' ? 'up' : stt === 'warn' ? (__EN?"one end is shut down":'naka-shutdown ang isang dulo') : (__EN?"no link":'walang link')}</span></div></div><button class="btn sm" data-act="dl">Tanggalin</button></div>
+        <p class="tiny muted">Copper: up to 100 m (auto-MDIX, so straight-through is fine even switch-to-switch). Fiber: 550 m+ (multimode) or km (singlemode). Serial: router-to-router WAN.</p></div>`:`<div class="stack" style="gap:12px"><div class="dz-dh"><i class="cab ${l.t} big"></i><div><b>${l.t === 'copper' ? 'Copper (Cat6, straight-through)' : l.t === 'fiber' ? 'Fiber (multimode, SFP)' : 'Serial (WAN)'}</b><div class="tiny muted">${i.len} m · <span class="pill ${stt}">${stt === 'ok' ? 'up' : stt === 'warn' ? (__EN?"one end is shut down":'naka-shutdown ang isang dulo') : (__EN?"no link":'walang link')}</span></div></div></div>
         ${i.why === 'long' ? (__EN?`<div class="err">Copper Ethernet is over 100 m. Switch to fiber, or put a switch in between.</div>`:`<div class="err">Lampas sa 100 m ang copper Ethernet. Palitan ng fiber, o maglagay ng switch sa gitna.</div>`) : ''}
-        <form class="dz-form"><label class="fld">${esc(L(l.a))} port<select name="ai">${opts(l.a, l.ai, l.t)}</select></label><label class="fld">${esc(L(l.b))} port<select name="bi">${opts(l.b, l.bi, l.t)}</select></label><label class="fld">Uri ng cable<select name="t">${['copper', 'fiber', 'serial'].map(t => `<option ${t === l.t ? 'selected' : ''}>${t}</option>`).join('')}</select></label><button class="btn sm primary" type="submit">I-save</button></form>
+        <form class="dz-form"><label class="fld">${esc(L(l.a))} port<select name="ai">${opts(l.a, l.ai, l.t)}</select></label><label class="fld">${esc(L(l.b))} port<select name="bi">${opts(l.b, l.bi, l.t)}</select></label><label class="fld">Uri ng cable<select name="t">${['copper', 'fiber', 'serial'].map(t => `<option ${t === l.t ? 'selected' : ''}>${t}</option>`).join('')}</select></label><button class="btn sm primary" type="submit" data-auto>I-save</button></form>
         <p class="tiny muted">Copper: hanggang 100 m (auto-MDIX, kaya straight-through ay ok kahit switch-to-switch). Fiber: hanggang 550 m+ (multimode) o km (singlemode). Serial: router-to-router WAN.</p></div>`));
       panel.appendChild(s);
-      const dl = s.querySelector('[data-act=dl]'); dl.onclick = () => { D.links = D.links.filter(x => x.id !== l.id); sel = null; rebuild(); persist(); drawAll(); toast((__EN?"Cable removed.":'Natanggal ang cable.')); };
       const f = s.querySelector('form'); f.onsubmit = e => {
         e.preventDefault(); const t = f.t.value;
         if (t !== l.t) { const pa = pickPort({ ...D, links: D.links.filter(x => x.id !== l.id) }, l.a, t, D.devs[l.b].k), pb = pickPort({ ...D, links: D.links.filter(x => x.id !== l.id) }, l.b, t, D.devs[l.a].k); if (pa.err || pb.err) return toast(pa.err || pb.err); l.t = t; l.ai = pa.p; l.bi = pb.p; }
@@ -14039,7 +14476,9 @@ interface g0/0.10
 
     // ---------- terminal (CLI / Command Prompt) ----------
     function termSection(d, isHost) {
-      const sec = section(isHost ? 'Command Prompt' : 'CLI (Cisco IOS)', `<div class="term-wrap dz-term"><div class="term" role="log"></div><form class="term-input" autocomplete="off"><span class="pr"></span><input type="text" aria-label="Command" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send"></form>${isHost ? '' : `<div class="term-keys">${['Tab', '?', '↑', 'Ctrl+Z'].map(k => `<button type="button" data-k="${k}">${k}</button>`).join('')}</div>`}</div><p class="tiny muted">${isHost ? (__EN?"Try: ipconfig, ping 192.168.1.1, tracert 8.8.8.8, ipconfig /renew":'Subukan: ipconfig, ping 192.168.1.1, tracert 8.8.8.8, ipconfig /renew') : (__EN?"The same commands work here and in Labs. The config you type is saved in the design.":'Pareho ang gumagana dito at sa Labs. Ang config na ita-type mo ay nase-save sa design.')}</p>`, false);
+      if (!panel.classList.contains('dz-clitab')) return;
+      const cliBox = (t, html) => { const w = h(`<div class="dz-cli"><div class="dz-sb">${html}</div></div>`); panel.appendChild(w); return w.querySelector('.dz-sb'); };
+      const sec = cliBox(isHost ? 'Command Prompt' : 'CLI (Cisco IOS)', `<div class="term-wrap dz-term"><div class="term" role="log"></div><form class="term-input" autocomplete="off"><span class="pr"></span><input type="text" aria-label="Command" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send"></form>${isHost ? '' : `<div class="term-keys">${['Tab', '?', '↑', 'Ctrl+Z'].map(k => `<button type="button" data-k="${k}">${k}</button>`).join('')}</div>`}</div><p class="tiny muted">${isHost ? (__EN?"Try: ipconfig, ping 192.168.1.1, tracert 8.8.8.8, ipconfig /renew":'Subukan: ipconfig, ping 192.168.1.1, tracert 8.8.8.8, ipconfig /renew') : (__EN?"The same commands work here and in Labs. The config you type is saved in the design.":'Pareho ang gumagana dito at sa Labs. Ang config na ita-type mo ay nase-save sa design.')}</p>`, false);
       const term = sec.querySelector('.term'), form = sec.querySelector('form'), inp = form.querySelector('input'), pr = form.querySelector('.pr');
       const buf = terms[d.id] = terms[d.id] || [{ t: isHost ? `${d.label}: Command Prompt (type "help")` : (__EN?`${d.label} console. Press Enter, then "enable".`:`${d.label} console. Pindutin ang Enter, tapos "enable".`), c: 'sys' }];
       let hi = null;
@@ -14244,11 +14683,11 @@ interface g0/0.10
     // ---------- file tab ----------
     function panelFile() {
       const s = h((__EN?`<div class="stack" style="gap:14px">
-        <div class="card stack" style="gap:8px"><b>This design</b><form class="dz-form row2" data-f="rn"><label class="fld">Name<input name="nm" value="${esc(D.name)}" maxlength="60"></label><button class="btn sm" type="submit">Rename</button></form><p class="tiny muted">Floor plan: ${esc(plan().n)} · Last changed: ${new Date(D.updated).toLocaleString()}</p><div class="row"><button class="btn sm" data-act="exp">Copy design code</button><button class="btn sm" data-act="dup">Make a copy</button><button class="btn sm" data-act="del">Delete</button></div><div class="dz-exp"></div></div>
-        <div class="card stack" style="gap:8px"><b>New design</b><form class="dz-form" data-f="new"><label class="fld">Name<input name="nm" placeholder="e.g. Branch office" maxlength="60"></label><label class="fld">Floor plan<select name="pl">${Object.entries(PLANS).map(([k, p]) => `<option value="${k}">${esc(p.n)}</option>`).join('')}</select></label><button class="btn sm primary" type="submit">Create</button></form><button class="btn sm" data-act="sample">Open the sample working office</button></div>
+        <div class="card stack" style="gap:8px"><b>This design</b><form class="dz-form row2" data-f="rn"><label class="fld">Name<input name="nm" value="${esc(D.name)}" maxlength="60"></label><button class="btn sm" type="submit" data-auto>Rename</button></form><p class="tiny muted">Floor plan: ${esc(plan().n)} · Last changed: ${new Date(D.updated).toLocaleString()}</p><div class="row"><button class="btn sm" data-act="exp">Copy design code</button><button class="btn sm" data-act="dup">Make a copy</button><button class="btn sm" data-act="del">Delete</button></div><div class="dz-exp"></div></div>
+        <div class="card stack" style="gap:8px"><b>New design</b><form class="dz-form" data-f="new"><label class="fld">Name<input name="nm" placeholder="e.g. Branch office" maxlength="60"></label><label class="fld">Floor plan<select name="pl">${Object.entries(PLANS).map(([k, p]) => `<option value="${k}" ${k === 'inf' ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label><button class="btn sm primary" type="submit">Create</button></form><button class="btn sm" data-act="sample">Open the sample working office</button></div>
         <div class="card stack" style="gap:8px"><b>Import design code</b><textarea class="code-box" rows="3" placeholder="CCNADZ:..."></textarea><div class="row"><button class="btn sm" data-act="imp">Import</button><span class="tiny"></span></div><p class="tiny muted">To show your Trainer or move it to another device. Designs are saved to your account on this device.</p></div></div>`:`<div class="stack" style="gap:14px">
-        <div class="card stack" style="gap:8px"><b>Design na ito</b><form class="dz-form row2" data-f="rn"><label class="fld">Pangalan<input name="nm" value="${esc(D.name)}" maxlength="60"></label><button class="btn sm" type="submit">I-rename</button></form><p class="tiny muted">Floor plan: ${esc(plan().n)} · Huling binago: ${new Date(D.updated).toLocaleString()}</p><div class="row"><button class="btn sm" data-act="exp">Kopyahin ang design code</button><button class="btn sm" data-act="dup">Gumawa ng kopya</button><button class="btn sm" data-act="del">Burahin</button></div><div class="dz-exp"></div></div>
-        <div class="card stack" style="gap:8px"><b>Bagong design</b><form class="dz-form" data-f="new"><label class="fld">Pangalan<input name="nm" placeholder="hal. Branch office" maxlength="60"></label><label class="fld">Floor plan<select name="pl">${Object.entries(PLANS).map(([k, p]) => `<option value="${k}">${esc(p.n)}</option>`).join('')}</select></label><button class="btn sm primary" type="submit">Gumawa</button></form><button class="btn sm" data-act="sample">Buksan ang halimbawang gumaganang opisina</button></div>
+        <div class="card stack" style="gap:8px"><b>Design na ito</b><form class="dz-form row2" data-f="rn"><label class="fld">Pangalan<input name="nm" value="${esc(D.name)}" maxlength="60"></label><button class="btn sm" type="submit" data-auto>I-rename</button></form><p class="tiny muted">Floor plan: ${esc(plan().n)} · Huling binago: ${new Date(D.updated).toLocaleString()}</p><div class="row"><button class="btn sm" data-act="exp">Kopyahin ang design code</button><button class="btn sm" data-act="dup">Gumawa ng kopya</button><button class="btn sm" data-act="del">Burahin</button></div><div class="dz-exp"></div></div>
+        <div class="card stack" style="gap:8px"><b>Bagong design</b><form class="dz-form" data-f="new"><label class="fld">Pangalan<input name="nm" placeholder="hal. Branch office" maxlength="60"></label><label class="fld">Floor plan<select name="pl">${Object.entries(PLANS).map(([k, p]) => `<option value="${k}" ${k === 'inf' ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label><button class="btn sm primary" type="submit">Gumawa</button></form><button class="btn sm" data-act="sample">Buksan ang halimbawang gumaganang opisina</button></div>
         <div class="card stack" style="gap:8px"><b>Mag-import ng design code</b><textarea class="code-box" rows="3" placeholder="CCNADZ:..."></textarea><div class="row"><button class="btn sm" data-act="imp">I-import</button><span class="tiny"></span></div><p class="tiny muted">Para maipakita sa Trainor o mailipat sa ibang device. Naka-save ang designs sa account mo sa device na ito.</p></div></div>`));
       panel.appendChild(s);
       { const pl = h(`<label class="fld">${TT('Floor plan / workspace', 'Floor plan / workspace')}<select>${Object.entries(PLANS).map(([k, p]) => `<option value="${k}" ${k === (PLANS[D.plan] ? D.plan : 'office') ? 'selected' : ''}>${esc(p.n)}</option>`).join('')}</select></label>`);
@@ -14268,7 +14707,7 @@ interface g0/0.10
 
     // ---------- init ----------
     let rzT = null;
-    const onResize = () => { clearTimeout(rzT); rzT = setTimeout(() => { if (!narrow()) document.body.classList.remove('dz-sheet'); else if (sideOpen) document.body.classList.add('dz-sheet'); setDock(); relayout(); }, 80); };
+    const onResize = () => { clearTimeout(rzT); rzT = setTimeout(() => { if (!narrow()) document.body.classList.remove('dz-sheet'); else if (sideOpen) document.body.classList.add('dz-sheet'); setDock(); relayout(); if (sideOpen) placeWin(); }, 80); };
     addEventListener('resize', onResize);
     drawAll(); fitHeight(); sizeSvg(); drawTools(); requestAnimationFrame(relayout);
     const typing = e => e.target.closest && e.target.closest('input, textarea, select, [contenteditable]');
@@ -14830,6 +15269,25 @@ window.startApp = () => {
       <details class="card"><summary><b>Ayaw ma-download? Subukan ito</b></summary>${step([(__EN?"Use the <b>zip</b> or <b>html</b>: browsers and email often block plain .exe files.":'Gamitin ang <b>zip</b> o <b>html</b>: madalas hinaharang ng browser at email ang direktang .exe na file.'), (__EN?"In Chrome/Edge, press <b>Ctrl+J</b>. If it says \"blocked\" or \"not commonly downloaded\": press <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.":'Sa Chrome/Edge, pindutin ang <b>Ctrl+J</b>. Kung may "blocked" o "not commonly downloaded": pindutin ang <b>⋯</b> → <b>Keep</b> → <b>Keep anyway</b>.'), (__EN?"If your antivirus deleted it: allow the file, or use the offline .html, which has no .exe.":'Kung binura ng antivirus: i-allow ang file, o gamitin ang offline .html na walang .exe.'), (__EN?"On a school or office PC where installing is not allowed: use the offline .html or the online link.":'Sa school o office PC na bawal mag-install: gamitin ang offline .html o ang online na link.')])}</details>
     </div>`)));
     const ub = page.querySelector('[data-upd]'); if (ub) ub.onclick = () => window.UPDATER ? UPDATER.check() : null;
+    { // public link: copy / share, and show which version it gives right now
+      page.querySelector('.upd-row').after(h(`<div class="card stack dl-pub"><div class="row between" style="gap:8px;flex-wrap:wrap"><h3>${__EN ? 'Free download link' : 'Libreng download link'}</h3><span class="pill ok dl-latest">${__EN ? 'Always the latest version' : 'Laging pinakabagong version'}</span></div>
+        <p class="small">${__EN ? 'Share this link with anyone. It is free, needs no account, and always gives the newest version: when a new version comes out, the same link already has it.' : 'Ibahagi ang link na ito kahit kanino. Libre, walang account na kailangan, at laging ang pinakabagong version ang makukuha: kapag may bagong version, ito na agad ang nasa parehong link.'}</p>
+        <div class="dl-link"><input class="mono" readonly aria-label="Download link" value="${esc((window.DL_LINKS || {}).page || '')}"><button class="btn sm" type="button" data-pub="copy">${__EN ? 'Copy' : 'Kopyahin'}</button>${navigator.share ? `<button class="btn sm" type="button" data-pub="share">${__EN ? 'Share' : 'Ibahagi'}</button>` : ''}<a class="btn sm primary" href="${esc((window.DL_LINKS || {}).page || '#')}" target="_blank" rel="noopener">${__EN ? 'Open' : 'Buksan'}</a></div>
+        <div class="dl-direct small"><span class="muted">${__EN ? 'Direct downloads:' : 'Direktang download:'}</span> <a href="${esc((window.DL_LINKS || {}).lite || '#')}" target="_blank" rel="noopener">Lite installer (.zip)</a> · <a href="${esc((window.DL_LINKS || {}).offline || '#')}" target="_blank" rel="noopener">${__EN ? 'Offline file' : 'Offline file'} (.zip)</a> · <a href="${esc((window.DL_LINKS || {}).full || '#')}" target="_blank" rel="noopener">Full installer (.zip)</a></div>
+        <div class="tiny muted dl-ver">${__EN ? 'Checking the latest version…' : 'Tinitingnan ang pinakabagong version…'}</div></div>`));
+      { const p3 = page.querySelectorAll('.dl-card')[2]; const q = p3 && p3.querySelector('p.small'); if (q) q.innerHTML = __EN ? 'The complete desktop app (no browser needed). The file is big: get <b>CCNA-Lab-200-301-Setup.zip</b> from the free download link above. Same steps: Extract All → double-click Setup.exe → More info → Run anyway if needed.' : 'Kumpletong desktop app (hindi na kailangan ng browser). Malaki ang file: kunin ang <b>CCNA-Lab-200-301-Setup.zip</b> sa libreng download link sa itaas. Pareho ang steps: Extract All → i-double-click ang Setup.exe → More info → Run anyway kung kailangan.'; }
+      const L = window.DL_LINKS || {}, pub = page.querySelector('.dl-pub'), inp = pub.querySelector('input');
+      inp.onclick = () => inp.select();
+      pub.querySelector('[data-pub=copy]').onclick = () => { const ok = () => toast(__EN ? 'Link copied.' : 'Nakopya ang link.'); (navigator.clipboard ? navigator.clipboard.writeText(L.page).then(ok, () => { inp.select(); document.execCommand('copy'); ok(); }) : (inp.select(), document.execCommand('copy'), ok())); };
+      const sb = pub.querySelector('[data-pub=share]'); if (sb) sb.onclick = () => navigator.share({ title: 'CCNA Lab 200-301', text: __EN ? 'Free CCNA 200-301 trainer: lessons, CLI labs, exam and Network Designer.' : 'Libreng CCNA 200-301 trainer: lessons, CLI labs, exam at Network Designer.', url: L.page }).catch(() => { });
+      const vEl = pub.querySelector('.dl-ver');
+      if (L.version) fetch(L.version + '?t=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject()).then(j => {
+        const cmp = (a, b) => { a = String(a).split('.').map(Number); b = String(b).split('.').map(Number); for (let i = 0; i < 3; i++) { const d = (a[i] || 0) - (b[i] || 0); if (d) return d; } return 0; };
+        const dt = j.date ? new Date(j.date + 'T00:00:00').toLocaleDateString(__EN ? 'en-PH' : 'fil-PH', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+        const newer = cmp(j.version, window.APP_VERSION || '0') > 0;
+        vEl.innerHTML = (__EN ? `The link gives <b>version ${esc(j.version)}</b>${dt ? ' (' + esc(dt) + ')' : ''}.` : `Ang makukuha sa link: <b>version ${esc(j.version)}</b>${dt ? ' (' + esc(dt) + ')' : ''}.`) + (newer ? (__EN ? ' <b style="color:var(--warn)">Newer than yours.</b>' : ' <b style="color:var(--warn)">Mas bago kaysa sa iyo.</b>') : '');
+      }).catch(() => { vEl.textContent = __EN ? 'Could not check the latest version right now (no Internet?). The link still works.' : 'Hindi ma-check ngayon ang pinakabagong version (walang Internet?). Gumagana pa rin ang link.'; });
+    }
     { const dc = [...page.querySelectorAll('.dl-card')]; const h4 = dc[3] && dc[3].querySelector('h3'); if (h4 && !/^4\./.test(h4.textContent)) h4.prepend('4. '); accordion(dc, { key: 'dl', open: 0, icons: ['win', 'file', 'box', 'globe'] }); }
     page.querySelectorAll('[data-dl]').forEach(b => b.onclick = async () => {
       const msg = b.parentElement.querySelector('.dl-msg'); const kind = b.dataset.dl;
