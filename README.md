@@ -1,6 +1,6 @@
 # CCNA Lab 200-301: libreng download
 
-**Pinakabagong version: 2.13.0** (November 18, 2026)
+**Pinakabagong version: 2.14.0** (November 18, 2026)
 
 Libreng CCNA 200-301 trainer: lessons, CLI labs, 120-item practice exam at Network Designer. Gumagana kahit walang Internet.
 
@@ -26,23 +26,25 @@ Hiwalay ang accounts at progress ng Lite/Offline sa Full app. Para ilipat sila (
 
 Idinadagdag ang mga bagong account; kapag pareho ang username, pinagsasama ang progress at walang nawawala.
 
-## Bago sa 2.13.0
+## Bago sa 2.14.0
 
-- Mas maraming paraan ng bayad: bank transfer (InstaPay/PESONet, may pangalan ng bangko), ShopeePay, GrabPay at Coins.ph, bawat isa may sariling QR, bukod sa GCash, Maya, GoTyme at PayPal
-- Mga account mula sa ibang device: may sign-up code ang bagong trainee na idinadagdag ng Admin sa listahan niya (paste o file, marami nang sabay), kasama ang progress
-- Network Designer: sa Free plan, bukas ang unang 5 mission; Premium ang lahat ng 100
-- Mas maayos na "Libreng Premium para sa lahat": status, mensahe at tagal sa iisang taas at pantay na ayos; malaki at nasa gitna ang Mag-log out
-- Mas malinis na Download page, at "Gawa ni: CODJ" sa menu, login at Settings
+- Mas ligtas na Premium: pirmado (digital signature) ang bawat access code at para lang sa isang user at device; hindi na nagiging Premium ang app kahit galawin ang data, online man o offline
+- Owner key para sa may-ari ng app: siya lang ang makakagawa ng code, makakapagbigay ng Premium at makakapag-promo; may Device license para sa Admin at Trainor ng ibang device
+- Paano magbayad: i-tap ang QR para palakihin at i-save, at "Magbayad online" (PayMongo, Xendit o PayPal link)
+- Nakalimutan ang PIN? Recovery key, code sa email, o owner key. Mas matibay na PIN ng Admin (6-8 numero), auto-lock, at security log
+- Network Designer: Health, Missions, Auto-design at Mga design ay nasa iisang hilera ng tabs at bumababa bilang dropdown
+- Itapat ang mouse sa CODJ nang 3 segundo (o i-tap sa phone) para makita ang pangalan at pirma
 
 ---
 
-**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.13.0 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
+**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.14.0 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
 
-- More ways to pay: bank transfer (InstaPay/PESONet, with the bank name), ShopeePay, GrabPay and Coins.ph, each with its own QR, besides GCash, Maya, GoTyme and PayPal
-- Accounts from other devices: a new trainee gets a sign-up code that the Admin adds to their list (paste or file, many at once), with the progress
-- Network Designer: the Free plan opens the first 5 missions; Premium opens all 100
-- Cleaner "Free Premium for everyone": status, message and duration lined up at one height; a large, centered Log out button
-- A cleaner Download page, and "Created by: CODJ" in the menu, sign-in screen and Settings
+- Safer Premium: every access code is digitally signed and works for one user and device only; changing the app's data no longer gives Premium, online or offline
+- Owner key for the app owner: only they can make codes, give Premium and run promos; a Device license gives Admin and Trainor on other devices full access
+- How to pay: tap the QR to enlarge and save it, plus "Pay online" (PayMongo, Xendit or PayPal link)
+- Forgot your PIN? Recovery key, a code by email, or the owner key. Stronger Admin PIN (6-8 digits), auto-lock and a security log
+- Network Designer: Health, Missions, Auto-design and Designs sit in one row of tabs and open as a dropdown
+- Rest the mouse on CODJ for 3 seconds (or tap it on a phone) to see the name and signature
 
 Gawa ni / Created by: **CODJ**
 
