@@ -1,6 +1,6 @@
 # CCNA Lab 200-301: libreng download
 
-**Pinakabagong version: 2.14.0** (November 18, 2026)
+**Pinakabagong version: 2.14.1** (November 18, 2026)
 
 Libreng CCNA 200-301 trainer: lessons, CLI labs, 120-item practice exam at Network Designer. Gumagana kahit walang Internet.
 
@@ -26,8 +26,9 @@ Hiwalay ang accounts at progress ng Lite/Offline sa Full app. Para ilipat sila (
 
 Idinadagdag ang mga bagong account; kapag pareho ang username, pinagsasama ang progress at walang nawawala.
 
-## Bago sa 2.14.0
+## Bago sa 2.14.1
 
+- Email codes: may Private Key field na para sa EmailJS na naka-"strict mode", at mas malinaw na mensahe kapag may mali sa setup
 - Mas ligtas na Premium: pirmado (digital signature) ang bawat access code at para lang sa isang user at device; hindi na nagiging Premium ang app kahit galawin ang data, online man o offline
 - Owner key para sa may-ari ng app: siya lang ang makakagawa ng code, makakapagbigay ng Premium at makakapag-promo; may Device license para sa Admin at Trainor ng ibang device
 - Paano magbayad: i-tap ang QR para palakihin at i-save, at "Magbayad online" (PayMongo, Xendit o PayPal link)
@@ -37,8 +38,9 @@ Idinadagdag ang mga bagong account; kapag pareho ang username, pinagsasama ang p
 
 ---
 
-**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.14.0 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
+**English:** Free CCNA 200-301 trainer. There is one download now, the Full installer (link above, always version 2.14.1 or newer). Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
 
+- Email codes: a Private Key field for EmailJS accounts in "strict mode", and clearer messages when the setup is wrong
 - Safer Premium: every access code is digitally signed and works for one user and device only; changing the app's data no longer gives Premium, online or offline
 - Owner key for the app owner: only they can make codes, give Premium and run promos; a Device license gives Admin and Trainor on other devices full access
 - How to pay: tap the QR to enlarge and save it, plus "Pay online" (PayMongo, Xendit or PayPal link)

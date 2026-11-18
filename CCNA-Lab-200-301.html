@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.14.0";/*CCNA_APP_VERSION="2.14.0"*/
+<script>window.APP_VERSION="2.14.1";/*CCNA_APP_VERSION="2.14.1"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1521,6 +1521,13 @@ body.kicked > *:not(.kick):not(.toast) { pointer-events: none; user-select: none
 .lockscr .fld { text-align: left; }
 .lockscr .kick-card .fld, .lockscr .kick-card .btn:not(.sm) { width: 100%; justify-content: center; }
 .lockscr .kick-card .btn .ic, .lockscr .kick-card .btn svg { width: 18px; height: 18px; }
+/* v2.14.1: EmailJS Private Key field */
+.mail-pk { display: flex; gap: 6px; align-items: center; }
+.mail-pk input { flex: 1; min-width: 0; font-family: var(--f-mono); }
+.mail-pk .btn { flex: none; }
+.fld .mail-pk-n { font-weight: 400; }
+.fld .mail-pk-x { display: flex; align-items: center; gap: 8px; font-weight: 400; color: var(--fg-2); cursor: pointer; }
+.fld .mail-pk-x input { width: 18px; height: 18px; min-height: 0; padding: 0; margin: 0; flex: none; accent-color: var(--accent); }
 
 </style>
 </head>
@@ -12373,9 +12380,25 @@ interface g0/0.10
   const mailCfg = () => { const c = get(MK, null); return c && c.s && c.t && c.k ? c : null; };
   const maskMail = m => String(m || '').replace(/^(.)(.*)(.@.*)$/, (x, a, b, c) => a + '*'.repeat(Math.min(6, b.length)) + c);
   const okMail = m => /^[^\s@]{1,64}@[^\s@]+\.[a-z]{2,}$/i.test(String(m || '').trim());
+  // the Private Key (EmailJS "strict mode") is kept only on this device, encrypted with a key made from this device's ID
+  const PKS = () => 'mailpk|' + LIC.devId();
+  const pkGet = c => { try { return c && c.p ? (LIC.unseal(c.p, PKS()) || '') : ''; } catch (e) { return ''; } };
+  const pkSeal = v => LIC.seal(v, PKS(), 3000);
+  function mailErr(st, m) {
+    if (st === 403 && /strict mode|private key/i.test(m)) return T('Naka-on ang "Use Private Key" (strict mode) sa EmailJS pero walang Private Key dito. Ilagay ang Private Key mula sa EmailJS: Account → General → API Keys.', 'EmailJS has "Use Private Key" (strict mode) on, but no Private Key is set here. Put in the Private Key from EmailJS: Account → General → API Keys.');
+    if (st === 403 && /non-browser/i.test(m)) return T('Naka-off sa EmailJS ang "Allow EmailJS API for non-browser applications". I-on ito sa Account → Security.', 'EmailJS has "Allow EmailJS API for non-browser applications" off. Turn it on in Account → Security.');
+    if ((st === 400 || st === 401 || st === 403) && /private key|access token|token/i.test(m)) return T('Mali ang Private Key. Kopyahin ulit mula sa EmailJS: Account → General → API Keys.', 'The Private Key is wrong. Copy it again from EmailJS: Account → General → API Keys.');
+    if (st === 400 && /public key|user id/i.test(m)) return T('Mali ang Public Key. Kopyahin ulit mula sa EmailJS: Account → General → API Keys.', 'The Public Key is wrong. Copy it again from EmailJS: Account → General → API Keys.');
+    if (st === 400 && /service/i.test(m)) return T('Mali ang Service ID.', 'The Service ID is wrong.');
+    if (st === 400 && /template/i.test(m)) return T('Mali ang Template ID.', 'The Template ID is wrong.');
+    if (st === 429) return T('Naabot ang limit ng EmailJS. Subukan ulit mamaya.', 'The EmailJS limit was reached. Try again later.');
+    return 'HTTP ' + st + (m ? ': ' + m : '');
+  }
   async function sendMail(cfg, to, name, code, purpose) {
-    const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_id: cfg.s, template_id: cfg.t, user_id: cfg.k, template_params: { to_email: to, to_name: name, code, purpose, app_name: 'CCNA Lab 200-301', minutes: '10' } }) });
-    if (!r.ok) { let m = ''; try { m = (await r.text()).slice(0, 90); } catch (e) { } throw new Error('HTTP ' + r.status + (m ? ': ' + m : '')); }
+    const body = { service_id: cfg.s, template_id: cfg.t, user_id: cfg.k, template_params: { to_email: to, to_name: name, code, purpose, app_name: 'CCNA Lab 200-301', minutes: '10' } };
+    const pk = cfg.pk != null ? cfg.pk : pkGet(cfg); if (pk) body.accessToken = pk;
+    const r = await fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) { let m = ''; try { m = (await r.text()).slice(0, 140); } catch (e) { } throw new Error(mailErr(r.status, m)); }
   }
   // purpose: 'reset' (forgot PIN), 'verify' (confirm the email), 'test'; at most 3 emails per 15 minutes per account
   async function mailOtp(u, purpose, to) {
@@ -13113,20 +13136,22 @@ interface g0/0.10
     return c;
   }
   function mailCard(ctx, u) {
-    const c0 = get(MK, null) || {};
-    const c = h(`<div class="card stack"><h3>${T('Email para sa recovery codes', 'Email for recovery codes')}</h3><p class="small muted">${T('Walang sariling server ang app, kaya gumagamit ito ng <b>EmailJS</b> (libre: mga 200 email bawat buwan) para magpadala ng 6-digit code kapag may nakalimutang PIN. Sundin ang gabay sa ibaba, tapos ilagay dito ang 3 ID.', 'The app has no server of its own, so it uses <b>EmailJS</b> (free: about 200 emails a month) to send a 6-digit code when someone forgets their PIN. Follow the guide below, then put the 3 IDs here.')}</p>
+    const c0 = get(MK, null) || {}, hasPk = !!pkGet(c0);
+    const c = h(`<div class="card stack"><h3>${T('Email para sa recovery codes', 'Email for recovery codes')}</h3><p class="small muted">${T('Walang sariling server ang app, kaya gumagamit ito ng <b>EmailJS</b> (libre: mga 200 email bawat buwan) para magpadala ng 6-digit code kapag may nakalimutang PIN. Sundin ang gabay sa ibaba, tapos ilagay dito ang mga ID.', 'The app has no server of its own, so it uses <b>EmailJS</b> (free: about 200 emails a month) to send a 6-digit code when someone forgets their PIN. Follow the guide below, then put the IDs here.')}</p>
       <details class="small mail-guide"><summary>${T('Paano i-set up (5 minuto)', 'How to set it up (5 minutes)')}</summary><ol>
         <li>${T('Gumawa ng libreng account sa <b>emailjs.com</b> (Sign Up).', 'Make a free account at <b>emailjs.com</b> (Sign Up).')}</li>
         <li>${T('<b>Email Services</b> → <b>Add New Service</b> → <b>Gmail</b> → Connect Account (ang Gmail na magpapadala) → Create Service. Kopyahin ang <b>Service ID</b>.', '<b>Email Services</b> → <b>Add New Service</b> → <b>Gmail</b> → Connect Account (the Gmail that sends) → Create Service. Copy the <b>Service ID</b>.')}</li>
         <li>${T('<b>Email Templates</b> → <b>Create New Template</b>. Sa <b>To Email</b> ilagay ang <code>{{to_email}}</code>. Subject: <code>{{app_name}}: ang code mo ay {{code}}</code>. Content: <code>Hi {{to_name}}, ang code mo para sa {{purpose}} ay {{code}}. Gumagana ito sa loob ng {{minutes}} minuto. Huwag itong ibigay kahit kanino.</code> → Save. Kopyahin ang <b>Template ID</b>.', '<b>Email Templates</b> → <b>Create New Template</b>. In <b>To Email</b> put <code>{{to_email}}</code>. Subject: <code>{{app_name}}: your code is {{code}}</code>. Content: <code>Hi {{to_name}}, your code for {{purpose}} is {{code}}. It works for {{minutes}} minutes. Do not share it with anyone.</code> → Save. Copy the <b>Template ID</b>.')}</li>
-        <li>${T('<b>Account</b> → <b>General</b>: kopyahin ang <b>Public Key</b>. Sa <b>Account → Security</b>, i-on ang limit (hal. 1 request bawat 10 segundo) para hindi maabuso.', '<b>Account</b> → <b>General</b>: copy the <b>Public Key</b>. In <b>Account → Security</b>, turn on a limit (for example 1 request per 10 seconds) so it cannot be abused.')}</li>
-        <li>${T('Ilagay ang 3 ID sa ibaba → I-save → Magpadala ng test sa email mo.', 'Put the 3 IDs below → Save → Send a test to your email.')}</li></ol></details>
-      <form class="grid c2 prem-form" autocomplete="off"><label class="fld">Service ID<input name="s" maxlength="60" value="${esc(c0.s || '')}" placeholder="service_xxxxxxx"></label><label class="fld">Template ID<input name="t" maxlength="60" value="${esc(c0.t || '')}" placeholder="template_xxxxxxx"></label><label class="fld">Public Key<input name="k" maxlength="80" value="${esc(c0.k || '')}" placeholder="xxxxxxxxxxxxxxxx"></label><label class="fld">${T('Test na email', 'Test email')}<input name="e" type="email" maxlength="80" value="${esc(u.email || '')}" placeholder="pangalan@gmail.com"></label><div class="row" style="grid-column:1/-1;gap:8px;flex-wrap:wrap"><button class="btn primary" type="submit">${T('I-save', 'Save')}</button><button class="btn" type="button" data-a="test">${T('Magpadala ng test', 'Send a test')}</button>${c0.s ? `<button class="btn ghost" type="button" data-a="off">${T('Alisin', 'Remove')}</button>` : ''}<span class="tiny" role="status"></span></div></form>
-      <p class="tiny muted">${T('Paalala: nakikita ng app ang Public Key (ganoon talaga ang EmailJS), kaya i-on ang limit sa EmailJS at gumamit ng Gmail na para lang dito.', 'Note: the app can see the Public Key (that is how EmailJS works), so turn on the EmailJS limit and use a Gmail just for this.')}</p></div>`);
+        <li>${T('<b>Account</b> → <b>General</b> → <b>API Keys</b>: kopyahin ang <b>Public Key</b> at ang <b>Private Key</b>. Sa <b>Account → Security</b>: i-on ang <b>Allow EmailJS API for non-browser applications</b> (para sa desktop app), ang <b>Use Private Key</b>, at ang limit (hal. 1 request bawat 10 segundo).', '<b>Account</b> → <b>General</b> → <b>API Keys</b>: copy the <b>Public Key</b> and the <b>Private Key</b>. In <b>Account → Security</b>: turn on <b>Allow EmailJS API for non-browser applications</b> (for the desktop app), <b>Use Private Key</b>, and a limit (for example 1 request per 10 seconds).')}</li>
+        <li>${T('Ilagay ang mga ID at ang Private Key sa ibaba → I-save → Magpadala ng test sa email mo.', 'Put the IDs and the Private Key below → Save → Send a test to your email.')}</li></ol></details>
+      <form class="grid c2 prem-form" autocomplete="off"><label class="fld">Service ID<input name="s" maxlength="60" value="${esc(c0.s || '')}" placeholder="service_xxxxxxx"></label><label class="fld">Template ID<input name="t" maxlength="60" value="${esc(c0.t || '')}" placeholder="template_xxxxxxx"></label><label class="fld">Public Key<input name="k" maxlength="80" value="${esc(c0.k || '')}" placeholder="xxxxxxxxxxxxxxxx"></label><div class="fld"><label for="mail-pk-in">${T('Private Key (kung naka-on ang strict mode)', 'Private Key (if strict mode is on)')}</label><span class="mail-pk"><input id="mail-pk-in" name="p" type="password" maxlength="120" autocomplete="new-password" spellcheck="false" placeholder="${hasPk ? T('•••••••• naka-save', '•••••••• saved') : T('Opsyonal', 'Optional')}"><button class="btn sm ghost" type="button" data-a="eye" aria-pressed="false">${T('Ipakita', 'Show')}</button></span>${hasPk ? `<span class="tiny muted mail-pk-n">${T('Iwanang blangko para hindi palitan.', 'Leave blank to keep it.')}</span><label class="check sm mail-pk-x"><input type="checkbox" name="px"><span>${T('Alisin ang naka-save na Private Key', 'Remove the saved Private Key')}</span></label>` : ''}</div><label class="fld">${T('Test na email', 'Test email')}<input name="e" type="email" maxlength="80" value="${esc(u.email || '')}" placeholder="pangalan@gmail.com"></label><div class="row" style="grid-column:1/-1;gap:8px;flex-wrap:wrap"><button class="btn primary" type="submit">${T('I-save', 'Save')}</button><button class="btn" type="button" data-a="test">${T('Magpadala ng test', 'Send a test')}</button>${c0.s ? `<button class="btn ghost" type="button" data-a="off">${T('Alisin', 'Remove')}</button>` : ''}<span class="tiny" role="status"></span></div></form>
+      <p class="tiny muted">${T('Paalala: ang Private Key ay naka-save lang sa device na ito, naka-encrypt, at hindi kasama sa backup o sa ibang device. Itakda ito sa bawat device na gagamit ng email codes. I-on din ang limit sa EmailJS at gumamit ng Gmail na para lang dito.', 'Note: the Private Key is kept only on this device, encrypted, and is not in backups or on other devices. Set it on every device that sends email codes. Also turn on the EmailJS limit and use a Gmail just for this.')}</p></div>`);
     const f = c.querySelector('form'), st = c.querySelector('[role=status]'), say = (m, bad) => { st.textContent = m; st.style.color = bad ? 'var(--bad)' : 'var(--ok)'; };
-    const val = () => ({ s: f.s.value.trim(), t: f.t.value.trim(), k: f.k.value.trim() });
-    f.onsubmit = async e => { e.preventDefault(); const v = val(); if (!v.s || !v.t || !v.k) return say(T('Kailangan ang 3 ID.', 'All 3 IDs are needed.'), 1); if (!(await stepUp(T('Babaguhin ang email settings.', 'Changing the email settings.')))) return; put(MK, v); audit('mail-cfg', v.s); say(T('Na-save.', 'Saved.')); };
-    f.querySelector('[data-a=test]').onclick = async e => { const v = val(), em = f.e.value.trim(); if (!v.s || !v.t || !v.k) return say(T('Ilagay muna ang 3 ID.', 'Put in the 3 IDs first.'), 1); if (!okMail(em)) return say(T('Hindi valid ang test na email.', 'The test email is not valid.'), 1); e.target.disabled = true; say(T('Ipinapadala…', 'Sending…')); try { await sendMail(v, em, u.name, '123456', T('test', 'test')); say(T('Naipadala ang test (code 123456). Tingnan ang inbox at Spam.', 'Test sent (code 123456). Check the inbox and Spam.')); } catch (x) { say(T('Hindi naipadala: ', 'Not sent: ') + x.message, 1); } e.target.disabled = false; };
+    // pk: the key to use now ('' = none); keep: the saved one stays as it is
+    const val = () => { const typed = f.p.value.trim(), drop = !!(f.px && f.px.checked); return { s: f.s.value.trim(), t: f.t.value.trim(), k: f.k.value.trim(), pk: typed || (drop ? '' : pkGet(c0)), keep: !typed && !drop }; };
+    const eye = f.querySelector('[data-a=eye]'); eye.onclick = () => { const on = f.p.type === 'password'; f.p.type = on ? 'text' : 'password'; eye.textContent = on ? T('Itago', 'Hide') : T('Ipakita', 'Show'); eye.setAttribute('aria-pressed', String(on)); };
+    f.onsubmit = async e => { e.preventDefault(); const v = val(); if (!v.s || !v.t || !v.k) return say(T('Kailangan ang Service ID, Template ID at Public Key.', 'The Service ID, Template ID and Public Key are needed.'), 1); if (!(await stepUp(T('Babaguhin ang email settings.', 'Changing the email settings.')))) return; const o = { s: v.s, t: v.t, k: v.k }; if (v.keep && c0.p) o.p = c0.p; else if (v.pk) o.p = pkSeal(v.pk); put(MK, o); audit('mail-cfg', v.s + (o.p ? ' +pk' : '')); f.p.value = ''; say(T('Na-save.', 'Saved.')); setTimeout(() => ctx.route(), 700); };
+    f.querySelector('[data-a=test]').onclick = async e => { const v = val(), em = f.e.value.trim(); if (!v.s || !v.t || !v.k) return say(T('Ilagay muna ang Service ID, Template ID at Public Key.', 'Put in the Service ID, Template ID and Public Key first.'), 1); if (!okMail(em)) return say(T('Hindi valid ang test na email.', 'The test email is not valid.'), 1); e.target.disabled = true; say(T('Ipinapadala…', 'Sending…')); try { await sendMail(v, em, u.name, '123456', T('test', 'test')); say(T('Naipadala ang test (code 123456). Tingnan ang inbox at Spam.', 'Test sent (code 123456). Check the inbox and Spam.')); } catch (x) { say(T('Hindi naipadala: ', 'Not sent: ') + x.message, 1); } e.target.disabled = false; };
     const off = f.querySelector('[data-a=off]'); if (off) off.onclick = async () => { if (!(await stepUp(''))) return; try { localStorage.removeItem(MK); } catch (x) { } audit('mail-cfg', 'removed'); ctx.route(); };
     return c;
   }
