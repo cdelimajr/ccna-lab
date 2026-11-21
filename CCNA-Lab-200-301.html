@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>window.APP_VERSION="2.20.0";/*CCNA_APP_VERSION="2.20.0"*/
+<script>window.APP_VERSION="2.20.1";/*CCNA_APP_VERSION="2.20.1"*/
 (function(){try{if(location.protocol==='https:'&&!/Electron/.test(navigator.userAgent))return;var v=localStorage.getItem('ccna.upd.v');if(!v)return;
 var c=function(a,b){a=a.split('.');b=b.split('.');for(var i=0;i<3;i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d;}return 0;};var d=c(v,window.APP_VERSION);
 if(d<0){localStorage.removeItem('ccna.upd.html');localStorage.removeItem('ccna.upd.v');return;}if(d===0)return;
@@ -1937,6 +1937,31 @@ body.tour-on .bot-fab, body.tour-on .zfab { visibility: hidden; }
 .ar-ic { font-size: 1.6rem; line-height: 1; }
 .ar-t { display: grid; gap: 3px; } .ar-t b { font-size: 1rem; } .ar-t span { font-size: .84rem; color: var(--fg-3); }
 
+/* v2.20.1: sidebar top links (Home, Lab Simulator) instead of the 4 quick tiles */
+.nav-top { margin: 0 0 10px; padding-bottom: 10px; border-bottom: 1px solid var(--line, rgba(127,127,127,.2)); }
+
+/* v2.20.1: lab on a phone or tablet: jump to the tasks, a shorter terminal so the tasks peek in */
+.lab-jump, .lab-jump-back { display: none; }
+@media (max-width: 1100px) {
+  .lab-jump { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .lab-jump .btn svg { width: 15px; height: 15px; }
+  .lab-jump-back { display: inline-flex; align-self: flex-start; }
+  .tasks { scroll-margin-top: 70px; } .term-wrap { scroll-margin-top: 70px; }
+}
+@media (max-width: 640px) { .lab:not(.embedded) .term { height: 42vh; min-height: 240px; } }
+
+/* v2.20.1: Home "Ituloy kung saan ka huminto" */
+.today-card h3 { margin: 0 0 8px; }
+.today-list { display: flex; flex-direction: column; }
+.today-row { display: flex; align-items: center; gap: 12px; padding: 10px 4px; border-top: 1px solid var(--line); text-decoration: none; color: var(--fg); }
+.today-row:first-child { border-top: 0; }
+.today-row:hover { background: var(--bg-2, transparent); }
+.today-ic { flex: none; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft, rgba(80,140,160,.14)); color: var(--accent); }
+.today-ic svg { width: 18px; height: 18px; }
+.today-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.today-t b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.today-row .btn { flex: none; pointer-events: none; }
+
 </style>
 </head>
 <body>
@@ -2313,7 +2338,7 @@ var __EN = window.LANG === "en";
   }
   // v2.19: floating zoom buttons, like the map in Tasktime and the Network Designer: + , the % (tap = back to 100%), −.
   // They keep the same size on screen at every zoom. Can be hidden in Settings → Zoom.
-  const FK = 'ccna.zoom.fab', fabOn = () => { try { return localStorage.getItem(FK) !== '0'; } catch (e) { return true; } };
+  const FK = 'ccna.zoom.fab', fabOn = () => { try { const v = localStorage.getItem(FK); return v === null ? !touch() : v !== '0'; } catch (e) { return !touch(); } }; // v2.20.1: off by default on phones and tablets (pinch zoom is there)
   let fab = null, idle = null;
   function wake() { if (!fab) return; fab.classList.remove('idle'); clearTimeout(idle); idle = setTimeout(() => fab && fab.classList.add('idle'), 2600); }
   function fabSync() {
@@ -14044,6 +14069,28 @@ interface g0/0.10
     const f = pin.querySelector('form'); f.onsubmit = e => { e.preventDefault(); const err = f.querySelector('.err'); if (!pinOk(u, f.old.value)) { err.hidden = false; err.textContent = (__EN?"The current PIN is wrong.":'Mali ang kasalukuyang PIN.'); return; } if (pinBad(u.role, f.pin.value)) { err.hidden = false; err.textContent = pinBad(u.role, f.pin.value); return; } if (!/^\d{4,8}$/.test(f.pin.value)) { err.hidden = false; err.textContent = (__EN?"The PIN must be 4 to 8 digits.":'Ang PIN ay 4 hanggang 8 na numero.'); return; } setPin(u, f.pin.value); audit('pin-change', '@' + u.user); saveDb(); f.reset(); err.hidden = true; ctx.toast((__EN?"PIN changed.":'Napalitan na ang PIN.')); };
     return pin;
   }
+  // v2.20.1: "Lipat sa Admin" for a computer where "Mag-aaral ako" was picked by mistake on the first open. Only when the
+  // device has no Admin yet (so a trainee in a lab with an Admin cannot raise their own role), with the PIN check and a
+  // new 6 to 8 digit Admin PIN. The role gives no Premium; licenses stay as they are.
+  function roleCard(u, ctx) {
+    if (!u || u.online || u.role !== 'trainee' || window.EDITION === 'client') return null;
+    const d = db(), hasAdmin = d.users.some(x => x.role === 'admin');
+    const c = h(`<div class="card stack set-card" id="set-role"><h3>${T('Role ng account', 'Account role')}</h3>
+      <p class="small">${T('Trainee (mag-aaral) ang account mo.', 'Your account is a Trainee (learner).')} ${hasAdmin ? T('May Admin na sa device na ito. Siya lang ang makakapagpalit ng role mo sa <b>Admin: Mga user</b>.', 'This device already has an Admin. Only they can change your role in <b>Admin: Users</b>.') : T('Kung ikaw ang Trainor o Admin at napili mo ang "Mag-aaral ako" nang hindi sinasadya, puwede mong ilipat ang account na ito sa Admin. Mananatili ang progress mo.', 'If you are the Trainor or Admin and picked "I am a learner" by mistake, you can move this account to Admin. Your progress stays.')}</p>
+      ${hasAdmin ? '' : `<form class="stack" autocomplete="off" style="gap:8px;max-width:420px"><label class="small">${T('Bagong Admin PIN (6 hanggang 8 na numero)', 'New Admin PIN (6 to 8 digits)')}<input name="p1" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password" required></label><label class="small">${T('Ulitin ang PIN', 'Repeat the PIN')}<input name="p2" type="password" inputmode="numeric" maxlength="8" autocomplete="new-password" required></label><div class="err" hidden></div><div class="row"><button class="btn primary" type="submit">${T('Lipat sa Admin', 'Move to Admin')}</button></div><p class="tiny muted">${T('Pagkatapos, gumawa ng recovery key sa Seguridad ng login. Hindi nito binabago ang plan o license ng device.', 'Afterwards, make a recovery key in Login security. This does not change the device plan or license.')}</p></form>`}</div>`);
+    const f = c.querySelector('form');
+    if (f) f.onsubmit = async e => {
+      e.preventDefault(); const er = f.querySelector('.err'), p1 = f.p1.value.trim();
+      const bad = pinBad('admin', p1) || (p1 !== f.p2.value.trim() ? T((__EN?"The PINs don't match.":'Hindi magkapareho ang PIN.'), 'The PINs do not match.') : '');
+      if (bad) { er.hidden = false; er.textContent = bad; return; }
+      if (!(await stepUp(T('Ililipat sa Admin ang account mo.', 'Moving your account to Admin.')))) return;
+      const dd = db(), du = dd.users.find(x => x.id === u.id); if (!du || dd.users.some(x => x.role === 'admin')) return;
+      du.role = 'admin'; setPin(du, p1); saveDb(); audit('role', '@' + du.user + ' trainee → admin', du);
+      ctx.toast(T('Admin ka na. Gumawa ng recovery key sa Seguridad ng login.', 'You are now the Admin. Make a recovery key in Login security.'));
+      try { ctx.refresh(); } catch (e2) { } ctx.route(); setTimeout(() => { location.hash = '#settings'; location.reload(); }, 1600); // reload so the header and every page see the new role
+    };
+    return c;
+  }
   function viewSettings(main, ctx) {
     const u = me(); const t = (f, e) => (typeof __EN !== 'undefined' && __EN) ? e : f;
     const page = h(`<div class="page set-page"><div class="lesson-head"><h1>Settings</h1><p class="muted">${t('Lahat ng puwedeng baguhin sa app at sa account mo, nasa iisang lugar. Pindutin ang bawat grupo para buksan.', 'Everything you can change in the app and your account, in one place. Tap a group to open it.')}</p></div></div>`);
@@ -14055,6 +14102,7 @@ interface g0/0.10
     if (P.plan) { const pc = h(`<div class="card stack set-card" id="set-plan"><h3>${t('Plan ko', 'My plan')}</h3></div>`); pc.appendChild(P.plan); add(pc, 'star'); }
     if (!u.online) add(pinCard(u, ctx), 'key');
     add(secCard(u, ctx), 'shield');
+    add(roleCard(u, ctx), 'user');
     if (u.role !== 'trainee') {
       const L = [['trainer', T('Trainor Dashboard', 'Trainor Dashboard'), T('Progress ng mga trainee, class ranking, gumawa ng trainee account', 'Trainee progress, class ranking, make trainee accounts')]];
       if (u.role === 'admin') L.push(['admin', T('Admin: Mga user', 'Admin: Users'), T('Mga account, backup at restore, recovery email, security log', 'Accounts, backup and restore, recovery email, security log')]);
@@ -15565,6 +15613,7 @@ interface g0/0.10
       body.appendChild(card);
       card.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { filter = b.dataset.f; home(); });
       card.querySelector('[data-a=go]').onclick = () => run(items(filter).slice(0, 10));
+      if (window.__rvGo) { window.__rvGo = 0; run(items('').slice(0, 10)); } // v2.20.1: from Home "Review ngayong araw"
       const lb = card.querySelector('[data-a=last]'); if (lb) lb.onclick = () => run(items('e').filter(x => lw.includes(+x.k.slice(2))).slice(0, 20));
     }
     function run(list) {
@@ -15573,6 +15622,7 @@ interface g0/0.10
         body.innerHTML = '';
         if (i >= list.length) {
           const left = items('').length;
+          { const st = S(), d = new Date(), td = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); st.rvDay = { d: td, n: (st.rvDay && st.rvDay.d === td ? st.rvDay.n : 0) + list.length }; SAVE(); } // v2.20.1: daily review count for Home
           body.appendChild(h(`<div class="card stack rv-end"><h2>${right}/${list.length} ${t('tama', 'right')}</h2><p class="small">${left ? t(`May ${left} pang ire-review. Mas mabilis matandaan kapag paulit-ulit nang paunti-unti.`, `${left} more to review. Short, repeated rounds help it stick.`) : t('Wala nang natitira. Galing!', 'Nothing left. Well done!')}</p><div class="row" style="gap:8px">${left ? `<button class="btn primary" data-a="again">${t('Isa pang round', 'Another round')}</button>` : ''}<button class="btn" data-a="back">${t('Bumalik', 'Back')}</button></div></div>`));
           const ag = body.querySelector('[data-a=again]'); if (ag) ag.onclick = () => run(items(filter).slice(0, 10));
           body.querySelector('[data-a=back]').onclick = home;
@@ -15690,8 +15740,12 @@ interface g0/0.10
     else if (s.act === 'answer' && e.target.closest('#quiz .opt') && tourTarget.contains(e.target)) setTimeout(advance, 700);
   }
   function tourSubmit(e) { const s = tourSteps()[tourStep]; if (s && s.act === 'type' && e.target.closest('.term-input')) setTimeout(advance, 600); }
+  // v2.20.1: a tour left unfinished for a day stops waiting on every page; it can be started again in Settings → App tour
+  const TTK = () => TK() + '.t';
   function showPill() {
     if (pill || !me()) return;
+    const t0 = +ls.get(TTK(), '0') || 0; if (!t0) ls.set(TTK(), String(Date.now()));
+    else if (Date.now() - t0 > 864e5) { tourStop(); ls.set(TK(), '1'); ls.set(TSK(), ''); return; }
     const n = tourStep + 1, N = tourSteps().length;
     pill = h(`<div class="tour-pill" role="status"><span>${t('Tour', 'Tour')} ${n}/${N}</span><button type="button" class="btn sm primary" data-a="go">${t('Ituloy', 'Continue')}</button><button type="button" class="btn sm ghost" data-a="end" aria-label="${t('Tapusin ang tour', 'End the tour')}">✕</button></div>`);
     pill.querySelector('[data-a=go]').onclick = () => { const s = tourSteps()[tourStep]; pill.remove(); pill = null; const g = s && (typeof s.go === 'function' ? s.go() : s.go); if (g && hash() !== g && !(s.at && s.at.test(hash()))) location.hash = g; else tourShow(tourStep); };
@@ -15728,7 +15782,8 @@ interface g0/0.10
   function tour(force) {
     if (!me()) return;
     if (!force && ls.get(TK(), '') === '1') return;
-    if (force) ls.set(TSK(), '0');
+    if (force) { ls.set(TSK(), '0'); ls.set(TTK(), String(Date.now())); }
+    else if (!+ls.get(TTK(), '0')) ls.set(TTK(), String(Date.now()));
     const st = Math.max(0, Math.min(tourSteps().length - 1, +ls.get(TSK(), '0') || 0));
     tourShow(st);
   }
@@ -20218,7 +20273,8 @@ window.startApp = () => {
     const sec = S.navSec === undefined ? 'cur' : S.navSec;
     const open = S.navOpen;
     const secH = (id, label, extra) => `<div class="nav-sec ${sec === id ? 'open' : ''}" data-sec="${id}"><button class="nav-sec-h" type="button" aria-expanded="${sec === id}"><span>${label}</span>${extra || ''}${icon('chev', 'chev')}</button><div class="nav-sec-b">`;
-    let html = `<div class="nav-quick"><a href="#home" class="${active === 'home' ? 'active' : ''}">${icon('home')}Home</a><a href="#labs" class="${active === 'labs' ? 'active' : ''}">${icon('term')}Labs</a><a href="#subnet" class="${active === 'subnet' ? 'active' : ''}">${icon('calc')}Subnetting</a><a href="#exam" class="${active === 'exam' ? 'active' : ''}">${icon('exam')}Exam</a></div>`;
+    // v2.20.1: Home and Labs on top; Subnetting and Exam live once, under Practice & references (no more double links)
+    let html = `<div class="nav-extra nav-top"><a href="#home" class="${active === 'home' ? 'active' : ''}">${icon('home')}Home</a><a href="#labs" class="${active === 'labs' || (active || '').startsWith('lab-') ? 'active' : ''}">${icon('term')}Lab Simulator</a></div>`;
     html += secH('cur', 'Curriculum', `<span class="c">${pct()}%</span>`);
     for (const c of CH) {
       const isOpen = open[c.id] ?? (c.id === curCh);
@@ -20418,6 +20474,7 @@ window.startApp = () => {
     const labsDone = Object.values(S.labs).filter(x => x.done).length;
     const next = S.last && lessonById(S.last) && !S.done[S.last] ? lessonById(S.last) : ALL.find(l => !S.done[l.id]) || ALL[0];
     const page = h(`<div class="page wide"></div>`);
+    { const tc = todayCard(); if (tc) page.appendChild(tc); } // v2.20.1: first, so it is the first thing seen
     page.appendChild(h((__EN?`<section class="hero">
       <div>
         <div class="eyebrow">Cisco Certified Network Associate · 200-301</div>
@@ -20485,6 +20542,25 @@ window.startApp = () => {
     for (const [r, ic, t] of EXTRAS) tools.querySelector('.grid').appendChild(h(`<a class="tool-card" href="#${r}">${icon(ic)}<div><b>${t}</b><span>${desc[r]}</span></div></a>`));
     page.appendChild(tools);
     main.appendChild(page);
+  }
+  // v2.20.1: "Ituloy kung saan ka huminto" (an exam not finished, the last lab, the last lesson) and the daily review
+  // of 10 questions from "Mga mali ko", on Home
+  const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+  function todayCard() {
+    if (!ME) return null;
+    const rows = [];
+    let ex = null; try { ex = JSON.parse(localStorage.getItem(KEY + '-exam') || 'null'); } catch (e) { }
+    if (ex && !ex.finished && ex.qs && ex.qs.length) { const n = Object.keys(ex.ans || {}).length; rows.push([icon('exam'), TT('Exam na hindi pa tapos', 'An exam you have not finished'), TT(`${n} sa ${ex.qs.length} ang nasagot na`, `${n} of ${ex.qs.length} answered`), '#exam', TT((__EN?"Continue":'Ituloy'), 'Continue')]); }
+    const lb = S.lastLab && LABS[S.lastLab]; if (lb && !(S.labs[S.lastLab] || {}).done && (!PRM || PRM.allowLab(S.lastLab))) rows.push([icon('term'), 'Lab: ' + esc(lb.title), TT('Hindi mo pa natatapos ang lab na ito', 'You have not finished this lab'), '#lab-' + S.lastLab, TT((__EN?"Continue":'Ituloy'), 'Continue')]);
+    const ls = S.last && lessonById(S.last); if (ls && !S.done[S.last]) rows.push([icon('book'), 'Lesson: ' + esc(ls.title), TT('Dito ka huling nagbasa', 'Where you last read'), '#lesson-' + S.last, TT((__EN?"Continue":'Ituloy'), 'Continue')]);
+    if (window.REVIEW) {
+      const left = REVIEW.items('').length, rd = S.rvDay && S.rvDay.d === today() ? S.rvDay.n : 0, goal = Math.min(10, left + rd);
+      if (goal > 0) rows.push([icon('cards'), TT('Review ngayong araw', 'Today\'s review'), rd >= goal ? TT(`Tapos na ang ${rd} card ngayong araw. Galing!`, `${rd} cards done today. Nice!`) : TT(`${rd}/${goal} card mula sa Mga mali ko. Mas madaling matandaan kapag araw-araw.`, `${rd}/${goal} cards from My mistakes. It sticks better done daily.`), '#review', rd >= goal ? TT('Buksan', 'Open') : TT((__EN?"Start":'Simulan'), 'Start'), rd < goal]);
+    }
+    if (!rows.length) return null;
+    const c = h(`<section class="card today-card"><h3>${TT('Ituloy kung saan ka huminto', 'Pick up where you left off')}</h3><div class="today-list">${rows.map(([ic, t1, t2, href, b, daily]) => `<a class="today-row" href="${href}" ${daily ? 'data-daily="1"' : ''}><span class="today-ic">${ic}</span><span class="today-t"><b>${t1}</b><span class="small muted">${t2}</span></span><span class="btn sm ${daily || rows[0][3] === href ? 'primary' : ''}">${b}</span></a>`).join('')}</div></section>`);
+    const d = c.querySelector('[data-daily]'); if (d) d.addEventListener('click', () => { window.__rvGo = 1; });
+    return c;
   }
   function viewLessons() {
     const page = h((__EN?`<div class="page"><h1>All Lessons</h1></div>`:`<div class="page"><h1>Lahat ng Lessons</h1></div>`));
@@ -20659,7 +20735,7 @@ window.startApp = () => {
     const own = ch.lessons.filter(l => l.id === lid).flatMap(l => (l.quiz || []).map((q, i) => tag(l, q, i)));
     const rest = ch.lessons.filter(l => l.id !== lid && (!PRM || PRM.allowLesson(l.id))).flatMap(l => (l.quiz || []).map((q, i) => tag(l, q, i)));
     // v2.20: 2 questions from the big bank (bank2.js) on the same exam domain as this chapter
-    const E = window.EXAM, b2 = QB && QB.B2 && ch.n >= 1 && ch.n <= 6 && !ch.short ? byLeast(E.slice(QB.BANK_END - QB.B2, QB.BANK_END).map((q, k) => ({ q, i: QB.BANK_END - QB.B2 + k })).filter(x => x.q.d === ch.n).map(x => Object.assign({}, x.q, { _rk: null, _sk: 'b:' + x.i }))).slice(0, 2) : [];
+    const E = window.EXAM, b2 = QB && QB.B2 && ch.n >= 1 && ch.n <= 6 && !ch.short ? byLeast(E.slice(QB.BANK_END - QB.B2, QB.BANK_END).map((q, k) => ({ q, i: QB.BANK_END - QB.B2 + k })).filter(x => x.q.d === ch.n).map(x => Object.assign({}, x.q, { _rk: 'e:' + x.i, _sk: 'b:' + x.i }))).slice(0, 2) : [];
     const g = kinds.length ? 4 : 0, out = [...byLeast(own).slice(0, 4), ...byLeast(rest).slice(0, 6 - g - b2.length + (own.length < 4 ? 4 - own.length : 0)), ...b2];
     for (let i = 0; i < g; i++) out.push(Object.assign(QB.gen(kinds[i % kinds.length]), { _rk: null }));
     out.forEach(q => { if (q._sk) seen[q._sk] = (seen[q._sk] || 0) + 1; }); save();
@@ -20961,7 +21037,18 @@ Total:       ${b.split('').map((x, i) => x === '1' ? 2 ** (7 - i) : 0).filter(Bo
     const lab = LABS[id];
     const page = h(`<div class="page wide"><div class="lesson-head"><div class="crumbs"><a href="#${lab.challenge ? 'challenges' : 'labs'}">${lab.challenge ? 'Lab Challenges' : 'Labs'}</a>${lab.lesson && lessonById(lab.lesson) ? `<span>/</span><a href="#lesson-${lab.lesson}">${esc(lessonById(lab.lesson).title)}</a>` : ''}</div><h1>${esc(lab.title)}</h1><div class="row">${lab.level ? `<span class="pill">${lab.level}</span>` : ''}<span class="pill">${lab.topo.devices.length + (lab.topo.hosts || []).length} device${lab.topo.devices.length + (lab.topo.hosts || []).length > 1 ? 's' : ''}</span>${S.labs[id]?.done ? (__EN?"<span class=\"pill ok\">Done</span>":'<span class="pill ok">Tapos na</span>') : ''}</div><p class="muted" style="max-width:80ch">${lab.desc}</p>${lab.scenario ? `<div class="note" style="max-width:80ch"><b>Scenario</b>${lab.scenario}</div>` : ''}</div><div id="labHolder"></div></div>`);
     main.appendChild(page);
+    if (S.lastLab !== id) { S.lastLab = id; save(); }
     cleanup = mountLab($('#labHolder'), id, false);
+    // v2.20.1: on a phone or tablet the tasks sit under the terminal; a button on top jumps to them and back
+    const lr = $('#labHolder .lab'), side = lr && lr.querySelector('.tasks');
+    if (lr && side) {
+      const jb = h(`<div class="lab-jump"><button type="button" class="btn sm">${icon('check')}${TT('Mga task', 'Tasks')} <span class="pill">${lab.tasks.length}</span></button><span class="tiny muted">${TT('Nasa ilalim ng terminal ang listahan ng gagawin', 'The to-do list is under the terminal')}</span></div>`);
+      jb.querySelector('button').onclick = () => side.scrollIntoView({ block: 'start', behavior: RM() ? 'auto' : 'smooth' });
+      lr.before(jb);
+      const back = h(`<button type="button" class="btn ghost sm lab-jump-back">↑ ${TT('Bumalik sa terminal', 'Back to the terminal')}</button>`);
+      back.onclick = () => { lr.querySelector('.term-wrap').scrollIntoView({ block: 'start', behavior: RM() ? 'auto' : 'smooth' }); const i = lr.querySelector('.term-input input'); if (i) setTimeout(() => i.focus({ preventScroll: true }), 300); };
+      side.before(back);
+    }
   }
   function viewLabs(challenges) {
     const page = h(`<div class="page wide"><div class="lesson-head"><h1>${challenges ? 'Practical Lab Challenges' : 'Lab Simulator'}</h1><p class="muted" style="max-width:75ch">${challenges ? (__EN?"Longer scenarios that combine many topics, like the sim questions on the real exam. No hints here; the full solution is in the Answer Key.":'Mga mas mahabang scenario na pinagsasama ang maraming topic, katulad ng mga sim question sa totoong exam. Walang hints dito; nasa Answer Key ang buong solusyon.') : (__EN?"Every lab has a Cisco IOS-style terminal. Type the commands, and the tasks on the right are checked automatically. Abbreviations work (e.g. <code>conf t</code>, <code>sh ip int br</code>), <code>?</code> for help, and Tab to complete.":'Bawat lab ay may Cisco IOS-style na terminal. I-type ang commands, at automatic na nache-check ang mga task sa kanan. Gumagana ang abbreviations (hal. <code>conf t</code>, <code>sh ip int br</code>), <code>?</code> para sa help, at Tab para kumpletuhin.')}</p></div></div>`);
@@ -21273,7 +21360,7 @@ Mask ${bits(q.mask)}
     EX.right = right; const p = Math.round(100 * right / EX.qs.length);
     S.exam.runs.push({ at: Date.now(), right, n: EX.qs.length, pct: p, mode: EX.mode, ...(EX.retry || EX.edit ? { retry: 1 } : {}), ...(EX.edit ? { edit: 1 } : {}), mins: Math.round((EX.end - EX.start) / 60000), dom: DOM.map((d, i) => { const qs = EX.qs.filter(q => EXAM[q].d === i + 1); return qs.length ? Math.round(100 * qs.filter(q => isRight(q, EX.ans[q])).length / qs.length) : null; }) });
     if (!EX.retry && !EX.edit && EX.qs.length >= 100 && (S.exam.best == null || p > S.exam.best)) S.exam.best = p;
-    if (window.REVIEW) { try { const R = !!(EX.retry || EX.edit); REVIEW.examDone(EX.qs.filter(qi => qi < CORE).map(qi => [qi, isRight(qi, EX.ans[qi])]), R); EX.qs.forEach(qi => { const q = EXAM[qi]; if (q && q.lid != null) REVIEW.mark('q:' + q.lid + ':' + q.li, isRight(qi, EX.ans[qi])); }); } catch (e) { } }
+    if (window.REVIEW) { try { const R = !!(EX.retry || EX.edit); REVIEW.examDone(EX.qs.filter(qi => qi < CORE || (QB && QB.B2 && qi >= QB.BANK_END - QB.B2 && qi < QB.BANK_END)).map(qi => [qi, isRight(qi, EX.ans[qi])]), R); EX.qs.forEach(qi => { const q = EXAM[qi]; if (q && q.lid != null) REVIEW.mark('q:' + q.lid + ':' + q.li, isRight(qi, EX.ans[qi])); }); } catch (e) { } }
     if (QB && !EX.edit) { const seen = (S.exam.seen = S.exam.seen || {}); EX.qs.forEach(qi => { if (qi < QB.BANK_END) seen[qi] = (seen[qi] || 0) + 1; }); }
     save(); saveEx(); celebrateExam = true; route();
   }

@@ -1,9 +1,13 @@
 {
- "version": "2.20.0",
+ "version": "2.20.1",
  "date": "2026-11-21",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
+   "Home: bagong \"Ituloy kung saan ka huminto\" (exam na hindi tapos, huling lab at lesson) at araw-araw na review ng 10 tanong mula sa Mga mali ko",
+   "Lab sa phone: may Mga task button sa itaas ng terminal; mas malinis ang sidebar (Home at Lab Simulator sa itaas, wala nang dobleng link)",
+   "Sa phone, naka-off na ang + / − zoom buttons (may pinch zoom; puwedeng i-on sa Settings); ang tour na hindi natapos ay hindi na lalabas sa bawat page pagkalipas ng isang araw",
+   "Settings: \"Lipat sa Admin\" kung napili ang Mag-aaral nang hindi sinasadya (kapag wala pang Admin sa device)",
    "Network Designer: ang End devices, Switches, Routers, AI Chat, Auto-design, Health, Missions at Mga design ay bumubukas na bilang tamang laki na window sa ibabaw ng diagram (hindi na natutulak pababa); sa phone, bottom sheet",
    "Iisang installer at Android app para sa lahat: sa unang bukas, piliin ang Mag-aaral o Trainor/Admin",
    "Bagong Settings page na naka-grupo: itsura at tunog, plan, PIN, seguridad ng login, para sa Admin/Trainor, at update. Ang Aking Profile ay para sa progress mo",
@@ -11,6 +15,10 @@
    "3 bagong lesson para sa CCNA v1.1: Virtualization (VM, container, VRF), AI at Machine Learning sa network, at Ansible at Terraform"
   ],
   "en": [
+   "Home: a new \"Pick up where you left off\" (an unfinished exam, your last lab and lesson) and a daily review of 10 questions from My mistakes",
+   "Labs on a phone: a Tasks button above the terminal; a cleaner sidebar (Home and Lab Simulator on top, no double links)",
+   "On phones the + / − zoom buttons are off by default (pinch zoom works; turn them on in Settings); an unfinished tour stops showing on every page after a day",
+   "Settings: \"Move to Admin\" if Learner was picked by mistake (when the device has no Admin yet)",
    "Network Designer: End devices, Switches, Routers, AI Chat, Auto-design, Health, Missions and Designs now open as right-sized windows over the diagram (it no longer gets pushed down); on phones, a bottom sheet",
    "One installer and one Android app for everyone: on the first open, pick Learner or Trainor/Admin",
    "A new Settings page in groups: look and sound, plan, PIN, sign-in security, Admin/Trainor tools, and updates. My Profile is for your progress",
@@ -18,6 +26,6 @@
    "3 new lessons for CCNA v1.1: Virtualization (VMs, containers, VRFs), AI and Machine Learning in networking, and Ansible and Terraform"
   ]
  },
- "sig": "NlqSBR-UAO6IsmsOp8AeuO__sPF4G6yXJlU-nck8MtSe9RrURn-O1Jc7Ewi13zngEGj5K68bYqNXSLUBs8TCCA",
- "size": 2913628
+ "sig": "3E_j4fQmaUEX15O5NL4KJjZloJe_j5Wv7l2azmn4VMfnsg-IDN7BrT0SpqRasS__W7_41s5v6XVeBRb1_mF6BQ",
+ "size": 2923413
 }
