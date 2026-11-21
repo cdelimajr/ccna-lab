@@ -1,6 +1,6 @@
 # CCNA Lab 200-301: libreng download
 
-**Pinakabagong version: 2.19.0** (November 20, 2026)
+**Pinakabagong version: 2.20.0** (November 21, 2026)
 
 ### 👉 Isang link para sa lahat: **https://cdelimajr.github.io/ccna-lab/** (Windows, Android at browser version, may QR para sa phone)
 
@@ -10,7 +10,7 @@ Libreng CCNA 200-301 trainer: lessons, CLI labs, 120-item practice exam at Netwo
 
 `CCNA-Lab-200-301-Setup.zip` · 80.4 MB · laging ang pinakabagong version ang nasa link na ito.
 
-Ito ang **Client installer** para sa trainee at sa nag-aaral nang mag-isa. Ang **Admin installer** para sa trainor ay ibinibigay ng may-ari ng app. Ang mga lumang link ng Lite at Offline ay nagbibigay na rin ng installer na ito.
+**Iisang installer para sa lahat:** trainee, trainor, admin at may-ari. Sa unang bukas, piliin ang **Mag-aaral ako** o **Trainor o Admin ako**. Ang mga lumang link ng Lite at Offline ay nagbibigay na rin ng installer na ito.
 
 ## 📱 [Android app (.apk)](https://github.com/cdelimajr/ccna-lab/raw/main/CCNA-Lab-200-301-Android.apk)
 
@@ -36,23 +36,23 @@ Hiwalay ang accounts at progress ng Lite/Offline sa Full app. Para ilipat sila (
 
 Idinadagdag ang mga bagong account; kapag pareho ang username, pinagsasama ang progress at walang nawawala.
 
-## Bago sa 2.19.0
+## Bago sa 2.20.0
 
-- Zoom na parang sa mapa: may maliit na + / % / − sa gilid ng screen, Ctrl + scroll sa computer, at pinch sa phone
-- Bagong tour na 10 hakbang na ikaw mismo ang gumagawa: buksan ang lesson, sagutin ang quiz, mag-type sa lab, buksan ang exam
-- Puwede nang mag-swipe pataas at pababa kahit nasa CLI o Network Designer; dalawang daliri para igalaw o i-zoom ang diagram
-- Automatic na tanong kapag may update: I-update ngayon o Mamaya
-- QR sa certificate, Mga mali ko, class ranking at referral code (mula sa 2.18)
+- Network Designer: ang End devices, Switches, Routers, AI Chat, Auto-design, Health, Missions at Mga design ay bumubukas na bilang tamang laki na window sa ibabaw ng diagram (hindi na natutulak pababa); sa phone, bottom sheet
+- Iisang installer at Android app para sa lahat: sa unang bukas, piliin ang Mag-aaral o Trainor/Admin
+- Bagong Settings page na naka-grupo: itsura at tunog, plan, PIN, seguridad ng login, para sa Admin/Trainor, at update. Ang Aking Profile ay para sa progress mo
+- Pagkatapos ng quiz at exam: Bagong quiz o Bagong set ng exam na iba ang mga tanong (3,200+ tanong sa bank, kasama ang 2,600+ bagong tanong sa lahat ng 6 na domain, inuuna ang hindi pa nakikita, at walang katapusang bagong-gawang tanong sa subnetting, IPv6, ACL at routing). Puwede ring palitan ang sagot o ulitin ang mga mali
+- 3 bagong lesson para sa CCNA v1.1: Virtualization (VM, container, VRF), AI at Machine Learning sa network, at Ansible at Terraform
 
 ---
 
-**English:** Free CCNA 200-301 trainer. The download above is the Client installer for trainees (always version 2.19.0 or newer); trainors get the Admin installer from the app owner. Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. If Smart App Control blocks it, save CCNA-Lab-200-301.html and open it in Edge or Chrome instead: same app, no install. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
+**English:** Free CCNA 200-301 trainer. The download above is the one installer for everyone (always version 2.20.0 or newer); on the first open pick learner or Trainor/Admin. Extract the zip, run Setup.exe, and choose More info → Run anyway if Windows SmartScreen asks. If Smart App Control blocks it, save CCNA-Lab-200-301.html and open it in Edge or Chrome instead: same app, no install. Coming from Lite or Offline? In the old app open Admin → Backup and restore → Save as file, then in the Full app open Admin → Backup and restore → Open file… → Restore.
 
-- Map-style zoom: small + / % / − buttons on the side of the screen, Ctrl + scroll on a computer, and pinch on phones
-- A new 10-step tour that you do yourself: open a lesson, answer the quiz, type in a lab, open the exam
-- Swiping up and down now works even on the CLI or the Network Designer; use two fingers to move or zoom the diagram
-- The app asks when an update is ready: Update now or Later
-- QR on certificates, My mistakes, class ranking and referral codes (from 2.18)
+- Network Designer: End devices, Switches, Routers, AI Chat, Auto-design, Health, Missions and Designs now open as right-sized windows over the diagram (it no longer gets pushed down); on phones, a bottom sheet
+- One installer and one Android app for everyone: on the first open, pick Learner or Trainor/Admin
+- A new Settings page in groups: look and sound, plan, PIN, sign-in security, Admin/Trainor tools, and updates. My Profile is for your progress
+- After a quiz or exam: a New quiz or a New exam set with different questions (3,200+ questions in the bank, including 2,600+ new questions across all 6 domains, unseen first, plus endless freshly made subnetting, IPv6, ACL and routing questions). You can also change an answer or retry the wrong ones
+- 3 new lessons for CCNA v1.1: Virtualization (VMs, containers, VRFs), AI and Machine Learning in networking, and Ansible and Terraform
 
 Gawa ni / Created by: **CODJ**
 

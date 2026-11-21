@@ -1,23 +1,23 @@
 {
- "version": "2.19.0",
- "date": "2026-11-20",
+ "version": "2.20.0",
+ "date": "2026-11-21",
  "file": "CCNA-Lab-200-301.html",
  "notes": {
   "fil": [
-   "Zoom na parang sa mapa: may maliit na + / % / − sa gilid ng screen, Ctrl + scroll sa computer, at pinch sa phone",
-   "Bagong tour na 10 hakbang na ikaw mismo ang gumagawa: buksan ang lesson, sagutin ang quiz, mag-type sa lab, buksan ang exam",
-   "Puwede nang mag-swipe pataas at pababa kahit nasa CLI o Network Designer; dalawang daliri para igalaw o i-zoom ang diagram",
-   "Automatic na tanong kapag may update: I-update ngayon o Mamaya",
-   "QR sa certificate, Mga mali ko, class ranking at referral code (mula sa 2.18)"
+   "Network Designer: ang End devices, Switches, Routers, AI Chat, Auto-design, Health, Missions at Mga design ay bumubukas na bilang tamang laki na window sa ibabaw ng diagram (hindi na natutulak pababa); sa phone, bottom sheet",
+   "Iisang installer at Android app para sa lahat: sa unang bukas, piliin ang Mag-aaral o Trainor/Admin",
+   "Bagong Settings page na naka-grupo: itsura at tunog, plan, PIN, seguridad ng login, para sa Admin/Trainor, at update. Ang Aking Profile ay para sa progress mo",
+   "Pagkatapos ng quiz at exam: Bagong quiz o Bagong set ng exam na iba ang mga tanong (3,200+ tanong sa bank, kasama ang 2,600+ bagong tanong sa lahat ng 6 na domain, inuuna ang hindi pa nakikita, at walang katapusang bagong-gawang tanong sa subnetting, IPv6, ACL at routing). Puwede ring palitan ang sagot o ulitin ang mga mali",
+   "3 bagong lesson para sa CCNA v1.1: Virtualization (VM, container, VRF), AI at Machine Learning sa network, at Ansible at Terraform"
   ],
   "en": [
-   "Map-style zoom: small + / % / − buttons on the side of the screen, Ctrl + scroll on a computer, and pinch on phones",
-   "A new 10-step tour that you do yourself: open a lesson, answer the quiz, type in a lab, open the exam",
-   "Swiping up and down now works even on the CLI or the Network Designer; use two fingers to move or zoom the diagram",
-   "The app asks when an update is ready: Update now or Later",
-   "QR on certificates, My mistakes, class ranking and referral codes (from 2.18)"
+   "Network Designer: End devices, Switches, Routers, AI Chat, Auto-design, Health, Missions and Designs now open as right-sized windows over the diagram (it no longer gets pushed down); on phones, a bottom sheet",
+   "One installer and one Android app for everyone: on the first open, pick Learner or Trainor/Admin",
+   "A new Settings page in groups: look and sound, plan, PIN, sign-in security, Admin/Trainor tools, and updates. My Profile is for your progress",
+   "After a quiz or exam: a New quiz or a New exam set with different questions (3,200+ questions in the bank, including 2,600+ new questions across all 6 domains, unseen first, plus endless freshly made subnetting, IPv6, ACL and routing questions). You can also change an answer or retry the wrong ones",
+   "3 new lessons for CCNA v1.1: Virtualization (VMs, containers, VRFs), AI and Machine Learning in networking, and Ansible and Terraform"
   ]
  },
- "sig": "5kAx--X2cHiaol_GvVYvQ-6LE3jWNfkjT8YIYHpIwo3Vlf8q9ovxzmQ09o4mUiSQsSy2QRXDUzbtlg8G6BXPBA",
- "size": 2733137
+ "sig": "NlqSBR-UAO6IsmsOp8AeuO__sPF4G6yXJlU-nck8MtSe9RrURn-O1Jc7Ewi13zngEGj5K68bYqNXSLUBs8TCCA",
+ "size": 2913628
 }
